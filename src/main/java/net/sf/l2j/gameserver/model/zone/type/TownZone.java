@@ -34,7 +34,7 @@ public class TownZone extends SpawnZoneType {
 
     @Override
     protected void onEnter(Creature character) {
-        if (Config.ZONE_TOWN == 1 && character instanceof Player && ((Player) character).getSiegeState() != 0) {
+        if (Config.ZONE_TOWN == 1 && character instanceof Player player && player.getSiegeState() != 0) {
             return;
         }
 
@@ -43,6 +43,10 @@ public class TownZone extends SpawnZoneType {
         }
 
         character.setInsideZone(ZoneId.TOWN, true);
+
+        if (character instanceof Player player) {
+            player.sendMessage("Вы вошли в город, HP и MP восстанавливаются быстрее.");
+        }
     }
 
     @Override
@@ -52,6 +56,9 @@ public class TownZone extends SpawnZoneType {
         }
 
         character.setInsideZone(ZoneId.TOWN, false);
+        if (character instanceof Player player) {
+            player.sendMessage("Вы вышли из города, бонус на восстановление HP и MP больше не активен.");
+        }
     }
 
     public int getTownId() {
