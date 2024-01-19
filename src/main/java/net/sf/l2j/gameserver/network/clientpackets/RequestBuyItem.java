@@ -1,9 +1,11 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
 import net.sf.l2j.Config;
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.BuyListManager;
 import net.sf.l2j.gameserver.enums.StatusType;
+import net.sf.l2j.gameserver.events.OnBuyShopItem;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -22,34 +24,34 @@ import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 public final class RequestBuyItem extends L2GameClientPacket {
     private static final int BATCH_LENGTH = 8; // length of the one item
 
-    private int _listId;
-    private IntIntHolder[] _items = null;
+    private int listId;
+    private IntIntHolder[] items;
 
     @Override
     protected void readImpl() {
-        _listId = readD();
+        listId = readD();
         int count = readD();
         if (count <= 0 || count > Config.MAX_ITEM_IN_PACKET || count * BATCH_LENGTH != _buf.remaining()) {
             return;
         }
 
-        _items = new IntIntHolder[count];
+        items = new IntIntHolder[count];
         for (int i = 0; i < count; i++) {
             int itemId = readD();
             int cnt = readD();
 
             if (itemId < 1 || cnt < 1) {
-                _items = null;
+                items = null;
                 return;
             }
 
-            _items[i] = new IntIntHolder(itemId, cnt);
+            items[i] = new IntIntHolder(itemId, cnt);
         }
     }
 
     @Override
     protected void runImpl() {
-        if (_items == null) {
+        if (items == null) {
             return;
         }
 
@@ -59,7 +61,7 @@ public final class RequestBuyItem extends L2GameClientPacket {
         }
 
         // We retrieve the buylist.
-        final NpcBuyList buyList = BuyListManager.getInstance().getBuyList(_listId);
+        final NpcBuyList buyList = BuyListManager.getInstance().getBuyList(listId);
         if (buyList == null) {
             return;
         }
@@ -87,7 +89,7 @@ public final class RequestBuyItem extends L2GameClientPacket {
         long slots = 0;
         long weight = 0;
 
-        for (IntIntHolder i : _items) {
+        for (IntIntHolder i : items) {
             int price = -1;
 
             final Product product = buyList.get(i.getId());
@@ -157,7 +159,7 @@ public final class RequestBuyItem extends L2GameClientPacket {
         }
 
         // Proceed the purchase
-        for (IntIntHolder i : _items) {
+        for (IntIntHolder i : items) {
             final Product product = buyList.get(i.getId());
             if (product == null) {
                 continue;
@@ -170,6 +172,8 @@ public final class RequestBuyItem extends L2GameClientPacket {
             } else {
                 player.getInventory().addItem("Buy", i.getId(), i.getValue(), player, merchant);
             }
+
+            GlobalEventListener.notify(new OnBuyShopItem(merchant, player, product, i.getValue(), subTotal));
         }
 
         // Add to castle treasury and send the htm, if existing.

@@ -1,85 +1,49 @@
 package net.sf.l2j.gameserver.taskmanager;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.l2j.commons.pool.ThreadPool;
-
+import it.sauronsoftware.cron4j.Scheduler;
+import lombok.Getter;
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.model.buylist.Product;
 
-/**
- * Handles individual {@link Product} restock timers.<br> A timer is set, then on activation it restocks and releases it
- * from the map. Additionally, some SQL action is done.
- */
-public final class BuyListTaskManager implements Runnable {
-    private final Map<Product, Long> _products = new ConcurrentHashMap<>();
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-    protected BuyListTaskManager() {
-        // Run task each second.
-        ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
+public final class BuyListTaskManager implements Runnable {
+
+    private static final CLogger LOGGER = new CLogger(BuyListTaskManager.class.getSimpleName());
+
+    @Getter(lazy = true)
+    private static final BuyListTaskManager instance = new BuyListTaskManager();
+
+    private final List<Product> products = new CopyOnWriteArrayList<>();
+
+    private static final String CRON_PATTERN = "0 7 * * 1"; // “At 07:00 on Monday.”
+
+    private BuyListTaskManager() {
+        Scheduler scheduler = new Scheduler();
+        scheduler.schedule(CRON_PATTERN, this);
+        scheduler.start();
+        LOGGER.info("Buy list task manager was initialized. Next schedule of restock items: {}", CRON_PATTERN);
     }
 
     @Override
-    public final void run() {
+    public void run() {
         // List is empty, skip.
-        if (_products.isEmpty()) {
+        if (products.isEmpty()) {
             return;
         }
 
-        // Get current time.
-        final long time = System.currentTimeMillis();
-
         // Loop all characters.
-        for (Map.Entry<Product, Long> entry : _products.entrySet()) {
-            // Time hasn't passed yet, skip.
-            if (time < entry.getValue()) {
-                continue;
-            }
-
-            final Product product = entry.getKey();
-            product.setCount(product.getMaxCount());
+        for (Product product : products) {
+            product.setCount(product.getLimit());
             product.delete();
-
-            _products.remove(product);
+            products.remove(product);
         }
     }
 
-    /**
-     * Adds a {@link Product} to the task. A product can't be added twice.
-     *
-     * @param product : {@link Product} to be added.
-     * @param interval : Interval in minutes, after which the task is triggered.
-     */
-    public final void add(Product product, long interval) {
-        final long newRestockTime = System.currentTimeMillis() + interval;
-        if (_products.putIfAbsent(product, newRestockTime) == null) {
-            product.save(newRestockTime);
-        }
+    public void add(Product product) {
+        products.add(product);
+        product.save();
     }
 
-    /**
-     * Test the timer : if already gone, reset the count without adding the {@link Product} to the task. A product can't
-     * be added twice.
-     *
-     * @param product : {@link Product} to be added.
-     * @param currentCount : the amount to set, if remaining time succeeds.
-     * @param nextRestockTime : time in milliseconds.
-     */
-    public final void test(Product product, int currentCount, long nextRestockTime) {
-        if (nextRestockTime - System.currentTimeMillis() > 0) {
-            product.setCount(currentCount);
-            _products.putIfAbsent(product, nextRestockTime);
-        } else {
-            product.setCount(product.getMaxCount());
-            product.delete();
-        }
-    }
-
-    public static final BuyListTaskManager getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
-
-    private static final class SingletonHolder {
-        protected static final BuyListTaskManager INSTANCE = new BuyListTaskManager();
-    }
 }

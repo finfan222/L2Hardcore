@@ -1,11 +1,6 @@
 package net.sf.l2j.gameserver;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.InetAddress;
-import java.util.logging.LogManager;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.mmocore.SelectorConfig;
@@ -13,8 +8,6 @@ import net.sf.l2j.commons.mmocore.SelectorThread;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.util.SysUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.cache.CrestCache;
@@ -91,6 +84,7 @@ import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
 import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.GamePacketHandler;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
+import net.sf.l2j.gameserver.taskmanager.BuyListTaskManager;
 import net.sf.l2j.gameserver.taskmanager.DecayTaskManager;
 import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 import net.sf.l2j.gameserver.taskmanager.ItemsOnGroundTaskManager;
@@ -99,6 +93,12 @@ import net.sf.l2j.gameserver.taskmanager.RandomAnimationTaskManager;
 import net.sf.l2j.gameserver.taskmanager.WaterTaskManager;
 import net.sf.l2j.util.DeadLockDetector;
 import net.sf.l2j.util.IPv4Filter;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.util.logging.LogManager;
 
 public class GameServer {
     private static final CLogger LOGGER = new CLogger(GameServer.class.getName());
@@ -250,6 +250,8 @@ public class GameServer {
         StringUtil.printSection("Events");
         DerbyTrackManager.getInstance();
         LotteryManager.getInstance();
+        GlobalEventListener.initialize();
+        BuyListTaskManager.getInstance();
 
         if (Config.ALLOW_WEDDING) {
             CoupleManager.getInstance();
