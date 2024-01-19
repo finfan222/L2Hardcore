@@ -1,13 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.status;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Future;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.ElementType;
@@ -18,6 +13,10 @@ import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.skills.Calculator;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Future;
 
 /**
  * This class groups all data related to HP/MP tracking of a {@link Creature}, aswell as {@link Stats} calculation.<br>
@@ -392,12 +391,18 @@ public class CreatureStatus<T extends Creature> {
     protected void doRegeneration() {
         // Modify the current HP of the Creature.
         if (_hp < getMaxHp()) {
-            setHp(_hp + Math.max(1, getRegenHp()), false);
+            double regen = Math.max(0, getRegenHp());
+            if (regen > 0) {
+                setHp(_hp + regen, false);
+            }
         }
 
         // Modify the current MP of the Creature.
         if (_mp < getMaxMp()) {
-            setMp(_mp + Math.max(1, getRegenMp()), false);
+            double regen = Math.max(0, getRegenMp());
+            if (regen > 0) {
+                setMp(_mp + regen, false);
+            }
         }
 
         // Send the StatusUpdate packet.

@@ -1,10 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.status;
 
-import java.util.Map;
-
-import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.data.manager.DuelManager;
@@ -48,6 +45,8 @@ import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Map;
 
 public class PlayerStatus extends PlayableStatus<Player> {
     private double _cp = .0;
@@ -754,10 +753,6 @@ public class PlayerStatus extends PlayableStatus<Player> {
         final WeightPenalty wp = _actor.getWeightPenalty();
         if (wp != WeightPenalty.NONE) {
             value *= wp.getRegenerationMultiplier();
-        }
-
-        if (_actor.isInsideZone(ZoneId.TOWN)) {
-
         }
 
         // Calculate Mother Tree bonus.

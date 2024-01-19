@@ -5,9 +5,7 @@ import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.ItemData;
-import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
-import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.taskmanager.BuyListTaskManager;
 
 import java.sql.Connection;
@@ -33,17 +31,14 @@ public class Product {
         this.item = ItemData.getInstance().getTemplate(set.getInteger("id"));
         this.price = set.getInteger("price", 0);
         int stock = set.getInteger("limit", -1);
-        if (item instanceof Armor || item instanceof Weapon) {
-            int referencePrice = (int) Math.sqrt(item.getReferencePrice());
-            if (referencePrice > 0) {
-                int maxPrice = (int) Math.sqrt(Integer.MAX_VALUE);
-                limit = maxPrice / referencePrice;
-            } else {
-                limit = stock;
-            }
+        int referencePrice = (int) Math.sqrt(item.getReferencePrice());
+        if (referencePrice > 0) {
+            int maxPrice = (int) Math.sqrt(Integer.MAX_VALUE);
+            limit = Math.max(Math.min(9999, maxPrice / referencePrice), 1);
         } else {
-            this.limit = stock;
+            limit = stock;
         }
+
 
         if (hasLimitedStock()) {
             counter = new AtomicInteger(limit);
