@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.buylist;
 
+import lombok.Data;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
@@ -11,133 +12,87 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * A datatype entry for {@link NpcBuyList}. It can own a count and a restock delay, the whole system of tasks being
- * controlled by {@link BuyListTaskManager}.
- */
+@Data
 public class Product {
     private static final CLogger LOGGER = new CLogger(Product.class.getName());
 
-    private static final String ADD_OR_UPDATE_BUYLIST = "INSERT INTO buylists (buylist_id,item_id,count,next_restock_time) VALUES(?,?,?,?) ON DUPLICATE KEY UPDATE count=VALUES(count), next_restock_time=VALUES(next_restock_time)";
-    private static final String DELETE_BUYLIST = "DELETE FROM buylists WHERE buylist_id=? AND item_id=?";
+    private static final String INSERT = "INSERT INTO buylists (buylist_id,item_id,count) VALUES(?,?,?)";
+    private static final String DELETE = "DELETE FROM buylists WHERE buylist_id=? AND item_id=?";
 
-    private final int _buyListId;
-    private final Item _item;
-    private final int _price;
-    private final long _restockDelay;
-    private final int _maxCount;
+    private final int buyListId;
+    private final Item item;
+    private final int price;
+    private final int limit;
 
-    private AtomicInteger _count = null;
+    private AtomicInteger counter;
 
     public Product(int buyListId, StatSet set) {
-        _buyListId = buyListId;
-        _item = ItemData.getInstance().getTemplate(set.getInteger("id"));
-        _price = set.getInteger("price", 0);
-        _restockDelay = set.getLong("restockDelay", -1) * 60000;
-        _maxCount = set.getInteger("count", -1);
+        this.buyListId = buyListId;
+        this.item = ItemData.getInstance().getTemplate(set.getInteger("id"));
+        this.price = set.getInteger("price", 0);
+
+        if (!hasLimitedStock()) {
+            int referencePrice = (int) Math.sqrt(item.getReferencePrice());
+            int maxPrice = (int) Math.sqrt(Integer.MAX_VALUE);
+            limit = maxPrice / referencePrice;
+        } else {
+            this.limit = set.getInteger("limit", -1);
+        }
 
         if (hasLimitedStock()) {
-            _count = new AtomicInteger(_maxCount);
+            counter = new AtomicInteger(limit);
         }
-    }
-
-    public int getBuyListId() {
-        return _buyListId;
-    }
-
-    public Item getItem() {
-        return _item;
     }
 
     public int getItemId() {
-        return _item.getItemId();
+        return item.getItemId();
     }
 
-    public int getPrice() {
-        return _price;
-    }
-
-    public long getRestockDelay() {
-        return _restockDelay;
-    }
-
-    public int getMaxCount() {
-        return _maxCount;
-    }
-
-    /**
-     * Get the actual {@link Product} count.<br> If this Product doesn't own a timer (valid if _maxCount > -1), return
-     * 0.
-     *
-     * @return the actual Product count.
-     */
     public int getCount() {
-        if (_count == null) {
+        if (counter == null) {
             return 0;
         }
 
-        final int count = _count.get();
-        return (count > 0) ? count : 0;
+        return Math.max(counter.get(), 0);
     }
 
-    /**
-     * Set arbitrarily the current amount of a {@link Product}.
-     *
-     * @param currentCount : The amount to set.
-     */
     public void setCount(int currentCount) {
-        _count.set(currentCount);
+        counter.set(currentCount);
     }
 
-    /**
-     * Decrease {@link Product} count, but only if result is superior or equal to 0, and if _count exists.<br> We setup
-     * this Product in the general task if not already existing, and save result on database.
-     *
-     * @param val : The value to decrease.
-     * @return true if the Product count can be reduced ; false otherwise.
-     */
     public boolean decreaseCount(int val) {
-        if (_count == null) {
+        if (counter == null) {
             return false;
         }
 
         // We test product addition and save result, but only if count has been affected.
-        final boolean result = _count.addAndGet(-val) >= 0;
+        boolean result = counter.addAndGet(-val) >= 0;
         if (result) {
-            BuyListTaskManager.getInstance().add(this, getRestockDelay());
+            BuyListTaskManager.getInstance().add(this);
         }
 
         return result;
     }
 
     public boolean hasLimitedStock() {
-        return _maxCount > -1;
+        return limit > -1;
     }
 
-    /**
-     * Save the {@link Product} into database. Happens on successful decrease count.
-     *
-     * @param nextRestockTime : The new restock timer.
-     */
-    public void save(long nextRestockTime) {
+    public void save() {
         try (Connection con = ConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(ADD_OR_UPDATE_BUYLIST)) {
+             PreparedStatement ps = con.prepareStatement(INSERT)) {
             ps.setInt(1, getBuyListId());
             ps.setInt(2, getItemId());
             ps.setInt(3, getCount());
-            ps.setLong(4, nextRestockTime);
             ps.executeUpdate();
         } catch (Exception e) {
             LOGGER.error("Couldn't save product for buylist id:{} and item id: {}.", e, getBuyListId(), getItemId());
         }
     }
 
-    /**
-     * Delete the {@link Product} from database. Happens on restock time reset.
-     */
     public void delete() {
         try (Connection con = ConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(DELETE_BUYLIST)) {
+             PreparedStatement ps = con.prepareStatement(DELETE)) {
             ps.setInt(1, getBuyListId());
             ps.setInt(2, getItemId());
             ps.executeUpdate();

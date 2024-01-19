@@ -50,7 +50,7 @@ public class BuyListManager implements IXmlReader {
                     continue;
                 }
 
-                BuyListTaskManager.getInstance().test(product, rs.getInt("count"), rs.getLong("next_restock_time"));
+                product.setCount(rs.getInt("count"));
             }
         } catch (Exception e) {
             LOGGER.error("Failed to load buyList data from database.", e);
