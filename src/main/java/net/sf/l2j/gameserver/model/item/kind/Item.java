@@ -111,7 +111,8 @@ public abstract class Item {
     private final boolean _stackable;
     private final MaterialType _materialType;
     private final CrystalType _crystalType;
-    @Getter private final int durability;
+    @Getter
+    protected int durability = -1;
     private final int _bodyPart;
     private final int _referencePrice;
     private final int _crystalCount;
@@ -139,7 +140,6 @@ public abstract class Item {
         _name = set.getString("name");
         _weight = set.getInteger("weight", 0);
         _materialType = set.getEnum("material", MaterialType.class, MaterialType.STEEL);
-        durability = set.getInteger("durability", Short.MAX_VALUE);
         _bodyPart = SLOTS.get(set.getString("bodypart", "none"));
         _referencePrice = set.getInteger("price", 0);
         _crystalType = set.getEnum("crystal_type", CrystalType.class, CrystalType.NONE);

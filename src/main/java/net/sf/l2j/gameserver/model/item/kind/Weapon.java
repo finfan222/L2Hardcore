@@ -42,6 +42,7 @@ public final class Weapon extends Item {
     public Weapon(StatSet set) {
         super(set);
 
+        durability = Short.MAX_VALUE;
         _type = set.getEnum("weapon_type", WeaponType.class, WeaponType.NONE);
         _type1 = Item.TYPE1_WEAPON_RING_EARRING_NECKLACE;
         _type2 = Item.TYPE2_WEAPON;

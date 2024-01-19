@@ -713,7 +713,7 @@ public class PlayerStatus extends PlayableStatus<Player> {
     @Override
     public final double getRegenHp() {
         // Get value.
-        double value = super.getRegenHp();
+        double value = _actor.isInsideZone(ZoneId.TOWN) ? super.getRegenHp() : 0.0;
 
         final Clan clan = _actor.getClan();
         if (clan != null) {
@@ -756,6 +756,10 @@ public class PlayerStatus extends PlayableStatus<Player> {
             value *= wp.getRegenerationMultiplier();
         }
 
+        if (_actor.isInsideZone(ZoneId.TOWN)) {
+
+        }
+
         // Calculate Mother Tree bonus.
         if (_actor.isInsideZone(ZoneId.MOTHER_TREE)) {
             final MotherTreeZone zone = ZoneManager.getInstance().getZone(_actor, MotherTreeZone.class);
@@ -770,7 +774,7 @@ public class PlayerStatus extends PlayableStatus<Player> {
     @Override
     public final double getRegenMp() {
         // Get value.
-        double value = super.getRegenMp();
+        double value = _actor.isInsideZone(ZoneId.TOWN) ? super.getRegenMp() : 0.0;
 
         // Calculate clan hall bonus.
         if (_actor.isInsideZone(ZoneId.CLAN_HALL) && _actor.getClan() != null) {
@@ -817,7 +821,9 @@ public class PlayerStatus extends PlayableStatus<Player> {
      */
     public final double getRegenCp() {
         // Get value.
-        double value = calcStat(Stats.REGENERATE_CP_RATE, _actor.getTemplate().getBaseCpRegen(getLevel()) * Config.CP_REGEN_MULTIPLIER, null, null);
+        double value = _actor.isInsideZone(ZoneId.TOWN) ?
+            calcStat(Stats.REGENERATE_CP_RATE, _actor.getTemplate().getBaseCpRegen(getLevel()) * Config.CP_REGEN_MULTIPLIER, null, null)
+            : 0.0;
 
         // Calculate movement bonus.
         if (_actor.isSitting()) {

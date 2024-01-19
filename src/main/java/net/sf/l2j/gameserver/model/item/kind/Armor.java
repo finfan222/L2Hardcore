@@ -11,7 +11,7 @@ public final class Armor extends Item {
 
     public Armor(StatSet set) {
         super(set);
-
+        durability = Short.MAX_VALUE;
         _type = set.getEnum("armor_type", ArmorType.class, ArmorType.NONE);
 
         if (getBodyPart() == Item.SLOT_NECK || getBodyPart() == Item.SLOT_FACE || getBodyPart() == Item.SLOT_HAIR || getBodyPart() == Item.SLOT_HAIRALL || (getBodyPart() & Item.SLOT_L_EAR) != 0 || (getBodyPart() & Item.SLOT_L_FINGER) != 0 || (getBodyPart() & Item.SLOT_BACK) != 0) {

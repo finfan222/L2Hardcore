@@ -5,7 +5,9 @@ import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
+import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.taskmanager.BuyListTaskManager;
 
 import java.sql.Connection;
@@ -16,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Product {
     private static final CLogger LOGGER = new CLogger(Product.class.getName());
 
-    private static final String INSERT = "INSERT INTO buylists (buylist_id,item_id,count) VALUES(?,?,?)";
+    private static final String INSERT = "INSERT INTO buylists (buylist_id,item_id,count) VALUES(?,?,?) ON DUPLICATE KEY UPDATE count=VALUES(count)";
     private static final String DELETE = "DELETE FROM buylists WHERE buylist_id=? AND item_id=?";
 
     private final int buyListId;
@@ -30,13 +32,17 @@ public class Product {
         this.buyListId = buyListId;
         this.item = ItemData.getInstance().getTemplate(set.getInteger("id"));
         this.price = set.getInteger("price", 0);
-
-        if (!hasLimitedStock()) {
+        int stock = set.getInteger("limit", -1);
+        if (item instanceof Armor || item instanceof Weapon) {
             int referencePrice = (int) Math.sqrt(item.getReferencePrice());
-            int maxPrice = (int) Math.sqrt(Integer.MAX_VALUE);
-            limit = maxPrice / referencePrice;
+            if (referencePrice > 0) {
+                int maxPrice = (int) Math.sqrt(Integer.MAX_VALUE);
+                limit = maxPrice / referencePrice;
+            } else {
+                limit = stock;
+            }
         } else {
-            this.limit = set.getInteger("limit", -1);
+            this.limit = stock;
         }
 
         if (hasLimitedStock()) {
@@ -57,6 +63,10 @@ public class Product {
     }
 
     public void setCount(int currentCount) {
+        if (counter == null) {
+            return;
+        }
+
         counter.set(currentCount);
     }
 
