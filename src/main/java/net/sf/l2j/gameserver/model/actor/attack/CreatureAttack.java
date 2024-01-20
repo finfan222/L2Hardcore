@@ -1,12 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.attack;
 
-import java.util.ArrayList;
-import java.util.concurrent.ScheduledFuture;
-
 import lombok.Getter;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.GaugeColor;
 import net.sf.l2j.gameserver.enums.ZoneId;
@@ -33,6 +29,9 @@ import net.sf.l2j.gameserver.network.serverpackets.Attack;
 import net.sf.l2j.gameserver.network.serverpackets.SetupGauge;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.Formulas;
+
+import java.util.ArrayList;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class groups all attack data related to a {@link Creature}.
@@ -328,7 +327,6 @@ public class CreatureAttack<T extends Creature> {
      */
     private HitHolder[] doAttackHitByBow(Attack attack, Creature target, int sAtk, Weapon weapon) {
         attacker.reduceArrowCount();
-        attacker.getStatus().reduceMp(attacker.getActiveWeaponItem().getMpConsume());
 
         final HitHolder[] hits = new HitHolder[]
             {
