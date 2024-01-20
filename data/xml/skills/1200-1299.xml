@@ -153,7 +153,7 @@
 		<set name="isMagic" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg"  abnormal="poison"/>
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="1210" levels="4" name="Seal of Gloom">
@@ -813,7 +813,8 @@
 		<enchant2 name="mpConsume" val="#ench2MpConsume"/>
 		<enchant2 name="mpInitialConsume" val="#ench2mpInitialConsume"/>
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#bleeddmg" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding" effectPower="50" effectType="BLEED"/>
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#bleeddmg" stackOrder="#abnormalLvl"
+                    stackType="bleeding" abnormal="bleeding" effectPower="50" effectType="BLEED"/>
 		</for>
 	</skill>
 	<skill id="1238" levels="3" name="Freezing Skin" enchantLevels1="30" enchantLevels2="30" >

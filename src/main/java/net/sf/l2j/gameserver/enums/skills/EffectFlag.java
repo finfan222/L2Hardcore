@@ -18,7 +18,9 @@ public enum EffectFlag {
     STUNNED,
     BETRAYED,
     MEDITATING,
-    PARALYZED;
+    PARALYZED,
+    BLEED,
+    POISON;
 
     public int getMask() {
         return 1 << ordinal();

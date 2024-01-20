@@ -1100,7 +1100,8 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="200" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#damage" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#damage" stackOrder="#abnormalLvl"
+                    stackType="bleeding" abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4580" levels="12" name="Decrease P. Atk.">
@@ -1165,7 +1166,8 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="200" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="4583" levels="12" name="Decrease Speed">
@@ -1521,7 +1523,8 @@
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="900" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#damage" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#damage" stackOrder="#abnormalLvl"
+                    stackType="bleeding" abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4597" levels="12" name="Bleed">
@@ -1543,7 +1546,8 @@
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="900" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#damage" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#damage" stackOrder="#abnormalLvl"
+                    stackType="bleeding" abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4598" levels="12" name="Bleed">
@@ -1565,7 +1569,8 @@
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1300" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#damage" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#damage" stackOrder="#abnormalLvl"
+                    stackType="bleeding" abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4599" levels="12" name="Decrease Speed">

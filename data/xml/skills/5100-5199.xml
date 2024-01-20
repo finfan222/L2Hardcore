@@ -499,7 +499,8 @@
 		<set name="skillType" val="POISON" />
 		<set name="target" val="AURA" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="327" abnormal="poison" stackOrder="3" stackType="attack_time_up">
+            <effect count="0x7fffffff" name="Poison" time="3" val="327" abnormal="poison" stackOrder="3"
+                    stackType="attack_time_up">
 				<mul stat="pAtkSpd" val="0.77" />
 			</effect>
 		</for>
@@ -1031,7 +1032,8 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="400" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="5175" levels="10" name="Bleed">
@@ -1051,7 +1053,8 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="400" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding">
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="bleeding"
+                    abnormal="bleeding">
 			</effect>
 		</for>
 	</skill>

@@ -1,17 +1,10 @@
 package net.sf.l2j.gameserver.model.actor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import lombok.Getter;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.eventbus.EventBus;
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
@@ -77,6 +70,12 @@ import net.sf.l2j.gameserver.skills.funcs.FuncPDefMod;
 import net.sf.l2j.gameserver.skills.funcs.FuncRegenHpMul;
 import net.sf.l2j.gameserver.skills.funcs.FuncRegenMpMul;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * An instance type extending {@link WorldObject} which represents the mother class of all character objects of the
@@ -1863,4 +1862,9 @@ public abstract class Creature extends WorldObject {
     public boolean canBeHealed() {
         return !isDead() && !isInvul();
     }
+
+    public boolean isActing() {
+        return _attack.isAttackingNow() || _cast.isCastingNow();
+    }
+
 }

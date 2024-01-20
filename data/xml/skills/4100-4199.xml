@@ -747,7 +747,8 @@
 		<set name="skillType" val="POISON" />
 		<set name="target" val="ONE" />
 		<for>
-			<effect count="5" name="DamOverTime" val="#dot" abnormal="poison" stackOrder="#abnormalLvl" stackType="poison" />
+            <effect count="0x7fffffff" name="Poison" val="#dot" abnormal="poison" stackOrder="#abnormalLvl"
+                    stackType="poison"/>
 		</for>
 	</skill>
 	<skill id="4149" levels="12" name="Bleed">
@@ -763,7 +764,8 @@
 		<set name="skillType" val="BLEED" />
 		<set name="target" val="ONE" />
 		<for>
-			<effect count="2" name="DamOverTime" time="3" val="#dot" abnormal="bleeding" stackOrder="#abnormalLvl" stackType="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#dot" abnormal="bleeding" stackOrder="#abnormalLvl"
+                    stackType="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4150" levels="12" name="Flame">
@@ -1316,7 +1318,8 @@
 		<set name="skillType" val="POISON" />
 		<set name="operateType" val="ACTIVE" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison" stackOrder="#abnormalLvl" stackType="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" abnormal="poison" stackOrder="#abnormalLvl"
+                    stackType="poison"/>
 		</for>
 	</skill>
 	<skill id="4183" levels="12" name="Decrease P. Atk.">
@@ -1611,7 +1614,8 @@
 		<set name="castRange" val="750" />
 		<set name="effectRange" val="1250" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="4199" levels="12" name="Decrease P. Atk.">

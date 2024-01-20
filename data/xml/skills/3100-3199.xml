@@ -1757,7 +1757,7 @@
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="3196" levels="10" name="Item Skill: Bleed">
@@ -1784,7 +1784,7 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="400" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="0" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="0" abnormal="bleeding"/>
 		</for>
 	</skill>	
 	<skill id="3197" levels="10" name="Item Skill: Silence">

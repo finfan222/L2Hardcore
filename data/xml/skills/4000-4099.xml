@@ -469,7 +469,8 @@
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison" stackOrder="#abnormalLvl" stackType="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" abnormal="poison" stackOrder="#abnormalLvl"
+                    stackType="poison"/>
 		</for>
 	</skill>
 	<skill id="4036" levels="12" name="Poison">
@@ -493,7 +494,8 @@
 		<set name="castRange" val="500" />
 		<set name="effectRange" val="1000" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" abnormal="poison" stackOrder="#abnormalLvl" stackType="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" abnormal="poison" stackOrder="#abnormalLvl"
+                    stackType="poison"/>
 		</for>
 	</skill>
 	<skill id="4037" levels="3" name="Decrease P.Atk">
@@ -753,7 +755,8 @@
 		<set name="skillType" val="POISON" />
 		<set name="target" val="ONE" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" abnormal="poison" stackOrder="#abnormalLvl" stackType="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" abnormal="poison" stackOrder="#abnormalLvl"
+                    stackType="poison"/>
 		</for>
 	</skill>
 	<skill id="4053" levels="16" name="Decrease P.Atk"> <!-- poltergeist cubic -->
@@ -1268,7 +1271,8 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="200" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#damage" abnormal="bleeding" stackOrder="#abnormalLvl" stackType="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#damage" abnormal="bleeding" stackOrder="#abnormalLvl"
+                    stackType="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4089" levels="1" name="NPC Bear Spirit Totem">

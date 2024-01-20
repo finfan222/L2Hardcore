@@ -1338,7 +1338,8 @@
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="203" stackOrder="1" stackType="fatal_poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="203" stackOrder="1" stackType="fatal_poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="5087" levels="2" name="Berserk">

@@ -823,7 +823,8 @@
 		<set name="castRange" val="500"/>
 		<set name="effectRange" val="1000"/>
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="1168" levels="7" name="Curse: Poison">
@@ -848,7 +849,8 @@
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="1169" levels="14" name="Curse Fear">

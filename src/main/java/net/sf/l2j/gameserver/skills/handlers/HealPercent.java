@@ -1,6 +1,8 @@
 package net.sf.l2j.gameserver.skills.handlers;
 
 import net.sf.l2j.commons.data.StatSet;
+import net.sf.l2j.commons.random.Rnd;
+import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -30,9 +32,17 @@ public class HealPercent extends L2Skill {
 
             double amount;
             if (isHp) {
-                amount = target.getStatus().addHp(target.getStatus().getMaxHp() * getPower() / 100.);
+                double hp = target.getStatus().getMaxHp() * getPower() / 100.;
+                if (target.isAffected(EffectFlag.POISON)) {
+                    hp *= 1 - Rnd.get(0, 30) / 100.;
+                }
+                amount = target.getStatus().addHp(hp);
             } else {
-                amount = target.getStatus().addMp(target.getStatus().getMaxMp() * getPower() / 100.);
+                double mp = target.getStatus().getMaxMp() * getPower() / 100.;
+                if (target.isAffected(EffectFlag.POISON)) {
+                    mp *= 1 - Rnd.get(0, 30) / 100.;
+                }
+                amount = target.getStatus().addMp(mp);
             }
 
             if (hasEffects()) {

@@ -198,7 +198,8 @@
 		<enchant2 name="mpConsume" val="#ench2MpConsume"/>
 		<enchant2 name="power" val="#ench2Power"/>
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#bleedpower" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding" effectPower="50" effectType="BLEED"/>
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#bleedpower" stackOrder="#abnormalLvl"
+                    stackType="bleeding" abnormal="bleeding" effectPower="50" effectType="BLEED"/>
 		</for>
 	</skill>
 	<skill id="225" levels="3" name="Acrobatic Move">

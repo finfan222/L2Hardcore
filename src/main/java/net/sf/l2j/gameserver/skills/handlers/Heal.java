@@ -1,7 +1,9 @@
 package net.sf.l2j.gameserver.skills.handlers;
 
 import net.sf.l2j.commons.data.StatSet;
+import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.items.ShotType;
+import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -67,7 +69,10 @@ public class Heal extends L2Skill {
                 continue;
             }
 
-            final double amount = target.getStatus().addHp(power * target.getStatus().calcStat(Stats.HEAL_EFFECTIVNESS, 100, null, null) / 100.);
+            double amount = target.getStatus().addHp(power * target.getStatus().calcStat(Stats.HEAL_EFFECTIVNESS, 100, null, null) / 100.);
+            if (target.isAffected(EffectFlag.POISON)) {
+                amount *= 1 - Rnd.get(0, 30) / 100.;
+            }
 
             if (hasEffects()) {
                 target.stopSkillEffects(getId());

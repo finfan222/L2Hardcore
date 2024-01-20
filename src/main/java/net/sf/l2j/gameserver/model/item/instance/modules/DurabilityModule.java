@@ -50,7 +50,7 @@ public class DurabilityModule implements ItemModule {
 
         synchronized (instance) {
             player.sendPacket(new PlaySound("ItemSound.trash_basket"));
-            player.sendMessage(String.format("Item %s was broken", instance.getName()));
+            player.sendMessage(String.format("[FIX: SYSMSG] Предмет %s был сломан!", instance.getName()));
             player.destroyItem("DurabilityBrokeItem", instance, 1, player, true);
         }
     }

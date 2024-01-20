@@ -118,7 +118,8 @@
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="104" levels="1" name="Detect Plant Weakness">
@@ -590,7 +591,8 @@
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="130" levels="2" name="Thrill Fight" enchantLevels1="30" >

@@ -169,7 +169,8 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="200" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" effectPower="35" effectType="POISON" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison" effectPower="35" effectType="POISON"/>
 		</for>
 	</skill>
 	<skill id="4607" levels="1" name="Magma Attack">
@@ -348,7 +349,8 @@
 		<set name="castRange" val="500" />
 		<set name="effectRange" val="1000" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#dmg" stackOrder="#abnormalLvl" stackType="bleeding"
+                    abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4616" levels="1" name="Fake Petrification">
@@ -1007,7 +1009,8 @@
 		<set name="isMagic" val="true" />
 		<set name="isDebuff" val="true" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="4650" levels="1" name="NPC AE - Dispel Hold">

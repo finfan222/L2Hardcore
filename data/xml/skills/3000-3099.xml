@@ -30,7 +30,8 @@
 		<set name="skillType" val="BLEED"/>
 		<set name="operateType" val="ACTIVE"/>
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="66" stackOrder="5" stackType="bleeding" abnormal="bleeding"/>
+            <effect count="0x7fffffff" name="Bleed" time="3" val="66" stackOrder="5" stackType="bleeding"
+                    abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="3006" levels="1" name="Equip Set Items">
@@ -187,7 +188,7 @@
 		<set name="isDebuff" val="true" />
 		<set name="lvlDepend" val="1" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="bleeding"/>
 		</for>
 	</skill>
 	<skill id="3021" levels="6" name="Special Ability: Critical Bleed">
@@ -202,7 +203,7 @@
 		<set name="isDebuff" val="true" />
 		<set name="lvlDepend" val="1" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#dot" stackOrder="5" stackType="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#dot" stackOrder="5" stackType="bleeding"/>
 		</for>
 	</skill>
 	<skill id="3022" levels="6" name="Special Ability: Critical Drain">
@@ -249,7 +250,8 @@
 		<set name="reuseDelay" val="12000" />
 		<set name="abnormalLvl" val="#abnormalLvl" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="3025" levels="6" name="Special Ability: Critical Anger">
@@ -459,7 +461,8 @@
 		<set name="lvlDepend" val="1" />
 		<set name="abnormalLvl" val="#abnormalLvl" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="3041" levels="6" name="Special Ability: Critical Poison">
@@ -477,7 +480,8 @@
 		<set name="lvlDepend" val="1" />
 		<set name="abnormalLvl" val="#abnormalLvl" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="3042" levels="20" name="Special Ability: Critical Damage">
@@ -628,7 +632,8 @@
 		<set name="isDebuff" val="true" />
 		<set name="lvlDepend" val="1" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="222" stackOrder="7" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="222" stackOrder="7" stackType="bleeding"
+                    abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="3053" levels="2" name="Special Ability: Critical Bleed">
@@ -642,7 +647,8 @@
 		<set name="isDebuff" val="true" />
 		<set name="lvlDepend" val="1" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="264" stackOrder="7" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="264" stackOrder="7" stackType="bleeding"
+                    abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="3054" levels="2" name="Special Ability: Critical Bleed">
@@ -656,7 +662,8 @@
 		<set name="isDebuff" val="true" />
 		<set name="lvlDepend" val="1" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="768" stackOrder="7" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="768" stackOrder="7" stackType="bleeding"
+                    abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="3055" levels="2" name="Special Ability: Critical Bleed">
@@ -670,7 +677,8 @@
 		<set name="isDebuff" val="true" />
 		<set name="lvlDepend" val="1" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="384" stackOrder="7" stackType="bleeding" abnormal="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="384" stackOrder="7" stackType="bleeding"
+                    abnormal="bleeding"/>
 		</for>
 	</skill>
 	<skill id="3056" levels="3" name="Special Ability: Rsk. Haste">
@@ -759,7 +767,8 @@
 		<set name="lvlDepend" val="1" />
 		<set name="abnormalLvl" val="7" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" stackOrder="7" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" stackOrder="7" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="3062" levels="2" name="Special Ability: Critical Poison">
@@ -775,7 +784,8 @@
 		<set name="lvlDepend" val="1" />
 		<set name="abnormalLvl" val="7" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="672" stackOrder="7" stackType="poison" abnormal="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="672" stackOrder="7" stackType="poison"
+                    abnormal="poison"/>
 		</for>
 	</skill>
 	<skill id="3063" levels="2" name="Special Ability: Back Blow">

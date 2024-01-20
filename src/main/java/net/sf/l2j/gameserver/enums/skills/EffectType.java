@@ -66,7 +66,10 @@ public enum EffectType {
     WARP,
 
     SIGNET_GROUND,
-    SIGNET_EFFECT;
+    SIGNET_EFFECT,
+
+    BLEED,
+    POISON;
 
     public static boolean isntCancellable(EffectType type) {
         return type == CHARM_OF_COURAGE || type == CHARM_OF_LUCK || type == NOBLESSE_BLESSING || type == PROTECTION_BLESSING;

@@ -377,7 +377,7 @@
 		</cond>
 	</skill>
 	<skill id="2329" levels="1" name="Lesser Mana Potion">
-		<set name="targetScope" val="SELF"/>
+        <set name="target" val="SELF"/>
 		<set name="skillType" val="HOT"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="isPotion" val="true"/>
@@ -390,7 +390,7 @@
 		</for>
 	</skill>
 	<skill id="2330" levels="1" name="Mana Potion">
-		<set name="targetScope" val="SELF"/>
+        <set name="target" val="SELF"/>
 		<set name="skillType" val="HOT"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="isPotion" val="true"/>
@@ -403,7 +403,7 @@
 		</for>
 	</skill>
 	<skill id="2331" levels="1" name="Greater Mana Potion">
-		<set name="targetScope" val="SELF"/>
+        <set name="target" val="SELF"/>
 		<set name="skillType" val="HOT"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="isPotion" val="true"/>

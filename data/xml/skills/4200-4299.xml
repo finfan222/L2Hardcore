@@ -93,7 +93,8 @@
 		<set name="castRange" val="750" />
 		<set name="effectRange" val="1250" />
 		<for>
-			<effect count="7" name="DamOverTime" time="3" val="#damage" abnormal="bleeding" stackOrder="#abnormalLvl" stackType="bleeding" />
+            <effect count="0x7fffffff" name="Bleed" time="3" val="#damage" abnormal="bleeding" stackOrder="#abnormalLvl"
+                    stackType="bleeding"/>
 		</for>
 	</skill>
 	<skill id="4205" levels="12" name="Paralysis">
@@ -624,7 +625,8 @@
 		<set name="effectRange" val="2500" />
 		<set name="isMagic" val="true" />
 		<for>
-			<effect count="1200" name="DamOverTime" time="3" val="294" abnormal="poison" stackOrder="9" stackType="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="294" abnormal="poison" stackOrder="9"
+                    stackType="poison"/>
 		</for>
 	</skill>
 	<skill id="4244" levels="12" name="NPC Wild Sweep">
@@ -882,7 +884,8 @@
 		<set name="castRange" val="#cast" />
 		<set name="effectRange" val="1000" />
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" abnormal="poison" stackOrder="#abnormalLvl" stackType="poison" />
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" abnormal="poison" stackOrder="#abnormalLvl"
+                    stackType="poison"/>
 		</for>
 	</skill>
 	<skill id="4260" levels="12" name="Steal Blood">

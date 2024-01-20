@@ -228,7 +228,8 @@
 		<set name="castRange" val="1500"/>
 		<set name="effectRange" val="2000"/>
 		<for>
-			<effect count="10" name="DamOverTime" time="3" val="#dot" abnormal="poison" stackOrder="#abnormalLvl" stackType="Poison"/>
+            <effect count="0x7fffffff" name="Poison" time="3" val="#dot" abnormal="poison" stackOrder="#abnormalLvl"
+                    stackType="Poison"/>
 		</for>
 	</skill>
 	<skill id="4321" levels="1" name="Decrease P. Def">
