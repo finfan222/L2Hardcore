@@ -39,4 +39,8 @@ public class OnSkillHit {
         return this;
     }
 
+    public <T> T getContextValue(String key) {
+        return (T) context.get(key);
+    }
+
 }

@@ -8,12 +8,13 @@ import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.data.xml.HerbDropData;
 import net.sf.l2j.gameserver.enums.BossInfoType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
+import net.sf.l2j.gameserver.model.WorldRegion;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
-import net.sf.l2j.gameserver.model.actor.container.monster.OverhitState;
+import net.sf.l2j.gameserver.model.actor.container.monster.OverHitState;
 import net.sf.l2j.gameserver.model.actor.container.monster.SeedState;
 import net.sf.l2j.gameserver.model.actor.container.monster.SpoilState;
 import net.sf.l2j.gameserver.model.actor.container.npc.AbsorbInfo;
@@ -36,9 +37,11 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
@@ -50,7 +53,7 @@ import java.util.concurrent.ScheduledFuture;
 public class Monster extends Attackable {
     private final Map<Integer, AbsorbInfo> _absorbersList = new ConcurrentHashMap<>();
 
-    private final OverhitState _overhitState = new OverhitState(this);
+    private final OverHitState _overHitState = new OverHitState(this);
     private final SpoilState _spoilState = new SpoilState();
     private final SeedState _seedState = new SeedState(this);
 
@@ -159,14 +162,16 @@ public class Monster extends Attackable {
                     final int[] expSp = calculateExpAndSp(levelDiff, damage, totalDamage);
 
                     long exp = expSp[0];
-                    int sp = expSp[1];
+                    int sp = 0; // not give SP at all
 
                     exp *= 1 - penalty;
 
                     // Test over-hit.
-                    if (_overhitState.isValidOverhit(attacker)) {
+                    if (_overHitState.isValidOverHit(attacker)) {
                         attacker.sendPacket(SystemMessageId.OVER_HIT);
-                        exp += _overhitState.calculateOverhitExp(exp);
+                        long overHitExpSp = _overHitState.calcExp(exp);
+                        exp += overHitExpSp;
+                        sp += overHitExpSp; // give SP only when over hit the enemy
                     }
 
                     // Set new karma.
@@ -178,72 +183,87 @@ public class Monster extends Attackable {
             }
             // Share with party members.
             else {
-                int partyDmg = 0;
-                float partyMul = 1;
-                int partyLvl = 0;
-
                 final List<Player> rewardedMembers = new ArrayList<>();
-                final Map<Creature, RewardInfo> playersWithPets = new HashMap<>();
+                final int partyLvl;
 
-                // Iterate every Party member.
-                for (Player partyPlayer : (attackerParty.isInCommandChannel()) ? attackerParty.getCommandChannel().getMembers() : attackerParty.getMembers()) {
-                    if (partyPlayer == null || partyPlayer.isDead()) {
-                        continue;
+                List<Player> members;
+                if (attackerParty.isInCommandChannel()) {
+                    members = attackerParty.getCommandChannel().getMembers();
+                    partyLvl = attackerParty.getCommandChannel().getLevel();
+                } else {
+                    members = attackerParty.getMembers();
+                    partyLvl = attackerParty.getLevel();
+                }
+
+                // find member WorldRegions for next calculations, divide them to region groups
+                Map<WorldRegion, Set<Player>> regions = new HashMap<>();
+                members.forEach(member -> {
+                    WorldRegion region = member.getRegion();
+                    if (!regions.containsKey(region)) {
+                        regions.put(region, new HashSet<>());
+                        LOGGER.info("Party member {} is in region {}", member, region);
                     }
+                });
 
-                    // Add Player of the Party (that have attacked or not) to members that can be rewarded and in range of the monster.
-                    final boolean isInRange = MathUtil.checkIfInRange(Config.PARTY_RANGE, this, partyPlayer, true);
-                    if (isInRange) {
-                        rewardedMembers.add(partyPlayer);
+                LOGGER.info("Region groups which is same party: {}", regions.size());
 
-                        if (partyPlayer.getStatus().getLevel() > partyLvl) {
-                            partyLvl = (attackerParty.isInCommandChannel()) ? attackerParty.getCommandChannel().getLevel() : partyPlayer.getStatus().getLevel();
+                for (Set<Player> regionGroup : regions.values()) {
+                    int partyDmg = 0;
+                    float partyMul = 1.f;
+                    Map<Creature, RewardInfo> playersWithPets = new HashMap<>();
+
+                    // calculate for each region group - member list
+                    for (Player regionPlayer : regionGroup) {
+                        if (regionPlayer == null || !regionPlayer.isOnline() || regionPlayer.isDead()) {
+                            continue;
                         }
-                    }
 
-                    // Retrieve the associated RewardInfo, if any.
-                    final RewardInfo reward2 = rewards.get(partyPlayer);
-                    if (reward2 != null) {
-                        // Add Player damages to Party damages.
-                        if (isInRange) {
+                        // Retrieve the associated RewardInfo, if any.
+                        final RewardInfo reward2 = rewards.get(regionPlayer);
+                        if (reward2 != null) {
+                            // Add Player damages to Party damages.
                             partyDmg += reward2.getDamage();
+
+                            // Remove the Player from the rewards.
+                            rewards.remove(regionPlayer);
+
+                            playersWithPets.put(regionPlayer, reward2);
+                            if (regionPlayer.hasPet() && rewards.containsKey(regionPlayer.getSummon())) {
+                                playersWithPets.put(regionPlayer.getSummon(), rewards.get(regionPlayer.getSummon()));
+                            }
                         }
 
-                        // Remove the Player from the rewards.
-                        rewards.remove(partyPlayer);
+                        // If the Party didn't kill this Monster alone, calculate their part.
+                        if (partyDmg < totalDamage) {
+                            partyMul = ((float) partyDmg / totalDamage);
+                        }
 
-                        playersWithPets.put(partyPlayer, reward2);
-                        if (partyPlayer.hasPet() && rewards.containsKey(partyPlayer.getSummon())) {
-                            playersWithPets.put(partyPlayer.getSummon(), rewards.get(partyPlayer.getSummon()));
+                        // Calculate the level difference between Party and this Monster.
+                        final int levelDiff = partyLvl - getStatus().getLevel();
+
+                        // Calculate Exp and SP rewards.
+                        final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
+                        long expReward = expSp[0];
+                        int spReward = expSp[1];
+
+                        long exp = (long) (expReward * partyMul);
+                        int sp = 0; // sp will not given, it gives to personally or OverHit
+
+                        // Test over-hit.
+                        if (_overHitState.isValidOverHit(attacker)) {
+                            attacker.sendPacket(SystemMessageId.OVER_HIT);
+                            long overHitExpSp = _overHitState.calcExp(expReward);
+                            exp += overHitExpSp;
+                            sp += (int) (spReward * 5.0);
+                            attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
+                            attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                        }
+
+                        // share EXP with other region-players
+                        if (partyDmg > 0) {
+                            attackerParty.distributeExp(exp, rewardedMembers, partyLvl, playersWithPets);
                         }
                     }
-                }
-
-                // If the Party didn't kill this Monster alone, calculate their part.
-                if (partyDmg < totalDamage) {
-                    partyMul = ((float) partyDmg / totalDamage);
-                }
-
-                // Calculate the level difference between Party and this Monster.
-                final int levelDiff = partyLvl - getStatus().getLevel();
-
-                // Calculate Exp and SP rewards.
-                final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
-                long exp = expSp[0];
-                int sp = expSp[1];
-
-                exp *= partyMul;
-                sp *= partyMul;
-
-                // Test over-hit.
-                if (_overhitState.isValidOverhit(attacker)) {
-                    attacker.sendPacket(SystemMessageId.OVER_HIT);
-                    exp += _overhitState.calculateOverhitExp(exp);
-                }
-
-                // Distribute Experience and SP rewards to Player Party members in the known area of the last attacker.
-                if (partyDmg > 0) {
-                    attackerParty.distributeXpAndSp(exp, sp, rewardedMembers, partyLvl, playersWithPets);
                 }
             }
         }
@@ -264,7 +284,7 @@ public class Monster extends Attackable {
         super.onSpawn();
 
         // Clear over-hit state.
-        _overhitState.clear();
+        _overHitState.clear();
 
         // Clear spoil state.
         _spoilState.clear();
@@ -362,8 +382,8 @@ public class Monster extends Attackable {
         _isMinion = true;
     }
 
-    public OverhitState getOverhitState() {
-        return _overhitState;
+    public OverHitState getOverhitState() {
+        return _overHitState;
     }
 
     public SpoilState getSpoilState() {
@@ -431,7 +451,7 @@ public class Monster extends Attackable {
      * @param totalDamage : The total damage done.
      * @return an array consisting of xp and sp values.
      */
-    private int[] calculateExpAndSp(int diff, int damage, long totalDamage) {
+    public int[] calculateExpAndSp(int diff, int damage, long totalDamage) {
         // Calculate damage ratio.
         double xp = (double) getExpReward() * damage / totalDamage;
         double sp = (double) getSpReward() * damage / totalDamage;
@@ -451,11 +471,10 @@ public class Monster extends Attackable {
             sp = 0;
         }
 
-        return new int[]
-            {
-                (int) xp,
-                (int) sp
-            };
+        return new int[]{
+            (int) xp,
+            (int) sp
+        };
     }
 
     public void setMaster(Monster master) {

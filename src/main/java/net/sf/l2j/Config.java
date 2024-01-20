@@ -1,5 +1,11 @@
 package net.sf.l2j;
 
+import net.sf.l2j.commons.config.ExProperties;
+import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.commons.math.MathUtil;
+import net.sf.l2j.gameserver.enums.GeoType;
+import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -10,13 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
-
-import net.sf.l2j.commons.config.ExProperties;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.math.MathUtil;
-
-import net.sf.l2j.gameserver.enums.GeoType;
-import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 
 /**
  * This class contains global server configuration.<br> It has static final fields initialized from configuration
@@ -496,6 +495,7 @@ public final class Config {
     public static double RATE_XP;
     public static double RATE_SP;
     public static double RATE_PARTY_XP;
+    @Deprecated
     public static double RATE_PARTY_SP;
     public static double RATE_DROP_ADENA;
     public static double RATE_DROP_ITEMS;

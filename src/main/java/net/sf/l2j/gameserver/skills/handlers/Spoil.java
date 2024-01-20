@@ -8,9 +8,10 @@ import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.Formulas;
-import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class Spoil extends L2Skill {
+import java.util.Map;
+
+public class Spoil extends Default {
 
     public Spoil(StatSet set) {
         super(set);
@@ -51,6 +52,8 @@ public class Spoil extends L2Skill {
             } else {
                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(getId()));
             }
+
+            notifyAboutSkillHit(caster, target, Map.of("damage", caster.getStatus().getLevel() * 120));
         }
     }
 }

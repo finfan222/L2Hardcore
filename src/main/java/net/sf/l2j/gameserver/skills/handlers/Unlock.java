@@ -9,9 +9,12 @@ import net.sf.l2j.gameserver.model.actor.instance.Chest;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class Unlock extends L2Skill {
+import java.util.Map;
+
+public class Unlock extends Default {
 
     public Unlock(StatSet set) {
         super(set);
@@ -82,6 +85,9 @@ public class Unlock extends L2Skill {
             } else {
                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.FAILED_TO_UNLOCK_DOOR));
             }
+
+            notifyAboutSkillHit(caster, door, Map.of("damage",
+                Math.min(Formulas.calcNegateSkillPower(this, caster, door), 10_000)));
         } else if (object instanceof Chest chest) {
             if (chest.isDead() || chest.isInteracted()) {
                 return;
@@ -91,10 +97,14 @@ public class Unlock extends L2Skill {
             if (chestUnlock(this, chest.getStatus().getLevel())) {
                 chest.setSpecialDrop();
                 chest.doDie(chest);
+
             } else {
                 chest.getAggroList().addDamageHate(caster, 0, 200);
                 chest.getAI().tryToAttack(caster);
             }
+
+            notifyAboutSkillHit(caster, chest, Map.of("damage",
+                Math.min(Formulas.calcNegateSkillPower(this, caster, chest), 10_000)));
         } else {
             caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.INVALID_TARGET));
         }

@@ -45,18 +45,18 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CommandChannel extends AbstractGroup {
     private final List<Party> _parties = new CopyOnWriteArrayList<>();
 
-    public CommandChannel(Party requestor, Party target) {
-        super(requestor.getLeader());
+    public CommandChannel(Party requester, Party target) {
+        super(requester.getLeader());
 
-        _parties.add(requestor);
+        _parties.add(requester);
         _parties.add(target);
 
-        requestor.setCommandChannel(this);
+        requester.setCommandChannel(this);
         target.setCommandChannel(this);
 
         recalculateLevel();
 
-        for (Player member : requestor.getMembers()) {
+        for (Player member : requester.getMembers()) {
             member.sendPacket(SystemMessageId.COMMAND_CHANNEL_FORMED);
             member.sendPacket(ExOpenMPCC.STATIC_PACKET);
         }

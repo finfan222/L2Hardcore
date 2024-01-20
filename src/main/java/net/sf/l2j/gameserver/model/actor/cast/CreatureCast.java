@@ -1,11 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.cast;
 
-import java.util.concurrent.ScheduledFuture;
-
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.GaugeColor;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
@@ -33,6 +30,8 @@ import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class groups all cast data related to a {@link Creature}.
@@ -408,8 +407,8 @@ public class CreatureCast<T extends Creature> {
         }
 
         for (final Creature target : targets) {
-            if (_actor instanceof Playable && target instanceof Monster && skill.isOverhit()) {
-                ((Monster) target).getOverhitState().set(true);
+            if (_actor instanceof Playable && target instanceof Monster monster && skill.isOverhit()) {
+                monster.getOverhitState().activate();
             }
 
             switch (skill.getSkillType()) {

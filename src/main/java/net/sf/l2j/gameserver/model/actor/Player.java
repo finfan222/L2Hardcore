@@ -65,6 +65,7 @@ import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.events.OnHit;
 import net.sf.l2j.gameserver.events.OnHitBy;
+import net.sf.l2j.gameserver.events.OnSkillHit;
 import net.sf.l2j.gameserver.events.OnSkillHitBy;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.handler.IItemHandler;
@@ -95,6 +96,7 @@ import net.sf.l2j.gameserver.model.actor.container.player.ShortcutList;
 import net.sf.l2j.gameserver.model.actor.container.player.SubClass;
 import net.sf.l2j.gameserver.model.actor.instance.FestivalMonster;
 import net.sf.l2j.gameserver.model.actor.instance.Folk;
+import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.StaticObject;
@@ -497,6 +499,7 @@ public final class Player extends Playable {
         eventListener.subscribe().cast(OnHit.class).forEach(this::onHit);
         eventListener.subscribe().cast(OnHitBy.class).forEach(this::onHitBy);
         eventListener.subscribe().cast(OnSkillHitBy.class).forEach(this::onSkillHitBy);
+        eventListener.subscribe().cast(OnSkillHit.class).forEach(this::onSkillHit);
     }
 
     /**
@@ -5935,6 +5938,10 @@ public final class Player extends Playable {
         getStatus().removeExpAndSp(removeExp, removeSp);
     }
 
+    public void addSp(int addToSp) {
+        getStatus().addSp(addToSp);
+    }
+
     @Override
     public void reduceCurrentHp(double value, Creature attacker, boolean awake, boolean isDOT, L2Skill skill) {
         if (skill != null) {
@@ -7045,7 +7052,29 @@ public final class Player extends Playable {
                 }
             }
         }
+    }
 
+    private void onSkillHit(OnSkillHit event) {
+        L2Skill skill = event.getSkill();
+        Creature target = event.getTarget();
+        if (target instanceof Monster monster) {
+            if (monster.isDead()) {
+                return;
+            }
+
+            int spReward = monster.getSpReward();
+            if (spReward > 0) {
+                if (skill.isOffensive() || skill.isSkillTypeOffensive()) {
+                    int diff = getStatus().getLevel() - target.getStatus().getLevel() - 5;
+                    double pow = Math.pow(0.8333, diff);
+                    Number damage = event.getContextValue("damage");
+                    double coefficient = Math.min(damage.doubleValue() / target.getStatus().getMaxHp(), 1.0);
+                    int sp = (int) (coefficient * (spReward * pow));
+                    addSp(sp);
+                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                }
+            }
+        }
     }
 
 }

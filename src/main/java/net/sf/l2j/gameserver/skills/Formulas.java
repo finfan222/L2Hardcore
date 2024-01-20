@@ -1334,4 +1334,8 @@ public final class Formulas {
 
         return 1.;
     }
+
+    public static double calcNegateSkillPower(L2Skill skill, Creature caster, Creature target) {
+        return Math.pow(skill.getLevel(), caster.getStatus().getLevel() - target.getStatus().getLevel() - 5);
+    }
 }

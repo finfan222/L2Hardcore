@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.model.group;
 
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -11,6 +12,7 @@ import net.sf.l2j.gameserver.data.manager.PartyMatchRoomManager;
 import net.sf.l2j.gameserver.enums.LootRule;
 import net.sf.l2j.gameserver.enums.MessageType;
 import net.sf.l2j.gameserver.model.WorldObject;
+import net.sf.l2j.gameserver.model.WorldRegion;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -34,25 +36,31 @@ import net.sf.l2j.gameserver.network.serverpackets.PartySmallWindowDeleteAll;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 public class Party extends AbstractGroup {
-    private static final double[] BONUS_EXP_SP =
-        {
-            1,
-            1,
-            1.30,
-            1.39,
-            1.50,
-            1.54,
-            1.58,
-            1.63,
-            1.67,
-            1.71
-        };
+
+    private static final CLogger LOGGER = new CLogger(Party.class.getSimpleName());
+
+    private static final double[] BONUS_EXP_SP = {
+        1,
+        1,
+        1.30,
+        1.39,
+        1.50,
+        1.54,
+        1.58,
+        1.63,
+        1.67,
+        1.71
+    };
 
     private static final int PARTY_POSITION_BROADCAST = 12000;
 
@@ -610,23 +618,58 @@ public class Party extends AbstractGroup {
         }
     }
 
-    /**
-     * Distribute Experience and SP rewards to {@link Party} members in the known area of the last attacker.<BR>
-     * <BR>
-     * <FONT COLOR=#FF0000><B> <U>Caution</U> : This method DOESN'T GIVE rewards to Pet</B></FONT><BR>
-     * <BR>
-     * Exception are Pets that leech from the owner's XP; they get the exp indirectly, via the owner's exp gain.<BR>
-     *
-     * @param xpReward : The Experience reward to distribute.
-     * @param spReward : The SP reward to distribute.
-     * @param rewardedMembers : The {@link Player}s' {@link List} to reward.
-     * @param topLvl : The maximum level.
-     * @param rewards : The {@link Map} of {@link Creature}s and {@link RewardInfo}.
-     */
-    public void distributeXpAndSp(long xpReward, int spReward, List<Player> rewardedMembers, int topLvl, Map<Creature, RewardInfo> rewards) {
-        final List<Player> validMembers = new ArrayList<>();
+    public void distributeExp(long exp, List<Player> rewardedMembers, int partyLevel, Map<Creature, RewardInfo> rewards) {
+        Map<WorldRegion, Set<Player>> regions = new HashMap<>();
 
-        if (Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("level")) {
+        rewardedMembers.stream().filter(member -> !member.isDead()).forEach(member -> {
+            WorldRegion region = member.getRegion();
+            if (!regions.containsKey(region)) {
+                regions.put(region, new HashSet<>());
+                LOGGER.info("Party member {} is in region {}", member, region);
+            }
+        });
+
+        for (Set<Player> regionPlayerGroup : regions.values()) {
+            Set<Player> validMembers = regionPlayerGroup.stream()
+                .filter(member -> partyLevel - member.getStatus().getLevel() <= Config.PARTY_XP_CUTOFF_LEVEL)
+                .filter(member -> !member.isDead())
+                .collect(Collectors.toSet());
+
+            int sqLevelSum = 0;
+            for (Player next : validMembers) {
+                sqLevelSum += next.getStatus().getLevel() * next.getStatus().getLevel();
+            }
+
+            for (Player member : validMembers) {
+                final double partyRate = BONUS_EXP_SP[Math.min(validMembers.size(), 9)];
+
+                exp *= partyRate * Config.RATE_PARTY_XP;
+
+                if (member.isDead()) {
+                    return;
+                }
+
+                // Calculate and add the EXP and SP reward to the member.
+                if (validMembers.contains(member)) {
+                    // The servitor penalty.
+                    final float penalty = member.hasServitor() ? ((Servitor) member.getSummon()).getExpPenalty() : 0;
+
+                    final double sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
+                    final double preCalculation = (sqLevel / sqLevelSum) * (1 - penalty);
+                    final long addExp = Math.round(exp * preCalculation);
+
+                    // Set new karma.
+                    member.updateKarmaLoss(addExp);
+
+                    // Add the XP/SP points to the requested party member.
+                    member.addExpAndSp(addExp, 0, rewards);
+                } else {
+                    member.addExpAndSp(0, 0);
+                }
+            }
+        }
+
+        /*if (Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("level")) {
             for (Player member : rewardedMembers) {
                 if (topLvl - member.getStatus().getLevel() <= Config.PARTY_XP_CUTOFF_LEVEL) {
                     validMembers.add(member);
@@ -664,7 +707,7 @@ public class Party extends AbstractGroup {
         // Since validMembers can also hold CommandChannel members, we have to restrict the value.
         final double partyRate = BONUS_EXP_SP[Math.min(validMembers.size(), 9)];
 
-        xpReward *= partyRate * Config.RATE_PARTY_XP;
+        expReward *= partyRate * Config.RATE_PARTY_XP;
         spReward *= partyRate * Config.RATE_PARTY_SP;
 
         int sqLevelSum = 0;
@@ -686,7 +729,7 @@ public class Party extends AbstractGroup {
                 final double sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
                 final double preCalculation = (sqLevel / sqLevelSum) * (1 - penalty);
 
-                final long xp = Math.round(xpReward * preCalculation);
+                final long xp = Math.round(expReward * preCalculation);
                 final int sp = (int) (spReward * preCalculation);
 
                 // Set new karma.
@@ -697,7 +740,7 @@ public class Party extends AbstractGroup {
             } else {
                 member.addExpAndSp(0, 0);
             }
-        }
+        }*/
     }
 
     public LootRule getLootRule() {
