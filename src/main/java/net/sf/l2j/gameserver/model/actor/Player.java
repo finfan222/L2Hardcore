@@ -6955,11 +6955,6 @@ public final class Player extends Playable {
         }
 
         Creature target = event.getTarget();
-        int levelDiff = target.getStatus().getLevel() - getStatus().getLevel();
-        if (levelDiff < -9) {
-            return;
-        }
-
         WeaponType weaponType = weapon.getWeaponItem().getItemType();
         CreatureAttack.HitHolder hit = event.getHit();
         ItemInstance armor = event.getTarget() instanceof Player player ?
@@ -6984,6 +6979,12 @@ public final class Player extends Playable {
 
                         module.fracture(this, Math.max(value, 1));
                     } else {
+                        int levelDiff = target.getStatus().getLevel() - getStatus().getLevel();
+                        if (levelDiff < -5) {
+                            module.fracture(this, 1);
+                            return;
+                        }
+
                         module.fracture(this, Rnd.get(1, value));
                     }
                 }
@@ -6994,7 +6995,9 @@ public final class Player extends Playable {
     private void onHitBy(OnHitBy event) {
         CreatureAttack.HitHolder hit = event.getHit();
         if (!hit.isMissed) {
+            // when attack was blocked by shield
             if (hit.block != ShieldDefense.FAILED) {
+                // we need shield only
                 ItemInstance shield = getSecondaryWeaponInstance();
                 if (shield == null || shield.getItemType() != ArmorType.SHIELD) {
                     return;
@@ -7003,16 +7006,21 @@ public final class Player extends Playable {
                 int value = hit.block == ShieldDefense.PERFECT
                     ? 1 :
                     (int) Math.max(hit.damage * ArmorType.SHIELD.getDurabilityAbsorb(), 1);
+
                 Optional.ofNullable(shield.getModule(DurabilityModule.class))
                     .ifPresent(module -> module.fracture(this, value));
             } else {
+                // when attack was NON blocked by item
                 ItemInstance armor = getInventory().getRandomEquippedItem(0);
                 if (armor == null) {
                     return;
                 }
 
                 ArmorType type = (ArmorType) armor.getItemType();
-                int value = (int) Math.max(hit.damage * type.getDurabilityAbsorb(), 1);
+                // if we hit into perfect shield block, we loose more random durability
+                int value = (int) (Math.max(hit.damage * type.getDurabilityAbsorb(), 1) * (hit.block == ShieldDefense.PERFECT
+                    ? Rnd.get(3, 10) : 1));
+
                 Optional.ofNullable(armor.getModule(DurabilityModule.class))
                     .ifPresent(module -> module.fracture(this, value));
             }

@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.handler.itemhandlers;
 
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
@@ -21,7 +20,10 @@ public class ItemSkills implements IItemHandler {
         {
             2031, // Lesser Healing Potion
             2032, // Healing potion
-            2037 // Greater Healing Potion
+            2037, // Greater Healing Potion
+            726, // Lesser Mana Potion
+            728, // Mana Potion
+            9210, // Greater Mana Potion
         };
 
     @Override

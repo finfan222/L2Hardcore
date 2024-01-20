@@ -55,18 +55,18 @@
 		<production id="6036" count="1"/>
 		<ingredient id="57" count="6000" isTaxIngredient="true"/>
 	</item>
-	<!-- CP Potion for 240 Ancient Adena  -->
+	<!-- CP Potion for 240 Ancient Adena  
 	<item>
 		<ingredient id="5575" count="240"/>
 		<production id="5591" count="1"/>
 		<ingredient id="57" count="200" isTaxIngredient="true"/>
-	</item>
-	<!-- Greater CP Potion for 600 Ancient Adena -->
+	</item> -->
+	<!-- Greater CP Potion for 600 Ancient Adena 
 	<item>
 		<ingredient id="5575" count="600"/>
 		<production id="5592" count="1"/>
 		<ingredient id="57" count="500" isTaxIngredient="true"/>
-	</item>
+	</item> -->
 	<!-- Charm of Luck (No Grade) -->
 	<item>
 		<ingredient id="5575" count="120"/>

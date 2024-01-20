@@ -376,4 +376,43 @@
 			</and>
 		</cond>
 	</skill>
+	<skill id="2329" levels="1" name="Lesser Mana Potion">
+		<set name="targetScope" val="SELF"/>
+		<set name="skillType" val="HOT"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="isPotion" val="true"/>
+		<set name="reuseDelay" val="10000"/>
+		<cond msgId="113" addName="1">
+			<player flying="False"/>
+		</cond>
+		<for>
+			<effect count="7" name="ManaHealOverTime" time="2" val="5.71" stackOrder="1" stackType="mp_recover"/>
+		</for>
+	</skill>
+	<skill id="2330" levels="1" name="Mana Potion">
+		<set name="targetScope" val="SELF"/>
+		<set name="skillType" val="HOT"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="isPotion" val="true"/>
+		<set name="reuseDelay" val="10000"/>
+		<cond msgId="113" addName="1">
+			<player flying="False"/>
+		</cond>
+		<for>
+			<effect count="7" name="ManaHealOverTime" time="2" val="17.14" stackOrder="1" stackType="mp_recover"/>
+		</for>
+	</skill>
+	<skill id="2331" levels="1" name="Greater Mana Potion">
+		<set name="targetScope" val="SELF"/>
+		<set name="skillType" val="HOT"/>
+		<set name="operateType" val="ACTIVE"/>
+		<set name="isPotion" val="true"/>
+		<set name="reuseDelay" val="10000"/>
+		<cond msgId="113" addName="1">
+			<player flying="False"/>
+		</cond>
+		<for>
+			<effect count="7" name="ManaHealOverTime" time="2" val="28.57" stackOrder="1" stackType="mp_recover"/>
+		</for>
+	</skill>
 </list>
