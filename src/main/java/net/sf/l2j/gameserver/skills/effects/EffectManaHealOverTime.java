@@ -29,7 +29,7 @@ public class EffectManaHealOverTime extends AbstractEffect {
 
     @Override
     public boolean onActionTime() {
-        if (_skill.isPotion() && !getEffected().isSitting()) {
+        if (_skill.isPotion() && !getEffected().isSitting() && !getEffected().isSittingNow()) {
             return false;
         }
 
