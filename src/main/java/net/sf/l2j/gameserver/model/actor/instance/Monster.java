@@ -1,17 +1,9 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledFuture;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.data.xml.HerbDropData;
 import net.sf.l2j.gameserver.enums.BossInfoType;
@@ -36,10 +28,19 @@ import net.sf.l2j.gameserver.model.item.DropCategory;
 import net.sf.l2j.gameserver.model.item.DropData;
 import net.sf.l2j.gameserver.model.item.instance.ItemFactory;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
+import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * A monster extends {@link Attackable} class.<br>
@@ -583,8 +584,7 @@ public class Monster extends Attackable {
         // Get default drop chance for the category (that's the sum of chances for all items in the category)
         // keep track of the base category chance as it'll be used later, if an item is drop from the category.
         // for everything else, use the total "categoryDropChance"
-        int baseCategoryDropChance = cat.getCategoryChance();
-        int categoryDropChance = baseCategoryDropChance;
+        int categoryDropChance = cat.getCategoryChance();
 
         if (Config.DEEPBLUE_DROP_RULES) {
             int deepBlueDrop = (levelModifier > 0) ? 3 : 1;
@@ -917,6 +917,11 @@ public class Monster extends Attackable {
         for (int i = 0; i < holder.getValue(); i++) {
             // Create the ItemInstance and add it in the world as a visible object.
             ItemInstance item = ItemFactory.create(holder.getId(), holder.getValue(), player, this);
+            if (item.isArmor() || item.isWeapon()) {
+                Optional.ofNullable(item.getModule(DurabilityModule.class))
+                    .ifPresent(e -> e.setDurability(Rnd.get(327, Short.MAX_VALUE)));
+            }
+
             item.dropMe(this, 70);
 
             // If stackable, end loop as entire count is included in 1 instance of item.
