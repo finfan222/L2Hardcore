@@ -6955,29 +6955,36 @@ public final class Player extends Playable {
         }
 
         Creature target = event.getTarget();
+        int levelDiff = target.getStatus().getLevel() - getStatus().getLevel();
+        if (levelDiff < -9) {
+            return;
+        }
+
         WeaponType weaponType = weapon.getWeaponItem().getItemType();
         CreatureAttack.HitHolder hit = event.getHit();
         ItemInstance armor = event.getTarget() instanceof Player player ?
             player.getInventory().getRandomEquippedItem(0)
             : null;
         Optional.ofNullable(weapon.getModule(DurabilityModule.class)).ifPresent(module -> {
+            double augmentedMod = weapon.isAugmented() ? 0.85 : 1.;
             if (weaponType == WeaponType.BOW) {
-                module.fracture(this, 4);
+                module.fracture(this, (int) (4 * augmentedMod));
             } else {
                 if (!hit.isMissed) {
-                    if (event.getTarget() instanceof Attackable && target.getStatus().getLevel() + 9 < getStatus().getLevel()) {
-                        module.fracture(this, 1);
-                    } else {
-                        int value = hit.damage;
+                    int value = (int) (hit.damage * augmentedMod);
+                    if (target instanceof Player) {
                         if (armor != null) {
                             ArmorType armorType = (ArmorType) armor.getItemType();
                             value = (int) Math.max(value * armorType.getDamageToWeaponDurability(), 1);
                         }
+
                         if ((hit.flags & Attack.HITFLAG_CRIT) != 0) {
                             value *= 2;
                         }
 
                         module.fracture(this, Math.max(value, 1));
+                    } else {
+                        module.fracture(this, Rnd.get(1, value));
                     }
                 }
             }
