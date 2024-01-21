@@ -20,7 +20,9 @@ import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class Disablers extends L2Skill {
+import java.util.Map;
+
+public class Disablers extends Default {
 
     public Disablers(StatSet set) {
         super(set);
@@ -56,11 +58,11 @@ public class Disablers extends L2Skill {
                 continue;
             }
 
-            final ShieldDefense sDef = Formulas.calcShldUse(caster, target, this, false);
-
+            ShieldDefense sDef = Formulas.calcShldUse(caster, target, this, false);
+            boolean success = Formulas.calcSkillSuccess(caster, target, this, sDef, bsps);
             switch (type) {
                 case BETRAY:
-                    if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps)) {
+                    if (success) {
                         applyEffects(caster, target, sDef, bsps);
                     } else {
                         caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(this));
@@ -78,7 +80,7 @@ public class Disablers extends L2Skill {
                         target = caster;
                     }
 
-                    if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps)) {
+                    if (success) {
                         applyEffects(caster, target, sDef, bsps);
                     } else {
                         if (caster instanceof Player) {
@@ -93,7 +95,7 @@ public class Disablers extends L2Skill {
                         target = caster;
                     }
 
-                    if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps)) {
+                    if (success) {
                         applyEffects(caster, target, sDef, bsps);
                     } else {
                         if (caster instanceof Player) {
@@ -107,7 +109,7 @@ public class Disablers extends L2Skill {
                         target = caster;
                     }
 
-                    if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps)) {
+                    if (success) {
                         // stop same type effect if available
                         for (AbstractEffect effect : target.getAllEffects()) {
                             if (effect.getTemplate().getStackOrder() == 99) {
@@ -129,7 +131,7 @@ public class Disablers extends L2Skill {
                 case CONFUSION:
                     // do nothing if not on mob
                     if (target instanceof Attackable) {
-                        if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps)) {
+                        if (success) {
                             for (AbstractEffect effect : target.getAllEffects()) {
                                 if (effect.getTemplate().getStackOrder() == 99) {
                                     continue;
@@ -177,7 +179,7 @@ public class Disablers extends L2Skill {
 
                 case AGGREDUCE_CHAR:
                     // TODO these skills need to be rechecked
-                    if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps)) {
+                    if (success) {
                         if (target instanceof Attackable) {
                             ((Attackable) target).getAggroList().stopHate(caster);
                         }
@@ -193,7 +195,7 @@ public class Disablers extends L2Skill {
                 case AGGREMOVE:
                     // TODO these skills needs to be rechecked
                     if (target instanceof Attackable && !target.isRaidRelated()) {
-                        if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps)) {
+                        if (success) {
                             if (getTargetType() == SkillTargetType.UNDEAD) {
                                 if (target.isUndead()) {
                                     ((Attackable) target).getAggroList().stopHate(caster);
@@ -211,7 +213,7 @@ public class Disablers extends L2Skill {
 
                 case ERASE:
                     // doesn't affect siege summons
-                    if (Formulas.calcSkillSuccess(caster, target, this, sDef, bsps) && !(target instanceof SiegeSummon)) {
+                    if (success && !(target instanceof SiegeSummon)) {
                         final Player summonOwner = ((Summon) target).getOwner();
                         final Summon summonPet = summonOwner.getSummon();
                         if (summonPet != null) {
@@ -292,6 +294,8 @@ public class Disablers extends L2Skill {
                     applyEffects(caster, target, sDef, bsps);
                     break;
             }
+
+            notifyAboutSkillHit(caster, target, Map.of("damage", success ? Formulas.calcNegateSkillPower(this, caster, target) : 0));
         }
 
         if (hasSelfEffects()) {

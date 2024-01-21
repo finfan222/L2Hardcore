@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class OnSkillHitBy {
 
-    private final Map<String, Object> context = new HashMap<>();
+    private final Map<String, Serializable> context = new HashMap<>();
 
     private Creature caster;
     private Creature target;
@@ -29,14 +30,13 @@ public class OnSkillHitBy {
         return (T) skill;
     }
 
-    public OnSkillHitBy addContext(String parameter, Object value) {
-        context.put(parameter, value);
-        return this;
-    }
+    @SuppressWarnings("unchecked")
+    public <T extends Serializable> T getContextValue(String key) {
+        T value = (T) context.get(key);
+        if (value == null) {
+            throw new NullPointerException(String.format("Context is null because key %s not exist in map.", key));
+        }
 
-    public OnSkillHitBy addContext(Map<String, Object> context) {
-        this.context.putAll(context);
-        return this;
+        return value;
     }
-
 }

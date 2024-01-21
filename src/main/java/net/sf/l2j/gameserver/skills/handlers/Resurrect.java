@@ -7,10 +7,11 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.skills.Formulas;
-import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.taskmanager.DecayTaskManager;
 
-public class Resurrect extends L2Skill {
+import java.util.Map;
+
+public class Resurrect extends Default {
 
     public Resurrect(StatSet set) {
         super(set);
@@ -36,6 +37,7 @@ public class Resurrect extends L2Skill {
                 DecayTaskManager.getInstance().cancel(target);
                 target.doRevive(Formulas.calculateSkillResurrectRestorePercent(getPower(), caster));
             }
+            notifyAboutSkillHit(caster, target, Map.of("damage", Formulas.calcNegateSkillPower(this, caster, target)));
         }
         caster.setChargedShot(caster.isChargedShot(ShotType.BLESSED_SPIRITSHOT) ? ShotType.BLESSED_SPIRITSHOT : ShotType.SPIRITSHOT, isStaticReuse());
 

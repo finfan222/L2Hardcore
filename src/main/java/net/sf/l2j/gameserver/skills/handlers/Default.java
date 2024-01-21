@@ -8,6 +8,7 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.io.Serializable;
 import java.util.Map;
 
 public class Default extends L2Skill {
@@ -21,18 +22,21 @@ public class Default extends L2Skill {
         caster.sendMessage("Skill " + getId() + " [" + getSkillType() + "] isn't implemented.");
     }
 
-    protected void notifyAboutSkillHit(Creature caster, Creature target, Map<String, Object> context) {
-        caster.getEventListener().notify(OnSkillHit.builder()
+    protected void notifyAboutSkillHit(Creature caster, Creature target, Map<String, Serializable> context) {
+        OnSkillHit onSkillHit = OnSkillHit.builder()
             .caster(caster)
             .target(target)
             .skill(this)
-            .build()
-            .addContext(context));
-        target.getEventListener().notify(OnSkillHitBy.builder()
+            .build();
+        onSkillHit.getContext().putAll(context);
+        caster.getEventListener().notify(onSkillHit);
+
+        OnSkillHitBy onSkillHitBy = OnSkillHitBy.builder()
             .caster(caster)
             .target(target)
             .skill(this)
-            .build()
-            .addContext(context));
+            .build();
+        onSkillHitBy.getContext().putAll(context);
+        target.getEventListener().notify(onSkillHitBy);
     }
 }

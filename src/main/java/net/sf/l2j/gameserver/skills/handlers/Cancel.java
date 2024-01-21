@@ -11,13 +11,13 @@ import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
-import net.sf.l2j.gameserver.skills.L2Skill;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-public class Cancel extends L2Skill {
+public class Cancel extends Default {
 
     public Cancel(StatSet set) {
         super(set);
@@ -65,7 +65,7 @@ public class Cancel extends L2Skill {
 
             final List<AbstractEffect> list = Arrays.asList(target.getAllEffects());
             Collections.shuffle(list);
-
+            boolean success = false;
             for (AbstractEffect effect : list) {
                 // Don't cancel toggles or debuffs.
                 if (effect.getSkill().isToggle() || effect.getSkill().isDebuff()) {
@@ -103,7 +103,7 @@ public class Cancel extends L2Skill {
                 }
 
                 // Calculate the success chance following previous variables.
-                if (calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, skillVuln, minRate, maxRate)) {
+                if (success = calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, skillVuln, minRate, maxRate)) {
                     effect.exit();
                 }
 
@@ -115,6 +115,8 @@ public class Cancel extends L2Skill {
                     break;
                 }
             }
+
+            notifyAboutSkillHit(caster, target, Map.of("damage", success ? Formulas.calcNegateSkillPower(this, caster, target) : 0));
         }
 
         if (hasSelfEffects()) {

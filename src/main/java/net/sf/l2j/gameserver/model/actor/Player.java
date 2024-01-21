@@ -7040,8 +7040,7 @@ public final class Player extends Playable {
         // durability for accessories
         if (skill.isMagic()) {
             if (skill.isDamage()) {
-                Map<String, Object> context = event.getContext();
-                Number number = (Number) context.get("damage");
+                Number number = event.getContextValue("damage");
                 if (number != null) {
                     ItemInstance accessory = getInventory().getRandomEquippedItem(1);
                     if (accessory != null) {
@@ -7064,15 +7063,13 @@ public final class Player extends Playable {
 
             int spReward = monster.getSpReward();
             if (spReward > 0) {
-                if (skill.isOffensive() || skill.isSkillTypeOffensive()) {
-                    int diff = getStatus().getLevel() - target.getStatus().getLevel() - 5;
-                    double pow = Math.pow(0.8333, diff);
-                    Number damage = event.getContextValue("damage");
-                    double coefficient = Math.min(damage.doubleValue() / target.getStatus().getMaxHp(), 1.0);
-                    int sp = (int) (coefficient * (spReward * pow));
-                    addSp(sp);
-                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
-                }
+                int diff = getStatus().getLevel() - target.getStatus().getLevel() - 5;
+                double pow = Math.pow(0.8333, diff);
+                Number damage = event.getContextValue("damage");
+                double coefficient = Math.min(damage.doubleValue() / target.getStatus().getMaxHp(), 1.0);
+                int sp = (int) (coefficient * (spReward * pow));
+                addSp(sp);
+                sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
             }
         }
     }
