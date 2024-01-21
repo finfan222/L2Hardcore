@@ -90,6 +90,6 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <lombok.version>1.18.24</lombok.version>
     <maven.compiler.target>17</maven.compiler.target>
-      <cron4j.version>2.2.5</cron4j.version>
+    <cron4j.version>2.2.5</cron4j.version>
   </properties>
 </project>
