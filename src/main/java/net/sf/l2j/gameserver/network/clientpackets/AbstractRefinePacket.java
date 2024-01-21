@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.items.CrystalType;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractRefinePacket extends L2GameClientPacket {
     public static final int GRADE_NONE = 0;
@@ -180,7 +180,7 @@ public abstract class AbstractRefinePacket extends L2GameClientPacket {
     /*
      * Check both player and source item conditions for augmentation process
      */
-    protected static final boolean isValid(Player player, ItemInstance item) {
+    protected static boolean isValid(Player player, ItemInstance item) {
         if (!isValid(player)) {
             return false;
         }

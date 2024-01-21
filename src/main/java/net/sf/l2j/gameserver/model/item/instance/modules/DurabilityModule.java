@@ -76,7 +76,7 @@ public class DurabilityModule implements ItemModule {
     }
 
     public int getDurabilityPercent() {
-        return (int) (breakMod() * 100.0);
+        return (int) Math.max(breakMod() * 100.0, 1);
     }
 
     public int getRepairPrice() {

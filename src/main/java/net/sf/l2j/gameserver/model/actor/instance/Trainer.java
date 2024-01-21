@@ -13,9 +13,9 @@ import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -60,12 +60,7 @@ public final class Trainer extends Folk {
     @Override
     public void onBypassFeedback(Player player, String command) {
         if (command.startsWith("exc_repair_")) {
-            final List<ItemInstance> items = player.getInventory().getItems().stream()
-                .filter(item -> {
-                    int percentDurability = item.getDurabilityPercent();
-                    return !item.isEquipped() && item.isEquipable() && percentDurability > 0 && percentDurability < 100;
-                })
-                .toList();
+            Set<ItemInstance> items = player.getInventory().getAllBrokenItems();
             if (command.endsWith("list")) {
                 if (items.isEmpty()) {
                     player.sendPacket(SystemMessageId.CANT_REPAIR_ALL_ITEMS_ARE_GOOD);
@@ -97,7 +92,7 @@ public final class Trainer extends Folk {
 
     }
 
-    private void payForRepair(Player player, List<ItemInstance> items) {
+    private void payForRepair(Player player, Set<ItemInstance> items) {
         if (player.isInDuel()
             || AttackStanceTaskManager.getInstance().isInAttackStance(player)
             || player.isAlikeDead()

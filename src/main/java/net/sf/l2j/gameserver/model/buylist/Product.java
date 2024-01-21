@@ -31,10 +31,9 @@ public class Product {
         this.item = ItemData.getInstance().getTemplate(set.getInteger("id"));
         this.price = set.getInteger("price", 0);
         int stock = set.getInteger("limit", -1);
-        int referencePrice = (int) Math.sqrt(item.getReferencePrice());
-        if (referencePrice > 0) {
+        if (item.getReferencePrice() > 0 && price > 0) {
             int maxPrice = (int) Math.sqrt(Integer.MAX_VALUE);
-            limit = Math.max(Math.min(9999, maxPrice / referencePrice), 1);
+            limit = (int) Math.max(Math.min(9999, maxPrice / Math.sqrt(price)), 1);
         } else {
             limit = stock;
         }

@@ -75,10 +75,10 @@ public final class RequestDropItem extends L2GameClientPacket {
             return;
         }
 
-        if (item.isAugmented()) {
+        /*if (item.isAugmented()) {
             player.sendPacket(SystemMessageId.AUGMENTED_ITEM_CANNOT_BE_DISCARDED);
             return;
-        }
+        }*/
 
         if (Item.TYPE2_QUEST == item.getItem().getType2() && !player.isGM()) {
             player.sendPacket(SystemMessageId.CANNOT_DISCARD_EXCHANGE_ITEM);
