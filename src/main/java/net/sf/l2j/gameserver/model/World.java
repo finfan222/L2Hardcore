@@ -1,9 +1,11 @@
 package net.sf.l2j.gameserver.model;
 
 import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.enums.SayType;
+import net.sf.l2j.gameserver.events.OnDieLethal;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
@@ -11,7 +13,9 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
+import net.sf.l2j.gameserver.network.serverpackets.ExShowScreenMessageCustom;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
+import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 
 import java.util.Collection;
 import java.util.Map;
@@ -47,7 +51,7 @@ public final class World {
 
     private final WorldRegion[][] _worldRegions = new WorldRegion[REGIONS_X][REGIONS_Y];
 
-    protected World() {
+    private World() {
         for (int x = 0; x < REGIONS_X; x++) {
             for (int y = 0; y < REGIONS_Y; y++) {
                 _worldRegions[x][y] = new WorldRegion(x, y);
@@ -65,6 +69,9 @@ public final class World {
                 }
             }
         }
+
+        GlobalEventListener.register(OnDieLethal.class).forEach(this::onDieLethal);
+
         LOGGER.info("World grid ({} by {}) is now set up.", REGIONS_X, REGIONS_Y);
     }
 
@@ -242,6 +249,24 @@ public final class World {
      */
     public static boolean isOutOfWorld(int minX, int maxX, int minY, int maxY) {
         return minX < WORLD_X_MIN || maxX > WORLD_X_MAX || minY < WORLD_Y_MIN || maxY > WORLD_Y_MAX;
+    }
+
+    private void onDieLethal(OnDieLethal event) {
+        LOGGER.info("[10][onDieLethal] {}", event);
+        String blackMessage = String.format("Elmoreaden bulletin: %s has left us. The reason was %s.",
+            event.getName(), event.getReason().getDieWorldMessage());
+        ExShowScreenMessageCustom message = ExShowScreenMessageCustom.builder()
+            .time(3500)
+            .showFading(true)
+            .showEffect(true)
+            .fontSize(0x01)
+            .text(blackMessage)
+            .build();
+        PlaySound sound = new PlaySound("ItemSound3.sys_character_failed");
+        _players.values().forEach(player -> {
+            player.sendPacket(message);
+            player.sendPacket(sound);
+        });
     }
 
     public static World getInstance() {

@@ -47,6 +47,6 @@
 	<!-- SoR -->
 	<item>
 		<production id="737" count="1"/>
-		<ingredient id="8514" count="6"/>
+        <ingredient id="8514" count="6"/> <!-- Remnants of Old Dwarves' Dreams -->
 	</item>
 </list>

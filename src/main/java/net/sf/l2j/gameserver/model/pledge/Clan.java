@@ -1803,6 +1803,13 @@ public class Clan {
             }
         }
 
+        dissolveAlly();
+
+        // The clan leader should take the XP penalty of a full death.
+        player.applyDeathPenalty(false, false);
+    }
+
+    public void dissolveAlly() {
         broadcastToAllyMembers(SystemMessage.getSystemMessage(SystemMessageId.ALLIANCE_DISOLVED));
 
         long currentTime = System.currentTimeMillis();
@@ -1820,9 +1827,6 @@ public class Clan {
         changeAllyCrest(0, false);
         setAllyPenaltyExpiryTime(currentTime + Config.CREATE_ALLY_DAYS_WHEN_DISSOLVED * 86400000L, PENALTY_TYPE_DISSOLVE_ALLY);
         updateClanInDB();
-
-        // The clan leader should take the XP penalty of a full death.
-        player.applyDeathPenalty(false, false);
     }
 
     public boolean levelUpClan(Player player) {

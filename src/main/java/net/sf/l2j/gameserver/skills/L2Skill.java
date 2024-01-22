@@ -100,7 +100,6 @@ public abstract class L2Skill implements IChanceSkillTrigger {
     private final int _skillRadius; // Effecting area of the skill, in radius.
 
     private final SkillType _skillType;
-    private final SkillType _effectType;
 
     private final int _effectId;
     private final int _effectPower;
@@ -277,7 +276,6 @@ public abstract class L2Skill implements IChanceSkillTrigger {
         _ignoreShield = set.getBool("ignoreShld", false);
 
         _skillType = set.getEnum("skillType", SkillType.class);
-        _effectType = set.getEnum("effectType", SkillType.class, null);
 
         _effectId = set.getInteger("effectId", 0);
         _effectPower = set.getInteger("effectPower", 0);
@@ -531,33 +529,6 @@ public abstract class L2Skill implements IChanceSkillTrigger {
 
     public final int getEffectAbnormalLvl() {
         return _effectAbnormalLvl;
-    }
-
-    /**
-     * @return the additional effect skill type (ex : STUN, PARALYZE,...).
-     */
-    public final SkillType getEffectType() {
-        if (_effectTemplates != null) {
-            for (EffectTemplate et : _effectTemplates) {
-                if (et.getEffectType() != null) {
-                    return et.getEffectType();
-                }
-            }
-        }
-
-        if (_effectType != null) {
-            return _effectType;
-        }
-
-        // to let damage dealing skills having proper resist even without specified effectType
-        switch (_skillType) {
-            case PDAM:
-                return SkillType.STUN;
-            case MDAM:
-                return SkillType.PARALYZE;
-            default:
-                return _skillType;
-        }
     }
 
     /**

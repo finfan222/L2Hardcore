@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class contains global server configuration.<br> It has static final fields initialized from configuration
@@ -327,6 +328,10 @@ public final class Config {
     // --------------------------------------------------
     // Players
     // --------------------------------------------------
+
+    /** Hardcore */
+    public static long HARDCORE_DELAY_AFTER_DEATH;
+    public static long HARDCORE_TOMBSTONE_LIFETIME;
 
     /** Misc */
     public static boolean EFFECT_CANCELING;
@@ -945,6 +950,9 @@ public final class Config {
      */
     private static final void loadPlayers() {
         final ExProperties players = initProperties(PLAYERS_FILE);
+
+        HARDCORE_DELAY_AFTER_DEATH = TimeUnit.MINUTES.toMillis(players.getProperty("HARDCORE_DELAY_AFTER_DEATH", 240));
+        HARDCORE_TOMBSTONE_LIFETIME = TimeUnit.MINUTES.toMillis(players.getProperty("HARDCORE_TOMBSTONE_LIFETIME", 40320));
 
         EFFECT_CANCELING = players.getProperty("CancelLesserEffect", true);
         HP_REGEN_MULTIPLIER = players.getProperty("HpRegenMultiplier", 1.);

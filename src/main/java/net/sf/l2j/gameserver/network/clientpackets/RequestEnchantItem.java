@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.xml.ArmorSetData;
 import net.sf.l2j.gameserver.data.xml.ItemData;
@@ -27,7 +26,6 @@ import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -304,7 +302,6 @@ public final class RequestEnchantItem extends AbstractEnchantPacket {
         final Dialog dialog = player.getDialog();
         if (dialog != null) {
             // already have dialog
-            player.sendPacket(SystemMessageId.CANT_REPAIR_ONLY_IF_NOT_EQUIPPED);
             player.setActiveEnchantItem(null);
             player.sendPacket(EnchantResult.CANCELLED);
             return;

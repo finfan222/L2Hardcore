@@ -4243,7 +4243,7 @@ public class FestivalOfDarknessManager {
                     spawn.setRespawnState(true);
 
                     SpawnTable.getInstance().addSpawn(spawn, false);
-                    FestivalMonster festivalMob = (FestivalMonster) spawn.doSpawn(false);
+                    FestivalMonster festivalMob = spawn.doSpawn(false);
 
                     // Set the offering bonus to 2x or 5x the amount per kill, if this spawn is part of an increased challenge or is a festival chest.
                     if (spawnType == 1) {

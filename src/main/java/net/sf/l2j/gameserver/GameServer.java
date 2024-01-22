@@ -79,6 +79,7 @@ import net.sf.l2j.gameserver.model.boat.BoatGludinRune;
 import net.sf.l2j.gameserver.model.boat.BoatInnadrilTour;
 import net.sf.l2j.gameserver.model.boat.BoatRunePrimeval;
 import net.sf.l2j.gameserver.model.boat.BoatTalkingGludin;
+import net.sf.l2j.gameserver.model.graveyard.GraveyardManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
 import net.sf.l2j.gameserver.network.GameClient;
@@ -135,6 +136,9 @@ public class GameServer {
 
         StringUtil.printSection("IdFactory");
         IdFactory.getInstance();
+
+        StringUtil.printSection("GlobalEventListener");
+        GlobalEventListener.initialize();
 
         StringUtil.printSection("Cache");
         HtmCache.getInstance();
@@ -200,6 +204,8 @@ public class GameServer {
         PvpFlagTaskManager.getInstance();
         RandomAnimationTaskManager.getInstance();
         WaterTaskManager.getInstance();
+        GraveyardManager.getInstance();
+        BuyListTaskManager.getInstance();
 
         StringUtil.printSection("Auto Spawns");
         AutoSpawnTable.getInstance();
@@ -250,8 +256,6 @@ public class GameServer {
         StringUtil.printSection("Events");
         DerbyTrackManager.getInstance();
         LotteryManager.getInstance();
-        GlobalEventListener.initialize();
-        BuyListTaskManager.getInstance();
 
         if (Config.ALLOW_WEDDING) {
             CoupleManager.getInstance();

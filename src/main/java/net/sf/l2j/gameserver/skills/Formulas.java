@@ -18,6 +18,7 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Cubic;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
+import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeFlag;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
@@ -425,7 +426,7 @@ public final class Formulas {
      * @param ss : True if ss are activated, false otherwise.
      * @return The calculated damage of a physical {@link L2Skill} attack.
      */
-    public static final double calcPhysicalSkillDamage(Creature attacker, Creature target, L2Skill skill, ShieldDefense sDef, boolean crit, boolean ss) {
+    public static double calcPhysicalSkillDamage(Creature attacker, Creature target, L2Skill skill, ShieldDefense sDef, boolean crit, boolean ss) {
         // If the attacker can't attack, return.
         final Player attackerPlayer = attacker.getActingPlayer();
         if (attackerPlayer != null && !attackerPlayer.getAccessLevel().canGiveDamage()) {
@@ -474,7 +475,7 @@ public final class Formulas {
         }
 
         // Weapon random damage ; invalid for CHARGEDAM skills.
-        if (skill.getEffectType() != SkillType.CHARGEDAM) {
+        if (skill.getSkillType() != SkillType.CHARGEDAM) {
             rndMul = attacker.getRandomDamageMultiplier();
         }
 
@@ -993,7 +994,7 @@ public final class Formulas {
             return false;
         }
 
-        final SkillType type = skill.getEffectType();
+        final SkillType type = skill.getSkillType();
 
         if (target.isRaidRelated() && !calcRaidAffected(type)) {
             return false;
@@ -1027,7 +1028,7 @@ public final class Formulas {
             return false;
         }
 
-        final SkillType type = skill.getEffectType();
+        final SkillType type = skill.getSkillType();
 
         if (target.isRaidRelated() && !calcRaidAffected(type)) {
             return false;
@@ -1337,5 +1338,42 @@ public final class Formulas {
 
     public static double calcNegateSkillPower(L2Skill skill, Creature caster, Creature target) {
         return Math.pow(skill.getLevel(), caster.getStatus().getLevel() - target.getStatus().getLevel() - 5);
+    }
+
+    public static int calcResistPeriod(Creature caster, Creature target, AbstractEffect effect, int period) {
+        int skillId = effect.getSkill().getId();
+
+        if (skillId > 2277 && skillId < 2286
+            && (target instanceof Servitor || (target instanceof Player && target.getSummon() != null))) {
+            period /= 2;
+        }
+
+        double multiplier = 1.0;
+
+        multiplier = switch (effect.getEffectSkillType()) {
+            case STUN -> target.getStatus().calcStat(Stats.STUN_VULN, multiplier, target, null);
+            case PARALYZE -> target.getStatus().calcStat(Stats.PARALYZE_VULN, multiplier, target, null);
+            case ROOT -> target.getStatus().calcStat(Stats.ROOT_VULN, multiplier, target, null);
+            case SLEEP -> target.getStatus().calcStat(Stats.SLEEP_VULN, multiplier, target, null);
+            case MUTE, BETRAY, AGGDEBUFF, AGGREDUCE_CHAR, ERASE ->
+                target.getStatus().calcStat(Stats.DERANGEMENT_VULN, multiplier, target, null);
+            case DEBUFF, WEAKNESS -> target.getStatus().calcStat(Stats.DEBUFF_VULN, multiplier, target, null);
+            default -> multiplier;
+        };
+
+        return Math.max((int) (period * multiplier), 1);
+    }
+
+    public static int calcResistCounter(Creature caster, Creature target, AbstractEffect effect, int counter) {
+        double multiplier = 1;
+
+        multiplier = switch (effect.getEffectSkillType()) {
+            case BLEED -> target.getStatus().calcStat(Stats.BLEED_VULN, multiplier, target, null);
+            case POISON -> target.getStatus().calcStat(Stats.POISON_VULN, multiplier, target, null);
+            case FEAR, CONFUSION -> target.getStatus().calcStat(Stats.DERANGEMENT_VULN, multiplier, target, null);
+            default -> multiplier;
+        };
+
+        return Math.max((int) (counter * multiplier), 1);
     }
 }

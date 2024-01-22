@@ -11,6 +11,7 @@ import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeSummon;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
@@ -18,7 +19,7 @@ import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class Summon extends L2Skill {
+public class SummonServitor extends L2Skill {
     private final int _npcId;
     private final float _expPenalty;
     private final boolean _isCubic;
@@ -37,7 +38,7 @@ public class Summon extends L2Skill {
 
     private static final int SUMMON_SOULLESS = 1278;
 
-    public Summon(StatSet set) {
+    public SummonServitor(StatSet set) {
         super(set);
 
         _npcId = set.getInteger("npcId", 0); // default for undescribed skills
@@ -151,7 +152,7 @@ public class Summon extends L2Skill {
             summon.getAI().setFollowStatus(true);
 
             if (getId() == SUMMON_SOULLESS) {
-                SkillTable.getInstance().getInfo(net.sf.l2j.gameserver.model.actor.Summon.CONTRACT_PAYMENT, MathUtil.limit(getLevel() - 2, 1, 12)).applyEffects(activeChar, activeChar);
+                SkillTable.getInstance().getInfo(Summon.CONTRACT_PAYMENT, MathUtil.limit(getLevel() - 2, 1, 12)).applyEffects(activeChar, activeChar);
             }
         }
 

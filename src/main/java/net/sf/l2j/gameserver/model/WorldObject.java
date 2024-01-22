@@ -1,13 +1,7 @@
 package net.sf.l2j.gameserver.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Predicate;
-
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
@@ -18,6 +12,11 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Mother class of all interactive objects in the world (PC, NPC, Item...)
@@ -155,7 +154,7 @@ public abstract class WorldObject {
         }
     }
 
-    public final String getName() {
+    public String getName() {
         return _name;
     }
 

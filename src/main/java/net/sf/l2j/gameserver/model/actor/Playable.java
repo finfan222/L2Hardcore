@@ -1,10 +1,9 @@
 package net.sf.l2j.gameserver.model.actor;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import lombok.Getter;
+import lombok.Setter;
 import net.sf.l2j.Config;
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.enums.AiEventType;
@@ -12,6 +11,8 @@ import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
+import net.sf.l2j.gameserver.events.OnDie;
+import net.sf.l2j.gameserver.events.OnRevive;
 import net.sf.l2j.gameserver.model.actor.attack.PlayableAttack;
 import net.sf.l2j.gameserver.model.actor.cast.PlayableCast;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
@@ -21,6 +22,8 @@ import net.sf.l2j.gameserver.model.actor.status.PlayableStatus;
 import net.sf.l2j.gameserver.model.actor.template.CreatureTemplate;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
 import net.sf.l2j.gameserver.model.entity.Siege;
+import net.sf.l2j.gameserver.model.graveyard.DieReason;
+import net.sf.l2j.gameserver.model.graveyard.GraveyardManager;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.EtcItem;
 import net.sf.l2j.gameserver.model.pledge.Clan;
@@ -33,15 +36,25 @@ import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * This class represents all {@link Playable} actors in the world : {@link Player}s and their different {@link Summon}
  * types.
  */
 public abstract class Playable extends Creature {
     private final Map<Integer, Long> _disabledItems = new ConcurrentHashMap<>();
+    @Getter
+    @Setter
+    private DieReason dieReason;
 
     protected Playable(int objectId, CreatureTemplate template) {
         super(objectId, template);
+        dieReason = DieReason.NONE;
+        getEventListener().subscribe().cast(OnDie.class).forEach(this::onDie);
+        getEventListener().subscribe().cast(OnRevive.class).forEach(this::onRevive);
     }
 
     /**
@@ -132,6 +145,10 @@ public abstract class Playable extends Creature {
             }
         }
 
+        dieReason = GraveyardManager.getInstance().validateDieReason(getActingPlayer(), killer, dieReason);
+        OnDie onDie = new OnDie(this, killer, dieReason);
+        GlobalEventListener.notify(onDie);
+        getEventListener().notify(onDie);
         return true;
     }
 
@@ -151,8 +168,15 @@ public abstract class Playable extends Creature {
             getStatus().setHp(getStatus().getMaxHp() * Config.RESPAWN_RESTORE_HP);
         }
 
+        dieReason = DieReason.NONE;
+
         // Start broadcast status
         broadcastPacket(new Revive(this));
+
+        Creature reviver = this instanceof Player player && player.isReviveRequest() ? player.getDialog().findAndGet("reviver") : null;
+        OnRevive onRevive = new OnRevive(reviver, this);
+        GlobalEventListener.notify(onRevive);
+        getEventListener().notify(onRevive);
     }
 
     @Override
@@ -658,5 +682,13 @@ public abstract class Playable extends Creature {
             }
         }
         return false;
+    }
+
+    protected void onDie(OnDie event) {
+        LOGGER.info("OnDie personal for {} called", this);
+    }
+
+    protected void onRevive(OnRevive onRevive) {
+        LOGGER.info("OnRevive personal for {} called", this);
     }
 }

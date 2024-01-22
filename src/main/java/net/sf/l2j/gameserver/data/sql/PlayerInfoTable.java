@@ -24,7 +24,8 @@ public final class PlayerInfoTable {
 
     private final Map<Integer, PlayerInfo> _infos = new ConcurrentHashMap<>();
 
-    protected PlayerInfoTable() {
+    //todo: rework this shit cause we need take names from graveyard too
+    private PlayerInfoTable() {
         try (Connection con = ConnectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(LOAD_DATA);
              ResultSet rs = ps.executeQuery()) {
@@ -96,7 +97,11 @@ public final class PlayerInfoTable {
             return -1;
         }
 
-        return _infos.entrySet().stream().filter(m -> m.getValue().getPlayerName().equalsIgnoreCase(playerName)).map(Entry::getKey).findFirst().orElse(-1);
+        return _infos.entrySet().stream()
+            .filter(m -> m.getValue().getPlayerName().equalsIgnoreCase(playerName))
+            .map(Entry::getKey)
+            .findFirst()
+            .orElse(-1);
     }
 
     /**

@@ -1,9 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.concurrent.Future;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -14,8 +11,10 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SetSummonRemainTime;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
-import net.sf.l2j.gameserver.skills.handlers.Summon;
+import net.sf.l2j.gameserver.skills.handlers.SummonServitor;
 import net.sf.l2j.gameserver.taskmanager.DecayTaskManager;
+
+import java.util.concurrent.Future;
 
 public class Servitor extends net.sf.l2j.gameserver.model.actor.Summon {
     private float _expPenalty = 0;
@@ -36,13 +35,13 @@ public class Servitor extends net.sf.l2j.gameserver.model.actor.Summon {
         super(objectId, template, owner);
 
         if (skill != null) {
-            final Summon summonSkill = (Summon) skill;
-            _itemConsumeId = summonSkill.getItemConsumeIdOT();
-            _itemConsumeCount = summonSkill.getItemConsumeOT();
-            _itemConsumeSteps = summonSkill.getItemConsumeSteps();
-            _totalLifeTime = summonSkill.getTotalLifeTime();
-            _timeLostIdle = summonSkill.getTimeLostIdle();
-            _timeLostActive = summonSkill.getTimeLostActive();
+            final SummonServitor summonServitorSkill = (SummonServitor) skill;
+            _itemConsumeId = summonServitorSkill.getItemConsumeIdOT();
+            _itemConsumeCount = summonServitorSkill.getItemConsumeOT();
+            _itemConsumeSteps = summonServitorSkill.getItemConsumeSteps();
+            _totalLifeTime = summonServitorSkill.getTotalLifeTime();
+            _timeLostIdle = summonServitorSkill.getTimeLostIdle();
+            _timeLostActive = summonServitorSkill.getTimeLostActive();
         }
         _timeRemaining = _totalLifeTime;
         lastShowntimeRemaining = _totalLifeTime;

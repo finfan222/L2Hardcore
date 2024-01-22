@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.cast;
 
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.enums.AiEventType;
@@ -12,9 +11,6 @@ import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
-import net.sf.l2j.gameserver.skills.handlers.StriderSiegeAssault;
-import net.sf.l2j.gameserver.skills.handlers.SummonFriend;
-import net.sf.l2j.gameserver.skills.handlers.TakeCastle;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Monster;
@@ -30,7 +26,10 @@ import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.handlers.SiegeFlag;
-import net.sf.l2j.gameserver.skills.handlers.Summon;
+import net.sf.l2j.gameserver.skills.handlers.StriderSiegeAssault;
+import net.sf.l2j.gameserver.skills.handlers.SummonFriend;
+import net.sf.l2j.gameserver.skills.handlers.SummonServitor;
+import net.sf.l2j.gameserver.skills.handlers.TakeCastle;
 
 /**
  * This class groups all cast data related to a {@link Player}.
@@ -251,7 +250,7 @@ public class PlayerCast extends PlayableCast<Player> {
 
         switch (skill.getSkillType()) {
             case SUMMON:
-                if (!((Summon) skill).isCubic() && (_actor.getSummon() != null || _actor.isMounted())) {
+                if (!((SummonServitor) skill).isCubic() && (_actor.getSummon() != null || _actor.isMounted())) {
                     _actor.sendPacket(SystemMessageId.SUMMON_ONLY_ONE);
                     return false;
                 }

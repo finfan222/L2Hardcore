@@ -76,11 +76,8 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
         module.onRegister(this);
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends ItemModule> T getModule(Class<T> type) {
-        if (!modules.containsKey(type)) {
-            return null;
-        }
-
         return (T) modules.get(type);
     }
 

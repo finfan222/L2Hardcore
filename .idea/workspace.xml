@@ -4,478 +4,115 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="bug - слишком большая цена починки...&#10;- добавлено Repair тренерам в гродах (Gludin,Gludio,Dion,Heine,Giran,Aden,&#10;Oren,Goddard,Schuttgard,Rune,Hanter Village).">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/clans.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/clans.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/events.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/events.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/geoengine.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/geoengine.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/hexid(server 2).txt" beforeDir="false" afterPath="$PROJECT_DIR$/config/hexid(server 2).txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/hexid.txt" beforeDir="false" afterPath="$PROJECT_DIR$/config/hexid.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/logging.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/logging.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/loginserver.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/loginserver.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/npcs.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/npcs.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/players.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/players.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/server.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/server.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/siege.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/siege.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30010-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30010-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30010.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30010.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30014-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30014-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30014.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30014.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30022-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30022-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30022.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30022.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30027-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30027-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30027.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30027.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30028-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30028-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30028.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30028.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30029-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30029-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30029.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30029.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30030-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30030-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30030.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30030.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30032-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30032-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30032-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30032-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30032.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30032.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30033-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30033-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30033-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30033-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30033.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30033.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30034-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30034-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30034.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30034.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30035-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30035-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30035-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30035-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30035.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30035.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30036-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30036-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30036.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30036.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30057-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30057-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30058-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30058-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30064-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30064-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30064.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30064.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30065-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30065-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30065.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30065.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30067-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30067-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30067.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30067.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30068-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30068-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30068.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30068.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30069-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30069-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30069.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30069.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30103-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30103-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30104-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30104-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30105-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30105-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30105.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30105.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30106-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30106-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30106.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30106.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30107-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30107-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30107.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30107.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30108-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30108-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30108.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30108.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30110-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30110-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30110.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30110.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30111-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30111-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30111-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30111-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30111.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30111.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30112-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30112-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30112-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30112-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30112.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30112.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30113-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30113-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30113-2.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30113-2.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30113-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30113-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30113.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30113.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30114-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30114-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30114.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30114.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30116-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30116-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30116.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30116.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30117-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30117-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30117.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30117.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30118-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30118-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30118.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30118.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30119-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30119-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30119.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30119.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30143-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30143-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30143.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30143.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30144-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30144-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30144.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30144.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30145-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30145-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30145.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30145.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30155-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30155-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30155.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30155.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30156-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30156-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30156.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30156.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30157-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30157-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30157.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30157.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30158-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30158-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30158.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30158.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30171-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30171-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30171-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30171-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30171.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30171.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30182-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30182-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30183-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30183-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30184-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30184-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30184.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30184.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30185-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30185-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30185.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30185.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30186-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30186-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30186.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30186.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30188-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30188-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30188-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30188-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30188.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30188.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30189-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30189-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30189.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30189.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30190-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30190-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30190.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30190.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30192-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30192-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30192.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30192.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30194-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30194-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30194.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30194.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30210-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30210-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30232-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30232-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30255-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30255-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30293-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30293-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30293.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30293.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30298-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30298-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30298.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30298.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30300-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30300-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30300.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30300.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30316-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30316-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30317-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30317-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30317.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30317.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30322-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30322-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30325-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30325-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30325.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30325.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30326-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30326-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30326.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30326.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30327-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30327-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30327.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30327.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30328-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30328-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30328.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30328.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30329-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30329-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30329.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30329.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30330-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30330-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30330.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30330.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30344-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30344-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30344.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30344.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30345-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30345-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30345.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30345.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30360-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30360-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30360.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30360.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30369-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30369-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30369.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30369.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30374-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30374-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30374.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30374.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30375-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30375-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30375.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30375.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30376-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30376-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30376.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30376.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30377-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30377-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30377.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30377.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30378-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30378-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30378.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30378.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30458-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30458-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30458.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30458.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30459-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30459-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30459.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30459.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30460-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30460-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30460.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30460.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30461-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30461-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30461.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30461.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30463-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30463-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30463.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30463.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30464-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30464-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30464.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30464.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30471-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30471-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30471.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30471.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30472-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30472-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30472.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30472.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30473-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30473-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30473.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30473.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30475-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30475-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30475.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30475.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30476-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30476-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30476.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30476.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30501-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30501-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30501-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30501-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30501.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30501.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30502-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30502-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30502.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30502.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30506-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30506-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30506.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30506.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30507-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30507-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30507.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30507.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30509-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30509-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30509.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30509.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30510-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30510-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30510.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30510.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30514-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30514-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30514.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30514.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30515-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30515-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30515.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30515.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30521-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30521-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30522-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30522-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30526-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30526-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30526-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30526-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30526.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30526.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30527-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30527-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30527.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30527.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30569-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30569-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30569-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30569-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30569.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30569.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30570-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30570-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30570-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30570-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30570.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30570.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30571-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30571-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30571-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30571-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30571.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30571.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30572-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30572-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30572-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30572-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30572.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30572.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30678-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30678-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30678-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30678-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30678.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30678.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30679-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30679-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30679.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30679.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30680-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30680-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30680-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30680-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30680.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30680.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30682-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30682-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30682.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30682.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30683-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30683-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30683.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30683.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30686-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30686-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30688-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30688-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30688.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30688.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30690-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30690-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30690.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30690.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30691-4.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30691-4.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30691-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30691-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30691.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30691.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30692-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30692-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30692-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30692-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30692.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30692.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30693-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30693-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30693.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30693.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30695-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30695-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30695.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30695.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30696-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30696-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30696.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30696.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30697-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30697-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30697.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30697.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30698-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30698-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30698.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30698.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30700-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30700-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30700.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30700.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30701-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30701-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30701.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30701.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30705-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30705-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30705.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30705.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30706-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30706-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30706.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30706.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30715-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30715-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30715-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30715-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30715.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30715.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30717-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30717-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30717.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30717.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30718-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30718-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30718-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30718-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30718.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30718.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30720-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30720-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30720.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30720.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30721-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30721-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30721-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30721-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30721.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30721.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30833-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30833-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30833-2.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30833-2.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30833-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30833-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30833.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30833.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30835-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30835-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30835-2.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30835-2.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30835-3.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30835-3.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30835-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30835-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30835.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30835.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30843-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30843-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30844-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30844-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30846-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30846-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30846-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30846-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30846.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30846.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30850-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30850-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30850-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30850-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30850.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30850.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30851-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30851-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30851.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30851.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30852-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30852-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30852-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30852-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30852.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30852.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30853-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30853-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30853.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30853.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30855-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30855-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30855.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30855.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30856-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30856-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30856.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30856.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30858-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30858-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30858.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30858.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30859-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30859-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30859.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30859.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30860-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30860-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30860.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30860.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30861-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30861-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30861.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30861.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30863-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30863-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30863.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30863.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30864-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30864-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30864-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30864-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30864.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30864.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30866-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30866-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30866.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30866.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30867-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30867-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30867.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30867.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30895-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30895-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30896-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30896-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30898-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30898-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30898.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30898.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30901-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30901-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30901.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30901.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30902-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30902-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30902.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30902.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30903-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30903-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30903.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30903.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30904-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30904-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30904.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30904.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30906-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30906-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30906.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30906.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30907-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30907-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30907.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30907.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30908-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30908-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30908.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30908.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30909-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30909-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30909.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30909.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30911-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30911-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30911.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30911.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30912-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30912-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30912.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30912.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30914-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30914-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30914.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30914.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30915-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30915-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/30915.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/30915.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31267-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31267-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31268-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31268-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31270-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31270-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31271-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31271-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31271.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31271.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31277-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31277-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31277.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31277.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31278-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31278-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31278.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31278.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31280-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31280-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31280.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31280.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31281-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31281-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31281.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31281.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31282-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31282-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31282.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31282.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31283-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31283-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31283.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31283.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31286-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31286-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31286.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31286.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31287-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31287-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31287.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31287.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31289-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31289-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31289.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31289.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31290-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31290-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31290.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31290.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31311-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31311-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31312-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31312-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31313-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31313-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31315-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31315-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31316-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31316-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31316-2.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31316-2.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31316-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31316-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31316.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31316.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31322-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31322-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31322.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31322.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31323-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31323-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31323.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31323.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31325-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31325-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31325.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31325.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31327-2.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31327-2.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31327-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31327-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31327.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31327.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31329-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31329-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31329.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31329.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31330-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31330-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31330.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31330.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31332-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31332-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31332.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31332.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31333-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31333-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31333.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31333.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31335-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31335-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31335.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31335.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31337-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31337-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31337-2.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31337-2.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31337-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31337-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31337.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31337.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31580-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31580-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31580-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31580-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31580.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31580.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31581-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31581-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31581-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31581-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31581.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31581.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31582-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31582-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31582-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31582-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31582.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31582.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31583-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31583-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31583.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31583.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31956-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31956-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31957-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31957-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31959-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31959-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31960-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31960-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31960.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31960.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31966-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31966-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31966.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31966.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31967-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31967-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31967.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31967.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31969-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31969-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31969.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31969.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31970-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31970-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31970.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31970.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31971-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31971-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31971.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31971.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31972-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31972-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31972.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31972.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31975-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31975-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31975.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31975.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31976-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31976-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31976.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31976.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31978-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31978-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31978.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31978.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31979-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31979-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31979.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31979.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31990-noskills.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31990-noskills.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/trainer/31990.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/trainer/31990.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools/database_installer.bat" beforeDir="false" afterPath="$PROJECT_DIR$/tools/database_installer.bat" afterDir="false" />
+    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="- fix метода getContextValue у слушателей&#10;- добавил получение SP при юзе offensive скилов">
+      <change afterPath="$PROJECT_DIR$/data/html/tombstone.htm" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql/graveyard.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/HtmColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/actors/DieType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/events/OnDie.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/events/OnDieLethal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/events/OnRevive.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/Tombstone.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/graveyard/DieReason.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/graveyard/GraveyardDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/graveyard/GraveyardManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/graveyard/PostScript.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/serverpackets/ExShowScreenMessageCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/xml/buyLists.xml" beforeDir="false" afterPath="$PROJECT_DIR$/data/xml/buyLists.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/xml/multisell/301660373.xml" beforeDir="false" afterPath="$PROJECT_DIR$/data/xml/multisell/301660373.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/xml/multisell/320540001.xml" beforeDir="false" afterPath="$PROJECT_DIR$/data/xml/multisell/320540001.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/xml/multisell/7834.xml" beforeDir="false" afterPath="$PROJECT_DIR$/data/xml/multisell/7834.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/xml/skills/0200-0299.xml" beforeDir="false" afterPath="$PROJECT_DIR$/data/xml/skills/0200-0299.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/xml/skills/1000-1099.xml" beforeDir="false" afterPath="$PROJECT_DIR$/data/xml/skills/1000-1099.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/xml/skills/1200-1299.xml" beforeDir="false" afterPath="$PROJECT_DIR$/data/xml/skills/1200-1299.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/GameServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/GlobalEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/GlobalEventListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/cache/HtmCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/cache/HtmCache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/manager/FestivalOfDarknessManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/manager/FestivalOfDarknessManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/sql/PlayerInfoTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/sql/PlayerInfoTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/actors/DialogAnswerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/actors/DialogAnswerType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/skills/SkillType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/skills/SkillType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/handler/admincommandhandlers/AdminSpawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/handler/admincommandhandlers/AdminSpawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/WorldObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/WorldObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Creature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Creature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Playable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Playable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/cast/PlayerCast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/cast/PlayerCast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/creature/EffectList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/creature/EffectList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/monster/SpoilState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/monster/SpoilState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/Servitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/Servitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/instance/ItemInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/instance/ItemInstance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/pledge/Clan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/pledge/Clan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/spawn/Spawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/spawn/Spawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestEnchantItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestEnchantItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/serverpackets/Die.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/serverpackets/Die.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/AbstractEffect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/AbstractEffect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/Formulas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/Formulas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/L2Skill.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/L2Skill.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/handlers/Disablers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/handlers/Disablers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/handlers/Summon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/handlers/SummonServitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/taskmanager/WaterTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/taskmanager/WaterTaskManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="feature/shops" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2bAY0LJZ2bw9Yk7EpCRfjM3MMLb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Attach to process.localhost:5000.executor": "ProcessAttachDebug",
     "Maven.L2Hardcore [clean,install].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/IdeaProjects/Lineage2hardcore"
+    "last_opened_file_path": "D:/L2Hardcore",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\L2Hardcore\src\main\java\net\sf\l2j\gameserver\model\graveyard" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.sf.l2j.gameserver.network.serverpackets" />
+      <recent name="net.sf.l2j.gameserver.events" />
+      <recent name="net.sf.l2j.gameserver.model.actor.instance" />
+      <recent name="net.sf.l2j.gameserver.skills.effects" />
+    </key>
+  </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn clean install" />
@@ -490,10 +127,156 @@
       <option name="presentableId" value="Default" />
       <updated>1705659126863</updated>
     </task>
+    <task id="LOCAL-00001" summary="bug - слишком большая цена починки...&#10;- добавлено Repair тренерам в гродах (Gludin,Gludio,Dion,Heine,Giran,Aden,&#10;Oren,Goddard,Schuttgard,Rune,Hanter Village).">
+      <option name="closed" value="true" />
+      <created>1705668093841</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705668093841</updated>
+    </task>
+    <task id="LOCAL-00002" summary="попытка починить gitignore">
+      <option name="closed" value="true" />
+      <created>1705668246979</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705668246979</updated>
+    </task>
+    <task id="LOCAL-00003" summary="- Регенерация базового типа теперь включается только в городе.&#10;- Правки в durability, оно теперь только у Armor &amp; Weapon&#10;- Фикс бага с product db save">
+      <option name="closed" value="true" />
+      <created>1705686263809</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1705686263809</updated>
+    </task>
+    <task id="LOCAL-00004" summary="- fix бага с регенерацией ВНЕ города (регенил по 1 хп и мп из-за Math.max)&#10;- fix бага с кол-во предметов (EtcItem тип), они были бесконечными из-за условия Armor || Weapon">
+      <option name="closed" value="true" />
+      <created>1705695514620</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1705695514620</updated>
+    </task>
+    <task id="LOCAL-00005" summary="- feature при вхождении в город, игрок получает сообщение о бонус-регенерации, при выходе из города, игрок оповещается о приостановке бонус регенерации">
+      <option name="closed" value="true" />
+      <created>1705695734612</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1705695734612</updated>
+    </task>
+    <task id="LOCAL-00006" summary="- augment оружие снижает силу поломки на 15%, на монстрах снижение прочности оружия работает как Random от 1 до нанесённый damage">
+      <option name="closed" value="true" />
+      <created>1705747771926</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1705747771926</updated>
+    </task>
+    <task id="LOCAL-00007" summary="- с монстров теперь при дропе брони или оружия базовая прочность составляет от 1% (367) до 100% (36767)">
+      <option name="closed" value="true" />
+      <created>1705748201589</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1705748201589</updated>
+    </task>
+    <task id="LOCAL-00008" summary="- Стрельба из лука больше не снижает МП">
+      <option name="closed" value="true" />
+      <created>1705756970193</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1705756970193</updated>
+    </task>
+    <task id="LOCAL-00009" summary="- Добавлены mana potion&#10;- Убраны из обихода мамона - CP potion&#10;- добавлено условие поломки оружия: если цель (монстр) level &lt; 9 от атакующего игрока, то оружие ломается на 1 ед.&#10;- добавлено условие поломки оружия и щита: если атака сблокирована в PERFECT BLOCK, то зит теряет 1 ед. прочности а оружие рандомно от 3 до 10x раз от базы.&#10;- добавлены скилы для mana potion">
+      <option name="closed" value="true" />
+      <created>1705772870234</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1705772870234</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Bleed/Poison действуют всё время пока их не излечат.&#10;Bleed&#10;Сопротивление Bleed эффекту не снижает шанс прохождения, но снижает получаемый урон от кровотечения и с мелким шансом после каждого тика - эффект может сойти (раны затягиваются)&#10;Если жертва двигается бегом - урон увеличивается на 60~100%&#10;Если жертва атакует или кастует - урон увеличивается на 30~50%&#10;Poison&#10;Сопротивление Poison эффекту не снижает шанс прохождения, но снижает получаемый урон от отравления и с мелким шансом после каждого тика - эффект может сойти (иммунитет тела исцеляет)&#10;Исцеляющие эффекты могут работать на 0~30%.">
+      <option name="closed" value="true" />
+      <created>1705775613704</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1705775613704</updated>
+    </task>
+    <task id="LOCAL-00011" summary="- fix бага с мана пойшенами - они отменялись после применения&#10;- mana potions добавлены в байлист ГМ шопа">
+      <option name="closed" value="true" />
+      <created>1705776340769</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1705776340769</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Члены группы больше не получают SP.&#10;Изменено получение SP за убийство монстров.&#10;Правила HARDCORE гласят - SKILL POINTS (SP) мы получаем только за применение скилов по МОНСТРАМ.&#10;Кол-во получаемого SP равно SP REWARD x Damage%&#10;Группа получает EXP в радиусе всего региона (раньше была Range 1600)&#10;Дает в 5 раз больше EXP/SP за убийство монстра.">
+      <option name="closed" value="true" />
+      <created>1705794837115</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1705794837115</updated>
+    </task>
+    <task id="LOCAL-00013" summary="- fix метода getContextValue у слушателей&#10;- добавил получение SP при юзе offensive скилов">
+      <option name="closed" value="true" />
+      <created>1705796450856</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1705796450856</updated>
+    </task>
+    <task id="LOCAL-00014" summary="- fix предметы из gm-shop больше не имеют кол-ва, они бесконечны&#10;- fix durability module, теперь показывает 1% прочности когда прочность равна 1 (это так же пофиксило и баги с ремонтом)&#10;- fix trainer теперь получаем AllBrokenItems как Set&#10;- fix augment drop теперь мы можем выкидывать аугментированные предметы на землю">
+      <option name="closed" value="true" />
+      <created>1705847331181</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705847331181</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="попытка починить gitignore" />
+    <MESSAGE value="- Регенерация базового типа теперь включается только в городе.&#10;- Правки в durability, оно теперь только у Armor &amp; Weapon&#10;- Фикс бага с product db save" />
+    <MESSAGE value="- fix бага с регенерацией ВНЕ города (регенил по 1 хп и мп из-за Math.max)&#10;- fix бага с кол-во предметов (EtcItem тип), они были бесконечными из-за условия Armor || Weapon" />
+    <MESSAGE value="- feature при вхождении в город, игрок получает сообщение о бонус-регенерации, при выходе из города, игрок оповещается о приостановке бонус регенерации" />
+    <MESSAGE value="- augment оружие снижает силу поломки на 15%, на монстрах снижение прочности оружия работает как Random от 1 до нанесённый damage" />
+    <MESSAGE value="- с монстров теперь при дропе брони или оружия базовая прочность составляет от 1% (367) до 100% (36767)" />
+    <MESSAGE value="- Стрельба из лука больше не снижает МП" />
     <MESSAGE value="bug - слишком большая цена починки...&#10;- добавлено Repair тренерам в гродах (Gludin,Gludio,Dion,Heine,Giran,Aden,&#10;Oren,Goddard,Schuttgard,Rune,Hanter Village)." />
-    <option name="LAST_COMMIT_MESSAGE" value="bug - слишком большая цена починки...&#10;- добавлено Repair тренерам в гродах (Gludin,Gludio,Dion,Heine,Giran,Aden,&#10;Oren,Goddard,Schuttgard,Rune,Hanter Village)." />
+    <MESSAGE value="- Добавлены mana potion&#10;- Убраны из обихода мамона - CP potion&#10;- добавлено условие поломки оружия: если цель (монстр) level &lt; 9 от атакующего игрока, то оружие ломается на 1 ед.&#10;- добавлено условие поломки оружия и щита: если атака сблокирована в PERFECT BLOCK, то зит теряет 1 ед. прочности а оружие рандомно от 3 до 10x раз от базы.&#10;- добавлены скилы для mana potion" />
+    <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке" />
+    <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке&#10;- fix бага со скилами для предметов Mana Potion" />
+    <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке&#10;- fix бага с скилами для предметов Mana Potion&#10;- fix бага с" />
+    <MESSAGE value="Bleed/Poison действуют всё время пока их не излечат.&#10;Bleed&#10;Сопротивление Bleed эффекту не снижает шанс прохождения, но снижает получаемый урон от кровотечения и с мелким шансом после каждого тика - эффект может сойти (раны затягиваются)&#10;Если жертва двигается бегом - урон увеличивается на 60~100%&#10;Если жертва атакует или кастует - урон увеличивается на 30~50%&#10;Poison&#10;Сопротивление Poison эффекту не снижает шанс прохождения, но снижает получаемый урон от отравления и с мелким шансом после каждого тика - эффект может сойти (иммунитет тела исцеляет)&#10;Исцеляющие эффекты могут работать на 0~30%." />
+    <MESSAGE value="- fix бага с мана пойшенами - они отменялись после применения&#10;- mana potions добавлены в байлист ГМ шопа" />
+    <MESSAGE value="Члены группы больше не получают SP.&#10;Изменено получение SP за убийство монстров.&#10;Правила HARDCORE гласят - SKILL POINTS (SP) мы получаем только за применение скилов по МОНСТРАМ.&#10;Кол-во получаемого SP равно SP REWARD x Damage%&#10;Группа получает EXP в радиусе всего региона (раньше была Range 1600)&#10;Дает в 5 раз больше EXP/SP за убийство монстра." />
+    <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке&#10;- fix бага с скилами для предметов Mana Potion&#10;- fix бага с manahealovertime для potions, теперь персонаж должен сидеть чтобы эффект держался, при нажатии на мана potion мы принудительно его сажаем." />
+    <MESSAGE value="- fix предметы из gm-shop больше не имеют кол-ва, они бесконечны&#10;- fix durability module, теперь показывает 1% прочности когда прочность равна 1 (это так же пофиксило и баги с ремонтом)&#10;- fix trainer теперь получаем AllBrokenItems как Set&#10;- fix augment drop теперь мы можем выкидывать аугментированные предметы на землю" />
+    <MESSAGE value="- fix метода getContextValue у слушателей&#10;- добавил получение SP при юзе offensive скилов" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fix метода getContextValue у слушателей&#10;- добавил получение SP при юзе offensive скилов" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
 </project>

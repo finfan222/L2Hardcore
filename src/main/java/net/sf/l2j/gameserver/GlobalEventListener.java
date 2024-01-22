@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver;
 
+import net.sf.l2j.commons.eventbus.AbstractEventSubscription;
 import net.sf.l2j.commons.eventbus.EventBus;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.events.EventSituation;
@@ -18,7 +19,11 @@ public class GlobalEventListener {
 
     public static void initialize() {
         LOGGER.info("Global Event Listener was initialized");
-        LISTENER.subscribe().cast(OnBuyShopItem.class).forEach(GlobalEventListener::onBuyShopItem);
+        register(OnBuyShopItem.class).forEach(GlobalEventListener::onBuyShopItem);
+    }
+
+    public static <EventType extends EventSituation> AbstractEventSubscription<EventType> register(Class<EventType> type) {
+        return LISTENER.subscribe().cast(type);
     }
 
     public static <T extends EventSituation> void notify(T event) {
@@ -33,4 +38,5 @@ public class GlobalEventListener {
                 event.getBuyer(), event.getNpc(), event.getTotalPrice());
         }
     }
+
 }

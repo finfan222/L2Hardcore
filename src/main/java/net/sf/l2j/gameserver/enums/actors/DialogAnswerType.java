@@ -34,8 +34,10 @@ public enum DialogAnswerType {
                 return;
             }
 
-            if (answer == 0 && target.isPhoenixBlessed()) {
-                target.stopPhoenixBlessing(null);
+            if (answer == 0) {
+                if (target.isPhoenixBlessed()) {
+                    target.stopPhoenixBlessing(null);
+                }
             } else if (answer == 1) {
                 if (!isRevivingPet) {
                     if (revivePower != 0) {
@@ -43,7 +45,7 @@ public enum DialogAnswerType {
                     } else {
                         target.doRevive();
                     }
-                } else if(target.getSummon() != null) {
+                } else if (target.getSummon() != null) {
                     if (revivePower != 0) {
                         target.getSummon().doRevive(revivePower);
                     } else {

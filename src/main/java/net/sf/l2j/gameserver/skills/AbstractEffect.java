@@ -1,14 +1,15 @@
 package net.sf.l2j.gameserver.skills;
 
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectState;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
+import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
-import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.AbnormalStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.ExOlympiadSpelledInfo;
@@ -21,10 +22,14 @@ import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractEffect {
+
+    private static final CLogger LOGGER = new CLogger(AbstractEffect.class.getSimpleName());
+
     private EffectState _state;
 
     private final EffectTemplate _template;
@@ -48,23 +53,18 @@ public abstract class AbstractEffect {
 
     protected AbstractEffect(EffectTemplate template, L2Skill skill, Creature effected, Creature effector) {
         _state = EffectState.CREATED;
-
         _template = template;
         _skill = skill;
         _effected = effected;
         _effector = effector;
         _isHerbEffect = _skill.getName().contains("Herb");
-
-        _count = template.getCounter();
-
-        // Support for retail herbs duration when _effected has a Summon.
-        int period = template.getPeriod();
-        if (_skill.getId() > 2277 && _skill.getId() < 2286 && (_effected instanceof Servitor || (_effected instanceof Player && ((Player) _effected).getSummon() != null))) {
-            period /= 2;
-        }
-
-        _period = period;
+        _count = Formulas.calcResistCounter(_effector, _effected, this, template.getCounter());
+        _period = Formulas.calcResistPeriod(_effector, _effected, this, template.getPeriod());
         _periodStartTime = System.currentTimeMillis();
+    }
+
+    public SkillType getEffectSkillType() {
+        return Optional.ofNullable(_template.getEffectType()).orElse(_skill.getSkillType());
     }
 
     /**

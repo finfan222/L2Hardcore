@@ -11,7 +11,7 @@
 	</item>
 	<!-- Scroll of Resurrection: 15 Orbs -->
 	<item>
-		<ingredient id="4364" count="15"/>
+        <ingredient id="4364" count="15"/> <!-- Nebulite Orb -->
 		<production id="737" count="1"/>
 	</item>
 	<!-- Potion of Alacrity: 20 Orbs -->

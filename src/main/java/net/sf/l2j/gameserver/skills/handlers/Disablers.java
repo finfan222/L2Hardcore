@@ -274,14 +274,14 @@ public class Disablers extends Default {
                             for (SkillType skillType : getNegateStats()) {
                                 // If power is -1 the effect is always removed without lvl check
                                 if (getNegateLvl() == -1) {
-                                    if (effect.getSkill().getSkillType() == skillType || (effect.getSkill().getEffectType() != null && effect.getSkill().getEffectType() == skillType)) {
+                                    if (effect.getSkill().getSkillType() == skillType) {
                                         effect.exit();
                                     }
                                 }
                                 // Remove the effect according to its power.
                                 else {
-                                    if (effect.getSkill().getEffectType() != null && effect.getSkill().getEffectAbnormalLvl() >= 0) {
-                                        if (effect.getSkill().getEffectType() == skillType && effect.getSkill().getEffectAbnormalLvl() <= getNegateLvl()) {
+                                    if (effect.getSkill().getEffectAbnormalLvl() >= 0) {
+                                        if (effect.getEffectSkillType() == skillType && effect.getSkill().getEffectAbnormalLvl() <= getNegateLvl()) {
                                             effect.exit();
                                         }
                                     } else if (effect.getSkill().getSkillType() == skillType && effect.getSkill().getAbnormalLvl() <= getNegateLvl()) {

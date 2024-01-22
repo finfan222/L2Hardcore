@@ -1,24 +1,6 @@
 package net.sf.l2j.gameserver.enums.skills;
 
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.gameserver.skills.handlers.Shot;
-import net.sf.l2j.gameserver.skills.handlers.Unlock;
-import net.sf.l2j.gameserver.skills.handlers.TakeCastle;
-import net.sf.l2j.gameserver.skills.handlers.Sweep;
-import net.sf.l2j.gameserver.skills.handlers.SummonFriend;
-import net.sf.l2j.gameserver.skills.handlers.SummonCreature;
-import net.sf.l2j.gameserver.skills.handlers.StriderSiegeAssault;
-import net.sf.l2j.gameserver.skills.handlers.Spoil;
-import net.sf.l2j.gameserver.skills.handlers.Sow;
-import net.sf.l2j.gameserver.skills.handlers.Resurrect;
-import net.sf.l2j.gameserver.skills.handlers.Pdam;
-import net.sf.l2j.gameserver.skills.handlers.Mdam;
-import net.sf.l2j.gameserver.skills.handlers.ManaHeal;
-import net.sf.l2j.gameserver.skills.handlers.Manadam;
-import net.sf.l2j.gameserver.skills.handlers.InstantJump;
-import net.sf.l2j.gameserver.skills.handlers.HealPercent;
-import net.sf.l2j.gameserver.skills.handlers.Heal;
-import net.sf.l2j.gameserver.skills.handlers.Harvest;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.handlers.Appearance;
 import net.sf.l2j.gameserver.skills.handlers.BalanceLife;
@@ -40,13 +22,31 @@ import net.sf.l2j.gameserver.skills.handlers.Fishing;
 import net.sf.l2j.gameserver.skills.handlers.FishingSkill;
 import net.sf.l2j.gameserver.skills.handlers.GetPlayer;
 import net.sf.l2j.gameserver.skills.handlers.GiveSp;
+import net.sf.l2j.gameserver.skills.handlers.Harvest;
+import net.sf.l2j.gameserver.skills.handlers.Heal;
+import net.sf.l2j.gameserver.skills.handlers.HealPercent;
+import net.sf.l2j.gameserver.skills.handlers.InstantJump;
+import net.sf.l2j.gameserver.skills.handlers.ManaHeal;
+import net.sf.l2j.gameserver.skills.handlers.Manadam;
+import net.sf.l2j.gameserver.skills.handlers.Mdam;
+import net.sf.l2j.gameserver.skills.handlers.Pdam;
+import net.sf.l2j.gameserver.skills.handlers.Resurrect;
 import net.sf.l2j.gameserver.skills.handlers.Seed;
+import net.sf.l2j.gameserver.skills.handlers.Shot;
 import net.sf.l2j.gameserver.skills.handlers.SiegeFlag;
 import net.sf.l2j.gameserver.skills.handlers.Signet;
 import net.sf.l2j.gameserver.skills.handlers.SignetCasttime;
+import net.sf.l2j.gameserver.skills.handlers.Sow;
 import net.sf.l2j.gameserver.skills.handlers.Spawn;
-import net.sf.l2j.gameserver.skills.handlers.Summon;
+import net.sf.l2j.gameserver.skills.handlers.Spoil;
+import net.sf.l2j.gameserver.skills.handlers.StriderSiegeAssault;
+import net.sf.l2j.gameserver.skills.handlers.SummonCreature;
+import net.sf.l2j.gameserver.skills.handlers.SummonFriend;
+import net.sf.l2j.gameserver.skills.handlers.SummonServitor;
+import net.sf.l2j.gameserver.skills.handlers.Sweep;
+import net.sf.l2j.gameserver.skills.handlers.TakeCastle;
 import net.sf.l2j.gameserver.skills.handlers.Teleport;
+import net.sf.l2j.gameserver.skills.handlers.Unlock;
 
 import java.lang.reflect.Constructor;
 
@@ -129,7 +129,7 @@ public enum SkillType {
     EXTRACTABLE_FISH(Extractable.class),
 
     // Summons
-    SUMMON(Summon.class),
+    SUMMON(SummonServitor.class),
     FEED_PET,
     STRIDER_SIEGE_ASSAULT(StriderSiegeAssault.class),
     ERASE(Disablers.class),

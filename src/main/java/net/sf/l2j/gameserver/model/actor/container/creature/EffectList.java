@@ -1,14 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.container.creature;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
@@ -28,6 +19,15 @@ import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EffectList {
     private static final AbstractEffect[] EMPTY_EFFECTS = new AbstractEffect[0];
@@ -398,7 +398,7 @@ public class EffectList {
     public final void stopSkillEffects(SkillType skillType, int negateLvl) {
         if (_buffs != null && !_buffs.isEmpty()) {
             for (AbstractEffect e : _buffs) {
-                if (e != null && (e.getSkill().getSkillType() == skillType || (e.getSkill().getEffectType() != null && e.getSkill().getEffectType() == skillType)) && (negateLvl == -1 || (e.getSkill().getEffectType() != null && e.getSkill().getEffectAbnormalLvl() >= 0 && e.getSkill().getEffectAbnormalLvl() <= negateLvl) || (e.getSkill().getAbnormalLvl() >= 0 && e.getSkill().getAbnormalLvl() <= negateLvl))) {
+                if (e != null && (e.getSkill().getSkillType() == skillType) && (negateLvl == -1 || (e.getEffectSkillType() != null && e.getSkill().getEffectAbnormalLvl() >= 0 && e.getSkill().getEffectAbnormalLvl() <= negateLvl) || (e.getSkill().getAbnormalLvl() >= 0 && e.getSkill().getAbnormalLvl() <= negateLvl))) {
                     e.exit();
                 }
             }
@@ -406,7 +406,7 @@ public class EffectList {
 
         if (_debuffs != null && !_debuffs.isEmpty()) {
             for (AbstractEffect e : _debuffs) {
-                if (e != null && (e.getSkill().getSkillType() == skillType || (e.getSkill().getEffectType() != null && e.getSkill().getEffectType() == skillType)) && (negateLvl == -1 || (e.getSkill().getEffectType() != null && e.getSkill().getEffectAbnormalLvl() >= 0 && e.getSkill().getEffectAbnormalLvl() <= negateLvl) || (e.getSkill().getAbnormalLvl() >= 0 && e.getSkill().getAbnormalLvl() <= negateLvl))) {
+                if (e != null && (e.getSkill().getSkillType() == skillType) && (negateLvl == -1 || (e.getEffectSkillType() != null && e.getSkill().getEffectAbnormalLvl() >= 0 && e.getSkill().getEffectAbnormalLvl() <= negateLvl) || (e.getSkill().getAbnormalLvl() >= 0 && e.getSkill().getAbnormalLvl() <= negateLvl))) {
                     e.exit();
                 }
             }

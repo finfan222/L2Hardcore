@@ -885,7 +885,7 @@ public abstract class Creature extends WorldObject {
     /**
      * @return The title of this {@link Creature}.
      */
-    public final String getTitle() {
+    public String getTitle() {
         return _title;
     }
 

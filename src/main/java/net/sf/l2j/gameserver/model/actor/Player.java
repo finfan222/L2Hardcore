@@ -80,6 +80,7 @@ import net.sf.l2j.gameserver.model.actor.ai.type.PlayerAI;
 import net.sf.l2j.gameserver.model.actor.attack.CreatureAttack;
 import net.sf.l2j.gameserver.model.actor.attack.PlayerAttack;
 import net.sf.l2j.gameserver.model.actor.cast.PlayerCast;
+import net.sf.l2j.gameserver.model.actor.container.monster.SpoilState;
 import net.sf.l2j.gameserver.model.actor.container.npc.RewardInfo;
 import net.sf.l2j.gameserver.model.actor.container.player.Appearance;
 import net.sf.l2j.gameserver.model.actor.container.player.BlockList;
@@ -108,6 +109,7 @@ import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
 import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
+import net.sf.l2j.gameserver.model.graveyard.DieReason;
 import net.sf.l2j.gameserver.model.group.CommandChannel;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.group.PartyMatchRoom;
@@ -467,6 +469,10 @@ public final class Player extends Playable {
     @Setter
     private Dialog dialog;
 
+    @Getter
+    @Setter
+    private SpoilState spoilState;
+
     /**
      * Constructor of Player (use Creature constructor).
      * <ul>
@@ -490,6 +496,7 @@ public final class Player extends Playable {
 
         // Create an AI
         _ai = new PlayerAI(this);
+        spoilState = new SpoilState();
 
         // Retrieve from the database all items of this Player and add them to _inventory
         getInventory().restore();
@@ -5885,12 +5892,12 @@ public final class Player extends Playable {
 
         if ((isPet && _summon != null && _summon.isDead()) || (!isPet && isDead())) {
             double revivePower = (isPhoenixBlessed()) ? 100 : Formulas.calculateSkillResurrectRestorePercent(skill.getPower(), reviver);
-            ConfirmDlg confirmDlg = new ConfirmDlg(SystemMessageId.RESSURECTION_REQUEST_BY_S1)
-                .addCharName(reviver)
-                .addTime(60000);
-            dialog = new Dialog(this, confirmDlg, Map.of("revivePower", revivePower,
-                "isRevivingPet", isPet))
-                .send();
+            ConfirmDlg confirmDlg = new ConfirmDlg(SystemMessageId.RESSURECTION_REQUEST_BY_S1).addCharName(reviver).addTime(60000);
+            dialog = new Dialog(this, confirmDlg, Map.of(
+                "revivePower", revivePower,
+                "isRevivingPet", isPet,
+                "reviver", reviver
+            )).send();
         }
     }
 
@@ -6587,7 +6594,7 @@ public final class Player extends Playable {
      * @param z
      * @return true if character falling now On the start of fall return false for correct coord sync !
      */
-    public final boolean isFalling(int z) {
+    public boolean isFalling(int z) {
         if (isDead() || getMove().getMoveType() != MoveType.GROUND) {
             return false;
         }
@@ -6603,7 +6610,10 @@ public final class Player extends Playable {
 
         final int damage = (int) Formulas.calcFallDam(this, deltaZ);
         if (damage > 0) {
-            reduceCurrentHp(Math.min(damage, getStatus().getHp() - 1), null, false, true, null);
+            if (getStatus().getHp() - damage < 0.5) {
+                setDieReason(DieReason.FALL);
+            }
+            reduceCurrentHp(damage, null, false, true, null);
             sendPacket(SystemMessage.getSystemMessage(SystemMessageId.FALL_DAMAGE_S1).addNumber(damage));
         }
 
@@ -6992,7 +7002,7 @@ public final class Player extends Playable {
                             return;
                         }
 
-                        module.fracture(this, Rnd.get(1, value));
+                        module.fracture(this, Rnd.get(0, value)); // durability can be not decreased
                     }
                 }
             }

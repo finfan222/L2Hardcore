@@ -260,7 +260,8 @@ public final class Spawn implements Runnable {
      * @param isSummonSpawn When true, summon magic circle will appear.
      * @return the newly created instance.
      */
-    public Npc doSpawn(boolean isSummonSpawn) {
+    @SuppressWarnings("unchecked")
+    public <T extends Npc> T doSpawn(boolean isSummonSpawn) {
         try {
             // Check if the template isn't a Pet.
             if (_template.isType("Pet")) {
@@ -295,7 +296,7 @@ public final class Spawn implements Runnable {
             // Initialize Npc and spawn it.
             initializeAndSpawn();
 
-            return _npc;
+            return (T) _npc;
         } catch (Exception e) {
             LOGGER.error("Couldn't spawn properly {}.", e, _template.getName());
             return null;

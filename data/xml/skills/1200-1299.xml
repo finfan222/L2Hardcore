@@ -1322,7 +1322,8 @@
 		<set name="power" val="#power"/>
 		<set name="target" val="CORPSE_ALLY"/>
 		<set name="skillRadius" val="600"/>
-		<set name="reuseDelay" val="600000"/>
+        <set name="reuseDelay" val="864000000"/>
+        <set name="isStaticReuse" val="true"/>
 		<set name="hitTime" val="10000"/>
 		<set name="skillType" val="RESURRECT"/>
 		<set name="isMagic" val="true"/>

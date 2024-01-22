@@ -425,7 +425,8 @@
 		<set name="mpConsume" val="#mpConsume"/>
 		<set name="power" val="#power"/>
 		<set name="target" val="CORPSE_PLAYER"/>
-		<set name="reuseDelay" val="120000"/>
+        <set name="reuseDelay" val="604800000"/>
+        <set name="isStaticReuse" val="true"/>
 		<set name="hitTime" val="6000"/>
 		<set name="skillType" val="RESURRECT"/>
 		<set name="isMagic" val="true"/>

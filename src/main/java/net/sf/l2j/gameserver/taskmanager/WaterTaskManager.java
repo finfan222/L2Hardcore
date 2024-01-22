@@ -1,16 +1,18 @@
 package net.sf.l2j.gameserver.taskmanager;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
+import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.GaugeColor;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.status.PlayerStatus;
+import net.sf.l2j.gameserver.model.graveyard.DieReason;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SetupGauge;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Updates {@link Player} drown timer and reduces {@link Player} HP, when drowning.
@@ -18,7 +20,7 @@ import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 public final class WaterTaskManager implements Runnable {
     private final Map<Player, Long> _players = new ConcurrentHashMap<>();
 
-    protected WaterTaskManager() {
+    private WaterTaskManager() {
         // Run task each second.
         ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
     }
@@ -44,9 +46,15 @@ public final class WaterTaskManager implements Runnable {
             final Player player = entry.getKey();
 
             // Reduce 1% of HP per second.
-            final double hp = player.getStatus().getMaxHp() / 100.0;
-            player.reduceCurrentHp(hp, player, false, false, null);
-            player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DROWN_DAMAGE_S1).addNumber((int) hp));
+            PlayerStatus status = player.getStatus();
+            double current = status.getHp();
+            double max = status.getMaxHp();
+            double damage = max / 100.0 * Rnd.get(3, 10);
+            if (current - damage < 0.5) {
+                player.setDieReason(DieReason.DROWN);
+            }
+            player.reduceCurrentHp(damage, player, false, false, null);
+            player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DROWN_DAMAGE_S1).addNumber((int) damage));
         }
     }
 
