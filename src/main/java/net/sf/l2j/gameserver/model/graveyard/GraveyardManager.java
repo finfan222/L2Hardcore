@@ -50,7 +50,7 @@ public class GraveyardManager implements Runnable {
     @Getter(lazy = true)
     private static final GraveyardManager instance = new GraveyardManager();
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd..MM.yyyy HH:mm:ss");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
     public static final int TOMBSTONE_ID = 50009;
 
     private final Map<Integer, Necrologue> necrologues = new ConcurrentHashMap<>();
@@ -63,6 +63,7 @@ public class GraveyardManager implements Runnable {
 
         public String accountName;
         public String name;
+        public int level;
         public String zoneName;
         public int objectId;
         public int clanId;
@@ -74,6 +75,7 @@ public class GraveyardManager implements Runnable {
         public DieReason reason;
         public int x, y, z, heading;
         public boolean isEternal;
+        public LocalDateTime timestamp;
 
         @Override
         public boolean equals(Object o) {
@@ -99,7 +101,7 @@ public class GraveyardManager implements Runnable {
         GlobalEventListener.register(OnDie.class).forEach(this::onDie);
         GlobalEventListener.register(OnRevive.class).forEach(this::onRevive);
 
-        ThreadPool.scheduleAtFixedRate(this, Config.HARDCORE_DELAY_AFTER_DEATH, Config.HARDCORE_DELAY_AFTER_DEATH);
+        ThreadPool.scheduleAtFixedRate(this, 10000, 10000);
 
         GraveyardDao.restore();
         LOGGER.info("Graveyard manager is initialized.");
@@ -147,10 +149,9 @@ public class GraveyardManager implements Runnable {
                 addDeadMan(event);
 
                 // send system message about dead and next time to remove body/delete character
-                LocalDateTime currentTime = LocalDateTime.now().plusMinutes(TimeUnit.MILLISECONDS.toMinutes(Config.HARDCORE_DELAY_AFTER_DEATH));
                 player.sendPacket(SystemMessage
                     .getSystemMessage(SystemMessageId.YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER)
-                    .addString(DATE_FORMATTER.format(currentTime)));
+                    .addString(DATE_FORMATTER.format(necrologues.get(player.getObjectId()).timestamp)));
             }
         }
     }
@@ -175,7 +176,9 @@ public class GraveyardManager implements Runnable {
             return false;
         }
         // no action if reason is not qualified like hardcore death
-        else return reason.isHardcoreDeath();
+        else {
+            return reason.isHardcoreDeath();
+        }
     }
 
     private void addDeadMan(OnDie event) {
@@ -185,6 +188,7 @@ public class GraveyardManager implements Runnable {
 
         Necrologue necrologue = Necrologue.builder()
             .accountName(player.getAccountName())
+            .level(player.getStatus().getLevel())
             .clanId(player.getClanId())
             .isInParty(player.isInParty())
             .isPartyLeader(player.isInParty() && player.getParty().isLeader(player))
@@ -200,6 +204,7 @@ public class GraveyardManager implements Runnable {
             .z(player.getZ())
             .heading(player.getHeading())
             .isEternal(false) //todo: premium
+            .timestamp(LocalDateTime.now().plusMinutes(TimeUnit.MILLISECONDS.toMinutes(Config.HARDCORE_DELAY_AFTER_DEATH)))
             .build();
 
         necrologues.put(player.getObjectId(), necrologue);
@@ -209,7 +214,12 @@ public class GraveyardManager implements Runnable {
     @Override
     public void run() {
         LOGGER.info("[4][GraveyardManager.run] {}", necrologues.size());
-        necrologues.values().forEach(necrologue -> {
+        for (Necrologue necrologue : necrologues.values()) {
+            LOGGER.info("{} / {}", necrologue.timestamp, LocalDateTime.now());
+            if (!necrologue.timestamp.isBefore(LocalDateTime.now())) {
+                continue;
+            }
+
             Player player = World.getInstance().getPlayer(necrologue.objectId);
             if (player == null || !player.isOnline()) {
                 deleteOffline(necrologue.objectId, necrologue.name, necrologue.clanId, necrologue.accountName);
@@ -219,8 +229,8 @@ public class GraveyardManager implements Runnable {
 
             tryCreateTombstone(necrologue);
             GlobalEventListener.notify(new OnDieLethal(necrologue.name, necrologue.reason));
-        });
-        necrologues.clear();
+            necrologues.remove(necrologue.objectId);
+        }
     }
 
     private void deleteOnline(Player player) {
@@ -314,17 +324,17 @@ public class GraveyardManager implements Runnable {
             });
     }
 
-    private void tryCreateTombstone(Necrologue necrology) {
-        LOGGER.info("[7][GraveyardManager.tryCreateTombstone] {}", necrology);
+    private void tryCreateTombstone(Necrologue necrologue) {
+        LOGGER.info("[7][GraveyardManager.tryCreateTombstone] {}", necrologue);
         PostScript ps = PostScript.builder()
-            .name(necrology.name)
-            .heading(necrology.heading)
-            .x(necrology.x)
-            .y(necrology.y)
-            .z(necrology.z)
+            .name(necrologue.name + " Lvl. " + necrologue.level)
+            .heading(necrologue.heading)
+            .x(necrologue.x)
+            .y(necrologue.y)
+            .z(necrologue.z)
             .date(LocalDate.now())
-            .message(tryGenerateMessage(necrology.name, necrology.killerName, necrology.reason, necrology.zoneName))
-            .reason(necrology.reason)
+            .message(tryGenerateMessage(necrologue.name, necrologue.killerName, necrologue.reason, necrologue.zoneName))
+            .reason(necrologue.reason)
             .isEternal(false) //todo: premium feature 1$
             .build();
 
