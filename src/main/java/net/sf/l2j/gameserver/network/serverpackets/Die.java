@@ -9,6 +9,7 @@ import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.entity.ClanHallSiege;
 import net.sf.l2j.gameserver.model.entity.Siege;
 import net.sf.l2j.gameserver.model.graveyard.DieReason;
+import net.sf.l2j.gameserver.model.graveyard.GraveyardManager;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 
 public class Die extends L2GameServerPacket {
@@ -24,6 +25,7 @@ public class Die extends L2GameServerPacket {
     private boolean isAllowFixedRes;
     private Clan clan;
     private DieReason dieReason;
+    private boolean isInNecrologue;
 
     public Die(Creature victim) {
         this.victim = victim;
@@ -35,6 +37,7 @@ public class Die extends L2GameServerPacket {
             this.isAllowFixedRes = player.getAccessLevel().allowFixedRes();
             this.isSweepable = player.getSpoilState().isSweepable();
             this.dieReason = player.getDieReason();
+            this.isInNecrologue = GraveyardManager.getInstance().isDeadMan(player.getObjectId());
         } else if (victim instanceof Monster monster) {
             this.isSweepable = monster.getSpoilState().isSweepable();
         }
@@ -48,7 +51,7 @@ public class Die extends L2GameServerPacket {
 
         writeC(0x06);
         writeD(objectId);
-        if (!dieReason.isHardcoreDeath()) {
+        if (!isInNecrologue) {
             writeD(SHOW); // to nearest village
             if (clan != null) {
                 final Siege siege = CastleManager.getInstance().getActiveSiege(victim);

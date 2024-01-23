@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.Map.Entry;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.communitybbs.manager.MailBBSManager;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
@@ -54,6 +52,8 @@ import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 
+import java.util.Map.Entry;
+
 public class EnterWorld extends L2GameClientPacket {
     @Override
     protected void readImpl() {
@@ -84,11 +84,7 @@ public class EnterWorld extends L2GameClientPacket {
                 player.getBlockList().setInBlockingAll(true);
             }
 
-            if (Config.GM_STARTUP_AUTO_LIST && AdminData.getInstance().hasAccess("admin_gmlist", player.getAccessLevel())) {
-                AdminData.getInstance().addGm(player, false);
-            } else {
-                AdminData.getInstance().addGm(player, true);
-            }
+            AdminData.getInstance().addGm(player, !Config.GM_STARTUP_AUTO_LIST || !AdminData.getInstance().hasAccess("admin_gmlist", player.getAccessLevel()));
         }
 
         // Set dead status if applies

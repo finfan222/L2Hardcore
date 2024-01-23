@@ -12,8 +12,8 @@ public enum HtmColor {
     RED("FF0000"),
     GREEN("00FF00"),
     CYAN("00FFFF"),
-    WHITE("000000"),
-    BLACK("FFFFFF");
+    WHITE("FFFFFF"),
+    BLACK("000000");
 
     private final String code;
 

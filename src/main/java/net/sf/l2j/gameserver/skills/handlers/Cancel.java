@@ -7,6 +7,7 @@ import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
+import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
@@ -48,11 +49,10 @@ public class Cancel extends Default {
         final double skillPower = getPower();
 
         for (WorldObject obj : targets) {
-            if (!(obj instanceof Creature)) {
+            if (!(obj instanceof Creature target)) {
                 continue;
             }
 
-            final Creature target = (Creature) obj;
             if (target.isDead()) {
                 continue;
             }
@@ -61,7 +61,7 @@ public class Cancel extends Default {
 
             // Calculate the difference of level between skill level and victim, and retrieve the vuln/prof.
             final int diffLevel = getMagicLevel() - target.getStatus().getLevel();
-            final double skillVuln = Formulas.calcSkillVulnerability(caster, target, this, getSkillType());
+            final double resistance = target.getStatus().calcStat(Stats.CANCEL_VULN, 1.0, target, null);
 
             final List<AbstractEffect> list = Arrays.asList(target.getAllEffects());
             Collections.shuffle(list);
@@ -103,7 +103,7 @@ public class Cancel extends Default {
                 }
 
                 // Calculate the success chance following previous variables.
-                if (success = calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, skillVuln, minRate, maxRate)) {
+                if (success = calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, resistance, minRate, maxRate)) {
                     effect.exit();
                 }
 

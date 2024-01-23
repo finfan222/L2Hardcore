@@ -3,9 +3,9 @@ package net.sf.l2j.gameserver.skills.effects;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
+import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
-import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 import java.util.Arrays;
@@ -28,14 +28,9 @@ public class EffectCancel extends AbstractEffect {
             return false;
         }
 
-        final int cancelLvl = getSkill().getMagicLevel();
+        int cancelLvl = getSkill().getMagicLevel();
         int count = getSkill().getMaxNegatedEffects();
-
-        double rate = getTemplate().getEffectPower();
-
-        // Resistance/vulnerability
-        final double res = Formulas.calcSkillVulnerability(getEffector(), getEffected(), getSkill(), getTemplate().getEffectType());
-        rate *= res;
+        double chance = getEffected().getStatus().calcStat(Stats.CANCEL_VULN, getTemplate().getEffectPower(), getEffected(), null);
 
         final List<AbstractEffect> list = Arrays.asList(getEffected().getAllEffects());
         Collections.shuffle(list);
@@ -52,7 +47,7 @@ public class EffectCancel extends AbstractEffect {
             }
 
             // Calculate the success chance following previous variables.
-            if (calcCancelSuccess(effect, cancelLvl, (int) rate)) {
+            if (calcCancelSuccess(effect, cancelLvl, (int) chance)) {
                 effect.exit();
             }
 

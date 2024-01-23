@@ -1,12 +1,11 @@
 package net.sf.l2j.gameserver.network;
 
+import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-
-import net.sf.l2j.commons.logging.CLogger;
-
-import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
 public final class SystemMessageId {
     private static final CLogger LOGGER = new CLogger(SystemMessageId.class.getName());
@@ -10045,9 +10044,19 @@ public final class SystemMessageId {
     public static final SystemMessageId YOU_DID_S1_FIRE_DMG;
 
     /**
+     * ID: 2049<br> Message: $s1 deal $s2 fire damage to you
+     */
+    public static final SystemMessageId S1_DEAL_S2_FIRE_DMG_TO_YOU;
+
+    /**
      * ID: 2050<br> Message: You hit for $s1 water damage
      */
     public static final SystemMessageId YOU_DID_S1_WATER_DMG;
+
+    /**
+     * ID: 2051<br> Message: $s1 deal $s2 water damage to you
+     */
+    public static final SystemMessageId S1_DEAL_S2_WATER_DMG_TO_YOU;
 
     /**
      * ID: 2052<br> Message: You hit for $s1 wind damage
@@ -10055,9 +10064,19 @@ public final class SystemMessageId {
     public static final SystemMessageId YOU_DID_S1_WIND_DMG;
 
     /**
+     * ID: 2053<br> Message: $s1 deal $s2 wind damage to you
+     */
+    public static final SystemMessageId S1_DEAL_S2_WIND_DMG_TO_YOU;
+
+    /**
      * ID: 2054<br> Message: You hit for $s1 earth damage
      */
     public static final SystemMessageId YOU_DID_S1_EARTH_DMG;
+
+    /**
+     * ID: 2055<br> Message: $s1 deal $s2 earth damage to you
+     */
+    public static final SystemMessageId S1_DEAL_S2_EARTH_DMG_TO_YOU;
 
     /**
      * ID: 2056<br> Message: You hit for $s1 holy damage
@@ -10065,9 +10084,24 @@ public final class SystemMessageId {
     public static final SystemMessageId YOU_DID_S1_HOLY_DMG;
 
     /**
+     * ID: 2057<br> Message: $s1 deal $s2 holy damage to you
+     */
+    public static final SystemMessageId S1_DEAL_S2_HOLY_DMG_TO_YOU;
+
+    /**
      * ID: 2058<br> Message: You hit for $s1 dark damage
      */
     public static final SystemMessageId YOU_DID_S1_DARK_DMG;
+
+    /**
+     * ID: 2059<br> Message: $s1 deal $s2 dark damage to you
+     */
+    public static final SystemMessageId S1_DEAL_S2_DARK_DMG_TO_YOU;
+
+    /**
+     * ID: 2060<br> Message: $s1 deal $s2 fire damage to you
+     */
+    public static final SystemMessageId YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER;
 
     /**
      * Array containing all SystemMessageIds<br> Important: Always initialize with a length of the highest
@@ -12053,16 +12087,23 @@ public final class SystemMessageId {
         YOU_WANT_TO_SPENT_S1_ADENA_FOR_REPAIR_S2 = new SystemMessageId(2046);
         SKILL_REMOVED_DUE_LACK_CP = new SystemMessageId(2047);
         YOU_DID_S1_FIRE_DMG = new SystemMessageId(2048);
+        S1_DEAL_S2_FIRE_DMG_TO_YOU = new SystemMessageId(2049);
         YOU_DID_S1_WATER_DMG = new SystemMessageId(2050);
+        S1_DEAL_S2_WATER_DMG_TO_YOU = new SystemMessageId(2051);
         YOU_DID_S1_WIND_DMG = new SystemMessageId(2052);
+        S1_DEAL_S2_WIND_DMG_TO_YOU = new SystemMessageId(2053);
         YOU_DID_S1_EARTH_DMG = new SystemMessageId(2054);
+        S1_DEAL_S2_EARTH_DMG_TO_YOU = new SystemMessageId(2055);
         YOU_DID_S1_HOLY_DMG = new SystemMessageId(2056);
+        S1_DEAL_S2_HOLY_DMG_TO_YOU = new SystemMessageId(2057);
         YOU_DID_S1_DARK_DMG = new SystemMessageId(2058);
+        S1_DEAL_S2_DARK_DMG_TO_YOU = new SystemMessageId(2059);
+        YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER = new SystemMessageId(2060);
 
         buildFastLookupTable();
     }
 
-    private static final void buildFastLookupTable() {
+    private static void buildFastLookupTable() {
         final Field[] fields = SystemMessageId.class.getDeclaredFields();
         final ArrayList<SystemMessageId> smIds = new ArrayList<>(fields.length);
 
@@ -12093,7 +12134,7 @@ public final class SystemMessageId {
         }
     }
 
-    private static final int parseMessageParameters(final String name) {
+    private static int parseMessageParameters(final String name) {
         int paramCount = 0;
         char s1, c2;
         for (int i = 0; i < name.length() - 1; i++) {
@@ -12109,12 +12150,12 @@ public final class SystemMessageId {
         return paramCount;
     }
 
-    public static final SystemMessageId getSystemMessageId(final int id) {
+    public static SystemMessageId getSystemMessageId(final int id) {
         final SystemMessageId smi = getSystemMessageIdInternal(id);
         return smi == null ? new SystemMessageId(id) : smi;
     }
 
-    private static final SystemMessageId getSystemMessageIdInternal(final int id) {
+    private static SystemMessageId getSystemMessageIdInternal(final int id) {
         if (id < 0 || id >= VALUES.length) {
             return null;
         }
@@ -12122,7 +12163,7 @@ public final class SystemMessageId {
         return VALUES[id];
     }
 
-    public static final SystemMessageId getSystemMessageId(final String name) {
+    public static SystemMessageId getSystemMessageId(final String name) {
         try {
             return (SystemMessageId) SystemMessageId.class.getField(name).get(null);
         } catch (final Exception e) {
@@ -12139,23 +12180,23 @@ public final class SystemMessageId {
         _id = id;
     }
 
-    public final int getId() {
+    public int getId() {
         return _id;
     }
 
-    private final void setName(final String name) {
+    private void setName(final String name) {
         _name = name;
     }
 
-    public final String getName() {
+    public String getName() {
         return _name;
     }
 
-    public final int getParamCount() {
+    public int getParamCount() {
         return _params;
     }
 
-    public final void setParamCount(final int params) {
+    public void setParamCount(final int params) {
         if (params < 0) {
             throw new IllegalArgumentException("Invalid negative param count: " + params);
         }
@@ -12171,16 +12212,16 @@ public final class SystemMessageId {
         _params = (byte) params;
     }
 
-    public final SystemMessage getStaticSystemMessage() {
+    public SystemMessage getStaticSystemMessage() {
         return _staticSystemMessage;
     }
 
-    public final void setStaticSystemMessage(final SystemMessage sm) {
+    public void setStaticSystemMessage(final SystemMessage sm) {
         _staticSystemMessage = sm;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return "SM[" + getId() + ":" + getName() + "]";
     }
 }

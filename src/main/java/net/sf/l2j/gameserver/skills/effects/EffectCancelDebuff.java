@@ -2,11 +2,10 @@ package net.sf.l2j.gameserver.skills.effects;
 
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
-import net.sf.l2j.gameserver.enums.skills.SkillType;
+import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
-import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class EffectCancelDebuff extends AbstractEffect {
@@ -21,7 +20,7 @@ public class EffectCancelDebuff extends AbstractEffect {
 
     @Override
     public boolean onStart() {
-        return cancel(getEffector(), getEffected(), getSkill(), getTemplate().getEffectType());
+        return cancel(getEffected(), getSkill());
     }
 
     @Override
@@ -29,14 +28,14 @@ public class EffectCancelDebuff extends AbstractEffect {
         return false;
     }
 
-    private static boolean cancel(Creature caster, Creature target, L2Skill skill, SkillType effectType) {
+    private static boolean cancel(Creature target, L2Skill skill) {
         if (!(target instanceof Player) || target.isDead()) {
             return false;
         }
 
         final int cancelLvl = skill.getMagicLevel();
         int count = skill.getMaxNegatedEffects();
-        double baseRate = Formulas.calcSkillVulnerability(caster, target, skill, effectType);
+        double baseRate = target.getStatus().calcStat(Stats.CANCEL_VULN, 1.0, target, null);
 
         AbstractEffect effect;
         int lastCanceledSkillId = 0;

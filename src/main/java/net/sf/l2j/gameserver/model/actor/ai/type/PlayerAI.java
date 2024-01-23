@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.ai.type;
 
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.IntentionType;
@@ -469,11 +468,7 @@ public class PlayerAI extends PlayableAI {
 
     @Override
     public boolean canAttemptInteract() {
-        if (getActor().isOperating() || getActor().isProcessingTransaction()) {
-            return false;
-        }
-
-        return true;
+        return !getActor().isOperating() && !getActor().isProcessingTransaction();
     }
 
     @Override

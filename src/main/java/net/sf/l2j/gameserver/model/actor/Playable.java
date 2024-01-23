@@ -131,12 +131,16 @@ public abstract class Playable extends Creature {
         // Send the Server->Client packet StatusUpdate with current HP and MP to all other Player to inform
         getStatus().broadcastStatusUpdate();
 
+        // SEt reason of death
+        dieReason = GraveyardManager.getInstance().validateDieReason(getActingPlayer(), killer, dieReason);
+
         // Notify Creature AI
         getAI().notifyEvent(AiEventType.DEAD, null, null);
 
-        // Notify Quest of Playable's death
-        final Player actingPlayer = getActingPlayer();
-        actingPlayer.getQuestList().getQuests(Quest::isTriggeredOnDeath).forEach(q -> q.notifyDeath((killer == null ? this : killer), actingPlayer));
+        // Notify about dead instant to creature and global
+        OnDie onDie = new OnDie(this, killer, dieReason);
+        GlobalEventListener.notify(onDie);
+        getEventListener().notify(onDie);
 
         if (killer != null) {
             final Player player = killer.getActingPlayer();
@@ -145,10 +149,10 @@ public abstract class Playable extends Creature {
             }
         }
 
-        dieReason = GraveyardManager.getInstance().validateDieReason(getActingPlayer(), killer, dieReason);
-        OnDie onDie = new OnDie(this, killer, dieReason);
-        GlobalEventListener.notify(onDie);
-        getEventListener().notify(onDie);
+        // Notify Quest of Playable's death
+        final Player actingPlayer = getActingPlayer();
+        actingPlayer.getQuestList().getQuests(Quest::isTriggeredOnDeath).forEach(q -> q.notifyDeath((killer == null ? this : killer), actingPlayer));
+
         return true;
     }
 
@@ -199,11 +203,7 @@ public abstract class Playable extends Creature {
             return false;
         }
 
-        if (targetPlayer.getKarma() != 0 || targetPlayer.getPvpFlag() == 0) {
-            return false;
-        }
-
-        return true;
+        return targetPlayer.getKarma() == 0 && targetPlayer.getPvpFlag() != 0;
     }
 
     /**
@@ -449,16 +449,13 @@ public abstract class Playable extends Creature {
         if (attacker instanceof SiegeGuard) {
             if (getActingPlayer().getClan() != null) {
                 final Siege siege = CastleManager.getInstance().getActiveSiege(this);
-                if (siege != null && siege.checkSides(getActingPlayer().getClan(), SiegeSide.DEFENDER, SiegeSide.OWNER)) {
-                    return false;
-                }
+                return siege == null || !siege.checkSides(getActingPlayer().getClan(), SiegeSide.DEFENDER, SiegeSide.OWNER);
             }
 
             return true;
         }
 
-        if (attacker instanceof Playable) {
-            final Playable attackerPlayable = (Playable) attacker;
+        if (attacker instanceof Playable attackerPlayable) {
 
             // You cannot be attacked by a Playable in Olympiad before the start of the game.
             if (getActingPlayer().isInOlympiadMode() && !getActingPlayer().isOlympiadStart()) {
@@ -483,9 +480,7 @@ public abstract class Playable extends Creature {
                 return false;
             }
 
-            if (attackerPlayable.getActingPlayer().isCursedWeaponEquipped() && getStatus().getLevel() <= 20) {
-                return false;
-            }
+            return !attackerPlayable.getActingPlayer().isCursedWeaponEquipped() || getStatus().getLevel() > 20;
         }
 
         return true;
@@ -531,12 +526,9 @@ public abstract class Playable extends Creature {
         }
 
         // CTRL is not needed if the target (this) is flagged / PK
-        if (getKarma() > 0 || getPvpFlag() > 0) {
-            return true;
-        }
+        return getKarma() > 0 || getPvpFlag() > 0;
 
         // Any other case returns false, even clan war. You need CTRL to attack.
-        return false;
     }
 
     /**
@@ -572,11 +564,7 @@ public abstract class Playable extends Creature {
             }
 
             // Betrayer Summon will continue the attack.
-            if (this instanceof Summon && isBetrayed()) {
-                return true;
-            }
-
-            return false;
+            return this instanceof Summon && isBetrayed();
         }
         return true;
     }
