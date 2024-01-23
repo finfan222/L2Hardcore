@@ -1,15 +1,16 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.awt.Color;
-
 import net.sf.l2j.gameserver.enums.TeleportMode;
 import net.sf.l2j.gameserver.enums.actors.MoveType;
+import net.sf.l2j.gameserver.events.OnValidatePosition;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldRegion;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 import net.sf.l2j.gameserver.network.serverpackets.GetOnVehicle;
 import net.sf.l2j.gameserver.network.serverpackets.ValidateLocation;
+
+import java.awt.*;
 
 public class ValidatePosition extends L2GameClientPacket {
     private int _x;
@@ -71,6 +72,10 @@ public class ValidatePosition extends L2GameClientPacket {
 
             if (dist > actualSpeed) {
                 sendPacket(new ValidateLocation(player));
+            }
+
+            if (player.isMoving() || player.isTeleporting()) {
+                player.getEventListener().notify(new OnValidatePosition(player.getPosition()));
             }
         }
 

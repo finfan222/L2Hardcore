@@ -256,11 +256,12 @@ public final class World {
         String blackMessage = String.format("Elmoreaden bulletin: %s has left us. The reason was %s.",
             event.getName(), event.getReason().getDieWorldMessage());
         ExShowScreenMessageCustom message = ExShowScreenMessageCustom.builder()
+            .text(blackMessage)
             .time(3500)
             .showFading(true)
             .showEffect(true)
-            .fontSize(0x01)
-            .text(blackMessage)
+            .showHide(true)
+            .type(0x01)
             .build();
         PlaySound sound = new PlaySound("ItemSound3.sys_character_failed");
         _players.values().forEach(player -> {

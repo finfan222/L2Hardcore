@@ -134,13 +134,11 @@ public abstract class Playable extends Creature {
         // SEt reason of death
         dieReason = GraveyardManager.getInstance().validateDieReason(getActingPlayer(), killer, dieReason);
 
-        // Notify Creature AI
-        getAI().notifyEvent(AiEventType.DEAD, null, null);
-
         // Notify about dead instant to creature and global
         OnDie onDie = new OnDie(this, killer, dieReason);
         GlobalEventListener.notify(onDie);
         getEventListener().notify(onDie);
+        getAI().notifyEvent(AiEventType.DEAD, null, null);
 
         if (killer != null) {
             final Player player = killer.getActingPlayer();

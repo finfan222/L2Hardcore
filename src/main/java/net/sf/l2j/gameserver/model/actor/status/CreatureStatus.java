@@ -4,6 +4,7 @@ import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.StatusType;
+import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.ElementType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
@@ -223,18 +224,10 @@ public class CreatureStatus<T extends Creature> {
             _actor.stopEffects(EffectType.SLEEP);
             _actor.stopEffects(EffectType.IMMOBILE_UNTIL_ATTACKED);
 
-            if (_actor.isStunned() && Rnd.get(10) == 0) {
-                _actor.stopEffects(EffectType.STUN);
-
-                // Refresh abnormal effects.
-                _actor.updateAbnormalEffect();
-            }
-
-            if (_actor.isImmobileUntilAttacked()) {
-                _actor.stopEffects(EffectType.IMMOBILE_UNTIL_ATTACKED);
-
-                // Refresh abnormal effects.
-                _actor.updateAbnormalEffect();
+            if (_actor.isAffected(EffectFlag.STUNNED, EffectFlag.FEAR, EffectFlag.ROOTED, EffectFlag.CONFUSED)) {
+                if (Rnd.calcChance(10, 100)) {
+                    _actor.stopEffects(EffectType.STUN);
+                }
             }
         }
 

@@ -12,6 +12,7 @@ import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.actors.WeightPenalty;
+import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.PlayerLevel;
@@ -115,16 +116,15 @@ public class PlayerStatus extends PlayableStatus<Player> {
             _actor.stopEffects(EffectType.SLEEP);
             _actor.stopEffects(EffectType.IMMOBILE_UNTIL_ATTACKED);
 
+            if (_actor.isAffected(EffectFlag.STUNNED, EffectFlag.FEAR, EffectFlag.ROOTED, EffectFlag.CONFUSED)) {
+                if (Rnd.calcChance(10, 100)) {
+                    _actor.stopEffects(EffectType.STUN);
+                }
+            }
+
             // When taking a hit, stand up - except if under shop mode.
             if (_actor.isSitting() && !_actor.isInStoreMode()) {
                 _actor.standUp();
-            }
-
-            if (!isDOT && _actor.isStunned() && Rnd.get(10) == 0) {
-                _actor.stopEffects(EffectType.STUN);
-
-                // Refresh abnormal effects.
-                _actor.updateAbnormalEffect();
             }
         }
 

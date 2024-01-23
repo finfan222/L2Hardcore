@@ -194,4 +194,32 @@ public class MathUtil {
 
         return (Math.round(val * exponent) / exponent);
     }
+
+    public static double calculateDistance(int x1, int y1, int x2, int y2) {
+        return calculateDistance(x1, y1, 0, x2, y2, 0, false);
+    }
+
+    public static double calculateDistance(int x1, int y1, int z1, int x2, int y2, int z2, boolean includeZAxis) {
+        double dx = x1 - x2;
+        double dy = y1 - y2;
+
+        if (includeZAxis) {
+            double dz = z1 - z2;
+            return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+        }
+
+        return Math.sqrt((dx * dx) + (dy * dy));
+    }
+
+    public static double calculateDistance(Location loc1, Location loc2, boolean _3d) {
+        return calculateDistance(loc1.getX(), loc1.getY(), loc1.getZ(), loc2.getX(), loc2.getY(), loc2.getZ(), _3d);
+    }
+
+    public static double calculateDistance(WorldObject obj1, WorldObject obj2, boolean includeZAxis) {
+        if (obj1 == null || obj2 == null) {
+            return 1000000;
+        }
+
+        return calculateDistance(obj1.getPosition().getX(), obj1.getPosition().getY(), obj1.getPosition().getZ(), obj2.getPosition().getX(), obj2.getPosition().getY(), obj2.getPosition().getZ(), includeZAxis);
+    }
 }

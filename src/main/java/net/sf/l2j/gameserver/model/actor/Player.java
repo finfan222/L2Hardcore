@@ -67,6 +67,7 @@ import net.sf.l2j.gameserver.events.OnHit;
 import net.sf.l2j.gameserver.events.OnHitBy;
 import net.sf.l2j.gameserver.events.OnSkillHit;
 import net.sf.l2j.gameserver.events.OnSkillHitBy;
+import net.sf.l2j.gameserver.events.OnValidatePosition;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.handler.ItemHandler;
@@ -106,6 +107,7 @@ import net.sf.l2j.gameserver.model.actor.move.PlayerMove;
 import net.sf.l2j.gameserver.model.actor.status.PlayerStatus;
 import net.sf.l2j.gameserver.model.actor.template.PetTemplate;
 import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
+import net.sf.l2j.gameserver.model.cards.Cards;
 import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.entity.Duel.DuelState;
@@ -470,8 +472,13 @@ public final class Player extends Playable {
     private Dialog dialog;
 
     @Getter
-    @Setter
-    private SpoilState spoilState;
+    private final SpoilState spoilState;
+
+    @Getter
+    private final Cards cards;
+
+    @Getter
+    private boolean isInPartyRadius;
 
     /**
      * Constructor of Player (use Creature constructor).
@@ -496,6 +503,7 @@ public final class Player extends Playable {
 
         // Create an AI
         _ai = new PlayerAI(this);
+        cards = new Cards(this);
         spoilState = new SpoilState();
 
         // Retrieve from the database all items of this Player and add them to _inventory
@@ -507,6 +515,7 @@ public final class Player extends Playable {
         eventListener.subscribe().cast(OnHitBy.class).forEach(this::onHitBy);
         eventListener.subscribe().cast(OnSkillHitBy.class).forEach(this::onSkillHitBy);
         eventListener.subscribe().cast(OnSkillHit.class).forEach(this::onSkillHit);
+        eventListener.subscribe().cast(OnValidatePosition.class).forEach(this::onValidatePosition);
     }
 
     /**
@@ -7082,6 +7091,9 @@ public final class Player extends Playable {
                 sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
             }
         }
+    }
+
+    private void onValidatePosition(OnValidatePosition event) {
     }
 
 }

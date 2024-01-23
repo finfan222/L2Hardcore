@@ -1,13 +1,6 @@
 package net.sf.l2j.gameserver.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import lombok.Getter;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
@@ -17,26 +10,40 @@ import net.sf.l2j.gameserver.model.zone.type.TownZone;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public final class WorldRegion {
     private final Map<Integer, WorldObject> _objects = new ConcurrentHashMap<>();
 
     private final List<WorldRegion> _surroundingRegions = new ArrayList<>();
     private final List<ZoneType> _zones = new ArrayList<>();
 
-    private final int _tileX;
-    private final int _tileY;
+    @Getter
+    private final int tileX;
+    @Getter
+    private final int tileY;
 
     private final AtomicBoolean _isActive = new AtomicBoolean();
     private final AtomicInteger _playersCount = new AtomicInteger();
 
     public WorldRegion(int x, int y) {
-        _tileX = x;
-        _tileY = y;
+        tileX = x;
+        tileY = y;
+    }
+
+    public String getName() {
+        return String.valueOf(tileX + "_" + tileY);
     }
 
     @Override
     public String toString() {
-        return "WorldRegion " + _tileX + "_" + _tileY + ", _active=" + _isActive.get() + ", _playersCount=" + _playersCount.get() + "]";
+        return "WorldRegion " + tileX + "_" + tileY + ", _active=" + _isActive.get() + ", _playersCount=" + _playersCount.get() + "]";
     }
 
     public Collection<WorldObject> getObjects() {

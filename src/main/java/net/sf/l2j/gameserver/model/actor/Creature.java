@@ -658,14 +658,17 @@ public abstract class Creature extends WorldObject {
      * @return True if this {@link Creature} is in a state where it can't move.
      */
     public boolean isMovementDisabled() {
-        return isStunned() || isImmobileUntilAttacked() || isRooted() || isSleeping() || isParalyzed() || isImmobilized() || isAlikeDead() || isTeleporting() || isSitting() || isSittingNow() || isStandingNow();
+        return isAffected(EffectFlag.SLEEP, EffectFlag.PARALYZED, EffectFlag.STUNNED, EffectFlag.ROOTED)
+            || isImmobileUntilAttacked() || isImmobilized() || isAlikeDead()
+            || isTeleporting() || isSitting() || isSittingNow() || isStandingNow();
     }
 
     /**
      * @return True if this {@link Creature} is in a state where he can't be controlled.
      */
     public boolean isOutOfControl() {
-        return isStunned() || isImmobileUntilAttacked() || isSleeping() || isParalyzed() || isAfraid() || isConfused() || isTeleporting() || isDead();
+        return isAffected(EffectFlag.STUNNED, EffectFlag.SLEEP, EffectFlag.PARALYZED, EffectFlag.CONFUSED, EffectFlag.FEAR)
+            || isImmobileUntilAttacked() || isTeleporting() || isDead();
     }
 
     public final Calculator[] getCalculators() {
@@ -1631,15 +1634,13 @@ public abstract class Creature extends WorldObject {
         _fusionSkill = fb;
     }
 
-    /**
-     * Check if target is affected with special buff
-     *
-     * @param flag int
-     * @return boolean
-     * @see EffectList#isAffected(EffectFlag)
-     */
-    public boolean isAffected(EffectFlag flag) {
-        return _effects.isAffected(flag);
+    public boolean isAffected(EffectFlag... flags) {
+        for (int i = 0; i < flags.length; i++) {
+            if (_effects.isAffected(flags[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

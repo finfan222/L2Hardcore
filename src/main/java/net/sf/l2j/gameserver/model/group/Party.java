@@ -12,7 +12,6 @@ import net.sf.l2j.gameserver.data.manager.PartyMatchRoomManager;
 import net.sf.l2j.gameserver.enums.LootRule;
 import net.sf.l2j.gameserver.enums.MessageType;
 import net.sf.l2j.gameserver.model.WorldObject;
-import net.sf.l2j.gameserver.model.WorldRegion;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -36,14 +35,10 @@ import net.sf.l2j.gameserver.network.serverpackets.PartySmallWindowDeleteAll;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 public class Party extends AbstractGroup {
 
@@ -51,15 +46,15 @@ public class Party extends AbstractGroup {
 
     private static final double[] BONUS_EXP_SP = {
         1,
-        1,
+        1.03,
+        1.06,
+        1.09,
+        1.13,
+        1.17,
+        1.24,
         1.30,
-        1.39,
-        1.50,
-        1.54,
-        1.58,
-        1.63,
-        1.67,
-        1.71
+        1.37,
+        1.50
     };
 
     private static final int PARTY_POSITION_BROADCAST = 12000;
@@ -618,129 +613,19 @@ public class Party extends AbstractGroup {
         }
     }
 
-    public void distributeExp(long exp, List<Player> rewardedMembers, int partyLevel, Map<Creature, RewardInfo> rewards) {
-        Map<WorldRegion, Set<Player>> regions = new HashMap<>();
-
-        rewardedMembers.stream().filter(member -> !member.isDead()).forEach(member -> {
-            WorldRegion region = member.getRegion();
-            if (!regions.containsKey(region)) {
-                regions.put(region, new HashSet<>());
-                LOGGER.info("Party member {} is in region {}", member, region);
-            }
-        });
-
-        for (Set<Player> regionPlayerGroup : regions.values()) {
-            Set<Player> validMembers = regionPlayerGroup.stream()
-                .filter(member -> partyLevel - member.getStatus().getLevel() <= Config.PARTY_XP_CUTOFF_LEVEL)
-                .filter(member -> !member.isDead())
-                .collect(Collectors.toSet());
-
-            int sqLevelSum = 0;
-            for (Player next : validMembers) {
-                sqLevelSum += next.getStatus().getLevel() * next.getStatus().getLevel();
-            }
-
-            for (Player member : validMembers) {
-                final double partyRate = BONUS_EXP_SP[Math.min(validMembers.size(), 9)];
-
-                exp *= partyRate * Config.RATE_PARTY_XP;
-
-                if (member.isDead()) {
-                    return;
-                }
-
-                // Calculate and add the EXP and SP reward to the member.
-                if (validMembers.contains(member)) {
-                    // The servitor penalty.
-                    final float penalty = member.hasServitor() ? ((Servitor) member.getSummon()).getExpPenalty() : 0;
-
-                    final double sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
-                    final double preCalculation = (sqLevel / sqLevelSum) * (1 - penalty);
-                    final long addExp = Math.round(exp * preCalculation);
-
-                    // Set new karma.
-                    member.updateKarmaLoss(addExp);
-
-                    // Add the XP/SP points to the requested party member.
-                    member.addExpAndSp(addExp, 0, rewards);
-                } else {
-                    member.addExpAndSp(0, 0);
-                }
-            }
-        }
-
-        /*if (Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("level")) {
-            for (Player member : rewardedMembers) {
-                if (topLvl - member.getStatus().getLevel() <= Config.PARTY_XP_CUTOFF_LEVEL) {
-                    validMembers.add(member);
-                }
-            }
-        } else if (Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("percentage")) {
-            int sqLevelSum = 0;
-            for (Player member : rewardedMembers) {
-                sqLevelSum += (member.getStatus().getLevel() * member.getStatus().getLevel());
-            }
-
-            for (Player member : rewardedMembers) {
-                int sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
-                if (sqLevel * 100 >= sqLevelSum * Config.PARTY_XP_CUTOFF_PERCENT) {
-                    validMembers.add(member);
-                }
-            }
-        } else if (Config.PARTY_XP_CUTOFF_METHOD.equalsIgnoreCase("auto")) {
-            int sqLevelSum = 0;
-            for (Player member : rewardedMembers) {
-                sqLevelSum += (member.getStatus().getLevel() * member.getStatus().getLevel());
-            }
-
-            // Have to use range 1 to 9, since we -1 it : 0 can't be a good number (would lead to a IOOBE). Since 0 and 1 got same values, it's not a problem.
-            final int partySize = MathUtil.limit(rewardedMembers.size(), 1, 9);
-
-            for (Player member : rewardedMembers) {
-                int sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
-                if (sqLevel >= sqLevelSum * (1 - 1 / (1 + BONUS_EXP_SP[partySize] - BONUS_EXP_SP[partySize - 1]))) {
-                    validMembers.add(member);
-                }
-            }
-        }
-
-        // Since validMembers can also hold CommandChannel members, we have to restrict the value.
-        final double partyRate = BONUS_EXP_SP[Math.min(validMembers.size(), 9)];
-
-        expReward *= partyRate * Config.RATE_PARTY_XP;
-        spReward *= partyRate * Config.RATE_PARTY_SP;
-
-        int sqLevelSum = 0;
+    public void distributeExp(long exp, List<Player> validMembers, int partyLevel, Map<Creature, RewardInfo> rewards) {
         for (Player member : validMembers) {
-            sqLevelSum += member.getStatus().getLevel() * member.getStatus().getLevel();
-        }
-
-        // Go through the players that must be rewarded.
-        for (Player member : rewardedMembers) {
             if (member.isDead()) {
-                continue;
+                return;
             }
 
-            // Calculate and add the EXP and SP reward to the member.
-            if (validMembers.contains(member)) {
-                // The servitor penalty.
-                final float penalty = member.hasServitor() ? ((Servitor) member.getSummon()).getExpPenalty() : 0;
-
-                final double sqLevel = member.getStatus().getLevel() * member.getStatus().getLevel();
-                final double preCalculation = (sqLevel / sqLevelSum) * (1 - penalty);
-
-                final long xp = Math.round(expReward * preCalculation);
-                final int sp = (int) (spReward * preCalculation);
-
-                // Set new karma.
-                member.updateKarmaLoss(xp);
-
-                // Add the XP/SP points to the requested party member.
-                member.addExpAndSp(xp, sp, rewards);
-            } else {
-                member.addExpAndSp(0, 0);
-            }
-        }*/
+            double partyRate = BONUS_EXP_SP[Math.min(validMembers.size(), 9)];
+            float penalty = member.hasServitor() ? ((Servitor) member.getSummon()).getExpPenalty() : 0;
+            double preCalculation = ((double) member.getStatus().getLevel() / partyLevel) * (1.0 - penalty);
+            long addExp = Math.round(exp * partyRate * Config.RATE_PARTY_XP * preCalculation);
+            member.updateKarmaLoss(addExp);
+            member.addExpAndSp(addExp, 0, rewards);
+        }
     }
 
     public LootRule getLootRule() {

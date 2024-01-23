@@ -11,6 +11,7 @@ import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeSummon;
@@ -130,7 +131,7 @@ public class Disablers extends Default {
 
                 case CONFUSION:
                     // do nothing if not on mob
-                    if (target instanceof Attackable) {
+                    if (target instanceof Attackable || target instanceof Playable) {
                         if (success) {
                             for (AbstractEffect effect : target.getAllEffects()) {
                                 if (effect.getTemplate().getStackOrder() == 99) {

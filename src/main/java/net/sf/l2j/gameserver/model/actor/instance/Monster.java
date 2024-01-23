@@ -8,7 +8,6 @@ import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.data.xml.HerbDropData;
 import net.sf.l2j.gameserver.enums.BossInfoType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
-import net.sf.l2j.gameserver.model.WorldRegion;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
@@ -35,13 +34,10 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
@@ -183,9 +179,7 @@ public class Monster extends Attackable {
             }
             // Share with party members.
             else {
-                final List<Player> rewardedMembers = new ArrayList<>();
                 final int partyLvl;
-
                 List<Player> members;
                 if (attackerParty.isInCommandChannel()) {
                     members = attackerParty.getCommandChannel().getMembers();
@@ -195,75 +189,65 @@ public class Monster extends Attackable {
                     partyLvl = attackerParty.getLevel();
                 }
 
-                // find member WorldRegions for next calculations, divide them to region groups
-                Map<WorldRegion, Set<Player>> regions = new HashMap<>();
-                members.forEach(member -> {
-                    WorldRegion region = member.getRegion();
-                    if (!regions.containsKey(region)) {
-                        regions.put(region, new HashSet<>());
-                        LOGGER.info("Party member {} is in region {}", member, region);
+                int partyDmg = 0;
+                float partyMul = 1.f;
+                Map<Creature, RewardInfo> playersWithPets = new HashMap<>();
+
+
+                // calculate for each region group - member list
+                for (Player member : members) {
+                    if (member == null || !member.isOnline() || member.isDead()) {
+                        continue;
                     }
-                });
 
-                LOGGER.info("Region groups which is same party: {}", regions.size());
+                    if (!member.isIn2DRadius(attacker, Config.PARTY_RANGE)) {
+                        continue;
+                    }
 
-                for (Set<Player> regionGroup : regions.values()) {
-                    int partyDmg = 0;
-                    float partyMul = 1.f;
-                    Map<Creature, RewardInfo> playersWithPets = new HashMap<>();
+                    // Retrieve the associated RewardInfo, if any.
+                    final RewardInfo reward2 = rewards.get(member);
+                    if (reward2 != null) {
+                        // Add Player damages to Party damages.
+                        partyDmg += reward2.getDamage();
 
-                    // calculate for each region group - member list
-                    for (Player regionPlayer : regionGroup) {
-                        if (regionPlayer == null || !regionPlayer.isOnline() || regionPlayer.isDead()) {
-                            continue;
-                        }
+                        // Remove the Player from the rewards.
+                        rewards.remove(member);
 
-                        // Retrieve the associated RewardInfo, if any.
-                        final RewardInfo reward2 = rewards.get(regionPlayer);
-                        if (reward2 != null) {
-                            // Add Player damages to Party damages.
-                            partyDmg += reward2.getDamage();
-
-                            // Remove the Player from the rewards.
-                            rewards.remove(regionPlayer);
-
-                            playersWithPets.put(regionPlayer, reward2);
-                            if (regionPlayer.hasPet() && rewards.containsKey(regionPlayer.getSummon())) {
-                                playersWithPets.put(regionPlayer.getSummon(), rewards.get(regionPlayer.getSummon()));
-                            }
-                        }
-
-                        // If the Party didn't kill this Monster alone, calculate their part.
-                        if (partyDmg < totalDamage) {
-                            partyMul = ((float) partyDmg / totalDamage);
-                        }
-
-                        // Calculate the level difference between Party and this Monster.
-                        final int levelDiff = partyLvl - getStatus().getLevel();
-
-                        // Calculate Exp and SP rewards.
-                        final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
-                        long expReward = expSp[0];
-                        int spReward = expSp[1];
-
-                        long exp = (long) (expReward * partyMul);
-                        int sp = 0; // sp will not given, it gives to personally or OverHit
-
-                        // Test over-hit.
-                        if (_overHitState.isValidOverHit(attacker)) {
-                            attacker.sendPacket(SystemMessageId.OVER_HIT);
-                            long overHitExpSp = _overHitState.calcExp(expReward);
-                            exp += overHitExpSp;
-                            sp += (int) (spReward * 5.0);
-                            attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
-                            attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
-                        }
-
-                        // share EXP with other region-players
-                        if (partyDmg > 0) {
-                            attackerParty.distributeExp(exp, rewardedMembers, partyLvl, playersWithPets);
+                        playersWithPets.put(member, reward2);
+                        if (member.hasPet() && rewards.containsKey(member.getSummon())) {
+                            playersWithPets.put(member.getSummon(), rewards.get(member.getSummon()));
                         }
                     }
+                }
+
+                // If the Party didn't kill this Monster alone, calculate their part.
+                if (partyDmg < totalDamage) {
+                    partyMul = ((float) partyDmg / totalDamage);
+                }
+
+                // Calculate the level difference between Party and this Monster.
+                final int levelDiff = partyLvl - getStatus().getLevel();
+
+                // Calculate Exp and SP rewards.
+                final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
+                long expReward = expSp[0];
+                int spReward = expSp[1];
+
+                long exp = (long) (expReward * partyMul);
+
+                // Test over-hit.
+                if (_overHitState.isValidOverHit(attacker)) {
+                    attacker.sendPacket(SystemMessageId.OVER_HIT);
+                    long overHitExpSp = _overHitState.calcExp(expReward);
+                    exp += overHitExpSp;
+                    int sp = (int) (spReward * 5.0);
+                    attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
+                    attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                }
+
+                // share EXP with other region-players
+                if (partyDmg > 0) {
+                    attackerParty.distributeExp(exp, members, partyLvl, playersWithPets);
                 }
             }
         }

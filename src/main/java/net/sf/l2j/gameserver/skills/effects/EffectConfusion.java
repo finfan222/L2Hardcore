@@ -4,10 +4,8 @@ import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
-import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
-import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Chest;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
@@ -53,19 +51,11 @@ public class EffectConfusion extends AbstractEffect {
 
     @Override
     public boolean onActionTime() {
-        final List<Creature> targetList = new ArrayList<>();
-
-        // Getting the possible targets
-        for (final WorldObject obj : getEffected().getKnownType(WorldObject.class)) {
-            // Attackable NPCs and playable characters (players, summons) are put in the list.
-            if ((obj instanceof Attackable || obj instanceof Playable) && (obj != getEffected()))
-            // Don't put doors nor chests on it.
-            {
-                if (!(obj instanceof Door || obj instanceof Chest)) {
-                    targetList.add((Creature) obj);
-                }
-            }
-        }
+        List<Creature> targetList = new ArrayList<>();
+        getEffected().getKnownTypeInRadius(Creature.class, 1600)
+            .stream()
+            .filter(e -> !(e instanceof Door || e instanceof Chest))
+            .forEach(targetList::add);
 
         // if there is no target, exit function
         if (targetList.isEmpty()) {
@@ -73,16 +63,17 @@ public class EffectConfusion extends AbstractEffect {
         }
 
         // Choosing randomly a new target
-        final Creature target = Rnd.get(targetList);
+        Creature target = Rnd.get(targetList);
 
         // Attacking the target
         getEffected().setTarget(target);
         getEffected().getAI().tryToAttack(target);
 
         // Add aggro to that target aswell. The aggro power is random.
-        final int aggro = (5 + Rnd.get(5)) * getEffector().getStatus().getLevel();
-        ((Attackable) getEffected()).getAggroList().addDamageHate(target, 0, aggro);
-
+        if (getEffected() instanceof Attackable attackable) {
+            int aggro = (5 + Rnd.get(5)) * getEffector().getStatus().getLevel();
+            attackable.getAggroList().addDamageHate(target, 0, aggro);
+        }
         return true;
     }
 

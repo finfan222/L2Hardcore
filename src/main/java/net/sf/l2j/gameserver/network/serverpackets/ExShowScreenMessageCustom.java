@@ -22,7 +22,7 @@ public class ExShowScreenMessageCustom extends L2GameServerPacket {
     }
 
     private int type = 0x01; // 0 - system messages, 1 - your defined text
-    private int msgId = 0x00; // system message id (_type must be 0 otherwise no effect)
+    private int msgId = -1; // system message id (_type must be 0 otherwise no effect)
     private int unk2 = 0x00;
     private int unk3 = 0x00;
     private int fontSize = 0x00; // font size 0 - normal, 1 - small
