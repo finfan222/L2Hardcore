@@ -400,9 +400,6 @@ public final class Config {
     public static int PVP_PVP_TIME;
 
     /** Party */
-    public static String PARTY_XP_CUTOFF_METHOD;
-    public static int PARTY_XP_CUTOFF_LEVEL;
-    public static double PARTY_XP_CUTOFF_PERCENT;
     public static int PARTY_RANGE;
 
     /** GMs & Admin Stuff */
@@ -1038,9 +1035,6 @@ public final class Config {
         PVP_NORMAL_TIME = players.getProperty("PvPVsNormalTime", 40000);
         PVP_PVP_TIME = players.getProperty("PvPVsPvPTime", 20000);
 
-        PARTY_XP_CUTOFF_METHOD = players.getProperty("PartyXpCutoffMethod", "level");
-        PARTY_XP_CUTOFF_PERCENT = players.getProperty("PartyXpCutoffPercent", 3.);
-        PARTY_XP_CUTOFF_LEVEL = players.getProperty("PartyXpCutoffLevel", 20);
         PARTY_RANGE = players.getProperty("PartyRange", 1500);
 
         DEFAULT_ACCESS_LEVEL = players.getProperty("DefaultAccessLevel", 0);
