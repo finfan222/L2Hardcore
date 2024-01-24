@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.model.item.instance;
 
 import lombok.Getter;
-import lombok.Setter;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
@@ -50,7 +49,6 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
     @Getter
     private final ItemInstanceData data;
 
-    @Setter
     @Getter
     private Augmentation augmentation;
     private int shotsMask;
@@ -457,10 +455,6 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
 
     public boolean isElixir() {
         return getItem().isElixir();
-    }
-
-    public boolean isHerb() {
-        return getItem().getItemType() == EtcItemType.HERB;
     }
 
     public boolean isSummonItem() {

@@ -215,7 +215,6 @@ public class GraveyardManager implements Runnable {
     public void run() {
         LOGGER.info("[4][GraveyardManager.run] {}", necrologues.size());
         for (Necrologue necrologue : necrologues.values()) {
-            LOGGER.info("{} / {}", necrologue.timestamp, LocalDateTime.now());
             if (!necrologue.timestamp.isBefore(LocalDateTime.now())) {
                 continue;
             }

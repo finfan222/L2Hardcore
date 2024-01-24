@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.model.item;
 
+import net.sf.l2j.Config;
+import net.sf.l2j.commons.random.Rnd;
+import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 
 public class DropCategory {
     private final List<DropData> _drops;
@@ -37,7 +37,11 @@ public class DropCategory {
     }
 
     public boolean isSweep() {
-        return (getCategoryType() == -1);
+        return _categoryType == -1;
+    }
+
+    public boolean isAdena() {
+        return _categoryType == 0;
     }
 
     // this returns the chance for the category to be visited in order to check if
@@ -134,4 +138,29 @@ public class DropCategory {
         }
         return null;
     }
+
+    /**
+     * Calculate drop from monster by hardcore rule: The drop with the highest chance should appear in any case if
+     * nothing else has dropped before it.
+     *
+     * @param levelModifier modifier for chance calculating
+     * @return {@link List} of {@link IntIntHolder} which hold all dropped objects
+     */
+    public List<IntIntHolder> calculateDropReward(double levelModifier) {
+        List<IntIntHolder> rewards = new ArrayList<>();
+        DropData dropData = _drops.get(_drops.size() - 1);
+        for (DropData drop : _drops) {
+            int chance = (int) Math.max(drop.getChance() * levelModifier, DropData.MAX_CHANCE);
+            if (Rnd.calcChance(chance, DropData.MAX_CHANCE)) {
+                rewards.add(new IntIntHolder(drop.getItemId(), Rnd.get(drop.getMin(), drop.getMax())));
+            }
+        }
+
+        // if nothing not dropped we must add to drop the last dropData like items with 100% drop chance
+        if (rewards.isEmpty()) {
+            rewards.add(new IntIntHolder(dropData.getItemId(), Rnd.get(dropData.getMin(), dropData.getMax())));
+        }
+        return rewards;
+    }
+
 }

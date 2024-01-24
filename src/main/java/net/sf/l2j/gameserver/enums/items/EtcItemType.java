@@ -28,6 +28,7 @@ public enum EtcItemType implements ItemType {
 
     // L2J CUSTOM, BACKWARD COMPATIBILITY
     SHOT,
+    @Deprecated(since = "нигде не используется, система выпилена")
     HERB,
     QUEST;
 

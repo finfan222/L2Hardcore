@@ -1,17 +1,8 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.math.MathUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.BuyListManager;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
@@ -38,6 +29,14 @@ import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 public class AdminInfo implements IAdminCommandHandler {
     private static final String[] ADMIN_COMMANDS =
@@ -310,7 +309,7 @@ public class AdminInfo implements IAdminCommandHandler {
             }
 
             StringUtil.append(sb, "<td width=34 height=34><img src=icon.noimage width=32 height=32></td>");
-            StringUtil.append(sb, "<td width=246 height=34>", name, "<br1><font color=B09878>", ((isDrop) ? "Drop" : "Spoil"), ": ", chance, "% Min: ", drop.getMinDrop(), " Max: ", drop.getMaxDrop(), "</font></td>");
+            StringUtil.append(sb, "<td width=246 height=34>", name, "<br1><font color=B09878>", ((isDrop) ? "Drop" : "Spoil"), ": ", chance, "% Min: ", drop.getMin(), " Max: ", drop.getMax(), "</font></td>");
 
             sb.append("</tr></table><img src=\"L2UI.SquareGray\" width=277 height=1>");
             row++;

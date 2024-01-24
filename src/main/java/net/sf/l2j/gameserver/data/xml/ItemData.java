@@ -79,9 +79,6 @@ public class ItemData {
         LOGGER.info("Loaded items.");
     }
 
-    public void initializeDummy() {
-    }
-
     /**
      * @param id : the item id to check.
      * @return the {@link Item} corresponding to the item id.

@@ -7,8 +7,10 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -23,6 +25,7 @@ public final class PlayerInfoTable {
     private static final String LOAD_DATA = "SELECT account_name, obj_Id, char_name, accesslevel FROM characters";
 
     private final Map<Integer, PlayerInfo> _infos = new ConcurrentHashMap<>();
+    private final Set<String> restrictedNames = new HashSet<>();
 
     //todo: rework this shit cause we need take names from graveyard too
     private PlayerInfoTable() {
@@ -37,6 +40,14 @@ public final class PlayerInfoTable {
         }
 
         LOGGER.info("Loaded {} player infos.", _infos.size());
+    }
+
+    public void addRestrictedName(String name) {
+        restrictedNames.add(name.toLowerCase());
+    }
+
+    public void removeRestrictedName(String name) {
+        restrictedNames.remove(name.toLowerCase());
     }
 
     /**
@@ -102,6 +113,10 @@ public final class PlayerInfoTable {
             .map(Entry::getKey)
             .findFirst()
             .orElse(-1);
+    }
+
+    public boolean isNameRestricted(String name) {
+        return restrictedNames.contains(name.toLowerCase()) || getPlayerObjectId(name) > 0;
     }
 
     /**

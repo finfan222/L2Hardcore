@@ -16,9 +16,11 @@ import org.w3c.dom.NamedNodeMap;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -155,8 +157,48 @@ public class NpcData implements IXmlReader {
             });
             forEach(npcNode, "teachTo", teachToNode -> set.set("teachTo", parseString(teachToNode.getAttributes(), "classes")));
 
-            _npcs.put(npcId, set.getBool("mustUsePetTemplate", false) ? new PetTemplate(set) : new NpcTemplate(set));
+            boolean mustUsePetTemplate = set.getBool("mustUsePetTemplate", false);
+            NpcTemplate template = mustUsePetTemplate ? new PetTemplate(set) : new NpcTemplate(set);
+
+            recalculateCategoryDrop(template);
+
+            _npcs.put(npcId, template);
         }));
+    }
+
+    private void recalculateCategoryDrop(NpcTemplate template) {
+        if (template.getDropData().isEmpty()) {
+            return;
+        }
+
+        List<DropCategory> categories = new ArrayList<>();
+        List<DropCategory> original = new CopyOnWriteArrayList<>(template.getDropData());
+        List<DropCategory> temp = new ArrayList<>();
+        for (DropCategory next : original) {
+            if (next.getCategoryType() <= 0) {
+                if (next.getCategoryType() == 0) {
+                    switch (template.getRace()) {
+                        case HUMAN, HUMANOID, ELVE, DARKELVE, ORC, DWARVE:
+                            break;
+                        default:
+                            continue;
+                    }
+                }
+                categories.add(next);
+            } else {
+                temp.add(next);
+            }
+        }
+
+        DropCategory category = new DropCategory(1);
+        for (DropCategory next : temp) {
+            next.getAllDrops().forEach(d -> d.setChance(Math.max(d.getChance(), DropData.MIN_CHANCE)));
+            category.getAllDrops().addAll(next.getAllDrops());
+        }
+        category.getAllDrops().sort(Comparator.comparing(DropData::getChance));
+        categories.add(category);
+        template.getDropData().clear();
+        template.getDropData().addAll(categories);
     }
 
     public void reload() {

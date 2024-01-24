@@ -1,17 +1,9 @@
 package net.sf.l2j.gameserver.taskmanager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.model.World;
@@ -19,6 +11,13 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Destroys item on ground after specified time. When server is about to shutdown/restart, saves all dropped items in to
@@ -128,10 +127,6 @@ public final class ItemsOnGroundTaskManager implements Runnable {
         Integer special = Config.SPECIAL_ITEM_DESTROY_TIME.get(item.getItemId());
         if (special != null) {
             dropTime = special;
-        }
-        // Get base destroy time for herbs, items, equipable items.
-        else if (item.isHerb()) {
-            dropTime = Config.HERB_AUTO_DESTROY_TIME;
         } else if (item.isEquipable()) {
             dropTime = Config.EQUIPABLE_ITEM_AUTO_DESTROY_TIME;
         } else {

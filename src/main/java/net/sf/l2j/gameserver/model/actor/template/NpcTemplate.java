@@ -1,14 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.template;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
@@ -24,6 +17,12 @@ import net.sf.l2j.gameserver.model.item.DropCategory;
 import net.sf.l2j.gameserver.model.item.DropData;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NpcTemplate extends CreatureTemplate {
     private final int _npcId;
@@ -41,7 +40,6 @@ public class NpcTemplate extends CreatureTemplate {
     private final int _enchantEffect;
     private final int _corpseTime;
 
-    private int _dropHerbGroup;
     private NpcRace _race = NpcRace.UNKNOWN;
     private NpcAiType _aiType;
 
@@ -86,7 +84,6 @@ public class NpcTemplate extends CreatureTemplate {
         _lHand = set.getInteger("lHand", 0);
         _enchantEffect = set.getInteger("enchant", 0);
         _corpseTime = set.getInteger("corpseTime", 7);
-        _dropHerbGroup = set.getInteger("dropHerbGroup", 0);
 
         if (set.containsKey("raceId")) {
             setRace(set.getInteger("raceId"));
@@ -210,10 +207,6 @@ public class NpcTemplate extends CreatureTemplate {
 
     public int getCorpseTime() {
         return _corpseTime;
-    }
-
-    public int getDropHerbGroup() {
-        return _dropHerbGroup;
     }
 
     public NpcRace getRace() {

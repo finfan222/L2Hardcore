@@ -1772,45 +1772,35 @@ public final class Player extends Playable {
             }
 
             // Sends message to client if requested. Since Herbs are directly assimilated, they don't send any "You have earned X" message, only "The effects of X flow through you".
-            if (sendMessage && item.getItemType() != EtcItemType.HERB) {
-                if (count > 1) {
-                    if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Quest")) {
-                        sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_S2_S1_S).addItemName(itemId).addItemNumber(count));
-                    } else {
-                        sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S2_S1).addItemName(itemId).addItemNumber(count));
-                    }
+            if (count > 1) {
+                if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Quest")) {
+                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_S2_S1_S).addItemName(itemId).addItemNumber(count));
                 } else {
-                    if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Quest")) {
-                        sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_ITEM_S1).addItemName(itemId));
-                    } else {
-                        sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S1).addItemName(itemId));
-                    }
+                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S2_S1).addItemName(itemId).addItemNumber(count));
+                }
+            } else {
+                if (process.equalsIgnoreCase("Sweep") || process.equalsIgnoreCase("Quest")) {
+                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_ITEM_S1).addItemName(itemId));
+                } else {
+                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_PICKED_UP_S1).addItemName(itemId));
                 }
             }
 
             // If the item is herb type, dont add it to inventory.
-            if (item.getItemType() == EtcItemType.HERB) {
-                final ItemInstance herb = new ItemInstance(0, itemId);
 
-                final IItemHandler handler = ItemHandler.getInstance().getHandler(herb.getEtcItem());
-                if (handler != null) {
-                    handler.useItem(this, herb, false);
-                }
-            } else {
-                // Add the item to inventory
-                final ItemInstance createdItem = _inventory.addItem(process, itemId, count, this, reference);
+            // Add the item to inventory
+            final ItemInstance createdItem = _inventory.addItem(process, itemId, count, this, reference);
 
-                // Cursed Weapon
-                if (CursedWeaponManager.getInstance().isCursed(createdItem.getItemId())) {
-                    CursedWeaponManager.getInstance().activate(this, createdItem);
-                }
-                // If you pickup arrows and a bow is equipped, try to equip them if no arrows is currently equipped.
-                else if (item.getItemType() == EtcItemType.ARROW && getAttackType() == WeaponType.BOW && !getInventory().hasItemIn(Paperdoll.LHAND)) {
-                    checkAndEquipArrows();
-                }
-
-                return createdItem;
+            // Cursed Weapon
+            if (CursedWeaponManager.getInstance().isCursed(createdItem.getItemId())) {
+                CursedWeaponManager.getInstance().activate(this, createdItem);
             }
+            // If you pickup arrows and a bow is equipped, try to equip them if no arrows is currently equipped.
+            else if (item.getItemType() == EtcItemType.ARROW && getAttackType() == WeaponType.BOW && !getInventory().hasItemIn(Paperdoll.LHAND)) {
+                checkAndEquipArrows();
+            }
+
+            return createdItem;
         }
         return null;
     }
@@ -4445,7 +4435,7 @@ public final class Player extends Playable {
                         storedSkills.add(skill.getReuseHashCode());
 
                         // Don't bother about herbs and toggles.
-                        if (effect.isHerbEffect() || skill.isToggle()) {
+                        if (skill.isToggle()) {
                             continue;
                         }
 

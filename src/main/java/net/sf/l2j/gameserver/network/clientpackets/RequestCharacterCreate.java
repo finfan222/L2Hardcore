@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
@@ -93,7 +92,7 @@ public final class RequestCharacterCreate extends L2GameClientPacket {
         }
 
         // The name already exists.
-        if (PlayerInfoTable.getInstance().getPlayerObjectId(_name) > 0) {
+        if (PlayerInfoTable.getInstance().isNameRestricted(_name)) {
             sendPacket(CharCreateFail.REASON_NAME_ALREADY_EXISTS);
             return;
         }

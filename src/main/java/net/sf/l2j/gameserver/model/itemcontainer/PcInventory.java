@@ -6,7 +6,6 @@ import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.ShortcutType;
 import net.sf.l2j.gameserver.enums.StatusType;
-import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -686,7 +685,7 @@ public class PcInventory extends Inventory {
 
     public boolean validateCapacity(ItemInstance item) {
         int slots = 0;
-        if (!(item.isStackable() && getItemByItemId(item.getItemId()) != null) && item.getItemType() != EtcItemType.HERB) {
+        if (!(item.isStackable() && getItemByItemId(item.getItemId()) != null)) {
             slots++;
         }
 

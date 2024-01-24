@@ -343,6 +343,7 @@ public final class Config {
     public static double RESPAWN_RESTORE_HP;
     public static int MAX_PVTSTORE_SLOTS_DWARF;
     public static int MAX_PVTSTORE_SLOTS_OTHER;
+    @Deprecated
     public static boolean DEEPBLUE_DROP_RULES;
     public static boolean ALLOW_DELEVEL;
     public static int DEATH_PENALTY_CHANCE;
@@ -481,12 +482,14 @@ public final class Config {
 
     /** Auto-loot */
     public static boolean AUTO_LOOT;
+    @Deprecated
     public static boolean AUTO_LOOT_HERBS;
     public static boolean AUTO_LOOT_RAID;
 
     /** Items Management */
     public static boolean ALLOW_DISCARDITEM;
     public static boolean MULTIPLE_ITEM_DROP;
+    @Deprecated
     public static int HERB_AUTO_DESTROY_TIME;
     public static int ITEM_AUTO_DESTROY_TIME;
     public static int EQUIPABLE_ITEM_AUTO_DESTROY_TIME;

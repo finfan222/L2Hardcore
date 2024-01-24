@@ -22,7 +22,7 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T> {
 
     @Override
     public void doInstantCast(L2Skill skill, ItemInstance item) {
-        if (!item.isHerb() && !_actor.destroyItem("Consume", item.getObjectId(), (skill.getItemConsumeId() == 0 && skill.getItemConsume() > 0) ? skill.getItemConsume() : 1, null, false)) {
+        if (!_actor.destroyItem("Consume", item.getObjectId(), (skill.getItemConsumeId() == 0 && skill.getItemConsume() > 0) ? skill.getItemConsume() : 1, null, false)) {
             _actor.sendPacket(SystemMessageId.NOT_ENOUGH_ITEMS);
             return;
         }
@@ -44,7 +44,7 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T> {
     public void doCast(L2Skill skill, Creature target, ItemInstance itemInstance) {
         if (itemInstance != null) {
             // Consume item if needed.
-            if (!(itemInstance.isHerb() || itemInstance.isSummonItem()) && !_actor.destroyItem("Consume", itemInstance.getObjectId(), 1, null, false)) {
+            if (!itemInstance.isSummonItem() && !_actor.destroyItem("Consume", itemInstance.getObjectId(), 1, null, false)) {
                 _actor.sendPacket(SystemMessageId.NOT_ENOUGH_ITEMS);
                 return;
             }

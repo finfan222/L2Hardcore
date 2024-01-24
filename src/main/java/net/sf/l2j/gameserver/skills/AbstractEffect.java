@@ -36,7 +36,6 @@ public abstract class AbstractEffect {
     protected final L2Skill _skill;
     private final Creature _effected;
     private final Creature _effector;
-    private final boolean _isHerbEffect;
 
     private int _count;
 
@@ -57,7 +56,6 @@ public abstract class AbstractEffect {
         _skill = skill;
         _effected = effected;
         _effector = effector;
-        _isHerbEffect = _skill.getName().contains("Herb");
         _count = Formulas.calcResistCounter(_effector, _effected, this, template.getCounter());
         _period = Formulas.calcResistPeriod(_effector, _effected, this, template.getPeriod());
         _periodStartTime = System.currentTimeMillis();
@@ -98,10 +96,6 @@ public abstract class AbstractEffect {
 
     public final Creature getEffector() {
         return _effector;
-    }
-
-    public boolean isHerbEffect() {
-        return _isHerbEffect;
     }
 
     public int getCount() {

@@ -9,12 +9,10 @@ import java.util.logging.LogRecord;
 
 public class ItemFilter implements Filter {
     private static final String EXCLUDE_PROCESS = "Consume";
-    private static final EtcItemType[] EXCLUDE_TYPE =
-        {
-            EtcItemType.ARROW,
-            EtcItemType.SHOT,
-            EtcItemType.HERB
-        };
+    private static final EtcItemType[] EXCLUDE_TYPE = {
+        EtcItemType.ARROW,
+        EtcItemType.SHOT,
+    };
 
     @Override
     public boolean isLoggable(LogRecord record) {

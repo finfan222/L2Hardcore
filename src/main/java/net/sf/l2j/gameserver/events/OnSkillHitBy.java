@@ -26,6 +26,7 @@ public class OnSkillHitBy {
     private Creature target;
     private L2Skill skill;
 
+    @SuppressWarnings("unchecked")
     public <T extends L2Skill> T getSkill() {
         return (T) skill;
     }

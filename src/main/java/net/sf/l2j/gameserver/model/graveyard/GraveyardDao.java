@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.actor.instance.Tombstone;
@@ -29,6 +30,7 @@ public class GraveyardDao {
 
     public static void create(PostScript ps) {
         LOGGER.info("[9][GraveyardDao.create] {}", ps);
+        PlayerInfoTable.getInstance().addRestrictedName(ps.getName());
         try (Connection con = ConnectionPool.getConnection()) {
             PreparedStatement st = con.prepareStatement("INSERT INTO graveyard (name,message,reason,x,y,z,heading,date,is_eternal) VALUES (?,?,?,?,?,?,?,?,?)");
             st.setString(1, ps.getName());
@@ -63,7 +65,7 @@ public class GraveyardDao {
                     LocalDate date = new Date(resultSet.getDate(8).getTime()).toLocalDate();
                     boolean isEternal = resultSet.getBoolean(9);
 
-                    PostScript data = PostScript.builder()
+                    PostScript ps = PostScript.builder()
                         .name(name)
                         .message(message)
                         .reason(reason)
@@ -75,7 +77,8 @@ public class GraveyardDao {
                         .isEternal(isEternal)
                         .build();
 
-                    Tombstone tombstone = createTombstoneNpc(data);
+                    Tombstone tombstone = createTombstoneNpc(ps);
+                    PlayerInfoTable.getInstance().addRestrictedName(ps.getName());
                     LOGGER.info("Tombstone {} was spawned.", tombstone);
                 }
             }
