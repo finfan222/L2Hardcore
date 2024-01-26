@@ -5,6 +5,7 @@ import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
+import net.sf.l2j.gameserver.data.xml.HerbDropData;
 import net.sf.l2j.gameserver.enums.BossInfoType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.actor.Attackable;
@@ -28,13 +29,12 @@ import net.sf.l2j.gameserver.model.item.DropData;
 import net.sf.l2j.gameserver.model.item.instance.ItemFactory;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
+import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -504,7 +504,6 @@ public class Monster extends Attackable {
      * @param isSweep : If True, use the spoil drop chance.
      * @return An {@link IntIntHolder} corresponding to the item id and count.
      */
-    @Deprecated
     private IntIntHolder calculateRewardItem(DropData drop, int levelModifier, boolean isSweep) {
         // Get default drop chance
         double dropChance = drop.getChance();
@@ -525,7 +524,7 @@ public class Monster extends Attackable {
             }
 
             // Check if we should apply our maths so deep blue mobs will not drop that easy
-            dropChance = ((drop.getChance() - ((drop.getChance() * levelModifier) / 100)) / deepBlueDrop);
+            dropChance = ((drop.getChance() - ((drop.getChance() * levelModifier) / 100.)) / deepBlueDrop);
         }
 
         // Applies Drop rates
@@ -572,33 +571,203 @@ public class Monster extends Attackable {
         return null;
     }
 
-    private List<IntIntHolder> calculateRewardItems(Player attacker, boolean forSweep) {
-        int levelModifier = calculateLevelModifierForDrop(attacker);
-        List<IntIntHolder> temp = new ArrayList<>();
+    /**
+     * Calculate the quantity for a specific drop, according its {@link DropCategory}.<br>
+     * <br>
+     * Only a maximum of ONE item from a {@link DropCategory} is allowed to be dropped.
+     *
+     * @param cat : The {@link DropCategory} informations to use.
+     * @param levelModifier : The level modifier (will be subtracted from drop chance).
+     * @return An {@link IntIntHolder} corresponding to the item id and count.
+     */
+    private IntIntHolder calculateCategorizedRewardItem(DropCategory cat, int levelModifier) {
+        if (cat == null) {
+            return null;
+        }
 
-        if (forSweep) {
-            Optional<DropCategory> optional = getTemplate().getDropData().stream().filter(DropCategory::isSweep).findFirst();
-            if (optional.isEmpty()) {
-                return Collections.emptyList();
+        // Get default drop chance for the category (that's the sum of chances for all items in the category)
+        // keep track of the base category chance as it'll be used later, if an item is drop from the category.
+        // for everything else, use the total "categoryDropChance"
+        int categoryDropChance = cat.getCategoryChance();
+
+        if (Config.DEEPBLUE_DROP_RULES) {
+            int deepBlueDrop = (levelModifier > 0) ? 3 : 1;
+
+            // Check if we should apply our maths so deep blue mobs will not drop that easy
+            categoryDropChance = ((categoryDropChance - ((categoryDropChance * levelModifier) / 100)) / deepBlueDrop);
+        }
+
+        // Applies Drop rates
+        categoryDropChance *= (isRaidBoss()) ? Config.RATE_DROP_ITEMS_BY_RAID : Config.RATE_DROP_ITEMS;
+
+        // Set our limits for chance of drop
+        if (categoryDropChance < 1) {
+            categoryDropChance = 1;
+        }
+
+        // Check if an Item from this category must be dropped
+        if (Rnd.get(DropData.MAX_CHANCE) < categoryDropChance) {
+            final DropData drop = cat.dropOne(isRaidBoss());
+            if (drop == null) {
+                return null;
             }
 
-            DropCategory sweepCategory = optional.get();
-            temp.addAll(sweepCategory.calculateDropReward(levelModifier));
-        } else {
-            for (DropCategory category : getTemplate().getDropData()) {
-                if (category.isSweep()) {
-                    continue;
+            // Now decide the quantity to drop based on the rates and penalties. To get this value
+            // simply divide the modified categoryDropChance by the base category chance. This
+            // results in a chance that will dictate the drops amounts: for each amount over 100
+            // that it is, it will give another chance to add to the min/max quantities.
+            //
+            // For example, If the final chance is 120%, then the item should drop between
+            // its min and max one time, and then have 20% chance to drop again. If the final
+            // chance is 330%, it will similarly give 3 times the min and max, and have a 30%
+            // chance to give a 4th time.
+            // At least 1 item will be dropped for sure. So the chance will be adjusted to 100%
+            // if smaller.
+
+            double dropChance = drop.getChance();
+            if (drop.getItemId() == Item.ADENA) {
+                dropChance *= Config.RATE_DROP_ADENA;
+            } else {
+                dropChance *= (isRaidBoss()) ? Config.RATE_DROP_ITEMS_BY_RAID : Config.RATE_DROP_ITEMS;
+            }
+
+            if (dropChance < DropData.MAX_CHANCE) {
+                dropChance = DropData.MAX_CHANCE;
+            }
+
+            // Get min and max Item quantity that can be dropped in one time
+            final int min = drop.getMin();
+            final int max = drop.getMax();
+
+            // Get the item quantity dropped
+            int itemCount = 0;
+
+            // Check if the Item must be dropped
+            int random = Rnd.get(DropData.MAX_CHANCE);
+            while (random < dropChance) {
+                // Get the item quantity dropped
+                if (min < max) {
+                    itemCount += Rnd.get(min, max);
+                } else if (min == max) {
+                    itemCount += min;
+                } else {
+                    itemCount++;
                 }
 
-                if (category.getCategoryType() == 0) {
-                    DropData dropData = category.getAllDrops().get(0);
-                    temp.add(new IntIntHolder(dropData.getItemId(), dropData.getMax()));
-                } else {
-                    temp.addAll(category.calculateDropReward(levelModifier));
-                }
+                // Prepare for next iteration if dropChance > DropData.MAX_CHANCE
+                dropChance -= DropData.MAX_CHANCE;
+            }
+
+            if (itemCount > 0) {
+                return new IntIntHolder(drop.getItemId(), itemCount);
             }
         }
-        return temp;
+        return null;
+    }
+
+    /**
+     * Calculate the quantity for a specific herb, according its {@link DropCategory}.
+     *
+     * @param cat : The {@link DropCategory} informations to use.
+     * @param levelModifier : The level modifier (will be subtracted from drop chance).
+     * @return An {@link IntIntHolder} corresponding to the item id and count.
+     */
+    private static IntIntHolder calculateCategorizedHerbItem(DropCategory cat, int levelModifier) {
+        if (cat == null) {
+            return null;
+        }
+
+        int categoryDropChance = cat.getCategoryChance();
+
+        // Applies Drop rates
+        switch (cat.getCategoryType()) {
+            case 1:
+                categoryDropChance *= Config.RATE_DROP_HP_HERBS;
+                break;
+
+            case 2:
+                categoryDropChance *= Config.RATE_DROP_MP_HERBS;
+                break;
+
+            case 3:
+                categoryDropChance *= Config.RATE_DROP_SPECIAL_HERBS;
+                break;
+
+            default:
+                categoryDropChance *= Config.RATE_DROP_COMMON_HERBS;
+        }
+
+        // Drop chance is affected by deep blue drop rule.
+        if (Config.DEEPBLUE_DROP_RULES) {
+            int deepBlueDrop = (levelModifier > 0) ? 3 : 1;
+
+            // Check if we should apply our maths so deep blue mobs will not drop that easy
+            categoryDropChance = ((categoryDropChance - ((categoryDropChance * levelModifier) / 100)) / deepBlueDrop);
+        }
+
+        // Check if an Item from this category must be dropped
+        if (Rnd.get(DropData.MAX_CHANCE) < Math.max(1, categoryDropChance)) {
+            final DropData drop = cat.dropOne(false);
+            if (drop == null) {
+                return null;
+            }
+
+            /*
+             * Now decide the quantity to drop based on the rates and penalties. To get this value, simply divide the modified categoryDropChance by the base category chance. This results in a chance that will dictate the drops amounts : for each amount over 100 that it is, it will give another
+             * chance to add to the min/max quantities. For example, if the final chance is 120%, then the item should drop between its min and max one time, and then have 20% chance to drop again. If the final chance is 330%, it will similarly give 3 times the min and max, and have a 30% chance to
+             * give a 4th time. At least 1 item will be dropped for sure. So the chance will be adjusted to 100% if smaller.
+             */
+            double dropChance = drop.getChance();
+
+            switch (cat.getCategoryType()) {
+                case 1:
+                    dropChance *= Config.RATE_DROP_HP_HERBS;
+                    break;
+
+                case 2:
+                    dropChance *= Config.RATE_DROP_MP_HERBS;
+                    break;
+
+                case 3:
+                    dropChance *= Config.RATE_DROP_SPECIAL_HERBS;
+                    break;
+
+                default:
+                    dropChance *= Config.RATE_DROP_COMMON_HERBS;
+            }
+
+            if (dropChance < DropData.MAX_CHANCE) {
+                dropChance = DropData.MAX_CHANCE;
+            }
+
+            // Get min and max Item quantity that can be dropped in one time
+            final int min = drop.getMin();
+            final int max = drop.getMax();
+
+            // Get the item quantity dropped
+            int itemCount = 0;
+
+            // Check if the Item must be dropped
+            int random = Rnd.get(DropData.MAX_CHANCE);
+            while (random < dropChance) {
+                // Get the item quantity dropped
+                if (min < max) {
+                    itemCount += Rnd.get(min, max);
+                } else if (min == max) {
+                    itemCount += min;
+                } else {
+                    itemCount++;
+                }
+
+                // Prepare for next iteration if dropChance > L2DropData.MAX_CHANCE
+                dropChance -= DropData.MAX_CHANCE;
+            }
+
+            if (itemCount > 0) {
+                return new IntIntHolder(drop.getItemId(), itemCount);
+            }
+        }
+        return null;
     }
 
     /**
@@ -606,18 +775,20 @@ public class Monster extends Attackable {
      * @return The level modifier for drop purpose, based on this instance and the {@link Player} set as parameter.
      */
     private int calculateLevelModifierForDrop(Player player) {
-        int highestLevel = player.getStatus().getLevel();
+        if (Config.DEEPBLUE_DROP_RULES) {
+            int highestLevel = player.getStatus().getLevel();
 
-        // Check to prevent very high level player to nearly kill mob and let low level player do the last hit.
-        for (Creature creature : getAttackByList()) {
-            if (creature.getStatus().getLevel() > highestLevel) {
-                highestLevel = creature.getStatus().getLevel();
+            // Check to prevent very high level player to nearly kill mob and let low level player do the last hit.
+            for (Creature creature : getAttackByList()) {
+                if (creature.getStatus().getLevel() > highestLevel) {
+                    highestLevel = creature.getStatus().getLevel();
+                }
             }
-        }
 
-        // According to official data (Prima), deep blue mobs are 9 or more levels below players
-        if (highestLevel - 9 >= getStatus().getLevel()) {
-            return ((highestLevel - (getStatus().getLevel() + 8)) * 9);
+            // According to official data (Prima), deep blue mobs are 9 or more levels below players
+            if (highestLevel - 9 >= getStatus().getLevel()) {
+                return ((highestLevel - (getStatus().getLevel() + 8)) * 9);
+            }
         }
         return 0;
     }
@@ -631,17 +802,66 @@ public class Monster extends Attackable {
      * @param attacker : The {@link Creature} that made the most damage.
      */
     public void doItemDrop(NpcTemplate template, Creature attacker) {
-        if (!(attacker instanceof Player player)) {
+        if (attacker == null) {
             return;
         }
+
+        // Don't drop anything if the last attacker or owner isn't a Player.
+        final Player player = attacker.getActingPlayer();
+        if (player == null) {
+            return;
+        }
+
+        // Calculate level modifier.
+        final int levelModifier = calculateLevelModifierForDrop(player);
 
         // Check Cursed Weapons drop.
         CursedWeaponManager.getInstance().checkDrop(this, player);
 
-        if (getSpoilState().isSpoiled()) {
-            calculateRewardItems(player, true).forEach(e -> getSpoilState().add(e));
-        } else {
-            calculateRewardItems(player, false).forEach(e -> dropOrAutoLootItem(player, e, true));
+        // now throw all categorized drops and handle spoil.
+        for (DropCategory cat : template.getDropData()) {
+            IntIntHolder holder = null;
+            if (cat.isSweep()) {
+                if (getSpoilState().isSpoiled()) {
+                    for (DropData drop : cat.getAllDrops()) {
+                        holder = calculateRewardItem(drop, levelModifier, true);
+                        if (holder == null) {
+                            continue;
+                        }
+
+                        getSpoilState().add(holder);
+                    }
+                }
+            } else {
+                if (getSeedState().isSeeded()) {
+                    final DropData drop = cat.dropSeedAllowedDropsOnly();
+                    if (drop == null) {
+                        continue;
+                    }
+
+                    holder = calculateRewardItem(drop, levelModifier, false);
+                } else {
+                    holder = calculateCategorizedRewardItem(cat, levelModifier);
+                }
+
+                if (holder == null) {
+                    continue;
+                }
+
+                dropOrAutoLootItem(player, holder, true);
+            }
+        }
+
+        // Herbs.
+        if (getTemplate().getDropHerbGroup() > 0) {
+            for (DropCategory cat : HerbDropData.getInstance().getHerbDroplist(getTemplate().getDropHerbGroup())) {
+                final IntIntHolder holder = calculateCategorizedHerbItem(cat, levelModifier);
+                if (holder == null) {
+                    continue;
+                }
+
+                dropOrAutoLootItem(player, holder, false);
+            }
         }
     }
 

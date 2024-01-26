@@ -1,70 +1,56 @@
 package net.sf.l2j.gameserver.model.item;
 
+import lombok.Getter;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.random.Rnd;
-import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+import net.sf.l2j.gameserver.model.item.kind.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DropCategory {
-    private final List<DropData> _drops;
-    private int _categoryChance; // a sum of chances for calculating if an item will be dropped from this category
-    private int _categoryBalancedChance; // sum for balancing drop selection inside categories in high rate servers
-    private final int _categoryType;
+
+    @Getter
+    private final List<DropData> drops;
+    @Getter
+    private int categoryChance; // a sum of chances for calculating if an item will be dropped from this category
+    private int categoryBalancedChance; // sum for balancing drop selection inside categories in high rate servers
+    @Getter
+    private final int categoryType;
 
     public DropCategory(int categoryType) {
-        _categoryType = categoryType;
-        _drops = new ArrayList<>(0);
-        _categoryChance = 0;
-        _categoryBalancedChance = 0;
+        this.categoryType = categoryType;
+        drops = new ArrayList<>(0);
+        categoryChance = 0;
+        categoryBalancedChance = 0;
     }
 
     public void addDropData(DropData drop, boolean raid) {
-        _drops.add(drop);
-        _categoryChance += drop.getChance();
+        drops.add(drop);
+        categoryChance += drop.getChance();
 
         // for drop selection inside a category: max 100 % chance for getting an item, scaling all values to that.
-        _categoryBalancedChance += Math.min((drop.getChance() * (raid ? Config.RATE_DROP_ITEMS_BY_RAID : Config.RATE_DROP_ITEMS)), DropData.MAX_CHANCE);
+        categoryBalancedChance += Math.min((drop.getChance() * (raid ? Config.RATE_DROP_ITEMS_BY_RAID : Config.RATE_DROP_ITEMS)), DropData.MAX_CHANCE);
     }
 
     public List<DropData> getAllDrops() {
-        return _drops;
+        return drops;
     }
 
     public void clearAllDrops() {
-        _drops.clear();
+        drops.clear();
     }
 
     public boolean isSweep() {
-        return _categoryType == -1;
+        return categoryType == -1;
     }
 
     public boolean isAdena() {
-        return _categoryType == 0;
-    }
-
-    // this returns the chance for the category to be visited in order to check if
-    // drops might come from it. Category -1 (spoil) must always be visited
-    // (but may return 0 or many drops)
-    public int getCategoryChance() {
-        if (getCategoryType() >= 0) {
-            return _categoryChance;
-        }
-
-        return DropData.MAX_CHANCE;
+        return categoryType == 0;
     }
 
     public int getCategoryBalancedChance() {
-        if (getCategoryType() >= 0) {
-            return _categoryBalancedChance;
-        }
-
-        return DropData.MAX_CHANCE;
-    }
-
-    public int getCategoryType() {
-        return _categoryType;
+        return getCategoryType() >= 0 ? categoryBalancedChance : DropData.MAX_CHANCE;
     }
 
     /**
@@ -79,7 +65,7 @@ public class DropCategory {
         List<DropData> drops = new ArrayList<>();
         int subCatChance = 0;
         for (DropData drop : getAllDrops()) {
-            if ((drop.getItemId() == 57) || (drop.getItemId() == 6360) || (drop.getItemId() == 6361) || (drop.getItemId() == 6362)) {
+            if ((drop.getItemId() == Item.ADENA) || (drop.getItemId() == 6360) || (drop.getItemId() == 6361) || (drop.getItemId() == 6362)) {
                 drops.add(drop);
                 subCatChance += drop.getChance();
             }
@@ -137,30 +123,6 @@ public class DropCategory {
             }
         }
         return null;
-    }
-
-    /**
-     * Calculate drop from monster by hardcore rule: The drop with the highest chance should appear in any case if
-     * nothing else has dropped before it.
-     *
-     * @param levelModifier modifier for chance calculating
-     * @return {@link List} of {@link IntIntHolder} which hold all dropped objects
-     */
-    public List<IntIntHolder> calculateDropReward(double levelModifier) {
-        List<IntIntHolder> rewards = new ArrayList<>();
-        DropData dropData = _drops.get(_drops.size() - 1);
-        for (DropData drop : _drops) {
-            int chance = (int) Math.max(drop.getChance() * levelModifier, DropData.MAX_CHANCE);
-            if (Rnd.calcChance(chance, DropData.MAX_CHANCE)) {
-                rewards.add(new IntIntHolder(drop.getItemId(), Rnd.get(drop.getMin(), drop.getMax())));
-            }
-        }
-
-        // if nothing not dropped we must add to drop the last dropData like items with 100% drop chance
-        if (rewards.isEmpty()) {
-            rewards.add(new IntIntHolder(dropData.getItemId(), Rnd.get(dropData.getMin(), dropData.getMax())));
-        }
-        return rewards;
     }
 
 }

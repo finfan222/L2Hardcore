@@ -65,6 +65,10 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
             .build();
     }
 
+    public boolean isHerb() {
+        return getItem().getItemType() == EtcItemType.HERB;
+    }
+
     public ItemInstance(int objectId, Item item) {
         this(objectId, item.getItemId());
     }

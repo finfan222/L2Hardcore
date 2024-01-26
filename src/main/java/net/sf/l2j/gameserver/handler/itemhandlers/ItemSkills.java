@@ -70,6 +70,10 @@ public class ItemSkills implements IItemHandler {
             // Potions and Energy Stones bypass the AI system. The rest does not.
             if (itemSkill.isPotion() || itemSkill.isSimultaneousCast()) {
                 playable.getCast().doInstantCast(itemSkill, item);
+
+                if (!isPet && item.isHerb() && player.hasServitor()) {
+                    player.getSummon().getCast().doInstantCast(itemSkill, item);
+                }
             } else {
                 playable.getAI().tryToCast(target, itemSkill, forceUse, false, (item.isEtcItem() ? item.getObjectId() : 0));
             }

@@ -612,6 +612,12 @@ public class EffectList {
                 return;
             }
 
+            // if max buffs, no herb effects are used, even if they would replace one old
+            if (newEffect.isHerbEffect() && getBuffCount() >= _owner.getMaxBuffCount()) {
+                newEffect.stopEffectTask();
+                return;
+            }
+
             // Remove first buff when buff list is full
             if (!doesStack(newSkill) && !newSkill.is7Signs()) {
                 int effectsToRemove = getBuffCount() - _owner.getMaxBuffCount();

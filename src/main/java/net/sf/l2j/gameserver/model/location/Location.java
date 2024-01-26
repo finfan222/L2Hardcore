@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.model.location;
 
 import net.sf.l2j.commons.data.StatSet;
+import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 
 import java.util.Objects;
@@ -173,11 +174,7 @@ public class Location extends Point2D {
      * @return The distance between this {@link Location} and some given coordinates.
      */
     public double distance3D(int x, int y, int z) {
-        final double dx = (double) _x - x;
-        final double dy = (double) _y - y;
-        final double dz = (double) _z - z;
-
-        return Math.sqrt((dx * dx) + (dy * dy) + (dz * dz));
+        return MathUtil.calculateDistance(x, y, _x, _y);
     }
 
     /**

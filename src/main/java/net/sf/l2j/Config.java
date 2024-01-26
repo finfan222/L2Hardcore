@@ -343,8 +343,8 @@ public final class Config {
     public static double RESPAWN_RESTORE_HP;
     public static int MAX_PVTSTORE_SLOTS_DWARF;
     public static int MAX_PVTSTORE_SLOTS_OTHER;
-    @Deprecated
     public static boolean DEEPBLUE_DROP_RULES;
+    public static boolean ALTERNATIVE_DROP_RULES;
     public static boolean ALLOW_DELEVEL;
     public static int DEATH_PENALTY_CHANCE;
 
@@ -500,8 +500,9 @@ public final class Config {
     public static double RATE_XP;
     public static double RATE_SP;
     public static double RATE_PARTY_XP;
-    @Deprecated
+    @Deprecated(since = "Не нужен, на хардкоре, SP группой не получается, только при применении скилов")
     public static double RATE_PARTY_SP;
+    @Deprecated(since = "Не нужен, на хардкоре, адена всегда падает с шансом 100%")
     public static double RATE_DROP_ADENA;
     public static double RATE_DROP_ITEMS;
     public static double RATE_DROP_ITEMS_BY_RAID;
@@ -964,6 +965,7 @@ public final class Config {
         MAX_PVTSTORE_SLOTS_DWARF = players.getProperty("MaxPvtStoreSlotsDwarf", 5);
         MAX_PVTSTORE_SLOTS_OTHER = players.getProperty("MaxPvtStoreSlotsOther", 4);
         DEEPBLUE_DROP_RULES = players.getProperty("UseDeepBlueDropRules", true);
+        ALTERNATIVE_DROP_RULES = players.getProperty("UseAlternativeDropRules", true);
         ALLOW_DELEVEL = players.getProperty("AllowDelevel", true);
         DEATH_PENALTY_CHANCE = players.getProperty("DeathPenaltyChance", 20);
 

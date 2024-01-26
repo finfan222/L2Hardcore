@@ -127,6 +127,10 @@ public final class ItemsOnGroundTaskManager implements Runnable {
         Integer special = Config.SPECIAL_ITEM_DESTROY_TIME.get(item.getItemId());
         if (special != null) {
             dropTime = special;
+        }
+        // Get base destroy time for herbs, items, equipable items.
+        else if (item.isHerb()) {
+            dropTime = Config.HERB_AUTO_DESTROY_TIME;
         } else if (item.isEquipable()) {
             dropTime = Config.EQUIPABLE_ITEM_AUTO_DESTROY_TIME;
         } else {

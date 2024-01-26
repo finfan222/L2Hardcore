@@ -66,6 +66,7 @@ public class NpcTemplate extends CreatureTemplate {
     private Castle _castle;
     private ClanHall _clanHall;
     private SiegableHall _siegableHall;
+    private int _dropHerbGroup;
 
     public NpcTemplate(StatSet set) {
         super(set);
@@ -84,6 +85,7 @@ public class NpcTemplate extends CreatureTemplate {
         _lHand = set.getInteger("lHand", 0);
         _enchantEffect = set.getInteger("enchant", 0);
         _corpseTime = set.getInteger("corpseTime", 7);
+        _dropHerbGroup = set.getInteger("dropHerbGroup", 0);
 
         if (set.containsKey("raceId")) {
             setRace(set.getInteger("raceId"));
@@ -142,6 +144,10 @@ public class NpcTemplate extends CreatureTemplate {
                 break;
             }
         }
+    }
+
+    public int getDropHerbGroup() {
+        return _dropHerbGroup;
     }
 
     public int getNpcId() {

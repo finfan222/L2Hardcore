@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.itemcontainer;
 
+import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
@@ -39,7 +40,7 @@ public class PetInventory extends Inventory {
     public boolean validateCapacity(ItemInstance item) {
         int slots = 0;
 
-        if (!(item.isStackable() && getItemByItemId(item.getItemId()) != null)) {
+        if (!(item.isStackable() && getItemByItemId(item.getItemId()) != null) && item.getItemType() != EtcItemType.HERB) {
             slots++;
         }
 

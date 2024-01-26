@@ -1,8 +1,9 @@
 package net.sf.l2j.gameserver.model.item;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.model.item.kind.Item;
 
 /**
  * A container used by monster drops.<br>
@@ -11,7 +12,6 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class DropData {
 
     public static final int MIN_CHANCE = 10000;
@@ -22,4 +22,18 @@ public class DropData {
     private int max;
     private int chance;
 
+    public DropData(int itemId, int min, int max, int chance) {
+        this.itemId = itemId;
+        this.min = min;
+        this.max = max;
+        if (itemId == Item.ADENA) {
+            this.chance = MAX_CHANCE;
+        } else if (chance == 0) {
+            this.chance = chance;
+        } else {
+            int calc = ItemData.getInstance().getTemplate(itemId).getReferencePrice();
+            calc = (int) Math.pow(calc, 1. / 4.);
+            this.chance = Math.max(calc, MIN_CHANCE);
+        }
+    }
 }

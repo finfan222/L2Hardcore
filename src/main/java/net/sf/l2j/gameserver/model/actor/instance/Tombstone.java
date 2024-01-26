@@ -45,7 +45,7 @@ public class Tombstone extends Folk {
 
     @Override
     public String getName() {
-        return "Надгробье";
+        return "Надгробие";
     }
 
     @Override

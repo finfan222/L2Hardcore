@@ -6,9 +6,12 @@ import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.enums.LootRule;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
+import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
+import net.sf.l2j.gameserver.handler.IItemHandler;
+import net.sf.l2j.gameserver.handler.ItemHandler;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Boat;
@@ -325,7 +328,14 @@ public class PlayerAI extends PlayableAI {
             ItemsOnGroundTaskManager.getInstance().remove(item);
         }
 
-        if (CursedWeaponManager.getInstance().isCursed(item.getItemId())) {
+        if (item.getItemType() == EtcItemType.HERB) {
+            final IItemHandler handler = ItemHandler.getInstance().getHandler(item.getEtcItem());
+            if (handler != null) {
+                handler.useItem(getActor(), item, false);
+            }
+
+            item.destroyMe("Consume", getActor(), null);
+        } else if (CursedWeaponManager.getInstance().isCursed(item.getItemId())) {
             getActor().addItem("Pickup", item, null, true);
         } else {
             if (item.getItemType() instanceof ArmorType || item.getItemType() instanceof WeaponType) {

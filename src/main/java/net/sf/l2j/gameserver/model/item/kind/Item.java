@@ -33,7 +33,6 @@ import java.util.Map;
  */
 public abstract class Item {
     private static final Map<String, Integer> SLOTS = new HashMap<>();
-
     {
         SLOTS.put("chest", SLOT_CHEST);
         SLOTS.put("fullarmor", SLOT_FULL_ARMOR);
@@ -60,6 +59,8 @@ public abstract class Item {
         SLOTS.put("strider", SLOT_STRIDER); // for strider
         SLOTS.put("babypet", SLOT_BABYPET); // for babypet
     }
+
+    public static final int ADENA = 57;
 
     public static final int TYPE1_WEAPON_RING_EARRING_NECKLACE = 0;
     public static final int TYPE1_SHIELD_ARMOR = 1;

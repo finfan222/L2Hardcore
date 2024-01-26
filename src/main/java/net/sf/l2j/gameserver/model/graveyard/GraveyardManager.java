@@ -348,30 +348,30 @@ public class GraveyardManager implements Runnable {
             /*
              * PlayerName стал жертвой кровожадного KillerName недалеко от ZoneName, который выпотрошил его внутренности и, возможно, даже сожрал. Монстру все пожелают: «приятного аппетита», а падшему – «покойся с миром, брат»
              */
-            case MONSTER -> builder.append(HtmColor.YELLOW.asColored(playerName))
+            case MONSTER -> builder.append(HtmColor.LEVEL.asColored(playerName))
                 .append(" стал жертвой кровожадного ")
-                .append(HtmColor.YELLOW.asColored(killerName)).append(" недалеко от ").append(HtmColor.YELLOW.asColored(zoneName)).append(", ")
+                .append(HtmColor.LEVEL.asColored(killerName)).append(" недалеко от ").append(HtmColor.LEVEL.asColored(zoneName)).append(", ")
                 .append("который выпотрошил его внутренности и, возможно, даже сожрал. Монстру все пожелают: «приятного аппетита», а падшему – «покойся с миром, брат»").toString();
             /*
              * PlayerName не рассчитал свои силы и захлебнулся, утонув в водах ZoneName. Умение хорошо плавать и надолго задерживать дыхание - может спасти вам жизнь! Не пренебрегайте «Breath of Eva»!
              */
             case DROWN ->
-                builder.append(HtmColor.YELLOW.asColored(playerName)).append(" не рассчитал свои силы и захлебнулся, утонув в водах ")
-                    .append(HtmColor.YELLOW.asColored(zoneName)).append(".<br>")
+                builder.append(HtmColor.LEVEL.asColored(playerName)).append(" не рассчитал свои силы и захлебнулся, утонув в водах ")
+                    .append(HtmColor.LEVEL.asColored(zoneName)).append(".<br>")
                     .append("Умение хорошо плавать и надолго задерживать дыхание - может спасти вам жизнь! Не пренебрегайте «Breath of Eva»!").toString();
             /*
              * PlayerName разбился упав с высоты на просторах ZoneName. Всегда нужно смотреть под ноги и осознавать, что природа, может убивать не хуже меча!
              */
             case FALL ->
-                builder.append(HtmColor.YELLOW.asColored(playerName)).append(" разбился упав с высоты на просторах ")
-                    .append(HtmColor.YELLOW.asColored(zoneName)).append(".<br>")
+                builder.append(HtmColor.LEVEL.asColored(playerName)).append(" разбился упав с высоты на просторах ")
+                    .append(HtmColor.LEVEL.asColored(zoneName)).append(".<br>")
                     .append("Всегда нужно смотреть под ноги. Невнимательность или случайность - убивает!").toString();
             /*
              * PlayerName нарушил закон окрестностей ZoneName, за что и поплатился!<br> Приговор в исполнение привел KillerName.<br>Закон в Эльморадене - одинаков и суров для всех. Нарушение закона - карается смертью.<br><br>Не нарушайте закон пожалуйста.
              */
-            case GUARD -> builder.append(HtmColor.YELLOW.asColored(playerName)).append(" нарушил закон окрестностей ")
-                .append(HtmColor.YELLOW.asColored(zoneName)).append(", за что и поплатился!<br>")
-                .append("Приговор в исполнение привел ").append(HtmColor.YELLOW.asColored(killerName)).append(".<br>")
+            case GUARD -> builder.append(HtmColor.LEVEL.asColored(playerName)).append(" нарушил закон окрестностей ")
+                .append(HtmColor.LEVEL.asColored(zoneName)).append(", за что и поплатился!<br>")
+                .append("Приговор в исполнение привел ").append(HtmColor.LEVEL.asColored(killerName)).append(".<br>")
                 .append("Закон в Эльморадене - одинаков и суров для всех. Нарушение закона - карается смертью.<br><br>Не нарушайте закон пожалуйста.").toString();
             default ->
                 throw new UnsupportedOperationException(String.format("Die reason %s is not implemented.", reason));

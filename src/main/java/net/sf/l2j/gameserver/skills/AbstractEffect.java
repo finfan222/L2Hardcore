@@ -40,6 +40,7 @@ public abstract class AbstractEffect {
     private int _count;
 
     private final int _period;
+    private final boolean _isHerbEffect;
     private long _periodStartTime;
 
     private boolean _isSelfEffect;
@@ -56,8 +57,9 @@ public abstract class AbstractEffect {
         _skill = skill;
         _effected = effected;
         _effector = effector;
-        _count = Formulas.calcResistCounter(_effector, _effected, this, template.getCounter());
-        _period = Formulas.calcResistPeriod(_effector, _effected, this, template.getPeriod());
+        _isHerbEffect = _skill.getName().contains("Herb");
+        _count = Formulas.calcResistCounter(_effected, this, template.getCounter());
+        _period = Formulas.calcResistPeriod(_effected, this, template.getPeriod());
         _periodStartTime = System.currentTimeMillis();
     }
 
@@ -367,6 +369,10 @@ public abstract class AbstractEffect {
 
     public boolean onSameEffect(AbstractEffect effect) {
         return true;
+    }
+
+    public boolean isHerbEffect() {
+        return _isHerbEffect;
     }
 
     /**

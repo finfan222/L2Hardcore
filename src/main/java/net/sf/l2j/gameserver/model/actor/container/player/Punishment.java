@@ -1,17 +1,17 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.enums.PunishmentType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.PlayerDao;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
+
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class Punishment {
     private final Player _owner;
@@ -150,7 +150,7 @@ public class Punishment {
         }
 
         // store in database
-        _owner.storeCharBase();
+        PlayerDao.update(_owner);
     }
 
     public long getTimer() {

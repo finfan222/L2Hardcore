@@ -1,27 +1,25 @@
 package net.sf.l2j.gameserver.enums.actors;
 
+import lombok.Getter;
+
 /**
  * This class defines all races that a player can choose.
  */
+@Getter
 public enum ClassRace {
-    HUMAN(1),
-    ELF(1.5),
-    DARK_ELF(1.5),
-    ORC(0.9),
-    DWARF(0.8);
+    HUMAN(38400, 84825),
+    ELF(60000, 76546),
+    DARK_ELF(48000, 81432),
+    ORC(24576, 90240),
+    DWARF(30720, 96000);
 
     public static final ClassRace[] VALUES = values();
 
-    private final double _breathMultiplier;
+    private final int breath;
+    private final int weightLimit;
 
-    private ClassRace(double breathMultiplier) {
-        _breathMultiplier = breathMultiplier;
-    }
-
-    /**
-     * @return the breath multiplier.
-     */
-    public double getBreathMultiplier() {
-        return _breathMultiplier;
+    ClassRace(int breath, int weightLimit) {
+        this.breath = breath;
+        this.weightLimit = weightLimit;
     }
 }

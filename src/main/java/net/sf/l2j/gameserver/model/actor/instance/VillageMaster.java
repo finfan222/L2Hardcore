@@ -1,12 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
@@ -15,6 +10,7 @@ import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.skills.AcquireSkillType;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.PlayerDao;
 import net.sf.l2j.gameserver.model.actor.container.player.SubClass;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.entity.Castle;
@@ -32,6 +28,10 @@ import net.sf.l2j.gameserver.network.serverpackets.PledgeShowMemberListAll;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The generic villagemaster. Some childs instances depends of it for race/classe restriction.
@@ -435,7 +435,7 @@ public class VillageMaster extends Folk {
 
                     // If they both exist, remove both unique items and continue with adding the subclass.
                     if (allowAddition && isValidNewSubClass(player, paramOne)) {
-                        if (!player.addSubClass(paramOne, player.getSubClasses().size() + 1)) {
+                        if (!PlayerDao.updateSubClass(player, paramOne, player.getSubClasses().size() + 1)) {
                             return;
                         }
 
@@ -524,9 +524,8 @@ public class VillageMaster extends Folk {
                         return;
                     }
 
-                    if (player.modifySubClass(paramOne, paramTwo)) {
+                    if (PlayerDao.updateSubClass(player, paramOne, paramTwo)) {
                         player.setActiveClass(paramOne);
-
                         html.setFile("data/html/villagemaster/SubClass_ModifyOk.htm");
                         player.sendPacket(SystemMessageId.ADD_NEW_SUBCLASS);
                     } else {

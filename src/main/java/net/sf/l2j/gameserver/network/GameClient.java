@@ -1,5 +1,25 @@
 package net.sf.l2j.gameserver.network;
 
+import net.sf.l2j.Config;
+import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.commons.mmocore.MMOClient;
+import net.sf.l2j.commons.mmocore.MMOConnection;
+import net.sf.l2j.commons.mmocore.ReceivablePacket;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.commons.pool.ThreadPool;
+import net.sf.l2j.gameserver.LoginServerThread;
+import net.sf.l2j.gameserver.data.sql.ClanTable;
+import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
+import net.sf.l2j.gameserver.enums.FloodProtector;
+import net.sf.l2j.gameserver.model.CharSelectSlot;
+import net.sf.l2j.gameserver.model.World;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.PlayerDao;
+import net.sf.l2j.gameserver.model.pledge.Clan;
+import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
+import net.sf.l2j.gameserver.network.serverpackets.ServerClose;
+
 import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.sql.Connection;
@@ -9,26 +29,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.locks.ReentrantLock;
-
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.mmocore.MMOClient;
-import net.sf.l2j.commons.mmocore.MMOConnection;
-import net.sf.l2j.commons.mmocore.ReceivablePacket;
-import net.sf.l2j.commons.pool.ConnectionPool;
-import net.sf.l2j.commons.pool.ThreadPool;
-
-import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.LoginServerThread;
-import net.sf.l2j.gameserver.data.sql.ClanTable;
-import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
-import net.sf.l2j.gameserver.enums.FloodProtector;
-import net.sf.l2j.gameserver.model.CharSelectSlot;
-import net.sf.l2j.gameserver.model.World;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.pledge.Clan;
-import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
-import net.sf.l2j.gameserver.network.serverpackets.ServerClose;
 
 /**
  * Represents a client connected on Game Server.<br>
@@ -477,7 +477,7 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
             return null;
         }
 
-        player = Player.restore(objectId);
+        player = PlayerDao.restore(objectId);
         if (player != null) {
             player.forceRunStance();
             player.standUp();

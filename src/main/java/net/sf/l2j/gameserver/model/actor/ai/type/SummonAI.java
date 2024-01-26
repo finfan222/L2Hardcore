@@ -6,6 +6,8 @@ import net.sf.l2j.gameserver.enums.LootRule;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
+import net.sf.l2j.gameserver.handler.IItemHandler;
+import net.sf.l2j.gameserver.handler.ItemHandler;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -201,31 +203,41 @@ public class SummonAI extends PlayableAI {
         }
 
 
-        SystemMessage sm;
-
-        if (item.getItemType() instanceof ArmorType || item.getItemType() instanceof WeaponType) {
-            if (item.getEnchantLevel() > 0) {
-                sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2_S3).addCharName(getActor().getOwner()).addNumber(item.getEnchantLevel()).addItemName(item.getItemId());
-            } else {
-                sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2).addCharName(getActor().getOwner()).addItemName(item.getItemId());
+        if (item.getItemType() == EtcItemType.HERB) {
+            final IItemHandler handler = ItemHandler.getInstance().getHandler(item.getEtcItem());
+            if (handler != null) {
+                handler.useItem(getActor(), item, false);
             }
 
-            getOwner().broadcastPacketInRadius(sm, 1400);
-        }
-
-        if (item.getItemId() == 57) {
-            sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S1_ADENA).addItemNumber(item.getCount());
-        } else if (item.getEnchantLevel() > 0) {
-            sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S1_S2).addNumber(item.getEnchantLevel()).addItemName(item.getItemId());
-        } else if (item.getCount() > 1) {
-            sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S2_S1_S).addItemName(item.getItemId()).addItemNumber(item.getCount());
+            item.destroyMe("Consume", getActor().getOwner(), null);
+            getActor().getStatus().broadcastStatusUpdate();
         } else {
-            sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S1).addItemName(item.getItemId());
-        }
+            SystemMessage sm;
 
-        getOwner().sendPacket(sm);
-        getActor().getInventory().addItem("Pickup", item, getOwner(), getActor());
-        getOwner().sendPacket(new PetItemList(getActor()));
+            if (item.getItemType() instanceof ArmorType || item.getItemType() instanceof WeaponType) {
+                if (item.getEnchantLevel() > 0) {
+                    sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2_S3).addCharName(getActor().getOwner()).addNumber(item.getEnchantLevel()).addItemName(item.getItemId());
+                } else {
+                    sm = SystemMessage.getSystemMessage(SystemMessageId.ATTENTION_S1_PET_PICKED_UP_S2).addCharName(getActor().getOwner()).addItemName(item.getItemId());
+                }
+
+                getOwner().broadcastPacketInRadius(sm, 1400);
+            }
+
+            if (item.getItemId() == 57) {
+                sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S1_ADENA).addItemNumber(item.getCount());
+            } else if (item.getEnchantLevel() > 0) {
+                sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S1_S2).addNumber(item.getEnchantLevel()).addItemName(item.getItemId());
+            } else if (item.getCount() > 1) {
+                sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S2_S1_S).addItemName(item.getItemId()).addItemNumber(item.getCount());
+            } else {
+                sm = SystemMessage.getSystemMessage(SystemMessageId.PET_PICKED_S1).addItemName(item.getItemId());
+            }
+
+            getOwner().sendPacket(sm);
+            getActor().getInventory().addItem("Pickup", item, getOwner(), getActor());
+            getOwner().sendPacket(new PetItemList(getActor()));
+        }
 
         return item;
     }

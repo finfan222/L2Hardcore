@@ -1250,7 +1250,11 @@ public final class Formulas {
         return Math.pow(skill.getLevel(), caster.getStatus().getLevel() - target.getStatus().getLevel() - 5);
     }
 
-    public static int calcResistPeriod(Creature caster, Creature target, AbstractEffect effect, int period) {
+    public static int calcResistPeriod(Creature target, AbstractEffect effect, int period) {
+        if (effect.getSkill().ignoreResists()) {
+            return 1;
+        }
+
         int skillId = effect.getSkill().getId();
 
         if (skillId > 2277 && skillId < 2286
@@ -1274,8 +1278,12 @@ public final class Formulas {
         return Math.max((int) (period * multiplier), 1);
     }
 
-    public static int calcResistCounter(Creature caster, Creature target, AbstractEffect effect, int counter) {
+    public static int calcResistCounter(Creature target, AbstractEffect effect, int counter) {
         double multiplier = 1;
+
+        if (effect.getSkill().ignoreResists()) {
+            return (int) multiplier;
+        }
 
         multiplier = switch (effect.getEffectSkillType()) {
             case BLEED -> target.getStatus().calcStat(Stats.BLEED_VULN, multiplier, target, null);

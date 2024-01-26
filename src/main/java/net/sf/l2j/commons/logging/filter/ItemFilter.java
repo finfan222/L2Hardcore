@@ -12,6 +12,7 @@ public class ItemFilter implements Filter {
     private static final EtcItemType[] EXCLUDE_TYPE = {
         EtcItemType.ARROW,
         EtcItemType.SHOT,
+        EtcItemType.HERB
     };
 
     @Override
