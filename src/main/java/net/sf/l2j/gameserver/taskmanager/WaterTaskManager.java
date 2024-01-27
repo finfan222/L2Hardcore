@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.taskmanager;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.enums.GaugeColor;
@@ -16,97 +12,78 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SetupGauge;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Updates {@link Player} drown timer and reduces {@link Player} HP, when drowning.
  */
-public final class WaterTaskManager implements Runnable {
+public class WaterTaskManager implements Runnable {
 
     @Getter(lazy = true)
     private static final WaterTaskManager instance = new WaterTaskManager();
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    private static class Swimmer implements Comparable<Long> {
-        public long startSwimTimestamp;
-        public Player player;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            Swimmer swimmer = (Swimmer) o;
-            return Objects.equals(player.getObjectId(), swimmer.player.getObjectId());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(player.getObjectId());
-        }
-
-        @Override
-        public int compareTo(Long startSwimTimestamp) {
-            return (int) (this.startSwimTimestamp - startSwimTimestamp);
-        }
-    }
-
-    private final Set<Swimmer> swimmers = new ConcurrentSkipListSet<>();
+    private final Map<Player, Long> players = new ConcurrentHashMap<>();
 
     private WaterTaskManager() {
+        // Run task each second.
         ThreadPool.scheduleAtFixedRate(this, 2000, 2000);
     }
 
     @Override
     public void run() {
         // List is empty, skip.
-        if (swimmers.isEmpty()) {
+        if (players.isEmpty()) {
             return;
         }
 
         // Get current time.
         long time = System.currentTimeMillis();
 
-        swimmers.stream()
-            .filter(swimmer -> swimmer.startSwimTimestamp > time)
-            .forEach(swimmer -> drown(swimmer.player));
-    }
+        // Loop all players.
+        for (Map.Entry<Player, Long> entry : players.entrySet()) {
+            // Time has not passed yet, skip.
+            if (time < entry.getValue()) {
+                continue;
+            }
 
-    private void drown(Player player) {
-        // Reduce 1% of HP per second.
-        PlayerStatus status = player.getStatus();
-        double current = status.getHp();
-        double max = status.getMaxHp();
-        double damage = max / 100.0 * Rnd.get(5, 10);
-        if (current - damage < 0.5) {
-            player.setDieReason(DieReason.DROWN);
+            // Get player.
+            Player player = entry.getKey();
+
+            // Reduce 1% of HP per second.
+            PlayerStatus status = player.getStatus();
+            double current = status.getHp();
+            double max = status.getMaxHp();
+            double damage = max / 100.0 * Rnd.get(5, 10);
+            if (current - damage < 0.5) {
+                player.setDieReason(DieReason.DROWN);
+            }
+            player.reduceCurrentHp(damage, player, false, false, null);
+            player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DROWN_DAMAGE_S1).addNumber((int) damage));
         }
-        player.reduceCurrentHp(damage, player, false, false, null);
-        player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DROWN_DAMAGE_S1).addNumber((int) damage));
     }
 
+    /**
+     * Adds {@link Player} to the WaterTask.
+     *
+     * @param player : {@link Player} to be added and checked.
+     */
     public void add(Player player) {
-        int time = (int) player.getStatus().calcStat(Stats.BREATH, player.getRace().getBreath(), player, null);
-        Swimmer swimmer = Swimmer.builder()
-            .startSwimTimestamp(System.currentTimeMillis() + time)
-            .player(player)
-            .build();
+        if (!player.isDead() && !players.containsKey(player)) {
+            int time = (int) player.getStatus().calcStat(Stats.BREATH, player.getRace().getBreath(), player, null);
 
-        if (swimmers.add(swimmer)) {
+            players.put(player, System.currentTimeMillis() + time);
+
             player.sendPacket(new SetupGauge(GaugeColor.CYAN, time));
         }
     }
 
+    /**
+     * Removes {@link Player} from the WaterTask.
+     *
+     * @param player : Player to be removed.
+     */
     public void remove(Player player) {
-        if (swimmers.remove(Swimmer.builder().player(player).build())) {
+        if (players.remove(player) != null) {
             player.sendPacket(new SetupGauge(GaugeColor.CYAN, 0));
         }
     }

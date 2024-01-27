@@ -332,6 +332,9 @@ public final class Config {
     /** Hardcore */
     public static long HARDCORE_DELAY_AFTER_DEATH;
     public static long HARDCORE_TOMBSTONE_LIFETIME;
+    public static int HARDCORE_START_SP;
+    public static double HARDCORE_RATE_OVERHIT_SP;
+    public static double HARDCORE_RATE_OVERHIT_EXP;
 
     /** Misc */
     public static boolean EFFECT_CANCELING;
@@ -344,7 +347,6 @@ public final class Config {
     public static int MAX_PVTSTORE_SLOTS_DWARF;
     public static int MAX_PVTSTORE_SLOTS_OTHER;
     public static boolean DEEPBLUE_DROP_RULES;
-    public static boolean ALTERNATIVE_DROP_RULES;
     public static boolean ALLOW_DELEVEL;
     public static int DEATH_PENALTY_CHANCE;
 
@@ -402,6 +404,8 @@ public final class Config {
 
     /** Party */
     public static int PARTY_RANGE;
+    public static int PICKING_AGGRO_RANGE;
+    public static int SINGLE_REWARD_RANGE;
 
     /** GMs & Admin Stuff */
     public static int DEFAULT_ACCESS_LEVEL;
@@ -954,6 +958,9 @@ public final class Config {
 
         HARDCORE_DELAY_AFTER_DEATH = TimeUnit.MINUTES.toMillis(players.getProperty("HARDCORE_DELAY_AFTER_DEATH", 240));
         HARDCORE_TOMBSTONE_LIFETIME = TimeUnit.MINUTES.toMillis(players.getProperty("HARDCORE_TOMBSTONE_LIFETIME", 40320));
+        HARDCORE_START_SP = players.getProperty("HARDCORE_START_SP", 150);
+        HARDCORE_RATE_OVERHIT_SP = players.getProperty("HARDCORE_RATE_OVERHIT_SP", 5.0);
+        HARDCORE_RATE_OVERHIT_EXP = players.getProperty("HARDCORE_RATE_OVERHIT_EXP", 5.0);
 
         EFFECT_CANCELING = players.getProperty("CancelLesserEffect", true);
         HP_REGEN_MULTIPLIER = players.getProperty("HpRegenMultiplier", 1.);
@@ -965,7 +972,6 @@ public final class Config {
         MAX_PVTSTORE_SLOTS_DWARF = players.getProperty("MaxPvtStoreSlotsDwarf", 5);
         MAX_PVTSTORE_SLOTS_OTHER = players.getProperty("MaxPvtStoreSlotsOther", 4);
         DEEPBLUE_DROP_RULES = players.getProperty("UseDeepBlueDropRules", true);
-        ALTERNATIVE_DROP_RULES = players.getProperty("UseAlternativeDropRules", true);
         ALLOW_DELEVEL = players.getProperty("AllowDelevel", true);
         DEATH_PENALTY_CHANCE = players.getProperty("DeathPenaltyChance", 20);
 
@@ -1040,7 +1046,9 @@ public final class Config {
         PVP_NORMAL_TIME = players.getProperty("PvPVsNormalTime", 40000);
         PVP_PVP_TIME = players.getProperty("PvPVsPvPTime", 20000);
 
-        PARTY_RANGE = players.getProperty("PartyRange", 1500);
+        PARTY_RANGE = players.getProperty("PARTY_RANGE", 2500);
+        PICKING_AGGRO_RANGE = players.getProperty("PICKING_AGGRO_RANGE", 1500);
+        SINGLE_REWARD_RANGE = players.getProperty("SINGLE_REWARD_RANGE", 8000);
 
         DEFAULT_ACCESS_LEVEL = players.getProperty("DefaultAccessLevel", 0);
         GM_HERO_AURA = players.getProperty("GMHeroAura", false);

@@ -408,7 +408,7 @@ public class CreatureCast<T extends Creature> {
 
         for (final Creature target : targets) {
             if (_actor instanceof Playable && target instanceof Monster monster && skill.isOverhit()) {
-                monster.getOverhitState().activate();
+                monster.getOverhitState().setActivated(true);
             }
 
             switch (skill.getSkillType()) {

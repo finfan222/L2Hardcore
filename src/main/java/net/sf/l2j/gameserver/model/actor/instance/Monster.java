@@ -35,6 +35,7 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,21 +99,12 @@ public class Monster extends Attackable {
                 continue;
             }
 
-            // Check if attacker isn't too far from this.
-            if (!MathUtil.checkIfInRange(Config.PARTY_RANGE, this, attacker, true)) {
-                continue;
-            }
-
             final Player attackerPlayer = attacker.getActingPlayer();
 
             totalDamage += damage;
 
             // Calculate real damages (Summoners should get own damage plus summon's damage).
-            RewardInfo reward = rewards.get(attacker);
-            if (reward == null) {
-                reward = new RewardInfo(attacker);
-                rewards.put(attacker, reward);
-            }
+            RewardInfo reward = rewards.computeIfAbsent(attacker, k -> new RewardInfo(attacker));
             reward.addDamage(damage);
 
             if (attacker instanceof Summon) {
@@ -168,7 +160,7 @@ public class Monster extends Attackable {
                         attacker.sendPacket(SystemMessageId.OVER_HIT);
                         long overHitExpSp = _overHitState.calcExp(exp);
                         exp += overHitExpSp;
-                        sp += overHitExpSp; // give SP only when over hit the enemy
+                        sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
                     }
 
                     // Set new karma.
@@ -181,28 +173,32 @@ public class Monster extends Attackable {
             // Share with party members.
             else {
                 final int partyLvl;
-                List<Player> members;
+                List<Player> partyMembers;
                 if (attackerParty.isInCommandChannel()) {
-                    members = attackerParty.getCommandChannel().getMembers();
+                    partyMembers = attackerParty.getCommandChannel().getMembers();
                     partyLvl = attackerParty.getCommandChannel().getLevel();
                 } else {
-                    members = attackerParty.getMembers();
+                    partyMembers = attackerParty.getMembers();
                     partyLvl = attackerParty.getLevel();
                 }
 
                 int partyDmg = 0;
                 float partyMul = 1.f;
+                List<Player> rewardedMembers = new ArrayList<>();
                 Map<Creature, RewardInfo> playersWithPets = new HashMap<>();
 
-
                 // calculate for each region group - member list
-                for (Player member : members) {
+                for (Player member : partyMembers) {
                     if (member == null || !member.isOnline() || member.isDead()) {
                         continue;
                     }
 
-                    if (!member.isIn2DRadius(attacker, Config.PARTY_RANGE)) {
-                        continue;
+                    // Add Player of the Party (that have attacked or not) to members that can be rewarded and in range of the monster.
+                    final boolean isInRange = MathUtil.checkIfInRange(Config.PICKING_AGGRO_RANGE, this, member, true);
+                    if (isInRange) {
+                        rewardedMembers.add(member);
+                    } else {
+                        member.sendMessage("[FIX-SYSMSG] Вы не получили EXP групповой охоты, потому-что находитесь слишком далеко от группы.");
                     }
 
                     // Retrieve the associated RewardInfo, if any.
@@ -232,8 +228,6 @@ public class Monster extends Attackable {
                 // Calculate Exp and SP rewards.
                 final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
                 long expReward = expSp[0];
-                int spReward = expSp[1];
-
                 long exp = (long) (expReward * partyMul);
 
                 // Test over-hit.
@@ -241,14 +235,16 @@ public class Monster extends Attackable {
                     attacker.sendPacket(SystemMessageId.OVER_HIT);
                     long overHitExpSp = _overHitState.calcExp(expReward);
                     exp += overHitExpSp;
-                    int sp = (int) (spReward * 5.0);
+                    int sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP);
                     attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
-                    attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                    if (sp > 0) {
+                        attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                    }
                 }
 
                 // share EXP with other region-players
                 if (partyDmg > 0) {
-                    attackerParty.distributeExp(exp, members, partyLvl, playersWithPets);
+                    attackerParty.distributeExp(exp, rewardedMembers, partyLvl, playersWithPets);
                 }
             }
         }
@@ -504,7 +500,7 @@ public class Monster extends Attackable {
      * @param isSweep : If True, use the spoil drop chance.
      * @return An {@link IntIntHolder} corresponding to the item id and count.
      */
-    private IntIntHolder calculateRewardItem(DropData drop, int levelModifier, boolean isSweep) {
+    private IntIntHolder calculateSweepSeedRewardItem(DropData drop, int levelModifier, boolean isSweep) {
         // Get default drop chance
         double dropChance = drop.getChance();
 
@@ -514,7 +510,7 @@ public class Monster extends Attackable {
                 // We should multiply by the server's drop rate, so we always get a low chance of drop for deep blue mobs.
                 // NOTE: This is valid only for adena drops! Others drops will still obey server's rate
                 deepBlueDrop = 3;
-                if (drop.getItemId() == 57) {
+                if (drop.getItemId() == Item.ADENA) {
                     deepBlueDrop *= (isRaidBoss()) ? (int) Config.RATE_DROP_ITEMS_BY_RAID : (int) Config.RATE_DROP_ITEMS;
                     if (deepBlueDrop == 0) // avoid div by 0
                     {
@@ -528,7 +524,7 @@ public class Monster extends Attackable {
         }
 
         // Applies Drop rates
-        if (drop.getItemId() == 57) {
+        if (drop.getItemId() == Item.ADENA) {
             dropChance *= Config.RATE_DROP_ADENA;
         } else if (isSweep) {
             dropChance *= Config.RATE_DROP_SPOIL;
@@ -580,7 +576,7 @@ public class Monster extends Attackable {
      * @param levelModifier : The level modifier (will be subtracted from drop chance).
      * @return An {@link IntIntHolder} corresponding to the item id and count.
      */
-    private IntIntHolder calculateCategorizedRewardItem(DropCategory cat, int levelModifier) {
+    private IntIntHolder calculateCategorizedRewardItem(Creature attacker, DropCategory cat, int levelModifier) {
         if (cat == null) {
             return null;
         }
@@ -588,7 +584,7 @@ public class Monster extends Attackable {
         // Get default drop chance for the category (that's the sum of chances for all items in the category)
         // keep track of the base category chance as it'll be used later, if an item is drop from the category.
         // for everything else, use the total "categoryDropChance"
-        int categoryDropChance = cat.getCategoryChance();
+        int categoryDropChance = cat.getChance();
 
         if (Config.DEEPBLUE_DROP_RULES) {
             int deepBlueDrop = (levelModifier > 0) ? 3 : 1;
@@ -646,7 +642,9 @@ public class Monster extends Attackable {
             int random = Rnd.get(DropData.MAX_CHANCE);
             while (random < dropChance) {
                 // Get the item quantity dropped
-                if (min < max) {
+                if (drop.getItemId() == Item.ADENA) {
+                    itemCount = cat.calcAdenaCount(attacker, drop, levelModifier);
+                } else if (min < max) {
                     itemCount += Rnd.get(min, max);
                 } else if (min == max) {
                     itemCount += min;
@@ -677,7 +675,7 @@ public class Monster extends Attackable {
             return null;
         }
 
-        int categoryDropChance = cat.getCategoryChance();
+        int categoryDropChance = cat.getChance();
 
         // Applies Drop rates
         switch (cat.getCategoryType()) {
@@ -823,8 +821,8 @@ public class Monster extends Attackable {
             IntIntHolder holder = null;
             if (cat.isSweep()) {
                 if (getSpoilState().isSpoiled()) {
-                    for (DropData drop : cat.getAllDrops()) {
-                        holder = calculateRewardItem(drop, levelModifier, true);
+                    for (DropData drop : cat.getDrops()) {
+                        holder = calculateSweepSeedRewardItem(drop, levelModifier, true);
                         if (holder == null) {
                             continue;
                         }
@@ -839,9 +837,9 @@ public class Monster extends Attackable {
                         continue;
                     }
 
-                    holder = calculateRewardItem(drop, levelModifier, false);
+                    holder = calculateSweepSeedRewardItem(drop, levelModifier, false);
                 } else {
-                    holder = calculateCategorizedRewardItem(cat, levelModifier);
+                    holder = calculateCategorizedRewardItem(attacker, cat, levelModifier);
                 }
 
                 if (holder == null) {

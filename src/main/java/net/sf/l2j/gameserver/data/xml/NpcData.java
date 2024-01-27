@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.data.xml;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.data.xml.IXmlReader;
 import net.sf.l2j.gameserver.data.SkillTable;
+import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.model.MinionData;
 import net.sf.l2j.gameserver.model.PetDataEntry;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
@@ -93,7 +94,7 @@ public class NpcData implements IXmlReader {
                             LOGGER.warn("Droplist data for undefined itemId: {}.", data.getItemId());
                             return;
                         }
-                        category.addDropData(data, isRaid);
+                        category.add(data, isRaid);
                     });
                     drops.add(category);
                 });
@@ -154,8 +155,33 @@ public class NpcData implements IXmlReader {
                 set.set("skills", skills);
             });
             forEach(npcNode, "teachTo", teachToNode -> set.set("teachTo", parseString(teachToNode.getAttributes(), "classes")));
-            _npcs.put(npcId, set.getBool("mustUsePetTemplate", false) ? new PetTemplate(set) : new NpcTemplate(set));
+            NpcTemplate template = set.getBool("mustUsePetTemplate", false) ? new PetTemplate(set) : new NpcTemplate(set);
+            removeAdenaCategory(template);
+            _npcs.put(npcId, template);
         }));
+    }
+
+    /**
+     * Remove all Adena category from NPC if his {@link NpcRace} is:
+     * <ul>
+     *     <li>{@link NpcRace#HUMANOID}</li>
+     *     <li>{@link NpcRace#HUMAN}</li>
+     *     <li>{@link NpcRace#ORC}</li>
+     *     <li>{@link NpcRace#DWARVE}</li>
+     *     <li>{@link NpcRace#ELVE}</li>
+     *     <li>{@link NpcRace#DARKELVE}</li>
+     * </ul>
+     *
+     * @param template monster template
+     */
+    private void removeAdenaCategory(NpcTemplate template) {
+        switch (template.getRace()) {
+            case HUMANOID, HUMAN, ORC, DWARVE, ELVE, DARKELVE:
+                break;
+            default:
+                template.getDropData().removeIf(DropCategory::isAdena);
+                break;
+        }
     }
 
     public void reload() {

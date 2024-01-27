@@ -49,12 +49,12 @@ public class Party extends AbstractGroup {
         1.03,
         1.06,
         1.09,
-        1.13,
-        1.17,
+        1.12,
+        1.15,
+        1.18,
+        1.21,
         1.24,
-        1.30,
-        1.37,
-        1.50
+        1.27
     };
 
     private static final int PARTY_POSITION_BROADCAST = 12000;
@@ -619,10 +619,11 @@ public class Party extends AbstractGroup {
                 return;
             }
 
+            double memberLevelDiff = member.getStatus().getLevel() * 1. / partyLevel;
+            double servitorPenalty = 1.0 - (member.hasServitor() ? ((Servitor) member.getSummon()).getExpPenalty() : 0);
+            double memberExp = memberLevelDiff * servitorPenalty;
             double partyRate = BONUS_EXP_SP[Math.min(validMembers.size(), 9)];
-            float penalty = member.hasServitor() ? ((Servitor) member.getSummon()).getExpPenalty() : 0;
-            double preCalculation = ((double) member.getStatus().getLevel() / partyLevel) * (1.0 - penalty);
-            long addExp = Math.round(exp * partyRate * Config.RATE_PARTY_XP * preCalculation);
+            long addExp = Math.round(exp * partyRate * Config.RATE_PARTY_XP * memberExp);
             member.updateKarmaLoss(addExp);
             member.addExpAndSp(addExp, 0, rewards);
         }

@@ -49,7 +49,7 @@ public class HerbDropData implements IXmlReader {
                 boolean catExists = false;
                 for (final DropCategory cat : category) {
                     if (cat.getCategoryType() == categoryType) {
-                        cat.addDropData(dropDat, false);
+                        cat.add(dropDat, false);
                         catExists = true;
                         break;
                     }
@@ -57,7 +57,7 @@ public class HerbDropData implements IXmlReader {
 
                 if (!catExists) {
                     final DropCategory cat = new DropCategory(categoryType);
-                    cat.addDropData(dropDat, false);
+                    cat.add(dropDat, false);
                     category.add(cat);
                 }
             });

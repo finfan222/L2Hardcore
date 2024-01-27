@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.container.attackable;
 
-import java.util.Comparator;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
@@ -14,6 +11,9 @@ import net.sf.l2j.gameserver.model.actor.ai.type.AttackableAI;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeGuard;
 import net.sf.l2j.gameserver.scripting.Quest;
+
+import java.util.Comparator;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AggroList extends ConcurrentHashMap<Creature, AggroInfo> {
     private static final long serialVersionUID = 1L;
@@ -239,7 +239,7 @@ public class AggroList extends ConcurrentHashMap<Creature, AggroInfo> {
         }
 
         // Pick any AggroInfo matching conditions. Set the chosen AggroInfo to the hate of most hated, and add 200 over it.
-        final AggroInfo ai = values().stream().filter(a -> a != mostHated && a.getHate() > 0 && _owner.canAutoAttack(a.getAttacker(), Config.PARTY_RANGE, true)).findAny().orElse(null);
+        final AggroInfo ai = values().stream().filter(a -> a != mostHated && a.getHate() > 0 && _owner.canAutoAttack(a.getAttacker(), Config.SINGLE_REWARD_RANGE, true)).findAny().orElse(null);
         if (ai == null) {
             return;
         }

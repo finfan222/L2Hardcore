@@ -1,14 +1,8 @@
 package net.sf.l2j.gameserver.model.actor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Future;
-
+import lombok.Getter;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.ZoneId;
@@ -28,13 +22,25 @@ import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.network.serverpackets.VehicleInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Future;
+import java.util.concurrent.locks.ReentrantLock;
+
+// todo: Changeset 407 https://acis.i-live.eu/index.php?topic=30.300
 public class Boat extends Creature {
-    private final Set<Player> _passengers = ConcurrentHashMap.newKeySet();
-    private final List<BoatEntrance> _entrances = new ArrayList<>();
 
-    private Runnable _engine;
+    @Getter
+    private final Set<Player> passengers = ConcurrentHashMap.newKeySet();
+    @Getter
+    private final List<BoatEntrance> entrances = new ArrayList<>();
+    private final ReentrantLock locker = new ReentrantLock();
 
-    private Future<?> _payTask;
+    @Getter
+    private Runnable engine;
+    private volatile Future<?> payTask;
 
     public Boat(int objectId, CreatureTemplate template) {
         super(objectId, template);
@@ -64,10 +70,7 @@ public class Boat extends Creature {
 
     @Override
     public void teleportTo(int x, int y, int z, int randomOffset) {
-        if (_payTask != null) {
-            _payTask.cancel(false);
-            _payTask = null;
-        }
+        stopPayTask();
 
         getMove().stop();
 
@@ -75,7 +78,7 @@ public class Boat extends Creature {
 
         getAI().tryToActive();
 
-        for (Player player : _passengers) {
+        for (Player player : passengers) {
             player.teleportTo(x, y, z, randomOffset);
         }
 
@@ -88,12 +91,9 @@ public class Boat extends Creature {
 
     @Override
     public void deleteMe() {
-        if (_payTask != null) {
-            _payTask.cancel(false);
-            _payTask = null;
-        }
+        stopPayTask();
 
-        _engine = null;
+        engine = null;
 
         getMove().stop();
 
@@ -152,12 +152,12 @@ public class Boat extends Creature {
     }
 
     public void registerEngine(Runnable r) {
-        _engine = r;
+        engine = r;
     }
 
     public void runEngine(int delay) {
-        if (_engine != null) {
-            ThreadPool.schedule(_engine, delay);
+        if (engine != null) {
+            ThreadPool.schedule(engine, delay);
         }
     }
 
@@ -165,7 +165,7 @@ public class Boat extends Creature {
      * Oust all {@Player}s set as passengers to TeleportType.TOWN.
      */
     public void oustPlayers() {
-        for (Player player : _passengers) {
+        for (Player player : passengers) {
             oustPlayer(player, MapRegionData.getInstance().getLocationToTeleport(this, TeleportType.TOWN));
         }
     }
@@ -199,10 +199,6 @@ public class Boat extends Creature {
         }
     }
 
-    public Set<Player> getPassengers() {
-        return _passengers;
-    }
-
     /**
      * Test and add a {@link Player} passenger to this {@link Boat} if conditions matched.
      *
@@ -215,7 +211,7 @@ public class Boat extends Creature {
         }
 
         // Can't add the passenger.
-        if (!_passengers.add(player)) {
+        if (!passengers.add(player)) {
             return;
         }
 
@@ -224,7 +220,7 @@ public class Boat extends Creature {
     }
 
     public void broadcastToPassengers(L2GameServerPacket sm) {
-        for (Player player : _passengers) {
+        for (Player player : passengers) {
             player.sendPacket(sm);
         }
     }
@@ -240,10 +236,7 @@ public class Boat extends Creature {
      */
     public void payForRide(int itemId, int count, Location loc) {
         // Stop task if already running.
-        if (_payTask != null) {
-            _payTask.cancel(false);
-            _payTask = null;
-        }
+        stopPayTask();
 
         // Retrieve initial List of Players.
         final List<Player> passengers = getKnownTypeInRadius(Player.class, 1000);
@@ -254,11 +247,11 @@ public class Boat extends Creature {
         }
 
         // Start task after 5sec.
-        _payTask = ThreadPool.schedule(() ->
+        payTask = ThreadPool.schedule(() ->
         {
             for (Player player : passengers) {
                 // Valid passenger was found, check his ticket, if set on server.
-                if (player.getBoat() == this && _passengers.contains(player)) {
+                if (player.getBoat() == this && this.passengers.contains(player)) {
                     // No ticket set on server, don't bother checking.
                     if (itemId <= 0) {
                         continue;
@@ -291,7 +284,7 @@ public class Boat extends Creature {
             }
 
             // Clear entrances points, as they won't be needed during travel.
-            _entrances.clear();
+            entrances.clear();
         }, 5000);
     }
 
@@ -302,7 +295,7 @@ public class Boat extends Creature {
      */
     public void renewBoatEntrances() {
         // Clear previous entries.
-        _entrances.clear();
+        entrances.clear();
 
         final int deckZ = -46;
         final int absoluteZ = getZ() - 35;
@@ -315,11 +308,11 @@ public class Boat extends Creature {
 
             // Left side entrance.
             final Point2D leftPoint = getWorldPointFromBoatPoint(-xOffset, y);
-            _entrances.add(new BoatEntrance(new Location(leftPoint.getX(), leftPoint.getY(), absoluteZ), new Location(-xOffset + 60, y, deckZ)));
+            entrances.add(new BoatEntrance(new Location(leftPoint.getX(), leftPoint.getY(), absoluteZ), new Location(-xOffset + 60, y, deckZ)));
 
             // Right side entrance.
             final Point2D rightPoint = getWorldPointFromBoatPoint(xOffset, y);
-            _entrances.add(new BoatEntrance(new Location(rightPoint.getX(), rightPoint.getY(), absoluteZ), new Location(xOffset - 60, y, deckZ)));
+            entrances.add(new BoatEntrance(new Location(rightPoint.getX(), rightPoint.getY(), absoluteZ), new Location(xOffset - 60, y, deckZ)));
         }
     }
 
@@ -331,7 +324,7 @@ public class Boat extends Creature {
         BoatEntrance closestEntrance = null;
         double dist = Double.MAX_VALUE;
 
-        for (BoatEntrance entrance : _entrances) {
+        for (BoatEntrance entrance : entrances) {
             final double distEntrance = loc.distance2D(entrance.getOuterLocation());
             if (distEntrance < dist) {
                 closestEntrance = entrance;
@@ -370,5 +363,17 @@ public class Boat extends Creature {
     @Override
     public boolean isAttackableBy(Creature attacker) {
         return false;
+    }
+
+    private void stopPayTask() {
+        locker.lock();
+        try {
+            if (payTask != null) {
+                payTask.cancel(false);
+                payTask = null;
+            }
+        } finally {
+            locker.unlock();
+        }
     }
 }

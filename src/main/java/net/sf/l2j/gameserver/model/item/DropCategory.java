@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.model.item;
 import lombok.Getter;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.random.Rnd;
+import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 
 import java.util.ArrayList;
@@ -13,32 +14,20 @@ public class DropCategory {
     @Getter
     private final List<DropData> drops;
     @Getter
-    private int categoryChance; // a sum of chances for calculating if an item will be dropped from this category
-    private int categoryBalancedChance; // sum for balancing drop selection inside categories in high rate servers
+    private int chance; // a sum of chances for calculating if an item will be dropped from this category
+    private int balanceChance; // sum for balancing drop selection inside categories in high rate servers
     @Getter
     private final int categoryType;
 
     public DropCategory(int categoryType) {
         this.categoryType = categoryType;
-        drops = new ArrayList<>(0);
-        categoryChance = 0;
-        categoryBalancedChance = 0;
+        this.drops = new ArrayList<>(0);
     }
 
-    public void addDropData(DropData drop, boolean raid) {
+    public void add(DropData drop, boolean raid) {
         drops.add(drop);
-        categoryChance += drop.getChance();
-
-        // for drop selection inside a category: max 100 % chance for getting an item, scaling all values to that.
-        categoryBalancedChance += Math.min((drop.getChance() * (raid ? Config.RATE_DROP_ITEMS_BY_RAID : Config.RATE_DROP_ITEMS)), DropData.MAX_CHANCE);
-    }
-
-    public List<DropData> getAllDrops() {
-        return drops;
-    }
-
-    public void clearAllDrops() {
-        drops.clear();
+        chance += drop.getChance();
+        balanceChance += Math.min((drop.getChance() * (raid ? Config.RATE_DROP_ITEMS_BY_RAID : Config.RATE_DROP_ITEMS)), DropData.MAX_CHANCE);
     }
 
     public boolean isSweep() {
@@ -49,8 +38,8 @@ public class DropCategory {
         return categoryType == 0;
     }
 
-    public int getCategoryBalancedChance() {
-        return getCategoryType() >= 0 ? categoryBalancedChance : DropData.MAX_CHANCE;
+    public int getBalancedChance() {
+        return getCategoryType() >= 0 ? balanceChance : DropData.MAX_CHANCE;
     }
 
     /**
@@ -64,7 +53,7 @@ public class DropCategory {
     public synchronized DropData dropSeedAllowedDropsOnly() {
         List<DropData> drops = new ArrayList<>();
         int subCatChance = 0;
-        for (DropData drop : getAllDrops()) {
+        for (DropData drop : getDrops()) {
             if ((drop.getItemId() == Item.ADENA) || (drop.getItemId() == 6360) || (drop.getItemId() == 6361) || (drop.getItemId() == 6362)) {
                 drops.add(drop);
                 subCatChance += drop.getChance();
@@ -112,9 +101,9 @@ public class DropCategory {
      * @return selected drop from category, or null if nothing is dropped.
      */
     public synchronized DropData dropOne(boolean raid) {
-        int randomIndex = Rnd.get(getCategoryBalancedChance());
+        int randomIndex = Rnd.get(getBalancedChance());
         int sum = 0;
-        for (DropData drop : getAllDrops()) {
+        for (DropData drop : getDrops()) {
             sum += Math.min((drop.getChance() * (raid ? Config.RATE_DROP_ITEMS_BY_RAID : Config.RATE_DROP_ITEMS)), DropData.MAX_CHANCE);
 
             if (sum >= randomIndex) // drop this item and exit the function
@@ -123,6 +112,24 @@ public class DropCategory {
             }
         }
         return null;
+    }
+
+    public int calcAdenaCount(Creature attacker, DropData data, int levelModifier) {
+        int count = data.getRandomCount();
+        String type = "default";
+        if (Rnd.calcChance(1, 100)) {
+            count += data.getMax() + Rnd.get(1, 99999);
+            type = "1% LUCK";
+        } else if (Rnd.calcChance(25, 100)) {
+            count += data.getMax() + data.getRandomCount();
+            type = "25% LUCK";
+        }
+
+        if (attacker.isGM()) {
+            attacker.sendMessage(String.format("Adena drop [%s] count=%d", type, count));
+        }
+
+        return count;
     }
 
 }

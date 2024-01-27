@@ -48,12 +48,6 @@ public class PlayerAttack extends PlayableAttack<Player> {
                     attacker.sendPacket(SystemMessageId.NOT_ENOUGH_ARROWS);
                     return false;
                 }
-
-                final int mpConsume = weaponItem.getMpConsume();
-                if (mpConsume > 0 && mpConsume > attacker.getStatus().getMp()) {
-                    attacker.sendPacket(SystemMessageId.NOT_ENOUGH_MP);
-                    return false;
-                }
         }
         return true;
     }

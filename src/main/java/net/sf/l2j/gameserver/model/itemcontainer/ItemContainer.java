@@ -3,7 +3,6 @@ package net.sf.l2j.gameserver.model.itemcontainer;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
-import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
@@ -173,19 +172,19 @@ public abstract class ItemContainer {
      * @return the ItemInstance corresponding to the new or updated item.
      */
     public ItemInstance addItem(String process, ItemInstance item, Player actor, WorldObject reference) {
-        ItemInstance olditem = getItemByItemId(item.getItemId());
+        ItemInstance inventoryItem = getItemByItemId(item.getItemId());
 
         // If stackable item is found in inventory just add to current quantity
-        if (olditem != null && olditem.isStackable()) {
+        if (inventoryItem != null && inventoryItem.isStackable()) {
             int count = item.getCount();
-            olditem.changeCount(process, count, actor, reference);
-            olditem.setLastChange(ItemState.MODIFIED);
+            inventoryItem.changeCount(process, count, actor, reference);
+            inventoryItem.setLastChange(ItemState.MODIFIED);
 
             // And destroys the item
             item.destroyMe(process, actor, reference);
             ItemDao.update(item);
 
-            item = olditem;
+            item = inventoryItem;
             ItemDao.updateCount(item);
         }
         // If item hasn't be found in inventory, create new one
@@ -199,7 +198,7 @@ public abstract class ItemContainer {
             addItem(item);
 
             // Update database
-            ItemDao.update(item);
+            ItemDao.create(item);
         }
 
         refreshWeight();
@@ -493,7 +492,7 @@ public abstract class ItemContainer {
     public void deleteMe() {
         if (getOwner() != null) {
             for (ItemInstance item : _items) {
-                //ItemDao.update(item);
+                ItemDao.update(item);
                 World.getInstance().removeObject(item);
             }
         }

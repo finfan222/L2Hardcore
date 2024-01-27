@@ -522,6 +522,9 @@ public final class Player extends Playable {
         // Set the base class ID to that of the actual class ID.
         player.setBaseClass(player.getClassId());
 
+        // started SP for player
+        player.getStatus().setSp(Config.HARDCORE_START_SP);
+
         PlayerDao.create(player);
 
         return player;
@@ -2187,7 +2190,10 @@ public final class Player extends Playable {
         if (player.getTarget() != this) {
             player.setTarget(this);
         } else {
-            if (isAttackableWithoutForceBy(player) || (isCtrlPressed && isAttackableBy(player))) {
+            if (player.isGM() && isShiftPressed) {
+                player.sendMessage("Distance to: " + MathUtil.calculateDistance(player, this, true));
+                player.sendPacket(ActionFailed.STATIC_PACKET);
+            } else if (isAttackableWithoutForceBy(player) || (isCtrlPressed && isAttackableBy(player))) {
                 player.getAI().tryToAttack(this, isCtrlPressed, isShiftPressed);
             } else if (isOperating()) {
                 player.getAI().tryToInteract(this, isCtrlPressed, isShiftPressed);

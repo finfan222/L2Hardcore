@@ -1,16 +1,6 @@
 package net.sf.l2j.gameserver.model.itemcontainer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.data.manager.HeroManager;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
@@ -31,6 +21,15 @@ import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.ChangeRecorderListener;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.OnEquipListener;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.StatsListener;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * This class manages a {@link Creature}'s inventory.<br>
@@ -171,7 +170,7 @@ public abstract class Inventory extends ItemContainer {
     }
 
     /**
-     * Drop an item using its objectIdfrom this {@link Inventory} and update database.
+     * Drop an item using its objectId from this {@link Inventory} and update database.
      *
      * @param process : The {@link String} process triggering this action.
      * @param objectId : The {@link ItemInstance} objectId to drop.

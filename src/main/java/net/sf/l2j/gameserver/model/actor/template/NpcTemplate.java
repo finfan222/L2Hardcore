@@ -298,7 +298,7 @@ public class NpcTemplate extends CreatureTemplate {
         final List<DropData> list = new ArrayList<>();
         for (DropCategory category : _categories) {
             if (!category.isSweep()) {
-                list.addAll(category.getAllDrops());
+                list.addAll(category.getDrops());
             }
         }
         return list;
@@ -311,7 +311,7 @@ public class NpcTemplate extends CreatureTemplate {
         final List<DropData> list = new ArrayList<>();
         for (DropCategory category : _categories) {
             if (category.isSweep()) {
-                list.addAll(category.getAllDrops());
+                list.addAll(category.getDrops());
             }
         }
         return list;
@@ -330,14 +330,14 @@ public class NpcTemplate extends CreatureTemplate {
             // Category exists, stores the drop and return.
             for (DropCategory cat : _categories) {
                 if (cat.getCategoryType() == categoryType) {
-                    cat.addDropData(drop, isBossType);
+                    cat.add(drop, isBossType);
                     return;
                 }
             }
 
             // Category doesn't exist, create and store it.
             final DropCategory cat = new DropCategory(categoryType);
-            cat.addDropData(drop, isBossType);
+            cat.add(drop, isBossType);
 
             _categories.add(cat);
         }
