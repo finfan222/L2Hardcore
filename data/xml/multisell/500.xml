@@ -31,6 +31,12 @@
 		<production id="1539" count="1"/>
 		<ingredient id="57" count="900" isTaxIngredient="true"/>
 	</item>
+	<!-- Greater Mana Potion for 2160 Ancient Adena  -->
+	<item>
+		<ingredient id="5575" count="2160"/>
+		<production id="9210" count="1"/>
+		<ingredient id="57" count="1200" isTaxIngredient="true"/>
+	</item>
 	<!-- Blessed Resurrection Scroll for Pet for 6000 Ancient Adena -->
 	<item>
 		<ingredient id="5575" count="6000"/>

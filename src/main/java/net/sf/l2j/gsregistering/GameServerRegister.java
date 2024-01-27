@@ -1,17 +1,16 @@
 package net.sf.l2j.gsregistering;
 
+import net.sf.l2j.Config;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.LoginServerThread;
+import net.sf.l2j.loginserver.data.manager.GameServerManager;
+import net.sf.l2j.loginserver.model.GameServerInfo;
+
 import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Map;
 import java.util.Scanner;
-
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.LoginServerThread;
-import net.sf.l2j.loginserver.data.manager.GameServerManager;
-import net.sf.l2j.loginserver.model.GameServerInfo;
 
 public class GameServerRegister {
     private static final String DELETE_SERVER = "DELETE FROM gameservers WHERE server_id=?";
@@ -121,7 +120,7 @@ public class GameServerRegister {
 
                                 GameServerManager.getInstance().getRegisteredGameServers().put(id, new GameServerInfo(id, hexId));
                                 GameServerManager.getInstance().registerServerOnDB(hexId, id, "");
-                                Config.saveHexid(id, new BigInteger(hexId).toString(16), "hexid(server " + id + ").txt");
+                                Config.saveHexid(id, new BigInteger(hexId).toString(16), "hexid.txt");
 
                                 System.out.println("Server registered under 'hexid(server " + id + ").txt'.");
                                 System.out.println("Put this file in /config gameserver folder and rename it 'hexid.txt'.");
