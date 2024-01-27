@@ -385,6 +385,7 @@
 		<product id="17" price="2"/>
 		<product id="1341" price="3"/>
 		<product id="1060" price="103"/>
+		<product id="726" price="321"/>
 		<product id="1831" price="86"/>
 		<product id="1833" price="86"/>
 		<product id="734" price="1380"/>
@@ -559,6 +560,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="346"/>
+		<product id="728" price="1870"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
@@ -611,6 +614,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="117"/>
 		<product id="1061" price="429"/>
+		<product id="726" price="385"/>
+		<product id="728" price="2151"/>
 		<product id="1831" price="97"/>
 		<product id="1832" price="234"/>
 		<product id="1833" price="97"/>
@@ -655,6 +660,8 @@
 		<product id="1342" price="7"/>
 		<product id="1060" price="135"/>
 		<product id="1061" price="495"/>
+		<product id="726" price="415"/>
+		<product id="728" price="2551"/>
 		<product id="1831" price="112"/>
 		<product id="1832" price="270"/>
 		<product id="1833" price="112"/>
@@ -707,6 +714,8 @@
 		<product id="1342" price="5"/>
 		<product id="1060" price="99"/>
 		<product id="1061" price="363"/>
+		<product id="726" price="321"/>
+		<product id="728" price="1680"/>
 		<product id="1831" price="82"/>
 		<product id="1832" price="198"/>
 		<product id="1833" price="82"/>
@@ -1139,6 +1148,7 @@
 		<product id="17" price="2"/>
 		<product id="1341" price="3"/>
 		<product id="1060" price="103"/>
+		<product id="726" price="321"/>
 		<product id="1831" price="86"/>
 		<product id="1833" price="86"/>
 		<product id="734" price="1380"/>
@@ -1305,6 +1315,7 @@
 		<product id="17" price="2"/>
 		<product id="1341" price="3"/>
 		<product id="1060" price="103"/>
+		<product id="726" price="321"/>
 		<product id="1831" price="86"/>
 		<product id="1833" price="86"/>
 		<product id="734" price="1380"/>
@@ -1645,6 +1656,8 @@
 		<product id="1342" price="5"/>
 		<product id="1060" price="103"/>
 		<product id="1061" price="379"/>
+		<product id="726" price="365"/>
+		<product id="728" price="1951"/>
 		<product id="1831" price="86"/>
 		<product id="1832" price="207"/>
 		<product id="1833" price="86"/>
@@ -2015,6 +2028,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="333"/>
+		<product id="728" price="1780"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
@@ -2078,6 +2093,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="117"/>
 		<product id="1061" price="429"/>
+		<product id="726" price="429"/>
+		<product id="728" price="1680"/>
 		<product id="1831" price="97"/>
 		<product id="1832" price="234"/>
 		<product id="1833" price="97"/>
@@ -2222,6 +2239,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="366"/>
+		<product id="728" price="2116"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
@@ -2629,6 +2648,7 @@
 		<product id="17" price="2"/>
 		<product id="1341" price="3"/>
 		<product id="1060" price="103"/>
+		<product id="726" price="321"/>
 		<product id="1831" price="86"/>
 		<product id="1833" price="86"/>
 		<product id="734" price="1380"/>
@@ -2788,6 +2808,7 @@
 		<product id="17" price="2"/>
 		<product id="1341" price="3"/>
 		<product id="1060" price="103"/>
+		<product id="726" price="321"/>
 		<product id="1831" price="86"/>
 		<product id="1833" price="86"/>
 		<product id="734" price="1380"/>
@@ -3338,6 +3359,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="401"/>
+		<product id="728" price="2516"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
@@ -4186,6 +4209,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="385"/>
+		<product id="728" price="2151"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
@@ -5055,6 +5080,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="385"/>
+		<product id="728" price="2151"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
@@ -6680,6 +6707,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="385"/>
+		<product id="728" price="2151"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
@@ -10773,6 +10802,8 @@
 		<product id="1342" price="6"/>
 		<product id="1060" price="108"/>
 		<product id="1061" price="396"/>
+		<product id="726" price="366"/>
+		<product id="728" price="2116"/>
 		<product id="1831" price="90"/>
 		<product id="1832" price="216"/>
 		<product id="1833" price="90"/>
