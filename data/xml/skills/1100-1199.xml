@@ -8,6 +8,7 @@
 		<table name="#stackOrder"> 1 2 </table>
 		<set name="mpInitialConsume" val="#mpInitialConsume"/>
 		<set name="mpConsume" val="#mpConsume"/>
+		<set name="isProjectile" val="true"/>
 		<set name="magicLvl" val="#magicLvl"/>
 		<set name="lvlDepend" val="1"/>
 		<set name="power" val="70"/>
@@ -148,6 +149,7 @@
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="750"/>
 		<set name="effectRange" val="1250"/>
+		<set name="isProjectile" val="true"/>
 		<for>
 			<effect count="15" name="DamOverTime" val="#dmg" stackOrder="#stackOrder" stackType="dot_attr" abnormal="flame"/>
 		</for>
@@ -562,6 +564,7 @@
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
+		<set name="isProjectile" val="true"/>
 		<enchant1 name="power" val="#ench1Power"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
 		<enchant2 name="magicLvl" val="#enchantMagicLvl"/>		
@@ -703,6 +706,7 @@
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
+		<set name="isProjectile" val="true"/>
 		<enchant1 name="power" val="#ench1Power"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
 		<enchant2 name="magicLvl" val="#enchantMagicLvl"/>		
@@ -995,6 +999,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="isMagic" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
+		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="750"/>
 		<set name="effectRange" val="1250"/>
 	</skill>
@@ -1043,6 +1048,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="isMagic" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
+		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
 	</skill>
@@ -1062,6 +1068,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="isMagic" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
+		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="750"/>
 		<set name="effectRange" val="1250"/>
 	</skill>
@@ -1082,6 +1089,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="isMagic" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
+		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="500"/>
 		<set name="effectRange" val="1000"/>
 	</skill>

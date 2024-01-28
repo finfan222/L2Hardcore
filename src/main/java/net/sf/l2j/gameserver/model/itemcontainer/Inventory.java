@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.itemcontainer;
 
-import net.sf.l2j.commons.pool.ConnectionPool;
-import net.sf.l2j.gameserver.data.manager.HeroManager;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
@@ -9,7 +7,6 @@ import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
 import net.sf.l2j.gameserver.enums.items.ItemType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
-import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
@@ -22,9 +19,6 @@ import net.sf.l2j.gameserver.model.itemcontainer.listeners.ChangeRecorderListene
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.OnEquipListener;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.StatsListener;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,7 +31,6 @@ import java.util.stream.Stream;
  * It extends {@link ItemContainer}.
  */
 public abstract class Inventory extends ItemContainer {
-    private static final String RESTORE_INVENTORY = "SELECT object_id, item_id, count, enchant_level, loc, loc_data, custom_type1, custom_type2, mana_left, time FROM items WHERE owner_id=? AND (loc=? OR loc=?) ORDER BY loc_data";
 
     protected final ItemInstance[] _paperdoll = new ItemInstance[Paperdoll.TOTAL_SLOTS];
 
@@ -84,39 +77,7 @@ public abstract class Inventory extends ItemContainer {
 
     @Override
     public void restore() {
-        try (Connection con = ConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(RESTORE_INVENTORY)) {
-            ps.setInt(1, getOwnerId());
-            ps.setString(2, getBaseLocation().name());
-            ps.setString(3, getEquipLocation().name());
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    // Restore the item.
-                    final ItemInstance item = ItemDao.restore(getOwnerId(), rs);
-                    if (item == null) {
-                        continue;
-                    }
-
-                    // If the item is an hero item and inventory's owner is a player who isn't an hero, then set it to inventory.
-                    if (getOwner() instanceof Player && item.isHeroItem() && !HeroManager.getInstance().isActiveHero(getOwnerId())) {
-                        item.setLocation(ItemLocation.INVENTORY);
-                    }
-
-                    // Add the item to world objects list.
-                    World.getInstance().addObject(item);
-
-                    // If stackable item is found in inventory just add to current quantity
-                    if (item.isStackable() && getItemByItemId(item.getItemId()) != null) {
-                        addItem("Restore", item, getOwner().getActingPlayer(), null);
-                    } else {
-                        addItem(item);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("Couldn't restore inventory for {}.", e, getOwnerId());
-        }
+        InventoryDao.restore(this);
         refreshWeight();
     }
 

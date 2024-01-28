@@ -10,14 +10,19 @@ import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.enums.actors.Sex;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
+import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.container.player.Appearance;
 import net.sf.l2j.gameserver.model.actor.container.player.SubClass;
+import net.sf.l2j.gameserver.model.actor.instance.BabyPet;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
+import net.sf.l2j.gameserver.model.actor.status.PetStatus;
 import net.sf.l2j.gameserver.model.actor.status.PlayerStatus;
+import net.sf.l2j.gameserver.model.actor.template.PetTemplate;
 import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.holder.Timestamp;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.model.pledge.ClanMember;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
@@ -61,6 +66,10 @@ public class PlayerDao {
     private static final String UPDATE_TARGET_RECOM_HAVE = "UPDATE characters SET rec_have=? WHERE obj_Id=?";
     private static final String UPDATE_CHAR_RECOM_LEFT = "UPDATE characters SET rec_left=? WHERE obj_Id=?";
     private static final String UPDATE_NOBLESS = "UPDATE characters SET nobless=? WHERE obj_Id=?";
+    private static final String RESTORE_PET = "SELECT object_id,name,level,current_hp,current_mp,exp,sp,hunger FROM item_pets WHERE object_id=?";
+    private static final String CREATE_PET = "INSERT INTO item_pets (object_id,name,level,current_hp,current_mp,exp,sp,hunger) VALUES (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE name=VALUES(name),level=VALUES(level),current_hp=VALUES(current_hp),current_mp=VALUES(current_mp),exp=VALUES(exp),sp=VALUES(sp),hunger=VALUES(hunger)";
+    private static final String DELETE_PET = "DELETE FROM item_pets WHERE object_id=?";
+    private static final String SELECT_PET_NAME = "SELECT name FROM item_pets WHERE name=?";
 
     public static void update(Player player) {
         // Get the exp, level, and sp of base class to store in base table
@@ -722,5 +731,92 @@ public class PlayerDao {
         } catch (final Exception e) {
             LOGGER.error("Couldn't update nobles status for {}.", e, player.getName());
         }
+    }
+
+    public static void createPet(Pet pet) {
+        PetStatus status = pet.getStatus();
+        try (Connection con = ConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(CREATE_PET)) {
+            ps.setInt(1, pet.getControlItemObjectId());
+            ps.setString(2, pet.getName());
+            ps.setInt(3, status.getLevel());
+            ps.setDouble(4, status.getHp());
+            ps.setDouble(5, status.getMp());
+            ps.setLong(6, status.getExp());
+            ps.setInt(7, status.getSp());
+            ps.setInt(8, pet.getCurrentFed());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.error("Couldn't store pet data for {}.", e, pet.getObjectId());
+        }
+    }
+
+    public static void deletePet(Pet pet) {
+        // Delete the pet from the database.
+        try (Connection con = ConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(DELETE_PET)) {
+            ps.setInt(1, pet.getControlItemObjectId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.error("Couldn't delete pet data for {}.", e, pet.getObjectId());
+        }
+    }
+
+    public static Pet restorePet(ItemInstance control, PetTemplate template, Player owner) {
+        Pet pet;
+        if (template.isType("BabyPet")) {
+            pet = new BabyPet(IdFactory.getInstance().getNextId(), template, owner, control);
+        } else {
+            pet = new Pet(IdFactory.getInstance().getNextId(), template, owner, control);
+        }
+
+        try (Connection con = ConnectionPool.getConnection()) {
+            try (PreparedStatement ps = con.prepareStatement(RESTORE_PET)) {
+                ps.setInt(1, control.getObjectId());
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        pet.setName(rs.getString("name"));
+                        pet.getStatus().setLevel(rs.getByte("level"));
+                        pet.getStatus().setExp(rs.getLong("exp"));
+                        pet.getStatus().setSp(rs.getInt("sp"));
+
+                        double currentHp = rs.getDouble("current_hp");
+                        pet.getStatus().setHpMp(currentHp, rs.getDouble("current_mp"));
+
+                        if (currentHp < 0.5) {
+                            pet.setIsDead(true);
+                            pet.getStatus().stopHpMpRegeneration();
+                        }
+
+                        pet.setCurrentFed(rs.getInt("hunger"));
+                    } else {
+                        pet.getStatus().setLevel((template.getNpcId() == 12564) ? (byte) pet.getOwner().getStatus().getLevel() : template.getLevel());
+                        pet.getStatus().setExp(pet.getStatus().getExpForThisLevel());
+                        pet.getStatus().setMaxHpMp();
+                        pet.setCurrentFed(pet.getPetData().getMaxMeal());
+                        pet.store();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Couldn't restore pet data for %s.", owner.getName()), e);
+        }
+        return pet;
+    }
+
+    public static boolean petNameAlreadyExists(String name) {
+        boolean result = false;
+        try (Connection con = ConnectionPool.getConnection();
+             PreparedStatement ps = con.prepareStatement(SELECT_PET_NAME)) {
+            ps.setString(1, name);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                result = rs.next();
+            }
+        } catch (Exception e) {
+            LOGGER.error("Couldn't check existing pet name.", e);
+        }
+        return result;
     }
 }

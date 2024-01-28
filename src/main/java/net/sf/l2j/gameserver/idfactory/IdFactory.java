@@ -1,5 +1,10 @@
 package net.sf.l2j.gameserver.idfactory;
 
+import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.commons.math.PrimeFinder;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.commons.pool.ThreadPool;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,11 +13,6 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.math.PrimeFinder;
-import net.sf.l2j.commons.pool.ConnectionPool;
-import net.sf.l2j.commons.pool.ThreadPool;
 
 /**
  * This class ensure data integrity and correct allocation of unique object ids towards objects.
@@ -200,7 +200,6 @@ public class IdFactory {
         try (Connection con = ConnectionPool.getConnection()) {
             try (Statement stmt = con.createStatement()) {
                 // Character related
-                cleanCount += stmt.executeUpdate("DELETE FROM augmentations WHERE augmentations.item_oid NOT IN (SELECT object_id FROM items);");
                 cleanCount += stmt.executeUpdate("DELETE FROM character_friends WHERE character_friends.char_id NOT IN (SELECT obj_Id FROM characters);");
                 cleanCount += stmt.executeUpdate("DELETE FROM character_friends WHERE character_friends.friend_id NOT IN (SELECT obj_Id FROM characters);");
                 cleanCount += stmt.executeUpdate("DELETE FROM character_hennas WHERE character_hennas.char_obj_id NOT IN (SELECT obj_Id FROM characters);");
@@ -214,7 +213,6 @@ public class IdFactory {
                 cleanCount += stmt.executeUpdate("DELETE FROM character_skills_save WHERE character_skills_save.char_obj_id NOT IN (SELECT obj_Id FROM characters);");
                 cleanCount += stmt.executeUpdate("DELETE FROM character_subclasses WHERE character_subclasses.char_obj_id NOT IN (SELECT obj_Id FROM characters);");
                 cleanCount += stmt.executeUpdate("DELETE FROM cursed_weapons WHERE cursed_weapons.playerId NOT IN (SELECT obj_Id FROM characters);");
-                cleanCount += stmt.executeUpdate("DELETE FROM pets WHERE pets.item_obj_id NOT IN (SELECT object_id FROM items);");
                 cleanCount += stmt.executeUpdate("DELETE FROM seven_signs WHERE seven_signs.char_obj_id NOT IN (SELECT obj_Id FROM characters);");
 
                 // Olympiads & Heroes

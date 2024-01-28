@@ -932,7 +932,8 @@
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 327 882 2435 6357 16445 32150 49783 58763 67888 77001 86359 95790 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
@@ -947,7 +948,8 @@
         <table name="#power"> 275 744 2057 5374 13885 27135 42030 49590 57569 66298 75565 84295 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
         <set name="mpConsume" val="#mpConsume" />
-        <set name="power" val="#power" />
+        <set name="isProjectile" val="true"/>
+		<set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
         <set name="skillType" val="PDAM" />
@@ -960,7 +962,8 @@
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 147 396 1095 2868 7407 14481 22392 26393 30618 35267 40244 44830 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
@@ -974,7 +977,8 @@
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 138 372 1027 2691 6943 13584 21015 24795 28785 33188 37739 42148 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
@@ -988,7 +992,8 @@
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 129 348 962 2506 6479 12688 19638 23198 26952 31032 35321 39466 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
@@ -1092,7 +1097,8 @@
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 327 882 2435 6357 16445 32150 49783 58763 67888 77001 86359 95790 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
@@ -1106,7 +1112,8 @@
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 275 744 2057 5374 13885 27135 42030 49590 57569 66298 75565 84295 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
@@ -1120,7 +1127,8 @@
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 147 396 1095 2868 7407 14481 22392 26393 30618 35267 40244 44830 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
         <set name="target" val="ONE" />
         <set name="skillType" val="PDAM" />
@@ -1133,7 +1141,8 @@
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 138 372 1027 2691 6943 13584 21015 24795 28785 33188 37739 42148 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />
@@ -1147,7 +1156,8 @@
         <table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
         <table name="#power"> 129 348 962 2506 6479 12688 19638 23198 26952 31032 35321 39466 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 75 79 84 89 94 99 </table>
-        <set name="mpConsume" val="#mpConsume" />
+        <set name="isProjectile" val="true"/>
+		<set name="mpConsume" val="#mpConsume" />
         <set name="power" val="#power" />
 		<set name="magicLvl" val="#magicLvl" />
         <set name="target" val="ONE" />

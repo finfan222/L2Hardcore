@@ -137,6 +137,7 @@
 		<table name="#mpConsume"> 36 50 69 93 118 143 166 175 182 186 189 192 </table>
 		<table name="#power"> 352 949 2607 6828 17184 33213 51007 59177 67888 77001 86359 95790 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 74 79 84 89 94 99 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
 		<set name="mpConsume" val="#mpConsume"/>
@@ -151,6 +152,7 @@
 		<table name="#power"> 176 475 1304 3414 8592 16607 25504 29589 33944 38501 43180 47895 </table>
 		<table name="#magicLvl"> 14 24 34 44 54 64 74 79 84 89 94 99 </table>
 		<table name="#mpConsume"> 32 45 63 83 106 129 150 158 164 168 170 173 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
@@ -444,6 +446,7 @@
 		<set name="effectRange" val="1200" />
 	</skill>
 	<skill id="4230" levels="1" name="Wild Cannon">
+		<set name="isProjectile" val="true"/>
 		<set name="magicLvl" val="70" />
 		<set name="power" val="532048" />
 		<set name="target" val="ONE" />
@@ -500,6 +503,7 @@
 		<table name="#magicLvl"> 14 24 34 44 54 64 74 79 84 89 94 99 </table>
 		<table name="#power"> 352 949 2607 6828 17184 33213 51007 59177 67888 77001 86359 95790 </table>
 		<table name="#mpConsume"> 32 45 63 83 106 129 150 158 164 168 170 173 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="castRange" val="900" />
 		<set name="effectRange" val="1400" />
@@ -673,6 +677,7 @@
 		<table name="#power"> 5 8 12 17 24 31 39 39 39 39 39 39 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 13 20 27 35 45 55 65 69 73 75 77 78 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
@@ -731,6 +736,7 @@
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 13 20 27 35 45 55 65 69 73 75 77 78 </table>
 		<set name="mpConsume" val="#mpConsume" />
+		<set name="isProjectile" val="true"/>
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
 		<set name="target" val="ONE" />
@@ -761,6 +767,7 @@
 		<table name="#power"> 3 5 7 9 13 16 20 20 20 20 20 20 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 18 29 40 53 68 83 98 104 109 113 115 117 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />		
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
@@ -777,6 +784,7 @@
 		<table name="#power"> 3 5 7 9 13 16 20 20 20 20 20 20 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 13 20 27 35 45 55 65 69 73 75 77 78 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="element" val="FIRE" />
 		<set name="magicLvl" val="#magicLvl" />
@@ -793,6 +801,7 @@
 		<table name="#power"> 5 8 12 17 24 31 39 39 39 39 39 39 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 13 20 27 35 45 55 65 69 73 75 77 78 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="element" val="FIRE" />
 		<set name="magicLvl" val="#magicLvl" />
@@ -913,6 +922,7 @@
 		<table name="#power"> 18 26 38 52 68 85 102 110 116 122 126 129 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 13 20 27 35 45 55 65 69 73 75 77 78 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />

@@ -634,6 +634,7 @@
 		<set name="price" val="1" />
 		<set name="is_dropable" val="false" />
 		<set name="handler" val="Books" />
+		<set name="is_destroyable" val="false"/>
 	</item>
 	<item id="5589" type="EtcItem" name="Energy Stone">
 		<set name="default_action" val="skill_reduce" />

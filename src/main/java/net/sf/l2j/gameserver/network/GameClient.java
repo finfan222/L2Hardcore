@@ -54,8 +54,6 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
     private static final String DELETE_CHAR_HERO = "DELETE FROM heroes WHERE char_id=?";
     private static final String DELETE_CHAR_NOBLE = "DELETE FROM olympiad_nobles WHERE char_id=?";
     private static final String DELETE_CHAR_SEVEN_SIGNS = "DELETE FROM seven_signs WHERE char_obj_id=?";
-    private static final String DELETE_CHAR_PETS = "DELETE FROM pets WHERE item_obj_id IN (SELECT object_id FROM items WHERE items.owner_id=?)";
-    private static final String DELETE_CHAR_AUGMENTS = "DELETE FROM augmentations WHERE item_oid IN (SELECT object_id FROM items WHERE items.owner_id=?)";
     private static final String DELETE_CHAR_ITEMS = "DELETE FROM items WHERE owner_id=?";
     private static final String DELETE_CHAR_RBP = "DELETE FROM character_raid_points WHERE char_id=?";
     private static final String DELETE_CHAR = "DELETE FROM characters WHERE obj_Id=?";
@@ -86,8 +84,8 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
 
     private CharSelectSlot[] _slots;
 
-    protected final ScheduledFuture<?> _autoSaveInDB;
-    protected ScheduledFuture<?> _cleanupTask;
+    private final ScheduledFuture<?> _autoSaveInDB;
+    private ScheduledFuture<?> _cleanupTask;
 
     public GameClient(MMOConnection<GameClient> con) {
         super(con);
@@ -427,16 +425,6 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
             }
 
             try (PreparedStatement ps = con.prepareStatement(DELETE_CHAR_SEVEN_SIGNS)) {
-                ps.setInt(1, objectId);
-                ps.execute();
-            }
-
-            try (PreparedStatement ps = con.prepareStatement(DELETE_CHAR_PETS)) {
-                ps.setInt(1, objectId);
-                ps.execute();
-            }
-
-            try (PreparedStatement ps = con.prepareStatement(DELETE_CHAR_AUGMENTS)) {
                 ps.setInt(1, objectId);
                 ps.execute();
             }

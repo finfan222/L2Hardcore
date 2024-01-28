@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -17,6 +13,9 @@ import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The script uses internal iCond variable, used because cond isn't developed on that quest (only 3 states):
@@ -105,11 +104,11 @@ public class Q421_LittleWingsBigAdventure extends Quest {
         else if (event.equalsIgnoreCase("30747-02.htm")) {
             final Summon summon = player.getSummon();
             if (summon != null) {
-                htmltext = (summon.getControlItemId() == st.getInteger("summonOid")) ? "30747-04.htm" : "30747-03.htm";
+                htmltext = (summon.getControlItemObjectId() == st.getInteger("summonOid")) ? "30747-04.htm" : "30747-03.htm";
             }
         } else if (event.equalsIgnoreCase("30747-05.htm")) {
             final Summon summon = player.getSummon();
-            if (summon == null || summon.getControlItemId() != st.getInteger("summonOid")) {
+            if (summon == null || summon.getControlItemObjectId() != st.getInteger("summonOid")) {
                 htmltext = "30747-06.htm";
             } else {
                 st.setCond(2);
@@ -166,7 +165,7 @@ public class Q421_LittleWingsBigAdventure extends Quest {
                             st.set("iCond", 2);
                         } else if (id == 2) {
                             final Summon summon = player.getSummon();
-                            htmltext = (summon != null) ? ((summon.getControlItemId() == st.getInteger("summonOid")) ? "30747-04.htm" : "30747-03.htm") : "30747-02.htm";
+                            htmltext = (summon != null) ? ((summon.getControlItemObjectId() == st.getInteger("summonOid")) ? "30747-04.htm" : "30747-03.htm") : "30747-02.htm";
                         }
                         // Explanation is done, leaves are already given.
                         else if (id == 3) {
@@ -183,7 +182,7 @@ public class Q421_LittleWingsBigAdventure extends Quest {
                                 return "30747-12.htm";
                             }
 
-                            if (summon.getControlItemId() != st.getInteger("summonOid")) {
+                            if (summon.getControlItemObjectId() != st.getInteger("summonOid")) {
                                 return "30747-14.htm";
                             }
 
@@ -193,7 +192,7 @@ public class Q421_LittleWingsBigAdventure extends Quest {
                         // Spoke with the Fairy.
                         else if (id == 100) {
                             final Summon summon = player.getSummon();
-                            if (summon != null && summon.getControlItemId() == st.getInteger("summonOid")) {
+                            if (summon != null && summon.getControlItemObjectId() == st.getInteger("summonOid")) {
                                 return "30747-15.htm";
                             }
 
@@ -257,7 +256,7 @@ public class Q421_LittleWingsBigAdventure extends Quest {
 
             if ((mask & condition) == 0) {
                 // Leaf not consumed by this tree yet, check summoned pet.
-                if (((Pet) attacker).getControlItemId() == st.getInteger("summonOid")) {
+                if (((Pet) attacker).getControlItemObjectId() == st.getInteger("summonOid")) {
                     // Check attacks completed.
                     int attack = st.getInteger("attack") + 1;
                     if (attack > td._attacks) {

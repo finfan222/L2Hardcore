@@ -22,21 +22,21 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T> {
 
     @Override
     public void doInstantCast(L2Skill skill, ItemInstance item) {
-        if (!item.isHerb() && !_actor.destroyItem("Consume", item.getObjectId(), (skill.getItemConsumeId() == 0 && skill.getItemConsume() > 0) ? skill.getItemConsume() : 1, null, false)) {
-            _actor.sendPacket(SystemMessageId.NOT_ENOUGH_ITEMS);
+        if (!item.isHerb() && !_caster.destroyItem("Consume", item.getObjectId(), (skill.getItemConsumeId() == 0 && skill.getItemConsume() > 0) ? skill.getItemConsume() : 1, null, false)) {
+            _caster.sendPacket(SystemMessageId.NOT_ENOUGH_ITEMS);
             return;
         }
 
         int reuseDelay = skill.getReuseDelay();
         if (reuseDelay > 10) {
-            _actor.disableSkill(skill, reuseDelay);
+            _caster.disableSkill(skill, reuseDelay);
         }
 
-        _actor.broadcastPacket(new MagicSkillUse(_actor, _actor, skill.getId(), skill.getLevel(), 0, 0));
+        _caster.broadcastPacket(new MagicSkillUse(_caster, _caster, skill.getId(), skill.getLevel(), 0, 0));
 
         callSkill(skill, new Creature[]
             {
-                _actor
+                _caster
             });
     }
 
@@ -44,13 +44,13 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T> {
     public void doCast(L2Skill skill, Creature target, ItemInstance itemInstance) {
         if (itemInstance != null) {
             // Consume item if needed.
-            if (!itemInstance.isSummonItem() && !_actor.destroyItem("Consume", itemInstance.getObjectId(), 1, null, false)) {
-                _actor.sendPacket(SystemMessageId.NOT_ENOUGH_ITEMS);
+            if (!itemInstance.isSummonItem() && !_caster.destroyItem("Consume", itemInstance.getObjectId(), 1, null, false)) {
+                _caster.sendPacket(SystemMessageId.NOT_ENOUGH_ITEMS);
                 return;
             }
 
             // Set item timestamp.
-            _actor.addItemSkillTimeStamp(skill, itemInstance);
+            _caster.addItemSkillTimeStamp(skill, itemInstance);
         }
 
         super.doCast(skill, target, null);
@@ -62,11 +62,11 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T> {
             return false;
         }
 
-        if (!skill.checkCondition(_actor, target, false)) {
+        if (!skill.checkCondition(_caster, target, false)) {
             return false;
         }
 
-        final Player player = _actor.getActingPlayer();
+        final Player player = _caster.getActingPlayer();
 
         if (player.isInOlympiadMode() && (skill.isHeroSkill() || skill.getSkillType() == SkillType.RESURRECT)) {
             player.sendPacket(SystemMessageId.THIS_SKILL_IS_NOT_AVAILABLE_FOR_THE_OLYMPIAD_EVENT);
@@ -87,6 +87,6 @@ public class PlayableCast<T extends Playable> extends CreatureCast<T> {
             }
         }
 
-        return skill.meetCastConditions(_actor, target, isCtrlPressed);
+        return skill.meetCastConditions(_caster, target, isCtrlPressed);
     }
 }

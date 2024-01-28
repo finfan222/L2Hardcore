@@ -1,13 +1,13 @@
 package net.sf.l2j.gameserver.scripting.script.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Tutorial extends Quest {
     private static final String QUEST_NAME = "Tutorial";
@@ -114,10 +114,6 @@ public class Tutorial extends Quest {
                     return null;
                 }
 
-                if (!player.getInventory().hasItems(TUTORIAL_GUIDE)) {
-                    giveItems(player, TUTORIAL_GUIDE, 1);
-                }
-
                 st.set("Ex", -3);
                 playTutorialVoice(player, evt._initialVoice);
 
@@ -153,6 +149,10 @@ public class Tutorial extends Quest {
                     case 0:
                         st.set("Ex", -2);
                         st.set("ucMemo", 0);
+
+                        if (!player.getInventory().hasItems(TUTORIAL_GUIDE)) {
+                            giveItems(player, TUTORIAL_GUIDE, 1);
+                        }
 
                         startQuestTimer("QT", null, player, 10000);
                         break;

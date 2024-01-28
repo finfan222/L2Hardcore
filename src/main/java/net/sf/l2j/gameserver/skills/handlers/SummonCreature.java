@@ -9,8 +9,10 @@ import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.PlayerDao;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+import net.sf.l2j.gameserver.model.actor.template.PetTemplate;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
@@ -58,11 +60,7 @@ public class SummonCreature extends L2Skill {
         }
 
         // Add the pet instance to world.
-        final Pet pet = Pet.restore(item, npcTemplate, player);
-        if (pet == null) {
-            return;
-        }
-
+        Pet pet = PlayerDao.restorePet(item, (PetTemplate) npcTemplate, player);
         World.getInstance().addPet(player.getObjectId(), pet);
 
         player.setSummon(pet);

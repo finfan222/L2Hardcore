@@ -213,7 +213,6 @@ public class GraveyardManager implements Runnable {
 
     @Override
     public void run() {
-        LOGGER.info("[4][GraveyardManager.run] {}", necrologues.size());
         for (Necrologue necrologue : necrologues.values()) {
             if (!necrologue.timestamp.isBefore(LocalDateTime.now())) {
                 continue;
@@ -233,7 +232,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void deleteOnline(Player player) {
-        LOGGER.info("[5][GraveyardManager.deleteOnline] {}", player);
+        LOGGER.info("[4][GraveyardManager.deleteOnline] {}", player);
         Clan clan = player.getClan();
         if (clan != null) {
             int objectId = player.getObjectId();
@@ -274,7 +273,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void deleteOffline(int objectId, String name, int clanId, String accountName) {
-        LOGGER.info("[5][GraveyardManager.deleteOffline] {}, {}, {}", objectId, name, clanId);
+        LOGGER.info("[4][GraveyardManager.deleteOffline] {}, {}, {}", objectId, name, clanId);
         Clan clan = ClanTable.getInstance().getClan(clanId);
         if (clan != null) {
             // get all clan members except @player
@@ -310,7 +309,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void changeClanLeader(Clan clan, List<ClanMember> members, int objectId, String name) {
-        LOGGER.info("[6][GraveyardManager.changeClanLeader] {}, {}, {}, {}", clan, members, objectId, name);
+        LOGGER.info("[5][GraveyardManager.changeClanLeader] {}, {}, {}, {}", clan, members, objectId, name);
         members.stream()
             .max(Comparator.comparing(ClanMember::getLevel)) // pick high level as a new clan leader
             .ifPresentOrElse(e -> {
@@ -324,7 +323,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void tryCreateTombstone(Necrologue necrologue) {
-        LOGGER.info("[7][GraveyardManager.tryCreateTombstone] {}", necrologue);
+        LOGGER.info("[6][GraveyardManager.tryCreateTombstone] {}", necrologue);
         PostScript ps = PostScript.builder()
             .name(necrologue.name + " Lvl. " + necrologue.level)
             .heading(necrologue.heading)
@@ -341,7 +340,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private String tryGenerateMessage(String playerName, String killerName, DieReason reason, String zoneName) {
-        LOGGER.info("[8][GraveyardManager.tryGenerateMessage] {}, {}, {}, {}", playerName, killerName, reason, zoneName);
+        LOGGER.info("[7][GraveyardManager.tryGenerateMessage] {}, {}, {}, {}", playerName, killerName, reason, zoneName);
         StringBuilder builder = new StringBuilder();
         builder.append("<center>Здесь расстался с жизнью один из нас</center><br>");
         return switch (reason) {

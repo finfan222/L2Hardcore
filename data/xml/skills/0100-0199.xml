@@ -49,6 +49,7 @@
 		<set name="castRange" val="900"/>
 		<set name="isDebuff" val="true" />
 		<set name="effectRange" val="1300"/>
+		<set name="isProjectile" val="true"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
 		<enchant2 name="magicLvl" val="#enchantMagicLvl"/>
 		<enchant2 name="mpConsume" val="#ench2MpConsume"/>

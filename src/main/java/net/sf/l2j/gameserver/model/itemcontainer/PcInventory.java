@@ -284,7 +284,7 @@ public class PcInventory extends Inventory {
      * @return a List of all sellable items.
      */
     public List<ItemInstance> getSellableItems() {
-        return _items.stream().filter(i -> !i.isEquipped() && i.isSellable() && (getOwner().getSummon() == null || i.getObjectId() != getOwner().getSummon().getControlItemId())).collect(Collectors.toList());
+        return _items.stream().filter(i -> !i.isEquipped() && i.isSellable() && (getOwner().getSummon() == null || i.getObjectId() != getOwner().getSummon().getControlItemObjectId())).collect(Collectors.toList());
     }
 
     /**

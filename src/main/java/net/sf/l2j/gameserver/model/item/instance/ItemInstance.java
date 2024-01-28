@@ -292,7 +292,7 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
         return ((!isEquipped() || allowStoreBuy) // Not equipped
             && (getItem().getType2() != Item.TYPE2_QUEST) // Not Quest Item
             && (getItem().getType2() != Item.TYPE2_MONEY || getItem().getType1() != Item.TYPE1_SHIELD_ARMOR) // not money, not shield
-            && (player.getSummon() == null || getObjectId() != player.getSummon().getControlItemId()) // Not Control item of currently summoned pet
+            && (player.getSummon() == null || getObjectId() != player.getSummon().getControlItemObjectId()) // Not Control item of currently summoned pet
             && (player.getActiveEnchantItem() != this) // Not momentarily used enchant scroll
             && (allowAdena || getItemId() != 57) // Not adena
             && (player.getCast().getCurrentSkill() == null || player.getCast().getCurrentSkill().getItemConsumeId() != getItemId()) && (allowNonTradable || isTradable()));
@@ -507,9 +507,9 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
             ItemFactory.ITEM_LOG.log(record);
         }
 
-        if (isSummonItem()) {
-            ItemDao.removePetItem(this);
-        }
+        //if (isSummonItem()) {
+        //    ItemDao.removePetItem(this);
+        //}
     }
 
     public void setDropperObjectId(int dropperObjectId) {
@@ -549,6 +549,11 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
 
     @Override
     public int compareTo(ItemInstance item) {
+        final int time = Long.compare(item.getData().getTime(), data.getTime());
+        if (time != 0) {
+            return time;
+        }
+
         return Integer.compare(item.getObjectId(), getObjectId());
     }
 

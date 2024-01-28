@@ -2073,7 +2073,7 @@ public final class Player extends Playable {
         }
 
         // Pet is summoned and not the item that summoned the pet AND not the buggle from strider you're mounting
-        if (_summon != null && _summon.getControlItemId() == objectId || _mountObjectId == objectId) {
+        if (_summon != null && _summon.getControlItemObjectId() == objectId || _mountObjectId == objectId) {
             return null;
         }
 
@@ -2672,7 +2672,7 @@ public final class Player extends Playable {
 
                 for (final ItemInstance itemDrop : getInventory().getItems()) {
                     // Don't drop those following things
-                    if (!itemDrop.isDropable() || itemDrop.getItemId() == 57 || itemDrop.getItem().getType2() == Item.TYPE2_QUEST || (_summon != null && _summon.getControlItemId() == itemDrop.getItemId()) || ArraysUtil.contains(Config.KARMA_NONDROPPABLE_ITEMS, itemDrop.getItemId()) || ArraysUtil.contains(Config.KARMA_NONDROPPABLE_PET_ITEMS, itemDrop.getItemId())) {
+                    if (!itemDrop.isDropable() || itemDrop.getItemId() == 57 || itemDrop.getItem().getType2() == Item.TYPE2_QUEST || (_summon != null && _summon.getControlItemObjectId() == itemDrop.getItemId()) || ArraysUtil.contains(Config.KARMA_NONDROPPABLE_ITEMS, itemDrop.getItemId()) || ArraysUtil.contains(Config.KARMA_NONDROPPABLE_PET_ITEMS, itemDrop.getItemId())) {
                         continue;
                     }
 
@@ -3528,7 +3528,7 @@ public final class Player extends Playable {
 
         _petTemplate = (PetTemplate) pet.getTemplate();
         _petData = _petTemplate.getPetDataEntry(pet.getStatus().getLevel());
-        _mountObjectId = pet.getControlItemId();
+        _mountObjectId = pet.getControlItemObjectId();
 
         startFeed(pet.getNpcId());
         broadcastPacket(mount);
@@ -3738,7 +3738,7 @@ public final class Player extends Playable {
 
         if (_summon != null) {
             setCurrentFeed(((Pet) _summon).getCurrentFed());
-            _controlItemId = _summon.getControlItemId();
+            _controlItemId = _summon.getControlItemObjectId();
             sendPacket(new SetupGauge(GaugeColor.GREEN, getCurrentFeed() * 10000 / getFeedConsume(), _petData.getMaxMeal() * 10000 / getFeedConsume()));
             if (!isDead()) {
                 _mountFeedTask = ThreadPool.scheduleAtFixedRate(new FeedTask(), 10000, 10000);
@@ -4946,7 +4946,6 @@ public final class Player extends Playable {
     }
 
 
-
     public boolean isSubClassActive() {
         return _classIndex > 0;
     }
@@ -5308,7 +5307,7 @@ public final class Player extends Playable {
         }
 
         // Pet whom item you try to manipulate is summoned/mounted.
-        if (_summon != null && _summon.getControlItemId() == objectId || _mountObjectId == objectId) {
+        if (_summon != null && _summon.getControlItemObjectId() == objectId || _mountObjectId == objectId) {
             return null;
         }
 
@@ -6368,13 +6367,17 @@ public final class Player extends Playable {
 
             int spReward = monster.getSpReward();
             if (spReward > 0) {
-                int diff = getStatus().getLevel() - target.getStatus().getLevel() - 5;
-                double pow = Math.pow(0.8333, diff);
-                Number damage = event.getContextValue("damage");
-                double coefficient = Math.min(damage.doubleValue() / target.getStatus().getMaxHp(), 1.0);
-                int sp = (int) (coefficient * (spReward * pow));
-                addSp(sp);
-                sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                if (skill.isDamage()) {
+                    int diff = getStatus().getLevel() - target.getStatus().getLevel() - 5;
+                    double pow = Math.pow(0.8333, diff);
+                    Number damage = event.getContextValue("damage");
+                    double coefficient = Math.min(damage.doubleValue() / target.getStatus().getMaxHp(), 1.0);
+                    int sp = (int) (coefficient * (spReward * pow));
+                    addSp(sp);
+                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                } else if (skill.isDebuff()) {
+
+                }
             }
         }
     }

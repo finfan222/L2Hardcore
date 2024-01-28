@@ -340,7 +340,7 @@ public class CreatureAttack<T extends Creature> {
 
         setAttackTask(hits, WeaponType.BOW, reuse);
 
-        task = ThreadPool.schedule(this::onHitTimer, sAtk);
+        task = ThreadPool.schedule(this::onHitTimer, Formulas.calcProjectileFlyTime(attacker, target, sAtk));
 
         if (attacker instanceof Player) {
             attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.GETTING_READY_TO_SHOOT_AN_ARROW));

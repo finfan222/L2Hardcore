@@ -1,10 +1,5 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
-import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
@@ -12,7 +7,6 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 
 public final class RequestDestroyItem extends L2GameClientPacket {
-    private static final String DELETE_PET = "DELETE FROM pets WHERE item_obj_id=?";
 
     private int _objectId;
     private int _count;
@@ -70,17 +64,9 @@ public final class RequestDestroyItem extends L2GameClientPacket {
         // if it's a pet control item.
         if (itemToRemove.isSummonItem()) {
             // See if pet or mount is active ; can't destroy item linked to that pet.
-            if ((player.getSummon() != null && player.getSummon().getControlItemId() == _objectId) || (player.isMounted() && player.getMountObjectId() == _objectId)) {
+            if ((player.getSummon() != null && player.getSummon().getControlItemObjectId() == _objectId) || (player.isMounted() && player.getMountObjectId() == _objectId)) {
                 player.sendPacket(SystemMessageId.PET_SUMMONED_MAY_NOT_DESTROYED);
                 return;
-            }
-
-            try (Connection con = ConnectionPool.getConnection();
-                 PreparedStatement ps = con.prepareStatement(DELETE_PET)) {
-                ps.setInt(1, _objectId);
-                ps.execute();
-            } catch (Exception e) {
-                LOGGER.error("Couldn't delete pet item with objectid {}.", e, _objectId);
             }
         }
 

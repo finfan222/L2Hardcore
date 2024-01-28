@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor;
 
-import java.util.List;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.TeamType;
@@ -35,6 +33,8 @@ import net.sf.l2j.gameserver.network.serverpackets.PetStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.RelationChanged;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.List;
 
 public abstract class Summon extends Playable {
     private Player _owner;
@@ -280,7 +280,7 @@ public abstract class Summon extends Playable {
         return 36;
     }
 
-    public int getControlItemId() {
+    public int getControlItemObjectId() {
         return 0;
     }
 

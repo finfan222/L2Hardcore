@@ -573,6 +573,7 @@
 		<set name="effectRange" val="400" />
 	</skill>
 	<skill id="4994" levels="1" name="Venom - Sonic Storm">
+		<set name="isProjectile" val="true"/>
 		<set name="mpInitialConsume" val="17" />
 		<set name="mpConsume" val="70" />
 		<set name="power" val="12450" />
@@ -613,6 +614,7 @@
 		</for>
 	</skill>
 	<skill id="4998" levels="1" name="Lidia - Twister">
+		<set name="isProjectile" val="true"/>
 		<set name="mpInitialConsume" val="23" />
 		<set name="mpConsume" val="92" />
 		<set name="element" val="WIND" />

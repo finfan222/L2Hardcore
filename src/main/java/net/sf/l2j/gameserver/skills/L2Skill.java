@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.skills;
 
+import lombok.Getter;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
@@ -178,6 +179,8 @@ public abstract class L2Skill implements IChanceSkillTrigger {
     private final boolean _simultaneousCast;
 
     private ExtractableSkill _extractableItems = null;
+
+    @Getter private final boolean isProjectile;
 
     protected L2Skill(StatSet set) {
         _id = set.getInteger("skill_id");
@@ -372,6 +375,8 @@ public abstract class L2Skill implements IChanceSkillTrigger {
 
             _extractableItems = parseExtractableSkill(_id, _level, capsuledItems);
         }
+
+        isProjectile = set.getBool("isProjectile", false);
     }
 
     public abstract void useSkill(Creature caster, WorldObject[] targets);

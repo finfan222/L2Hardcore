@@ -1,23 +1,22 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.model.CharSelectSlot;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.GameClient;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 public class CharSelectInfo extends L2GameServerPacket {
     private static final String SELECT_INFOS = "SELECT obj_Id, char_name, level, maxHp, curHp, maxMp, curMp, face, hairStyle, hairColor, sex, heading, x, y, z, exp, sp, karma, pvpkills, pkkills, clanid, race, classid, deletetime, cancraft, title, accesslevel, online, lastAccess, base_class FROM characters WHERE account_name=?";
     private static final String SELECT_CURRENT_SUBCLASS = "SELECT exp, sp, level FROM character_subclasses WHERE char_obj_id=? && class_id=? ORDER BY char_obj_id";
-    private static final String SELECT_AUGMENTS = "SELECT attributes FROM augmentations WHERE item_oid = ?";
+    private static final String SELECT_AUGMENTS = "SELECT attributes FROM item_augmentations WHERE object_id = ?";
 
     private final CharSelectSlot[] _slots;
     private final String _loginName;

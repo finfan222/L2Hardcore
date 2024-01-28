@@ -41,7 +41,7 @@ import java.util.concurrent.ScheduledFuture;
 public class CreatureCast<T extends Creature> {
     public static final CLogger LOGGER = new CLogger(CreatureCast.class.getName());
 
-    protected final T _actor;
+    protected final T _caster;
 
     protected long _castInterruptTime;
 
@@ -56,7 +56,7 @@ public class CreatureCast<T extends Creature> {
     private boolean _isCastingNow;
 
     public CreatureCast(T actor) {
-        _actor = actor;
+        _caster = actor;
     }
 
     public final boolean canAbortCast() {
@@ -94,12 +94,12 @@ public class CreatureCast<T extends Creature> {
         int hitTime = skill.getHitTime();
         int coolTime = skill.getCoolTime();
         if (!skill.isStaticHitTime()) {
-            hitTime = Formulas.calcAtkSpd(_actor, skill, hitTime);
+            hitTime = Formulas.calcAtkSpd(_caster, skill, hitTime);
             if (coolTime > 0) {
-                coolTime = Formulas.calcAtkSpd(_actor, skill, coolTime);
+                coolTime = Formulas.calcAtkSpd(_caster, skill, coolTime);
             }
 
-            if (skill.isMagic() && (_actor.isChargedShot(ShotType.SPIRITSHOT) || _actor.isChargedShot(ShotType.BLESSED_SPIRITSHOT))) {
+            if (skill.isMagic() && (_caster.isChargedShot(ShotType.SPIRITSHOT) || _caster.isChargedShot(ShotType.BLESSED_SPIRITSHOT))) {
                 hitTime = (int) (0.70 * hitTime);
                 coolTime = (int) (0.70 * coolTime);
             }
@@ -111,38 +111,38 @@ public class CreatureCast<T extends Creature> {
 
         int reuseDelay = skill.getReuseDelay();
         if (!skill.isStaticReuse()) {
-            reuseDelay *= _actor.getStatus().calcStat(skill.isMagic() ? Stats.MAGIC_REUSE_RATE : Stats.P_REUSE, 1, null, null);
-            reuseDelay *= 333.0 / (skill.isMagic() ? _actor.getStatus().getMAtkSpd() : _actor.getStatus().getPAtkSpd());
+            reuseDelay *= _caster.getStatus().calcStat(skill.isMagic() ? Stats.MAGIC_REUSE_RATE : Stats.P_REUSE, 1, null, null);
+            reuseDelay *= 333.0 / (skill.isMagic() ? _caster.getStatus().getMAtkSpd() : _caster.getStatus().getPAtkSpd());
         }
 
-        final boolean skillMastery = Formulas.calcSkillMastery(_actor, skill);
+        final boolean skillMastery = Formulas.calcSkillMastery(_caster, skill);
         if (skillMastery) {
-            if (_actor.getActingPlayer() != null) {
-                _actor.getActingPlayer().sendPacket(SystemMessageId.SKILL_READY_TO_USE_AGAIN);
+            if (_caster.getActingPlayer() != null) {
+                _caster.getActingPlayer().sendPacket(SystemMessageId.SKILL_READY_TO_USE_AGAIN);
             }
         } else {
             if (reuseDelay > 30000) {
-                _actor.addTimeStamp(skill, reuseDelay);
+                _caster.addTimeStamp(skill, reuseDelay);
             }
 
             if (reuseDelay > 10) {
-                _actor.disableSkill(skill, reuseDelay);
+                _caster.disableSkill(skill, reuseDelay);
             }
         }
 
-        final int initMpConsume = _actor.getStatus().getMpInitialConsume(skill);
+        final int initMpConsume = _caster.getStatus().getMpInitialConsume(skill);
         if (initMpConsume > 0) {
-            _actor.getStatus().reduceMp(initMpConsume);
+            _caster.getStatus().reduceMp(initMpConsume);
         }
 
-        if (target != _actor) {
-            _actor.getPosition().setHeadingTo(target);
+        if (target != _caster) {
+            _caster.getPosition().setHeadingTo(target);
         }
 
-        _actor.broadcastPacket(new MagicSkillUse(_actor, target, skill.getId(), skill.getLevel(), hitTime, reuseDelay, false));
+        _caster.broadcastPacket(new MagicSkillUse(_caster, target, skill.getId(), skill.getLevel(), hitTime, reuseDelay, false));
 
         if (itemInstance == null) {
-            _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.USE_S1).addSkillName(skill));
+            _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.USE_S1).addSkillName(skill));
         }
 
         final long castInterruptTime = System.currentTimeMillis() + hitTime - 200;
@@ -150,8 +150,8 @@ public class CreatureCast<T extends Creature> {
         setCastTask(skill, target, hitTime, coolTime, castInterruptTime);
 
         if (_hitTime > 410) {
-            if (_actor instanceof Player) {
-                _actor.sendPacket(new SetupGauge(GaugeColor.BLUE, _hitTime));
+            if (_caster instanceof Player) {
+                _caster.sendPacket(new SetupGauge(GaugeColor.BLUE, _hitTime));
             }
         } else {
             _hitTime = 0;
@@ -170,7 +170,7 @@ public class CreatureCast<T extends Creature> {
         }
 
         // No checks for range, LoS, PEACE if the target is the caster.
-        if (_target != _actor) {
+        if (_target != _caster) {
             int escapeRange = 0;
             if (_skill.getEffectRange() > 0) {
                 escapeRange = _skill.getEffectRange();
@@ -179,38 +179,38 @@ public class CreatureCast<T extends Creature> {
             }
 
             // If the target disappears, stop the cast.
-            if (_actor.getAI().isTargetLost(_target, _skill)) {
+            if (_caster.getAI().isTargetLost(_target, _skill)) {
                 stop();
                 return;
             }
 
             // If the target is out of range, stop the cast.
-            if (escapeRange > 0 && !MathUtil.checkIfInRange(escapeRange, _actor, _target, true)) {
-                _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DIST_TOO_FAR_CASTING_STOPPED));
+            if (escapeRange > 0 && !MathUtil.checkIfInRange(escapeRange, _caster, _target, true)) {
+                _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DIST_TOO_FAR_CASTING_STOPPED));
 
                 stop();
                 return;
             }
 
             // If the target is out of view, stop the cast.
-            if (_skill.getSkillRadius() > 0 && !GeoEngine.getInstance().canSeeTarget(_actor, _target)) {
-                _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CANT_SEE_TARGET));
+            if (_skill.getSkillRadius() > 0 && !GeoEngine.getInstance().canSeeTarget(_caster, _target)) {
+                _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CANT_SEE_TARGET));
 
                 stop();
                 return;
             }
 
             // If the target reached a PEACE zone, stop the cast.
-            if (_skill.isOffensive() && _actor instanceof Playable && _target instanceof Playable) {
-                if (_actor.isInsideZone(ZoneId.PEACE)) {
-                    _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CANT_ATK_PEACEZONE));
+            if (_skill.isOffensive() && _caster instanceof Playable && _target instanceof Playable) {
+                if (_caster.isInsideZone(ZoneId.PEACE)) {
+                    _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CANT_ATK_PEACEZONE));
 
                     stop();
                     return;
                 }
 
                 if (_target.isInsideZone(ZoneId.PEACE)) {
-                    _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
+                    _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.TARGET_IN_PEACEZONE));
 
                     stop();
                     return;
@@ -218,11 +218,18 @@ public class CreatureCast<T extends Creature> {
             }
         }
 
-        _targets = _skill.getTargetList(_actor, _target);
+        _targets = _skill.getTargetList(_caster, _target);
 
-        _actor.broadcastPacket(new MagicSkillLaunched(_actor, _skill, _targets));
+        _caster.broadcastPacket(new MagicSkillLaunched(_caster, _skill, _targets));
 
-        _castTask = ThreadPool.schedule(this::onMagicHitTimer, _hitTime == 0 ? 0 : 400);
+        int flyTime = 400;
+        if (_skill.isProjectile()) {
+            flyTime = Formulas.calcProjectileFlyTime(_caster, _target, flyTime);
+        } else {
+            flyTime = _hitTime == 0 ? 0 : flyTime;
+        }
+
+        _castTask = ThreadPool.schedule(this::onMagicHitTimer, flyTime);
     }
 
     /**
@@ -234,38 +241,38 @@ public class CreatureCast<T extends Creature> {
             return;
         }
 
-        final double mpConsume = _actor.getStatus().getMpConsume(_skill);
+        final double mpConsume = _caster.getStatus().getMpConsume(_skill);
         if (mpConsume > 0) {
-            if (mpConsume > _actor.getStatus().getMp()) {
-                _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_MP));
+            if (mpConsume > _caster.getStatus().getMp()) {
+                _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_MP));
                 stop();
                 return;
             }
 
-            _actor.getStatus().reduceMp(mpConsume);
+            _caster.getStatus().reduceMp(mpConsume);
         }
 
         final double hpConsume = _skill.getHpConsume();
         if (hpConsume > 0) {
-            if (hpConsume > _actor.getStatus().getHp()) {
-                _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_HP));
+            if (hpConsume > _caster.getStatus().getHp()) {
+                _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_HP));
                 stop();
                 return;
             }
 
-            _actor.getStatus().reduceHp(hpConsume, _actor, true);
+            _caster.getStatus().reduceHp(hpConsume, _caster, true);
         }
 
-        if (_actor instanceof Player && _skill.getNumCharges() > 0) {
+        if (_caster instanceof Player && _skill.getNumCharges() > 0) {
             if (_skill.getMaxCharges() > 0) {
-                ((Player) _actor).increaseCharges(_skill.getNumCharges(), _skill.getMaxCharges());
+                ((Player) _caster).increaseCharges(_skill.getNumCharges(), _skill.getMaxCharges());
             } else {
-                ((Player) _actor).decreaseCharges(_skill.getNumCharges());
+                ((Player) _caster).decreaseCharges(_skill.getNumCharges());
             }
         }
 
         for (final Creature target : _targets) {
-            if (target instanceof Summon && _actor instanceof Player) {
+            if (target instanceof Summon && _caster instanceof Player) {
                 ((Summon) target).updateAndBroadcastStatus(1);
             }
         }
@@ -284,17 +291,17 @@ public class CreatureCast<T extends Creature> {
             return;
         }
 
-        _actor.rechargeShots(_skill.useSoulShot(), _skill.useSpiritShot());
+        _caster.rechargeShots(_skill.useSoulShot(), _skill.useSpiritShot());
 
         if (_skill.isOffensive() && _targets.length != 0) {
-            _actor.getAI().startAttackStance();
+            _caster.getAI().startAttackStance();
         }
 
         final Creature target = _targets.length > 0 ? _targets[0] : _target;
-        _actor.notifyQuestEventSkillFinished(_skill, target);
+        _caster.notifyQuestEventSkillFinished(_skill, target);
 
         clearCastTask();
-        _actor.getAI().notifyEvent(AiEventType.FINISHED_CASTING, null, null);
+        _caster.getAI().notifyEvent(AiEventType.FINISHED_CASTING, null, null);
     }
 
     /**
@@ -305,8 +312,8 @@ public class CreatureCast<T extends Creature> {
      * @return True if casting is possible, false otherwise.
      */
     public boolean canAttemptCast(Creature target, L2Skill skill) {
-        if (_actor.isSkillDisabled(skill)) {
-            _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE).addSkillName(skill));
+        if (_caster.isSkillDisabled(skill)) {
+            _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_PREPARED_FOR_REUSE).addSkillName(skill));
             return false;
         }
 
@@ -323,29 +330,29 @@ public class CreatureCast<T extends Creature> {
      * @return True if casting is possible, false otherwise.
      */
     public boolean canDoCast(Creature target, L2Skill skill, boolean isCtrlPressed, int itemObjectId) {
-        final int initialMpConsume = _actor.getStatus().getMpInitialConsume(skill);
-        final int mpConsume = _actor.getStatus().getMpConsume(skill);
+        final int initialMpConsume = _caster.getStatus().getMpInitialConsume(skill);
+        final int mpConsume = _caster.getStatus().getMpConsume(skill);
 
-        if ((initialMpConsume > 0 || mpConsume > 0) && (int) _actor.getStatus().getMp() < initialMpConsume + mpConsume) {
-            _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_MP));
+        if ((initialMpConsume > 0 || mpConsume > 0) && (int) _caster.getStatus().getMp() < initialMpConsume + mpConsume) {
+            _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_MP));
             return false;
         }
 
-        if (skill.getHpConsume() > 0 && (int) _actor.getStatus().getHp() <= skill.getHpConsume()) {
-            _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_HP));
+        if (skill.getHpConsume() > 0 && (int) _caster.getStatus().getHp() <= skill.getHpConsume()) {
+            _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NOT_ENOUGH_HP));
             return false;
         }
 
-        if ((skill.isMagic() && _actor.isMuted()) || (!skill.isMagic() && _actor.isPhysicalMuted())) {
+        if ((skill.isMagic() && _caster.isMuted()) || (!skill.isMagic() && _caster.isPhysicalMuted())) {
             return false;
         }
 
-        if (skill.getCastRange() > 0 && !GeoEngine.getInstance().canSeeTarget(_actor, target)) {
-            _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CANT_SEE_TARGET));
+        if (skill.getCastRange() > 0 && !GeoEngine.getInstance().canSeeTarget(_caster, target)) {
+            _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CANT_SEE_TARGET));
             return false;
         }
 
-        if (!skill.getWeaponDependancy(_actor)) {
+        if (!skill.getWeaponDependancy(_caster)) {
             return false;
         }
 
@@ -356,21 +363,21 @@ public class CreatureCast<T extends Creature> {
      * Abort the current cast, no matter actual cast step.
      */
     public final void stop() {
-        if (_actor.getFusionSkill() != null) {
-            _actor.getFusionSkill().onCastAbort();
+        if (_caster.getFusionSkill() != null) {
+            _caster.getFusionSkill().onCastAbort();
         }
 
-        final AbstractEffect effect = _actor.getFirstEffect(EffectType.SIGNET_GROUND);
+        final AbstractEffect effect = _caster.getFirstEffect(EffectType.SIGNET_GROUND);
         if (effect != null) {
             effect.exit();
         }
 
-        if (_actor.isAllSkillsDisabled()) {
-            _actor.enableAllSkills();
+        if (_caster.isAllSkillsDisabled()) {
+            _caster.enableAllSkills();
         }
 
         if (isCastingNow()) {
-            _actor.broadcastPacket(new MagicSkillCanceled(_actor.getObjectId()));
+            _caster.broadcastPacket(new MagicSkillCanceled(_caster.getObjectId()));
         }
 
         if (_castTask != null) {
@@ -380,8 +387,8 @@ public class CreatureCast<T extends Creature> {
 
         clearCastTask();
 
-        _actor.getAI().tryToActive();
-        _actor.getAI().clientActionFailed();
+        _caster.getAI().tryToActive();
+        _caster.getAI().clientActionFailed();
     }
 
     /**
@@ -390,7 +397,7 @@ public class CreatureCast<T extends Creature> {
     public void interrupt() {
         if (canAbortCast()) {
             stop();
-            _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CASTING_INTERRUPTED));
+            _caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.CASTING_INTERRUPTED));
         }
     }
 
@@ -402,12 +409,12 @@ public class CreatureCast<T extends Creature> {
      */
     public void callSkill(L2Skill skill, Creature[] targets) {
         // Raid Curses system.
-        if (_actor instanceof Playable && _actor.testCursesOnSkillSee(skill, targets)) {
+        if (_caster instanceof Playable && _caster.testCursesOnSkillSee(skill, targets)) {
             return;
         }
 
         for (final Creature target : targets) {
-            if (_actor instanceof Playable && target instanceof Monster monster && skill.isOverhit()) {
+            if (_caster instanceof Playable && target instanceof Monster monster && skill.isOverhit()) {
                 monster.getOverhitState().setActivated(true);
             }
 
@@ -417,24 +424,24 @@ public class CreatureCast<T extends Creature> {
                     break;
 
                 default:
-                    final Weapon activeWeaponItem = _actor.getActiveWeaponItem();
+                    final Weapon activeWeaponItem = _caster.getActiveWeaponItem();
                     if (activeWeaponItem != null && !target.isDead()) {
-                        activeWeaponItem.castSkillOnMagic(_actor, target, skill);
+                        activeWeaponItem.castSkillOnMagic(_caster, target, skill);
                     }
 
-                    if (_actor.getChanceSkills() != null) {
-                        _actor.getChanceSkills().onSkillHit(target, false, skill.isMagic(), skill.isOffensive());
+                    if (_caster.getChanceSkills() != null) {
+                        _caster.getChanceSkills().onSkillHit(target, false, skill.isMagic(), skill.isOffensive());
                     }
 
                     if (target.getChanceSkills() != null) {
-                        target.getChanceSkills().onSkillHit(_actor, true, skill.isMagic(), skill.isOffensive());
+                        target.getChanceSkills().onSkillHit(_caster, true, skill.isMagic(), skill.isOffensive());
                     }
             }
         }
 
-        skill.useSkill(_actor, targets);
+        skill.useSkill(_caster, targets);
 
-        final Player player = _actor.getActingPlayer();
+        final Player player = _caster.getActingPlayer();
         if (player != null) {
             for (final Creature target : targets) {
                 if (skill.isOffensive()) {
@@ -444,7 +451,7 @@ public class CreatureCast<T extends Creature> {
                 } else {
                     if (target instanceof Playable) {
                         final Player targetPlayer = target.getActingPlayer();
-                        if (!(targetPlayer.equals(_actor) || targetPlayer.equals(player)) && (targetPlayer.getPvpFlag() > 0 || targetPlayer.getKarma() > 0)) {
+                        if (!(targetPlayer.equals(_caster) || targetPlayer.equals(player)) && (targetPlayer.getPvpFlag() > 0 || targetPlayer.getKarma() > 0)) {
                             player.updatePvPStatus();
                         }
                     } else if (target instanceof Attackable && !((Attackable) target).isGuard()) {
@@ -475,9 +482,9 @@ public class CreatureCast<T extends Creature> {
             }
 
             // Notify NPCs in a 1000 range of a skill use.
-            for (Npc npc : _actor.getKnownTypeInRadius(Npc.class, 1000)) {
+            for (Npc npc : _caster.getKnownTypeInRadius(Npc.class, 1000)) {
                 for (Quest quest : npc.getTemplate().getEventQuests(ScriptEventType.ON_SKILL_SEE)) {
-                    quest.notifySkillSee(npc, player, skill, targets, _actor instanceof Summon);
+                    quest.notifySkillSee(npc, player, skill, targets, _caster instanceof Summon);
                 }
             }
         }
@@ -492,7 +499,7 @@ public class CreatureCast<T extends Creature> {
                 default:
                     for (final Creature target : targets) {
                         if (target != null && target.hasAI()) {
-                            target.getAI().notifyEvent(AiEventType.ATTACKED, _actor, null);
+                            target.getAI().notifyEvent(AiEventType.ATTACKED, _caster, null);
                         }
                     }
                     break;

@@ -29,6 +29,8 @@ public class ItemInstanceData {
     private int customType2;
     private boolean isDestroyProtected;
     private ItemState lastChange;
+    private long time;
+    private boolean isExistsInDB;
 
     public Item get() {
         return ItemData.getInstance().getTemplate(itemId);

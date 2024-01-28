@@ -1,13 +1,12 @@
 package net.sf.l2j.gameserver.model;
 
+import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.enums.Paperdoll;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.enums.Paperdoll;
 
 /**
  * A datatype used to store character selection screen informations.
@@ -15,7 +14,7 @@ import net.sf.l2j.gameserver.enums.Paperdoll;
 public class CharSelectSlot {
     private static final CLogger LOGGER = new CLogger(CharSelectSlot.class.getName());
 
-    private static final String RESTORE_PAPERDOLLS = "SELECT object_id,item_id,loc_data,enchant_level FROM items WHERE owner_id=? AND loc='PAPERDOLL'";
+    private static final String RESTORE_PAPERDOLLS = "SELECT object_id,item_id,slot,enchant_level FROM items WHERE owner_id=? AND location='PAPERDOLL'";
 
     private final int _objectId;
     private final String _name;
@@ -291,7 +290,7 @@ public class CharSelectSlot {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    final int slot = rs.getInt("loc_data");
+                    final int slot = rs.getInt("slot");
 
                     paperdoll[slot][0] = rs.getInt("object_id");
                     paperdoll[slot][1] = rs.getInt("item_id");

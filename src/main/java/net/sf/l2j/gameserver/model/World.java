@@ -252,7 +252,7 @@ public final class World {
     }
 
     private void onDieLethal(OnDieLethal event) {
-        LOGGER.info("[10][onDieLethal] {}", event);
+        LOGGER.info("[8][onDieLethal] {}", event);
         String blackMessage = String.format("Elmoreaden bulletin: %s has left us. The reason was %s.",
             event.getName(), event.getReason().getDieWorldMessage());
         ExShowScreenMessageCustom message = ExShowScreenMessageCustom.builder()

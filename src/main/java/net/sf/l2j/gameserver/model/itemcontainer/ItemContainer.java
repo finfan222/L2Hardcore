@@ -2,7 +2,6 @@ package net.sf.l2j.gameserver.model.itemcontainer;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
@@ -15,18 +14,13 @@ import net.sf.l2j.gameserver.model.item.instance.ItemFactory;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
-import java.util.stream.Collectors;
 
 public abstract class ItemContainer {
     protected static final CLogger LOGGER = new CLogger(ItemContainer.class.getName());
-
-    private static final String RESTORE_ITEMS = "SELECT object_id, item_id, count, enchant_level, loc, loc_data, custom_type1, custom_type2, mana_left, time FROM items WHERE owner_id=? AND (loc=?)";
 
     protected final Set<ItemInstance> _items = new ConcurrentSkipListSet<>();
 
@@ -101,7 +95,13 @@ public abstract class ItemContainer {
      * @return A {@link List} of {@link ItemInstance}s by given item ID, or an empty {@link List} if none are found.
      */
     public List<ItemInstance> getItemsByItemId(int itemId) {
-        return _items.stream().filter(i -> i.getItemId() == itemId).collect(Collectors.toList());
+        List<ItemInstance> temp = new ArrayList<>();
+        for (ItemInstance next : _items) {
+            if (next.getItemId() == itemId) {
+                temp.add(next);
+            }
+        }
+        return temp;
     }
 
     /**
@@ -109,7 +109,12 @@ public abstract class ItemContainer {
      * @return An {@link ItemInstance} using its item ID, or null if not found in this {@link ItemContainer}.
      */
     public ItemInstance getItemByItemId(int itemId) {
-        return _items.stream().filter(i -> i.getItemId() == itemId).findFirst().orElse(null);
+        for (ItemInstance next : _items) {
+            if (next.getItemId() == itemId) {
+                return next;
+            }
+        }
+        return null;
     }
 
     /**
@@ -117,7 +122,12 @@ public abstract class ItemContainer {
      * @return An {@link ItemInstance} using its object ID, or null if not found in this {@link ItemContainer}.
      */
     public ItemInstance getItemByObjectId(int objectId) {
-        return _items.stream().filter(i -> i.getObjectId() == objectId).findFirst().orElse(null);
+        for (ItemInstance next : _items) {
+            if (next.getObjectId() == objectId) {
+                return next;
+            }
+        }
+        return null;
     }
 
     /**
@@ -198,7 +208,11 @@ public abstract class ItemContainer {
             addItem(item);
 
             // Update database
-            ItemDao.create(item);
+            if (item.getData().isExistsInDB()) {
+                ItemDao.update(item);
+            } else {
+                ItemDao.create(item);
+            }
         }
 
         refreshWeight();
@@ -238,7 +252,12 @@ public abstract class ItemContainer {
                 item.setLocation(getBaseLocation());
                 item.setLastChange(ItemState.ADDED);
                 addItem(item);
-                ItemDao.create(item);
+
+                if (item.getData().isExistsInDB()) {
+                    ItemDao.update(item);
+                } else {
+                    ItemDao.create(item);
+                }
 
                 // If stackable, end loop as entire count is included in 1 instance of item
                 if (template.isStackable() || !Config.MULTIPLE_ITEM_DROP) {
@@ -503,35 +522,7 @@ public abstract class ItemContainer {
      * Get back items in container from database
      */
     public void restore() {
-        final Player owner = (getOwner() == null) ? null : getOwner().getActingPlayer();
-
-        try (Connection con = ConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(RESTORE_ITEMS)) {
-            ps.setInt(1, getOwnerId());
-            ps.setString(2, getBaseLocation().name());
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    // Restore the item.
-                    ItemInstance item = ItemDao.restore(getOwnerId(), rs);
-                    if (item == null) {
-                        continue;
-                    }
-
-                    // Add the item to world objects list.
-                    World.getInstance().addObject(item);
-
-                    // If stackable item is found in inventory just add to current quantity
-                    if (item.isStackable() && getItemByItemId(item.getItemId()) != null) {
-                        addItem("Restore", item, owner, null);
-                    } else {
-                        addItem(item);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("Couldn't restore container for {}.", e, getOwnerId());
-        }
+        InventoryDao.restore(this);
         refreshWeight();
     }
 

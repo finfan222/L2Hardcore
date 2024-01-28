@@ -1294,4 +1294,8 @@ public final class Formulas {
 
         return Math.max((int) (counter * multiplier), 1);
     }
+
+    public static int calcProjectileFlyTime(Creature attacker, Creature target, int baseFlyTime) {
+        return (int) ((attacker.distance2D(target.getPosition()) * 0.3333333333) + (baseFlyTime * 0.7777777777) + 200);
+    }
 }

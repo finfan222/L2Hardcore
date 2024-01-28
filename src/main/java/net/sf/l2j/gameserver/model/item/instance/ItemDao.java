@@ -23,41 +23,43 @@ public class ItemDao {
 
     public static final CLogger LOGGER = new CLogger(WorldObject.class.getName());
 
-    private static final String DELETE_AUGMENTATION = "DELETE FROM augmentations WHERE item_oid = ?";
-    private static final String RESTORE_AUGMENTATION = "SELECT attributes, skill_id, skill_level FROM augmentations WHERE item_oid = ?";
-    private static final String INSERT_AUGMENTATION = "INSERT INTO augmentations VALUES(?, ?, ?, ?)";
+    private static final String DELETE_AUGMENTATION = "DELETE FROM item_augmentations WHERE object_id = ?";
+    private static final String RESTORE_AUGMENTATION = "SELECT attributes, skill_id, skill_level FROM item_augmentations WHERE object_id = ?";
+    private static final String INSERT_AUGMENTATION = "INSERT INTO item_augmentations VALUES(?,?,?,?)";
 
     private static final String UPDATE_ITEM = """
         UPDATE items
         SET
          owner_id=?,
          count=?,
-         loc=?,
-         loc_data=?,
+         location=?,
+         slot=?,
          enchant_level=?,
          custom_type1=?,
          custom_type2=?,
-         mana_left=?
+         durability=?,
+         time=?
         WHERE object_id=?
         """;
 
     private static final String INSERT_ITEM = """
         INSERT INTO items (
             owner_id,
+            object_id,
             item_id,
             count,
-            loc,
-            loc_data,
             enchant_level,
-            object_id,
+            location,
+            slot,
             custom_type1,
             custom_type2,
-            mana_left)
-        VALUES (?,?,?,?,?,?,?,?,?,?)
+            durability,
+            time)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)
         """;
 
     private static final String DELETE_ITEM = "DELETE FROM items WHERE object_id=?";
-    private static final String DELETE_PET_ITEM = "DELETE FROM pets WHERE item_obj_id=?";
+    private static final String DELETE_PET_ITEM = "DELETE FROM pets WHERE object_id=?";
 
     private static final ReentrantLock LOCKER = new ReentrantLock();
 
@@ -117,12 +119,12 @@ public class ItemDao {
             Augmentation augmentation = item.getAugmentation();
             ps.setInt(1, item.getObjectId());
             ps.setInt(2, augmentation.getId());
-            if (augmentation.getSkill() == null) {
-                ps.setInt(3, -1);
-                ps.setInt(4, -1);
-            } else {
+            if (augmentation.getSkill() != null) {
                 ps.setInt(3, augmentation.getSkill().getId());
                 ps.setInt(4, augmentation.getSkill().getLevel());
+            } else {
+                ps.setInt(3, -1);
+                ps.setInt(4, -1);
             }
             ps.executeUpdate();
         } catch (Exception e) {
@@ -144,12 +146,13 @@ public class ItemDao {
             final int objectId = resultSet.getInt("object_id");
             final int itemId = resultSet.getInt("item_id");
             final int count = resultSet.getInt("count");
-            final ItemLocation location = ItemLocation.valueOf(resultSet.getString("loc"));
-            final int slot = resultSet.getInt("loc_data");
+            final ItemLocation location = ItemLocation.valueOf(resultSet.getString("location"));
+            final int slot = resultSet.getInt("slot");
             final int enchant = resultSet.getInt("enchant_level");
             final int type1 = resultSet.getInt("custom_type1");
             final int type2 = resultSet.getInt("custom_type2");
-            final int manaLeft = resultSet.getInt("mana_left");
+            final int durability = resultSet.getInt("durability");
+            final long time = resultSet.getLong("time");
 
             final Item template = ItemData.getInstance().getTemplate(itemId);
             if (template == null) {
@@ -164,7 +167,9 @@ public class ItemDao {
             item.setCustomType2(type2);
             item.setLocation(location);
             item.setSlot(slot);
-            Optional.ofNullable(item.getModule(DurabilityModule.class)).ifPresent(e -> e.setDurability(manaLeft));
+            item.getData().setTime(time);
+            item.getData().setExistsInDB(true);
+            Optional.ofNullable(item.getModule(DurabilityModule.class)).ifPresent(e -> e.setDurability(durability));
 
             // load augmentation
             if (item.isEquipable()) {
@@ -202,7 +207,8 @@ public class ItemDao {
             } else {
                 ps.setInt(8, -1);
             }
-            ps.setInt(9, item.getObjectId());
+            ps.setLong(9, item.getData().getTime());
+            ps.setInt(10, item.getObjectId());
             ps.executeUpdate();
         } catch (Exception e) {
             LOGGER.error("Couldn't update {}. ", e, item.toString());
@@ -216,17 +222,16 @@ public class ItemDao {
      */
     public static void create(ItemInstance item) {
         DurabilityModule durabilityModule = item.getModule(DurabilityModule.class);
-
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(INSERT_ITEM)) {
             ps.setInt(1, item.getData().getOwnerId());
-            ps.setInt(2, item.getItemId());
-            ps.setInt(3, item.getCount());
-            ps.setString(4, item.getData().getLocation().name());
-            ps.setInt(5, item.getSlot());
-            ps.setInt(6, item.getData().getEnchantLevel());
-            ps.setInt(7, item.getObjectId());
+            ps.setInt(2, item.getObjectId());
+            ps.setInt(3, item.getItemId());
+            ps.setInt(4, item.getCount());
+            ps.setInt(5, item.getData().getEnchantLevel());
+            ps.setString(6, item.getData().getLocation().name());
+            ps.setInt(7, item.getSlot());
             ps.setInt(8, item.getCustomType1());
             ps.setInt(9, item.getCustomType2());
             if (durabilityModule != null) {
@@ -234,10 +239,12 @@ public class ItemDao {
             } else {
                 ps.setInt(10, -1);
             }
+            ps.setLong(11, item.getData().getTime());
             ps.executeUpdate();
             if (item.isWeapon()) {
                 createAugmentation(item);
             }
+            item.getData().setExistsInDB(true);
         } catch (SQLException e) {
             LOGGER.error("Couldn't insert {}.", e, item.toString());
         } finally {
@@ -252,11 +259,6 @@ public class ItemDao {
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement(DELETE_ITEM)) {
-                ps.setInt(1, objectId);
-                ps.executeUpdate();
-            }
-
-            try (PreparedStatement ps = con.prepareStatement(DELETE_AUGMENTATION)) {
                 ps.setInt(1, objectId);
                 ps.executeUpdate();
             }
@@ -298,7 +300,7 @@ public class ItemDao {
     public static void updateDurability(ItemInstance item) {
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement("UPDATE items SET mana_left=? WHERE object_id=?");
+            PreparedStatement preparedStatement = con.prepareStatement("UPDATE items SET durability=? WHERE object_id=?");
             preparedStatement.setInt(1, item.getModule(DurabilityModule.class).getDurability());
             preparedStatement.setInt(2, item.getObjectId());
             preparedStatement.executeUpdate();
@@ -309,7 +311,7 @@ public class ItemDao {
         }
     }
 
-    public static void updatePetName(ItemInstance item) {
+    public static void updateCustomType2(ItemInstance item) {
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection()) {
             PreparedStatement preparedStatement = con.prepareStatement("UPDATE items SET custom_type2=? WHERE object_id=?");

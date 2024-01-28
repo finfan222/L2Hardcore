@@ -16,6 +16,7 @@
 		<set name="skillType" val="MDAM" />
 		<set name="isMagic" val="true" />
 		<set name="operateType" val="ACTIVE" />
+		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 	</skill>
@@ -294,6 +295,7 @@
 		<set name="skillRadius" val="200" />
 		<set name="skillType" val="MDAM" />
 		<set name="target" val="AREA" />
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="28" />
 	</skill>
 	<skill id="4027" levels="1" name="Gludio Heal">
@@ -594,6 +596,7 @@
 		<set name="lvlDepend" val="1" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="#power" />
+		<set name="isProjectile" val="true"/>
 		<set name="skillType" val="MDAM" />
 		<set name="target" val="ONE" />
 	</skill>
@@ -609,11 +612,13 @@
 		<set name="power" val="60" />
 		<set name="skillType" val="MDAM" />
 		<set name="target" val="ONE" />
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="40" />
 	</skill>
 	<skill id="4043" levels="1" name="Partisan Flame">
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
+		<set name="isProjectile" val="true"/>
 		<set name="element" val="FIRE" />
 		<set name="hitTime" val="4000" />
 		<set name="isMagic" val="true" />
@@ -707,16 +712,17 @@
 			</effect>
 		</for>
 	</skill>
-	<skill id="4049" levels="8" name="Cubic Drain"> <!-- storm cubic, not a drain -->
+	<skill id="4049" levels="8" name="Cubic Wind Strike"> <!-- storm cubic, not a drain -->
 		<table name="#magicLvl"> 40 46 52 58 62 66 70 74 </table>
 		<table name="#power"> 436 645 936 1242 1520 1792 2086 2399 </table>
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="#power" />
 		<set name="skillType" val="MDAM" />
+		<set name="isProjectile" val="true"/>
 		<set name="target" val="ONE" />
 	</skill>
-	<skill id="4050" levels="7" name="Cubic DD"> <!-- vampiric cubic -->
+	<skill id="4050" levels="7" name="Cubic Vampiric"> <!-- vampiric cubic -->
 		<table name="#magicLvl"> 43 49 55 60 64 68 72 </table>
 		<table name="#power"> 543 760 1084 1377 1635 1955 2262 </table>
 		<set name="absorbPart" val="0.4" /> <!-- absorbs 40% of damage -->
@@ -924,6 +930,7 @@
 		<set name="skillType" val="MDAM" />
 		<set name="isMagic" val="true" />
 		<set name="operateType" val="ACTIVE" />
+		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 	</skill>
@@ -964,6 +971,7 @@
 		<table name="#power"> 18 26 38 52 68 85 102 110 116 122 126 129 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 13 20 27 35 45 55 65 69 73 75 77 78 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
@@ -1127,6 +1135,7 @@
 		<table name="#power"> 9 13 19 26 34 43 51 55 58 61 63 65 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 18 29 40 53 68 83 98 104 109 113 115 117 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
@@ -1236,6 +1245,7 @@
 		<table name="#power"> 18 26 38 52 68 85 102 110 116 122 126 129 </table>
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
 		<table name="#mpConsume"> 13 20 27 35 45 55 65 69 73 75 77 78 </table>
+		<set name="isProjectile" val="true"/>
 		<set name="mpConsume" val="#mpConsume" />
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="power" val="#power" />
