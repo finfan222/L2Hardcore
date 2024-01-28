@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.model.item.instance;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
@@ -50,6 +51,7 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
     private final ItemInstanceData data;
 
     @Getter
+    @Setter
     private Augmentation augmentation;
     private int shotsMask;
 
@@ -334,16 +336,6 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
 
     public boolean isAugmented() {
         return augmentation != null;
-    }
-
-    public void setAugmentation(Augmentation augmentation) {
-        // there shall be no previous augmentation..
-        if (this.augmentation != null) {
-            return;
-        }
-
-        this.augmentation = augmentation;
-        ItemDao.updateItemAttributes(this);
     }
 
     public List<Func> getStats(Creature player) {

@@ -124,7 +124,7 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket {
             writeD(_z);
             writeD(_heading);
 
-            writeD(0x00);
+            writeD(0x00); // ???
 
             writeD(_mAtkSpd);
             writeD(_pAtkSpd);
@@ -156,9 +156,9 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket {
             writeS(_name);
             writeS(_title);
 
-            writeD(0x00);
-            writeD(0x00);
-            writeD(0x00);
+            writeD(0x00); // blue title on 0x01
+            writeD(0x00); // ???
+            writeD(0x00); // nickname color
 
             writeD(_npc.getAbnormalEffect());
 
@@ -168,13 +168,13 @@ public abstract class AbstractNpcInfo extends L2GameServerPacket {
             writeD(_allyCrest);
 
             writeC(_npc.getMove().getMoveType().getId());
-            writeC(0x00);
+            writeC(0x00); // blue circle under NPC
 
             writeF(_collisionRadius);
             writeF(_collisionHeight);
 
             writeD(_enchantEffect);
-            writeD(_npc.isFlying() ? 1 : 0);
+            writeD(_npc.isFlying() ? 1 : 0); // up NPC to air (little)
         }
     }
 

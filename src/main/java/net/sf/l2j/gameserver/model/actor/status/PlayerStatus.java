@@ -1089,7 +1089,9 @@ public class PlayerStatus extends PlayableStatus<Player> {
     }
 
     public int getInventoryLimit() {
-        return ((_actor.getRace() == ClassRace.DWARF) ? Config.INVENTORY_MAXIMUM_DWARF : Config.INVENTORY_MAXIMUM_NO_DWARF) + (int) calcStat(Stats.INV_LIM, 0, null, null);
+        int modifier = (_actor.getRace() == ClassRace.DWARF) ? Config.INVENTORY_MAXIMUM_DWARF : Config.INVENTORY_MAXIMUM_NO_DWARF;
+        int value = _actor.getRace().getInventoryLimit() * modifier;
+        return (int) calcStat(Stats.INV_LIM, value, null, null);
     }
 
     public int getWareHouseLimit() {

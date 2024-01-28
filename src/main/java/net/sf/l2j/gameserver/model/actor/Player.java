@@ -997,7 +997,8 @@ public final class Player extends Playable {
      */
     @Override
     public int getWeightLimit() {
-        return (int) getStatus().calcStat(Stats.WEIGHT_LIMIT, 69000 * Formulas.CON_BONUS[getStatus().getCON()] * Config.WEIGHT_LIMIT, this, null);
+        double value = getRace().getWeightLimit() * Formulas.CON_BONUS[getStatus().getCON()] * Config.WEIGHT_LIMIT;
+        return (int) getStatus().calcStat(Stats.WEIGHT_LIMIT, value, this, null);
     }
 
     public int getArmorGradePenalty() {

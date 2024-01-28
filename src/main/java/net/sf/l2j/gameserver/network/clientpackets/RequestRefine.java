@@ -5,6 +5,7 @@ import net.sf.l2j.gameserver.enums.ShortcutType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.model.Augmentation;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.item.instance.ItemDao;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ExVariationResult;
@@ -101,6 +102,7 @@ public final class RequestRefine extends AbstractRefinePacket {
 
         final Augmentation aug = AugmentationData.getInstance().generateRandomAugmentation(ls.getLevel(), ls.getGrade());
         targetItem.setAugmentation(aug);
+        ItemDao.createAugmentation(targetItem);
 
         final int stat12 = 0x0000FFFF & aug.getId();
         final int stat34 = aug.getId() >> 16;

@@ -25,7 +25,7 @@ public class ItemDao {
 
     private static final String DELETE_AUGMENTATION = "DELETE FROM augmentations WHERE item_oid = ?";
     private static final String RESTORE_AUGMENTATION = "SELECT attributes, skill_id, skill_level FROM augmentations WHERE item_oid = ?";
-    private static final String UPDATE_AUGMENTATION = "REPLACE INTO augmentations VALUES(?, ?, ?, ?)";
+    private static final String INSERT_AUGMENTATION = "INSERT INTO augmentations VALUES(?, ?, ?, ?)";
 
     private static final String UPDATE_ITEM = """
         UPDATE items
@@ -105,26 +105,24 @@ public class ItemDao {
         }
     }
 
-    public static void updateItemAttributes(ItemInstance item) {
+    public static void createAugmentation(ItemInstance item) {
+        if (!item.isAugmented()) {
+            return;
+        }
+
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection();
-             PreparedStatement ps = con.prepareStatement(UPDATE_AUGMENTATION)) {
-            ps.setInt(1, item.getObjectId());
+             PreparedStatement ps = con.prepareStatement(INSERT_AUGMENTATION)) {
 
-            if (!item.isAugmented()) {
-                ps.setInt(2, -1);
+            Augmentation augmentation = item.getAugmentation();
+            ps.setInt(1, item.getObjectId());
+            ps.setInt(2, augmentation.getId());
+            if (augmentation.getSkill() == null) {
                 ps.setInt(3, -1);
                 ps.setInt(4, -1);
             } else {
-                Augmentation augmentation = item.getAugmentation();
-                ps.setInt(2, augmentation.getId());
-                if (augmentation.getSkill() == null) {
-                    ps.setInt(3, 0);
-                    ps.setInt(4, 0);
-                } else {
-                    ps.setInt(3, augmentation.getSkill().getId());
-                    ps.setInt(4, augmentation.getSkill().getLevel());
-                }
+                ps.setInt(3, augmentation.getSkill().getId());
+                ps.setInt(4, augmentation.getSkill().getLevel());
             }
             ps.executeUpdate();
         } catch (Exception e) {
@@ -238,7 +236,7 @@ public class ItemDao {
             }
             ps.executeUpdate();
             if (item.isWeapon()) {
-                updateItemAttributes(item);
+                createAugmentation(item);
             }
         } catch (SQLException e) {
             LOGGER.error("Couldn't insert {}.", e, item.toString());

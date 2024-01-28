@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.StatusType;
@@ -19,6 +16,9 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ItemList;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiSellChoose extends L2GameClientPacket {
     // Special IDs.
@@ -267,7 +267,9 @@ public class MultiSellChoose extends L2GameClientPacket {
                         ItemInstance product = inv.addItem("Multisell", e.getItemId(), 1, player, player.getTarget());
                         if (product != null && list.getMaintainEnchantment()) {
                             if (i < augmentation.size()) {
-                                product.setAugmentation(new Augmentation(augmentation.get(i).getId(), augmentation.get(i).getSkill()));
+                                Augmentation augment = new Augmentation(augmentation.get(i).getId(), augmentation.get(i).getSkill());
+                                product.setAugmentation(augment);
+                                ItemDao.createAugmentation(product);
                             }
 
                             product.setEnchantLevel(e.getEnchantLevel());
