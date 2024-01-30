@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -12,6 +9,9 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.entity.Siege;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControlTower extends Npc {
     private final List<Spawn> _spawns = new ArrayList<>();

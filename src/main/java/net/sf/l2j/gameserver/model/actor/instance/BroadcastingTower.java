@@ -1,13 +1,13 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ItemList;
+
+import java.util.StringTokenizer;
 
 /**
  * An instance type extending {@link Folk}, used by Broadcasting Towers.<br>

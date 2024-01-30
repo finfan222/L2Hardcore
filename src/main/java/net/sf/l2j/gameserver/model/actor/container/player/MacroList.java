@@ -1,5 +1,14 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
+import net.sf.l2j.commons.lang.StringUtil;
+import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.enums.ShortcutType;
+import net.sf.l2j.gameserver.model.Macro;
+import net.sf.l2j.gameserver.model.Macro.MacroCmd;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.network.serverpackets.SendMacroList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,16 +16,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.enums.ShortcutType;
-import net.sf.l2j.gameserver.model.Macro;
-import net.sf.l2j.gameserver.model.Macro.MacroCmd;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.network.serverpackets.SendMacroList;
 
 /**
  * An ordered container holding {@link Macro}s of a {@link Player}.

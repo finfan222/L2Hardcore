@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.model.memo;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import net.sf.l2j.commons.data.MemoSet;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * An implementation of {@link MemoSet} used for Player. There is a restore/save system.

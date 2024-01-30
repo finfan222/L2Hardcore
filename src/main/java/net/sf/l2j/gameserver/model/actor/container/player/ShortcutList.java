@@ -1,14 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.function.Predicate;
-
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.enums.ShortcutType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.model.Macro;
@@ -19,6 +12,12 @@ import net.sf.l2j.gameserver.network.serverpackets.ExAutoSoulShot;
 import net.sf.l2j.gameserver.network.serverpackets.ShortCutDelete;
 import net.sf.l2j.gameserver.network.serverpackets.ShortCutRegister;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.function.Predicate;
 
 public class ShortcutList extends ConcurrentSkipListMap<Integer, Shortcut> {
     private static final long serialVersionUID = 1L;

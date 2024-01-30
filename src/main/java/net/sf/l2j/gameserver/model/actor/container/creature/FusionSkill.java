@@ -1,10 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.container.creature;
 
-import java.util.concurrent.Future;
-
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
@@ -12,6 +9,8 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.effects.EffectFusion;
+
+import java.util.concurrent.Future;
 
 public final class FusionSkill {
     protected Creature _caster;

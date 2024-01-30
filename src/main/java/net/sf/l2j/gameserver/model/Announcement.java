@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.model;
 
-import java.util.concurrent.ScheduledFuture;
-
 import net.sf.l2j.commons.pool.ThreadPool;
+
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * A datatype used to retain informations for announcements. It notably holds a {@link ScheduledFuture}.

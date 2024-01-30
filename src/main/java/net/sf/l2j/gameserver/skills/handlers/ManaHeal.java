@@ -10,12 +10,16 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
-import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class ManaHeal extends L2Skill {
+public class ManaHeal extends Default {
 
     public ManaHeal(StatSet set) {
         super(set);
+    }
+
+    @Override
+    public boolean isHeal() {
+        return true;
     }
 
     @Override
@@ -29,21 +33,26 @@ public class ManaHeal extends L2Skill {
                 continue;
             }
 
-            double mp = getPower();
+            Default.Context context = Default.Context.builder().build();
+            double mpRestore = getPower();
 
             if (getSkillType() == SkillType.MANAHEAL_PERCENT) {
-                mp = target.getStatus().getMaxMp() * mp / 100.0;
+                mpRestore = target.getStatus().getMaxMp() * mpRestore / 100.0;
             } else {
-                mp = (getSkillType() == SkillType.MANARECHARGE) ? target.getStatus().calcStat(Stats.RECHARGE_MP_RATE, mp, null, null) : mp;
+                mpRestore = (getSkillType() == SkillType.MANARECHARGE) ? target.getStatus().calcStat(Stats.RECHARGE_MP_RATE, mpRestore, null, null) : mpRestore;
             }
 
-            mp = target.getStatus().addMp(mp);
+            mpRestore = target.getStatus().addMp(mpRestore);
+
+            context.value = mpRestore;
 
             if (caster instanceof Player && caster != target) {
-                target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S2_MP_RESTORED_BY_S1).addCharName(caster).addNumber((int) mp));
+                target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S2_MP_RESTORED_BY_S1).addCharName(caster).addNumber((int) mpRestore));
             } else {
-                target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_MP_RESTORED).addNumber((int) mp));
+                target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_MP_RESTORED).addNumber((int) mpRestore));
             }
+
+            notifyAboutSkillHit(caster, target, context);
         }
 
         if (hasSelfEffects()) {

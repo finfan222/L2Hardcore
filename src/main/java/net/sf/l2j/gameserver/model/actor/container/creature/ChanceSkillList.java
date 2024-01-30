@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.container.creature;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
@@ -13,6 +10,9 @@ import net.sf.l2j.gameserver.skills.ChanceCondition;
 import net.sf.l2j.gameserver.skills.IChanceSkillTrigger;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.effects.EffectChanceSkillTrigger;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ChanceSkillList extends ConcurrentHashMap<IChanceSkillTrigger, ChanceCondition> {
     private static final long serialVersionUID = 1L;

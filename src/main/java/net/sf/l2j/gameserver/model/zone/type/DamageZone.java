@@ -1,9 +1,6 @@
 package net.sf.l2j.gameserver.model.zone.type;
 
-import java.util.concurrent.Future;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.skills.Stats;
@@ -13,6 +10,8 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.zone.type.subtype.CastleZoneType;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
+
+import java.util.concurrent.Future;
 
 /**
  * A zone extending {@link CastleZoneType}, which fires a task on the first character entrance, notably used by castle

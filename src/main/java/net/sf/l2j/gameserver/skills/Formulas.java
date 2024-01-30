@@ -7,6 +7,8 @@ import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
+import net.sf.l2j.gameserver.enums.items.ArmorType;
+import net.sf.l2j.gameserver.enums.items.CrystalType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.ElementType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
@@ -20,12 +22,14 @@ import net.sf.l2j.gameserver.model.actor.instance.Cubic;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeFlag;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
+import net.sf.l2j.gameserver.skills.handlers.Default;
 import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 
 public final class Formulas {
@@ -1060,7 +1064,7 @@ public final class Formulas {
             return false;
         }
 
-        return Rnd.get(100) < target.getStatus().calcStat(Stats.P_SKILL_EVASION, 0, null, skill);
+        return Rnd.calcChance(target.getStatus().calcStat(Stats.P_SKILL_EVASION, 0, null, skill), 100);
     }
 
     public static boolean calcSkillMastery(Creature actor, L2Skill sk) {
@@ -1167,8 +1171,8 @@ public final class Formulas {
             case MDAM:
             case DEATHLINK:
             case CHARGEDAM:
-                final double venganceChance = target.getStatus().calcStat((skill.isMagic()) ? Stats.VENGEANCE_SKILL_MAGIC_DAMAGE : Stats.VENGEANCE_SKILL_PHYSICAL_DAMAGE, 0, target, skill);
-                if (venganceChance > Rnd.get(100)) {
+                final double vengeanceChance = target.getStatus().calcStat((skill.isMagic()) ? Stats.VENGEANCE_SKILL_MAGIC_DAMAGE : Stats.VENGEANCE_SKILL_PHYSICAL_DAMAGE, 0, target, skill);
+                if (vengeanceChance > Rnd.get(100)) {
                     reflect |= SKILL_REFLECT_VENGEANCE;
                 }
                 break;
@@ -1180,6 +1184,58 @@ public final class Formulas {
         }
 
         return reflect;
+    }
+
+    public static boolean calcEffectReflect(Creature target, L2Skill skill) {
+        // Some special skills (like hero debuffs...) or ignoring resistances skills can't be reflected.
+        if (skill.ignoreResists() || !skill.canBeReflected()) {
+            return false;
+        }
+
+        // Only magic and melee skills can be reflected.
+        if (!skill.isMagic() && (skill.getCastRange() == -1 || skill.getCastRange() > MELEE_ATTACK_RANGE)) {
+            return false;
+        }
+
+        // Check for non-reflected skilltypes, need additional retail check.
+        switch (skill.getSkillType()) {
+            case BUFF:
+            case REFLECT:
+            case HEAL_PERCENT:
+            case MANAHEAL_PERCENT:
+            case HOT:
+            case MPHOT:
+            case AGGDEBUFF:
+            case CONT:
+                return false;
+        }
+
+        final double reflectChance = target.getStatus().calcStat((skill.isMagic()) ? Stats.REFLECT_SKILL_MAGIC : Stats.REFLECT_SKILL_PHYSIC, 0, null, skill);
+        return Rnd.calcChance(reflectChance, 100);
+    }
+
+    public static boolean calcSkillVengeance(Creature target, L2Skill skill) {
+        // Some special skills (like hero debuffs...) or ignoring resistances skills can't be reflected.
+        if (skill.ignoreResists() || !skill.canBeReflected()) {
+            return false;
+        }
+
+        // Only magic and melee skills can be reflected.
+        if (!skill.isMagic() && (skill.getCastRange() == -1 || skill.getCastRange() > MELEE_ATTACK_RANGE)) {
+            return false;
+        }
+
+        // Check for non-reflected skilltypes, need additional retail check.
+        return switch (skill.getSkillType()) {
+            case PDAM, BLOW, MDAM, DEATHLINK, CHARGEDAM -> {
+                final double vengeanceChance = target.getStatus().calcStat((skill.isMagic())
+                    ? Stats.VENGEANCE_SKILL_MAGIC_DAMAGE
+                    : Stats.VENGEANCE_SKILL_PHYSICAL_DAMAGE, 0, target, skill);
+                yield Rnd.calcChance(vengeanceChance, 100);
+            }
+            default -> false;
+        };
+
     }
 
     /**
@@ -1297,5 +1353,93 @@ public final class Formulas {
 
     public static int calcProjectileFlyTime(Creature attacker, Creature target, int baseFlyTime) {
         return (int) ((attacker.distance2D(target.getPosition()) * 0.3333333333) + (baseFlyTime * 0.7777777777) + 200);
+    }
+
+    public static int calcWeaponFractureValue(Player attacker, Creature target, L2Skill skill, Default.Context context) {
+        ItemInstance activeWeaponInstance = attacker.getActiveWeaponInstance();
+        if (activeWeaponInstance == null || attacker.getAttackType() == WeaponType.FIST) {
+            return 0;
+        }
+
+        Weapon weapon = activeWeaponInstance.getWeaponItem();
+        WeaponType weaponType = attacker.getAttackType();
+
+        // calc for weapon if use magic
+        if (skill != null && skill.isMagic()) {
+            CrystalType crystalType = weapon.getCrystalType();
+            double gradeModifier = (crystalType.getId() + 1.) / 10.;
+            double mpConsume = skill.getMpConsume() + skill.getMpInitialConsume();
+            double typeModifier = skill.isDebuff() ? 0.156 : 0.64;
+            return (int) Math.max(mpConsume * (gradeModifier * typeModifier), 1);
+        } else {
+            if (weaponType == WeaponType.BOW) {
+                return 4;
+            }
+
+            if (context.isMissed()) {
+                return 0;
+            }
+
+            double damage = context.getValue();
+            double augmentedMod = activeWeaponInstance.isAugmented() ? 0.85 : 1.;
+            double blockMod = context.getBlock() == ShieldDefense.PERFECT ? Rnd.get(3, 10) : context.getBlock() == ShieldDefense.SUCCESS ? 2. : 1.;
+            double armorMod;
+            if (target instanceof Player player) {
+                // against armor modifier for target=player
+                ItemInstance armor = player.getInventory().getRandomEquippedItem(0);
+                if (armor != null) {
+                    armorMod = ((ArmorType) armor.getItemType()).getDamageToWeaponDurability();
+                } else {
+                    armorMod = 1.;
+                }
+            } else {
+                // against monster which level is lower than attacker level
+                armorMod = target.getStatus().getLevel() - attacker.getStatus().getLevel();
+                if (armorMod < -5) {
+                    armorMod  = 1.;
+                }
+            }
+
+            double value = Math.max(damage * augmentedMod * blockMod * armorMod, 1);
+            double reduce = Math.sqrt(value);
+            return (int) reduce;
+        }
+    }
+
+    public static int calcArmorFractureValue(Armor armor, L2Skill skill, Default.Context context) {
+        // if doesnt have equipped armor
+        if (armor == null) {
+            return 0;
+        }
+
+        double damage = context.getValue();
+        // when attack was blocked by shield
+        double blockMod = blockFractureValue(context.getBlock());
+        // armor durability absorb
+        double armorMod = armor.getItemType().getDurabilityAbsorb();
+
+        if (skill != null && skill.isMagic()) {
+            if (skill.isDamage() && armor.isAccessory()) {
+                armorMod = 1.;
+            } else if (skill.isDebuff() && context.isSuccess()) {
+                // target armor is fracture from debuffs
+                damage = skill.getMagicLevel() > 0 ? skill.getMagicLevel() : 80;
+            }
+        }
+
+        double reduce = Math.sqrt(damage * blockMod * armorMod);
+        return (int) Math.max(reduce, 1);
+    }
+
+    private static double blockFractureValue(ShieldDefense block) {
+        if (!block.isSuccess()) {
+            return 1.;
+        }
+
+        if (block == ShieldDefense.PERFECT) {
+            return 0.01;
+        }
+
+        return ArmorType.SHIELD.getDurabilityAbsorb();
     }
 }

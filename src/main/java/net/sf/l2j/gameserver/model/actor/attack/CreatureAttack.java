@@ -14,7 +14,6 @@ import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.events.OnAttacked;
 import net.sf.l2j.gameserver.events.OnAttacking;
 import net.sf.l2j.gameserver.events.OnHit;
-import net.sf.l2j.gameserver.events.OnHitBy;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -273,7 +272,7 @@ public class CreatureAttack<T extends Creature> {
         }
 
         attacker.getEventListener().notify(new OnHit(attacker, target, hitHolder));
-        target.getEventListener().notify(new OnHitBy(attacker, target, hitHolder));
+        target.getEventListener().notify(new OnHit(attacker, target, hitHolder));
     }
 
     /**

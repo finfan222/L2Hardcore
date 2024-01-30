@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+
+import java.util.StringTokenizer;
 
 /**
  * An instance type extending {@link Doorman}, used by castle doorman.<br>

@@ -16,7 +16,6 @@ import net.sf.l2j.gameserver.skills.Formulas;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class Cancel extends Default {
 
@@ -57,6 +56,7 @@ public class Cancel extends Default {
                 continue;
             }
 
+            Context context = Context.builder().build();
             int count = getMaxNegatedEffects();
 
             // Calculate the difference of level between skill level and victim, and retrieve the vuln/prof.
@@ -65,7 +65,7 @@ public class Cancel extends Default {
 
             final List<AbstractEffect> list = Arrays.asList(target.getAllEffects());
             Collections.shuffle(list);
-            boolean success = false;
+
             for (AbstractEffect effect : list) {
                 // Don't cancel toggles or debuffs.
                 if (effect.getSkill().isToggle() || effect.getSkill().isDebuff()) {
@@ -103,7 +103,8 @@ public class Cancel extends Default {
                 }
 
                 // Calculate the success chance following previous variables.
-                if (success = calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, resistance, minRate, maxRate)) {
+                context.isSuccess = calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, resistance, minRate, maxRate);
+                if (context.isSuccess) {
                     effect.exit();
                 }
 
@@ -116,7 +117,8 @@ public class Cancel extends Default {
                 }
             }
 
-            notifyAboutSkillHit(caster, target, Map.of("damage", success ? Formulas.calcNegateSkillPower(this, caster, target) : 0));
+            context.value = context.isSuccess ? (int) Formulas.calcNegateSkillPower(this, caster, target) : 0;
+            notifyAboutSkillHit(caster, target, context);
         }
 
         if (hasSelfEffects()) {

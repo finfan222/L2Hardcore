@@ -1,13 +1,13 @@
 package net.sf.l2j.gameserver.model.actor.ai.type;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.xml.WalkerRouteData;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.instance.Walker;
 import net.sf.l2j.gameserver.model.location.WalkerLocation;
 import net.sf.l2j.gameserver.taskmanager.WalkerTaskManager;
+
+import java.util.List;
 
 /**
  * This AI is used by {@link Walker}s.<br>

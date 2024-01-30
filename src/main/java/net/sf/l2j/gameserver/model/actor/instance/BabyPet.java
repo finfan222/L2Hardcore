@@ -1,11 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.concurrent.Future;
-
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
@@ -18,6 +15,8 @@ import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.concurrent.Future;
 
 /**
  * A BabyPet can heal his owner. It got 2 heal power, weak or strong.

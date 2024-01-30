@@ -817,7 +817,7 @@ public abstract class L2Skill implements IChanceSkillTrigger {
     }
 
     public final boolean isOffensive() {
-        return _isOffensive || isSkillTypeOffensive();
+        return _isOffensive || isSkillTypeOffensive() || isDamage();
     }
 
     public final boolean isHeroSkill() {
@@ -1207,8 +1207,12 @@ public abstract class L2Skill implements IChanceSkillTrigger {
         return false;
     }
 
+    public boolean isHeal() {
+        return false;
+    }
+
     @Override
     public String toString() {
-        return "" + _name + "[id=" + _id + ",lvl=" + _level + "]";
+        return _name + "[id=" + _id + ",lvl=" + _level + "]";
     }
 }

@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.Map.Entry;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.enums.CabalType;
@@ -15,6 +12,9 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.Map.Entry;
+import java.util.StringTokenizer;
 
 public class SignsPriest extends Folk {
     public SignsPriest(int objectId, NpcTemplate template) {

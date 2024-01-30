@@ -1,9 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.Locale;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.manager.DerbyTrackManager;
 import net.sf.l2j.gameserver.data.manager.DerbyTrackManager.RaceState;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
@@ -18,6 +15,8 @@ import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.DeleteObject;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.Locale;
 
 public class DerbyTrackManagerNpc extends Folk {
     protected static final int[] TICKET_PRICES =

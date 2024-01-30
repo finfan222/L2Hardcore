@@ -4,7 +4,6 @@ import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
-import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
@@ -20,8 +19,6 @@ import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
-
-import java.util.Map;
 
 public class Disablers extends Default {
 
@@ -45,11 +42,10 @@ public class Disablers extends Default {
         final boolean bsps = caster.isChargedShot(ShotType.BLESSED_SPIRITSHOT);
 
         for (WorldObject obj : targets) {
-            if (!(obj instanceof Creature)) {
+            if (!(obj instanceof Creature target)) {
                 continue;
             }
 
-            Creature target = (Creature) obj;
             if (target.isDead() || (target.isInvul() && !target.isParalyzed())) // bypass if target is dead or invul (excluding invul from Petrification)
             {
                 continue;
@@ -59,12 +55,15 @@ public class Disablers extends Default {
                 continue;
             }
 
-            ShieldDefense sDef = Formulas.calcShldUse(caster, target, this, false);
-            boolean success = Formulas.calcSkillSuccess(caster, target, this, sDef, bsps);
+            Context context = Context.builder().build();
+
+            context.block = Formulas.calcShldUse(caster, target, this, false);
+            context.isSuccess = Formulas.calcSkillSuccess(caster, target, this, context.block, bsps);
+
             switch (type) {
                 case BETRAY:
-                    if (success) {
-                        applyEffects(caster, target, sDef, bsps);
+                    if (context.isSuccess) {
+                        applyEffects(caster, target, context.block, bsps);
                     } else {
                         caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(this));
                     }
@@ -72,17 +71,18 @@ public class Disablers extends Default {
 
                 case FAKE_DEATH:
                     // stun/fakedeath is not mdef dependant, it depends on lvl difference, target CON and power of stun
-                    applyEffects(caster, target, sDef, bsps);
+                    applyEffects(caster, target, context.block, bsps);
                     break;
 
                 case ROOT:
                 case STUN:
-                    if (Formulas.calcSkillReflect(target, this) == Formulas.SKILL_REFLECT_SUCCEED) {
+                    context.isReflected = isReflected(caster, target, context.block);
+                    if (context.isReflected) {
                         target = caster;
                     }
 
-                    if (success) {
-                        applyEffects(caster, target, sDef, bsps);
+                    if (context.isSuccess) {
+                        applyEffects(caster, target, context.block, bsps);
                     } else {
                         if (caster instanceof Player) {
                             caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(getId()));
@@ -92,12 +92,13 @@ public class Disablers extends Default {
 
                 case SLEEP:
                 case PARALYZE: // use same as root for now
-                    if (Formulas.calcSkillReflect(target, this) == Formulas.SKILL_REFLECT_SUCCEED) {
+                    context.isReflected = isReflected(caster, target, context.block);
+                    if (context.isReflected) {
                         target = caster;
                     }
 
-                    if (success) {
-                        applyEffects(caster, target, sDef, bsps);
+                    if (context.isSuccess) {
+                        applyEffects(caster, target, context.block, bsps);
                     } else {
                         if (caster instanceof Player) {
                             caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(getId()));
@@ -106,11 +107,12 @@ public class Disablers extends Default {
                     break;
 
                 case MUTE:
-                    if (Formulas.calcSkillReflect(target, this) == Formulas.SKILL_REFLECT_SUCCEED) {
+                    context.isReflected = isReflected(caster, target, context.block);
+                    if (context.isReflected) {
                         target = caster;
                     }
 
-                    if (success) {
+                    if (context.isSuccess) {
                         // stop same type effect if available
                         for (AbstractEffect effect : target.getAllEffects()) {
                             if (effect.getTemplate().getStackOrder() == 99) {
@@ -121,7 +123,7 @@ public class Disablers extends Default {
                                 effect.exit();
                             }
                         }
-                        applyEffects(caster, target, sDef, bsps);
+                        applyEffects(caster, target, context.block, bsps);
                     } else {
                         if (caster instanceof Player) {
                             caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(getId()));
@@ -132,7 +134,7 @@ public class Disablers extends Default {
                 case CONFUSION:
                     // do nothing if not on mob
                     if (target instanceof Attackable || target instanceof Playable) {
-                        if (success) {
+                        if (context.isSuccess) {
                             for (AbstractEffect effect : target.getAllEffects()) {
                                 if (effect.getTemplate().getStackOrder() == 99) {
                                     continue;
@@ -142,7 +144,7 @@ public class Disablers extends Default {
                                     effect.exit();
                                 }
                             }
-                            applyEffects(caster, target, sDef, bsps);
+                            applyEffects(caster, target, context.block, bsps);
                         } else {
                             if (caster instanceof Player) {
                                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(this));
@@ -158,13 +160,13 @@ public class Disablers extends Default {
                         target.getAI().notifyEvent(AiEventType.AGGRESSION, caster, (int) (getPower() / (target.getStatus().getLevel() + 7) * 150));
                     }
 
-                    applyEffects(caster, target, sDef, bsps);
+                    applyEffects(caster, target, context.block, bsps);
                     break;
 
                 case AGGREDUCE:
                     // TODO these skills needs to be rechecked
                     if (target instanceof Attackable) {
-                        applyEffects(caster, target, sDef, bsps);
+                        applyEffects(caster, target, context.block, bsps);
 
                         if (getPower() > 0) {
                             ((Attackable) target).getAggroList().reduceAllHate((int) getPower());
@@ -180,12 +182,12 @@ public class Disablers extends Default {
 
                 case AGGREDUCE_CHAR:
                     // TODO these skills need to be rechecked
-                    if (success) {
+                    if (context.isSuccess) {
                         if (target instanceof Attackable) {
                             ((Attackable) target).getAggroList().stopHate(caster);
                         }
 
-                        applyEffects(caster, target, sDef, bsps);
+                        applyEffects(caster, target, context.block, bsps);
                     } else {
                         if (caster instanceof Player) {
                             caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(this));
@@ -196,7 +198,7 @@ public class Disablers extends Default {
                 case AGGREMOVE:
                     // TODO these skills needs to be rechecked
                     if (target instanceof Attackable && !target.isRaidRelated()) {
-                        if (success) {
+                        if (context.isSuccess) {
                             if (getTargetType() == SkillTargetType.UNDEAD) {
                                 if (target.isUndead()) {
                                     ((Attackable) target).getAggroList().stopHate(caster);
@@ -214,7 +216,7 @@ public class Disablers extends Default {
 
                 case ERASE:
                     // doesn't affect siege summons
-                    if (success && !(target instanceof SiegeSummon)) {
+                    if (context.isSuccess && !(target instanceof SiegeSummon)) {
                         final Player summonOwner = ((Summon) target).getOwner();
                         final Summon summonPet = summonOwner.getSummon();
                         if (summonPet != null) {
@@ -252,7 +254,8 @@ public class Disablers extends Default {
                     break;
 
                 case NEGATE:
-                    if (Formulas.calcSkillReflect(target, this) == Formulas.SKILL_REFLECT_SUCCEED) {
+                    context.isReflected = isReflected(caster, target, context.block);
+                    if (context.isReflected) {
                         target = caster;
                     }
 
@@ -292,11 +295,12 @@ public class Disablers extends Default {
                             }
                         }
                     }
-                    applyEffects(caster, target, sDef, bsps);
+                    context.value = context.isSuccess ? (int) Formulas.calcNegateSkillPower(this, caster, target) : 0;
+                    applyEffects(caster, target, context.block, bsps);
                     break;
             }
 
-            notifyAboutSkillHit(caster, target, Map.of("damage", success ? Formulas.calcNegateSkillPower(this, caster, target) : 0));
+            notifyAboutSkillHit(caster, target, context);
         }
 
         if (hasSelfEffects()) {

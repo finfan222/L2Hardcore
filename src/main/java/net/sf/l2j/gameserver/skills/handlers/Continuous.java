@@ -22,10 +22,15 @@ import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.effects.EffectFear;
 
-public class Continuous extends L2Skill {
+public class Continuous extends Default {
 
     public Continuous(StatSet set) {
         super(set);
+    }
+
+    @Override
+    public boolean isHeal() {
+        return getSkillType() == SkillType.HOT || getSkillType() == SkillType.MPHOT;
     }
 
     @Override
@@ -51,12 +56,14 @@ public class Continuous extends L2Skill {
         final boolean bsps = caster.isChargedShot(ShotType.BLESSED_SPIRITSHOT);
 
         for (WorldObject obj : targets) {
-            if (!(obj instanceof Creature)) {
+            if (!(obj instanceof Creature target)) {
                 continue;
             }
 
-            Creature target = ((Creature) obj);
-            if (Formulas.calcSkillReflect(target, this) == Formulas.SKILL_REFLECT_SUCCEED) {
+            Context context = Context.builder().build();
+
+            context.isReflected = isReflected(caster, target, ShieldDefense.FAILED);
+            if (context.isReflected) {
                 target = caster;
             }
 
@@ -96,30 +103,22 @@ public class Continuous extends L2Skill {
                 continue;
             }
 
-            boolean acted = true;
-            ShieldDefense sDef = ShieldDefense.FAILED;
-
             if (skill.isOffensive() || skill.isDebuff()) {
-                sDef = Formulas.calcShldUse(caster, target, skill, false);
-                acted = Formulas.calcSkillSuccess(caster, target, skill, sDef, bsps);
+                context.block = Formulas.calcShldUse(caster, target, skill, false);
+                context.isSuccess = Formulas.calcSkillSuccess(caster, target, skill, context.block, bsps);
             }
 
-            if (acted) {
-                // TODO Not necessary
-                if (skill.isToggle()) {
-                    target.stopSkillEffects(skill.getId());
-                }
-
+            if (context.isSuccess) {
                 // if this is a debuff let the duel manager know about it so the debuff
                 // can be removed after the duel (player & target must be in the same duel)
                 if (target instanceof Player && ((Player) target).isInDuel() && (skill.getSkillType() == SkillType.DEBUFF || skill.getSkillType() == SkillType.BUFF) && player != null && player.getDuelId() == ((Player) target).getDuelId()) {
-                    for (AbstractEffect buff : skill.applyEffects(caster, target, sDef, bsps)) {
+                    for (AbstractEffect buff : skill.applyEffects(caster, target, context.block, bsps)) {
                         if (buff != null) {
                             DuelManager.getInstance().onBuff(((Player) target), buff);
                         }
                     }
                 } else {
-                    skill.applyEffects(caster, target, sDef, bsps);
+                    skill.applyEffects(caster, target, context.block, bsps);
                 }
 
                 if (skill.getSkillType() == SkillType.AGGDEBUFF) {
@@ -139,6 +138,8 @@ public class Continuous extends L2Skill {
 
             // Possibility of a lethal strike
             Formulas.calcLethalHit(caster, target, skill);
+
+            notifyAboutSkillHit(caster, target, context);
         }
 
         if (skill.hasSelfEffects()) {

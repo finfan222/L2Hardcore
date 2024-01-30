@@ -13,7 +13,6 @@ import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
-import java.util.Collections;
 import java.util.Map;
 
 public class SummonFriend extends L2Skill {

@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -13,6 +11,8 @@ import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.model.zone.type.subtype.CastleZoneType;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.util.List;
 
 public class FlameTower extends Npc {
     private int _upgradeLevel;

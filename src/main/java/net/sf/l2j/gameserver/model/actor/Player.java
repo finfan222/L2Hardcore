@@ -51,7 +51,6 @@ import net.sf.l2j.gameserver.enums.actors.WeightPenalty;
 import net.sf.l2j.gameserver.enums.bbs.ForumAccess;
 import net.sf.l2j.gameserver.enums.bbs.ForumType;
 import net.sf.l2j.gameserver.enums.items.ActionType;
-import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
@@ -59,12 +58,9 @@ import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
-import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.events.OnHit;
-import net.sf.l2j.gameserver.events.OnHitBy;
 import net.sf.l2j.gameserver.events.OnSkillHit;
-import net.sf.l2j.gameserver.events.OnSkillHitBy;
 import net.sf.l2j.gameserver.events.OnValidatePosition;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.handler.IItemHandler;
@@ -96,7 +92,6 @@ import net.sf.l2j.gameserver.model.actor.container.player.ShortcutList;
 import net.sf.l2j.gameserver.model.actor.container.player.SubClass;
 import net.sf.l2j.gameserver.model.actor.instance.FestivalMonster;
 import net.sf.l2j.gameserver.model.actor.instance.Folk;
-import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.StaticObject;
@@ -142,7 +137,6 @@ import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.AbstractNpcInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.Attack;
 import net.sf.l2j.gameserver.network.serverpackets.ChairSit;
 import net.sf.l2j.gameserver.network.serverpackets.ChangeWaitType;
 import net.sf.l2j.gameserver.network.serverpackets.CharInfo;
@@ -207,6 +201,7 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.funcs.FuncHenna;
 import net.sf.l2j.gameserver.skills.funcs.FuncMaxCpMul;
 import net.sf.l2j.gameserver.skills.funcs.FuncRegenCpMul;
+import net.sf.l2j.gameserver.skills.handlers.Default;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 import net.sf.l2j.gameserver.taskmanager.PvpFlagTaskManager;
@@ -480,10 +475,6 @@ public final class Player extends Playable {
         getWarehouse();
         getFreight();
 
-        eventListener.subscribe().cast(OnHit.class).forEach(this::onHit);
-        eventListener.subscribe().cast(OnHitBy.class).forEach(this::onHitBy);
-        eventListener.subscribe().cast(OnSkillHitBy.class).forEach(this::onSkillHitBy);
-        eventListener.subscribe().cast(OnSkillHit.class).forEach(this::onSkillHit);
         eventListener.subscribe().cast(OnValidatePosition.class).forEach(this::onValidatePosition);
     }
 
@@ -6259,126 +6250,73 @@ public final class Player extends Playable {
             || hasDialog(SystemMessageId.DO_YOU_WANT_TO_BE_RESTORED);
     }
 
-    private void onHit(OnHit event) {
-        final ItemInstance weapon = getActiveWeaponInstance();
-        if (weapon == null || weapon.getItemType() == WeaponType.FIST) {
-            return;
-        }
+    @Override
+    protected void onHit(OnHit event) {
+        super.onHit(event);
 
+        Creature attacker = event.getAttacker();
         Creature target = event.getTarget();
-        WeaponType weaponType = weapon.getWeaponItem().getItemType();
         CreatureAttack.HitHolder hit = event.getHit();
-        ItemInstance armor = event.getTarget() instanceof Player player ?
-            player.getInventory().getRandomEquippedItem(0)
-            : null;
-        Optional.ofNullable(weapon.getModule(DurabilityModule.class)).ifPresent(module -> {
-            double augmentedMod = weapon.isAugmented() ? 0.85 : 1.;
-            if (weaponType == WeaponType.BOW) {
-                module.fracture(this, (int) (4 * augmentedMod));
-            } else {
-                if (!hit.isMissed) {
-                    int value = (int) (hit.damage * augmentedMod);
-                    if (target instanceof Player) {
-                        if (armor != null) {
-                            ArmorType armorType = (ArmorType) armor.getItemType();
-                            value = (int) Math.max(value * armorType.getDamageToWeaponDurability(), 1);
-                        }
 
-                        if ((hit.flags & Attack.HITFLAG_CRIT) != 0) {
-                            value *= 2;
-                        }
+        if (target == this) {
 
-                        module.fracture(this, Math.max(value, 1));
-                    } else {
-                        int levelDiff = target.getStatus().getLevel() - getStatus().getLevel();
-                        if (levelDiff < -5) {
-                            module.fracture(this, 1);
-                            return;
-                        }
-
-                        module.fracture(this, Rnd.get(0, value)); // durability can be not decreased
-                    }
-                }
+            ItemInstance armor = getInventory().getRandomEquippedItem(0);
+            if (hit.block.isSuccess()) {
+                armor = getSecondaryWeaponInstance();
             }
-        });
-    }
-
-    private void onHitBy(OnHitBy event) {
-        CreatureAttack.HitHolder hit = event.getHit();
-        if (!hit.isMissed) {
-            // when attack was blocked by shield
-            if (hit.block != ShieldDefense.FAILED) {
-                // we need shield only
-                ItemInstance shield = getSecondaryWeaponInstance();
-                if (shield == null || shield.getItemType() != ArmorType.SHIELD) {
-                    return;
-                }
-
-                int value = hit.block == ShieldDefense.PERFECT
-                    ? 1 :
-                    (int) Math.max(hit.damage * ArmorType.SHIELD.getDurabilityAbsorb(), 1);
-
-                Optional.ofNullable(shield.getModule(DurabilityModule.class))
-                    .ifPresent(module -> module.fracture(this, value));
-            } else {
-                // when attack was NON blocked by item
-                ItemInstance armor = getInventory().getRandomEquippedItem(0);
-                if (armor == null) {
-                    return;
-                }
-
-                ArmorType type = (ArmorType) armor.getItemType();
-                // if we hit into perfect shield block, we loose more random durability
-                int value = (int) (Math.max(hit.damage * type.getDurabilityAbsorb(), 1) * (hit.block == ShieldDefense.PERFECT
-                    ? Rnd.get(3, 10) : 1));
-
-                Optional.ofNullable(armor.getModule(DurabilityModule.class))
-                    .ifPresent(module -> module.fracture(this, value));
+            DurabilityModule durability = armor.getModule(DurabilityModule.class);
+            if (durability != null) {
+                durability.fractureArmor(this, null, Default.Context.builder()
+                    .block(hit.block)
+                    .isCritical(hit.isCritical)
+                    .value(hit.damage)
+                    .isMissed(hit.isMissed)
+                    .build());
             }
-        }
-    }
-
-    private void onSkillHitBy(OnSkillHitBy event) {
-        L2Skill skill = event.getSkill();
-
-        // durability for accessories
-        if (skill.isMagic()) {
-            if (skill.isDamage()) {
-                Number number = event.getContextValue("damage");
-                if (number != null) {
-                    ItemInstance accessory = getInventory().getRandomEquippedItem(1);
-                    if (accessory != null) {
-                        int value = (int) Math.max(Math.sqrt(number.intValue()), 1);
-                        Optional.ofNullable(accessory.getModule(DurabilityModule.class))
-                            .ifPresent(module -> module.fracture(this, value));
-                    }
+        } else if (attacker == this) {
+            ItemInstance wpn = getActiveWeaponInstance();
+            if (wpn != null) {
+                DurabilityModule durability = wpn.getModule(DurabilityModule.class);
+                if (durability != null) {
+                    durability.fractureWeapon(this, target, null, Default.Context.builder()
+                        .block(hit.block)
+                        .isCritical(hit.isCritical)
+                        .value(hit.damage)
+                        .isMissed(hit.isMissed)
+                        .build());
                 }
             }
         }
     }
 
-    private void onSkillHit(OnSkillHit event) {
+    @Override
+    protected void onSkillHit(OnSkillHit event) {
+        super.onSkillHit(event);
+
         L2Skill skill = event.getSkill();
+        Creature caster = event.getCaster();
         Creature target = event.getTarget();
-        if (target instanceof Monster monster) {
-            if (monster.isDead()) {
-                return;
+        Default.Context context = event.getContext();
+
+        if (target == this) {
+            ItemInstance armor = getInventory().getRandomEquippedItem(0);
+            if (context.getBlock().isSuccess()) {
+                armor = getSecondaryWeaponInstance();
             }
-
-            int spReward = monster.getSpReward();
-            if (spReward > 0) {
-                if (skill.isDamage()) {
-                    int diff = getStatus().getLevel() - target.getStatus().getLevel() - 5;
-                    double pow = Math.pow(0.8333, diff);
-                    Number damage = event.getContextValue("damage");
-                    double coefficient = Math.min(damage.doubleValue() / target.getStatus().getMaxHp(), 1.0);
-                    int sp = (int) (coefficient * (spReward * pow));
-                    addSp(sp);
-                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
-                } else if (skill.isDebuff()) {
-
+            DurabilityModule durability = armor.getModule(DurabilityModule.class);
+            if (durability != null) {
+                durability.fractureArmor(this, skill, context);
+            }
+        } else if (caster == this) {
+            ItemInstance wpn = getActiveWeaponInstance();
+            if (wpn != null) {
+                DurabilityModule durability = wpn.getModule(DurabilityModule.class);
+                if (durability != null) {
+                    durability.fractureWeapon(this, target, skill, context);
                 }
             }
+
+            skill.getSkillType().rewardSp(this, target, skill, context.getValue());
         }
     }
 

@@ -1,10 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.template;
 
-import java.util.List;
-
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
@@ -13,6 +10,8 @@ import net.sf.l2j.gameserver.model.holder.ItemTemplateHolder;
 import net.sf.l2j.gameserver.model.holder.skillnode.GeneralSkillNode;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.model.location.Location;
+
+import java.util.List;
 
 /**
  * A datatype extending {@link CreatureTemplate}, used to retain Player template informations such as classId, specific

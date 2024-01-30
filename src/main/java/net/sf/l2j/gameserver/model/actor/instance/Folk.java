@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.xml.SkillTreeData;
 import net.sf.l2j.gameserver.enums.skills.AcquireSkillType;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -19,6 +17,8 @@ import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.effects.EffectBuff;
 import net.sf.l2j.gameserver.skills.effects.EffectDebuff;
+
+import java.util.List;
 
 public class Folk extends Npc {
     public Folk(int objectId, NpcTemplate template) {

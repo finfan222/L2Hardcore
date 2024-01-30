@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.container.monster;
 
-import java.util.ArrayList;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -9,6 +7,8 @@ import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.manor.Seed;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
 
 /**
  * A container holding all related informations of a {@link Monster} seed state.<br>
