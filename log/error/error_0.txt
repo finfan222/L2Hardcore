@@ -1,0 +1,56 @@
+џэт. 30, 2024 12:23:32 AM net.sf.l2j.gameserver.model.graveyard.GraveyardDao delete
+SEVERE: Can't delete graveyard.
+java.sql.SQLSyntaxErrorException: (conn=300) Table 'acis.graveyard' doesn't exist
+	at org.mariadb.jdbc.internal.util.exceptions.ExceptionFactory.createException(ExceptionFactory.java:62)
+	at org.mariadb.jdbc.internal.util.exceptions.ExceptionFactory.create(ExceptionFactory.java:153)
+	at org.mariadb.jdbc.MariaDbStatement.executeExceptionEpilogue(MariaDbStatement.java:274)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.executeInternal(ClientSidePreparedStatement.java:229)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.execute(ClientSidePreparedStatement.java:149)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.executeUpdate(ClientSidePreparedStatement.java:181)
+	at net.sf.l2j.gameserver.model.graveyard.GraveyardDao.delete(GraveyardDao.java:94)
+	at net.sf.l2j.gameserver.model.graveyard.GraveyardManager.<init>(GraveyardManager.java:100)
+	at net.sf.l2j.gameserver.model.graveyard.GraveyardManager.getInstance(GraveyardManager.java:50)
+	at net.sf.l2j.gameserver.GameServer.<init>(GameServer.java:206)
+	at net.sf.l2j.gameserver.GameServer.main(GameServer.java:111)
+Caused by: org.mariadb.jdbc.internal.util.exceptions.MariaDbSqlException: Table 'acis.graveyard' doesn't exist
+	at org.mariadb.jdbc.internal.util.exceptions.MariaDbSqlException.of(MariaDbSqlException.java:34)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.exceptionWithQuery(AbstractQueryProtocol.java:194)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.exceptionWithQuery(AbstractQueryProtocol.java:177)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.executeQuery(AbstractQueryProtocol.java:321)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.executeInternal(ClientSidePreparedStatement.java:220)
+	... 7 more
+Caused by: java.sql.SQLException: Table 'acis.graveyard' doesn't exist
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.readErrorPacket(AbstractQueryProtocol.java:1688)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.readPacket(AbstractQueryProtocol.java:1550)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.getResult(AbstractQueryProtocol.java:1513)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.executeQuery(AbstractQueryProtocol.java:318)
+	... 8 more
+
+џэт. 30, 2024 12:23:32 AM net.sf.l2j.gameserver.model.graveyard.GraveyardDao restore
+SEVERE: Can't restore and spawn tombstones.
+java.sql.SQLSyntaxErrorException: (conn=300) Table 'acis.graveyard' doesn't exist
+	at org.mariadb.jdbc.internal.util.exceptions.ExceptionFactory.createException(ExceptionFactory.java:62)
+	at org.mariadb.jdbc.internal.util.exceptions.ExceptionFactory.create(ExceptionFactory.java:153)
+	at org.mariadb.jdbc.MariaDbStatement.executeExceptionEpilogue(MariaDbStatement.java:274)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.executeInternal(ClientSidePreparedStatement.java:229)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.execute(ClientSidePreparedStatement.java:149)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.executeQuery(ClientSidePreparedStatement.java:163)
+	at net.sf.l2j.gameserver.model.graveyard.GraveyardDao.restore(GraveyardDao.java:56)
+	at net.sf.l2j.gameserver.model.graveyard.GraveyardManager.<init>(GraveyardManager.java:106)
+	at net.sf.l2j.gameserver.model.graveyard.GraveyardManager.getInstance(GraveyardManager.java:50)
+	at net.sf.l2j.gameserver.GameServer.<init>(GameServer.java:206)
+	at net.sf.l2j.gameserver.GameServer.main(GameServer.java:111)
+Caused by: org.mariadb.jdbc.internal.util.exceptions.MariaDbSqlException: Table 'acis.graveyard' doesn't exist
+	at org.mariadb.jdbc.internal.util.exceptions.MariaDbSqlException.of(MariaDbSqlException.java:34)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.exceptionWithQuery(AbstractQueryProtocol.java:194)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.exceptionWithQuery(AbstractQueryProtocol.java:177)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.executeQuery(AbstractQueryProtocol.java:321)
+	at org.mariadb.jdbc.ClientSidePreparedStatement.executeInternal(ClientSidePreparedStatement.java:220)
+	... 7 more
+Caused by: java.sql.SQLException: Table 'acis.graveyard' doesn't exist
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.readErrorPacket(AbstractQueryProtocol.java:1688)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.readPacket(AbstractQueryProtocol.java:1550)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.getResult(AbstractQueryProtocol.java:1513)
+	at org.mariadb.jdbc.internal.protocol.AbstractQueryProtocol.executeQuery(AbstractQueryProtocol.java:318)
+	... 8 more
+
