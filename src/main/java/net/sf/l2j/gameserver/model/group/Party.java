@@ -625,7 +625,7 @@ public class Party extends AbstractGroup {
             double partyRate = BONUS_EXP_SP[Math.min(validMembers.size(), 9)];
             long addExp = Math.round(exp * partyRate * Config.RATE_PARTY_XP * memberExp);
             member.updateKarmaLoss(addExp);
-            member.addExpAndSp(addExp, 0, rewards);
+            member.addExp(addExp, rewards);
         }
     }
 

@@ -8,6 +8,7 @@ import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.LoginServerThread;
 import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
 import net.sf.l2j.gameserver.communitybbs.model.Forum;
@@ -60,6 +61,7 @@ import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.events.OnHit;
+import net.sf.l2j.gameserver.events.OnRevalidateZone;
 import net.sf.l2j.gameserver.events.OnSkillHit;
 import net.sf.l2j.gameserver.events.OnValidatePosition;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
@@ -786,53 +788,49 @@ public final class Player extends Playable {
     public void revalidateZone(boolean force) {
         super.revalidateZone(force);
 
-        if (Config.ALLOW_WATER) {
-            if (isInWater()) {
-                WaterTaskManager.getInstance().add(this);
+        try {
+            if (isInsideZone(ZoneId.SIEGE)) {
+                if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.SIEGEWARZONE2;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SIEGEWARZONE2));
+            } else if (isInsideZone(ZoneId.PVP)) {
+                if (_lastCompassZone == ExSetCompassZoneCode.PVPZONE) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.PVPZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PVPZONE));
+            } else if (isIn7sDungeon()) {
+                if (_lastCompassZone == ExSetCompassZoneCode.SEVENSIGNSZONE) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.SEVENSIGNSZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SEVENSIGNSZONE));
+            } else if (isInsideZone(ZoneId.PEACE)) {
+                if (_lastCompassZone == ExSetCompassZoneCode.PEACEZONE) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.PEACEZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PEACEZONE));
             } else {
-                WaterTaskManager.getInstance().remove(this);
-            }
-        }
+                if (_lastCompassZone == ExSetCompassZoneCode.GENERALZONE) {
+                    return;
+                }
 
-        if (isInsideZone(ZoneId.SIEGE)) {
-            if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
-                return;
-            }
+                if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
+                    updatePvPStatus();
+                }
 
-            _lastCompassZone = ExSetCompassZoneCode.SIEGEWARZONE2;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SIEGEWARZONE2));
-        } else if (isInsideZone(ZoneId.PVP)) {
-            if (_lastCompassZone == ExSetCompassZoneCode.PVPZONE) {
-                return;
+                _lastCompassZone = ExSetCompassZoneCode.GENERALZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.GENERALZONE));
             }
-
-            _lastCompassZone = ExSetCompassZoneCode.PVPZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PVPZONE));
-        } else if (isIn7sDungeon()) {
-            if (_lastCompassZone == ExSetCompassZoneCode.SEVENSIGNSZONE) {
-                return;
-            }
-
-            _lastCompassZone = ExSetCompassZoneCode.SEVENSIGNSZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SEVENSIGNSZONE));
-        } else if (isInsideZone(ZoneId.PEACE)) {
-            if (_lastCompassZone == ExSetCompassZoneCode.PEACEZONE) {
-                return;
-            }
-
-            _lastCompassZone = ExSetCompassZoneCode.PEACEZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PEACEZONE));
-        } else {
-            if (_lastCompassZone == ExSetCompassZoneCode.GENERALZONE) {
-                return;
-            }
-
-            if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
-                updatePvPStatus();
-            }
-
-            _lastCompassZone = ExSetCompassZoneCode.GENERALZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.GENERALZONE));
+        } finally {
+            GlobalEventListener.notify(new OnRevalidateZone(this, _lastCompassZone));
         }
     }
 
@@ -2610,8 +2608,6 @@ public final class Player extends Playable {
 
         // calculate death penalty buff
         calculateDeathPenaltyBuffLevel(killer);
-
-        WaterTaskManager.getInstance().remove(this);
 
         if (isPhoenixBlessed()) {
             reviveRequest(this, null, false);
@@ -5234,6 +5230,10 @@ public final class Player extends Playable {
         getStatus().addSp(addToSp);
     }
 
+    public void addExp(long addToExp, Map<Creature, RewardInfo> rewards) {
+        getStatus().addExp(addToExp, rewards);
+    }
+
     @Override
     public void reduceCurrentHp(double value, Creature attacker, boolean awake, boolean isDOT, L2Skill skill) {
         if (skill != null) {
@@ -6316,7 +6316,9 @@ public final class Player extends Playable {
                 }
             }
 
-            skill.getSkillType().rewardSp(this, target, skill, context.getValue());
+            if (!target.isDead()) {
+                skill.getSkillType().rewardSp(this, target, skill, context.getValue());
+            }
         }
     }
 

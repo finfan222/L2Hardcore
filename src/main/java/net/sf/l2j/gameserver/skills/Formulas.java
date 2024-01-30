@@ -1395,8 +1395,8 @@ public final class Formulas {
             } else {
                 // against monster which level is lower than attacker level
                 armorMod = target.getStatus().getLevel() - attacker.getStatus().getLevel();
-                if (armorMod < -5) {
-                    armorMod  = 1.;
+                if (armorMod < -9) {
+                    return  1;
                 }
             }
 

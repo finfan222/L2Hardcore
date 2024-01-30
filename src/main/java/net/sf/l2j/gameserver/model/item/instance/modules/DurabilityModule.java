@@ -8,6 +8,7 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemDao;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
+import net.sf.l2j.gameserver.network.serverpackets.ItemList;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
@@ -56,6 +57,7 @@ public class DurabilityModule implements ItemModule {
             player.sendPacket(new PlaySound("ItemSound.trash_basket"));
             player.sendMessage(String.format("[FIX: SYSMSG] Предмет %s был сломан!", instance.getName()));
             player.destroyItem("DurabilityBrokeItem", instance, 1, player, true);
+            player.sendPacket(new ItemList(player, false));
         }
     }
 

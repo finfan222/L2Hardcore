@@ -161,15 +161,17 @@ public class Monster extends Attackable {
                         long overHitExpSp = _overHitState.calcExp(exp);
                         exp += overHitExpSp;
                         sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
-                    } else {
-                        sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
+                        attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
+                        if (sp > 0) {
+                            attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                        }
                     }
 
                     // Set new karma.
                     attacker.updateKarmaLoss(exp);
 
                     // Distribute the Exp and SP.
-                    attacker.addExpAndSp(exp, sp, rewards);
+                    attacker.addExp(exp, rewards);
                 }
             }
             // Share with party members.
