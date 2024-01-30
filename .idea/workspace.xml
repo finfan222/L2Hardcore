@@ -4,43 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="- Fear, Root теперь как и Stun снимаются при получении урона&#10;- Confusion теперь работает и на игрока&#10;- Шаблон системы карт введён (нужны доработки)&#10;- fix баг с опытом в группе">
-      <change afterPath="$PROJECT_DIR$/data/xml/herbDrops.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/xml/HerbDropData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/PlayerDao.java" afterDir="false" />
+    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;- рефакторинг">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/xml/DEPRECATED_herbDrops.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/commons/logging/filter/ItemFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/commons/logging/filter/ItemFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/xml/NpcData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/data/xml/NpcData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/HtmColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/HtmColor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/actors/ClassRace.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/actors/ClassRace.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/items/EtcItemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/items/EtcItemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/handler/itemhandlers/ItemSkills.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/handler/itemhandlers/ItemSkills.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AttackableAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AttackableAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/PlayerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/PlayerAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/SummonAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/SummonAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/cast/PlayableCast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/cast/PlayableCast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/creature/EffectList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/creature/EffectList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/player/Punishment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/container/player/Punishment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/Monster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/Monster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/Tombstone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/Tombstone.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/VillageMaster.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/instance/VillageMaster.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/template/NpcTemplate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/template/NpcTemplate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/graveyard/GraveyardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/graveyard/GraveyardManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/DropCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/DropCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/DropData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/DropData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/instance/ItemInstance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/instance/ItemInstance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/kind/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/item/kind/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/itemcontainer/PcInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/itemcontainer/PcInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/itemcontainer/PetInventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/itemcontainer/PetInventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/location/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/location/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/GameClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/GameClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/AbstractEffect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/AbstractEffect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/Formulas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/skills/Formulas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/taskmanager/ItemsOnGroundTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/taskmanager/ItemsOnGroundTaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/taskmanager/WaterTaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/taskmanager/WaterTaskManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,13 +42,14 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.Test.executor&quot;: &quot;Run&quot;,
     &quot;Attach to process.localhost:5000.executor&quot;: &quot;ProcessAttachDebug&quot;,
     &quot;Maven.L2Hardcore [clean,install].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/L2Hardcore/src/main/java/net/sf/l2j/gameserver/model&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/(DEV) lineage-development/Final Rising/source&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
@@ -94,8 +61,8 @@
       <recent name="D:\L2Hardcore\src\main\java\net\sf\l2j\gameserver\model\graveyard" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="net.sf.l2j.gameserver.network.serverpackets" />
       <recent name="net.sf.l2j.gameserver.events" />
+      <recent name="net.sf.l2j.gameserver.network.serverpackets" />
       <recent name="net.sf.l2j.gameserver.model.actor.instance" />
       <recent name="net.sf.l2j.gameserver.skills.effects" />
     </key>
@@ -104,6 +71,26 @@
     <option name="myCommands">
       <command value="mvn clean install" />
     </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="net.sf.l2j.Test" />
+      <module name="L2Hardcore" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="net.sf.l2j.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Test" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -290,8 +277,75 @@
       <option name="project" value="LOCAL" />
       <updated>1706121815958</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="- Хербы вернулись на место до выяснения обстоятельств&#10;- Player работа с БД вся вынесена в DAO&#10;- Дроп вернулся на место до выяснения обстоятельств">
+      <option name="closed" value="true" />
+      <created>1706265330133</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1706265330133</updated>
+    </task>
+    <task id="LOCAL-00024" summary="- удалён мусор&#10;- fix бага с выпадением предметов и их сохранением в БД&#10;- nerf overHit получаемый опыт сниже с 5 до 3&#10;- fix адена теперь выпадает только с монстров HUMANOID и её прототипы&#10;- fix бага с проверкой на потребление МП при атаке из лука&#10;- fix herb теперь адекватно юзается&#10;- fix overhitState теперь задействует простой volotile буль&#10;- fix DieReason.java добавлен тип MORTAL_COMBAT&#10;- fix party bonus rate теперь получаем по 3% за каждого члена в группе&#10;- fix правила дропа адены где с шансом 1% выпадает доп кол-во, с шансом 25% выпадает доп кол-во и 100% - default (считается только один из них)&#10;- fix water task manager&#10;- обавлены конфиги на SINGLE_REWARD_RANGE (если мы не в пати), PICKING_AGRO_RANGE для мобов которые юзают рандомайз хейт на игркоа в радиусе">
+      <option name="closed" value="true" />
+      <created>1706397129896</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1706397129896</updated>
+    </task>
+    <task id="LOCAL-00025" summary="- fix мана зелья теперь появились в магазинах&#10;- fix greater mana potion появился у dusk/dawn priest&#10;- fix убрали название (server n) у hexid генератора&#10;- fix установил refrencePrice на mana potions">
+      <option name="closed" value="true" />
+      <created>1706398178095</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1706398178095</updated>
+    </task>
+    <task id="LOCAL-00026" summary="- fix бага с аугментацией&#10;- fix PlayerRace максимальное кол-во переносимых вещей&#10;- добавлены комментарии для NpcInfo полей в пакете&#10;- доабвлен максимально переносимый вес игроку&#10;- добавлен макс. кол-во предметов переносимых игроком">
+      <option name="closed" value="true" />
+      <created>1706437306150</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1706437306150</updated>
+    </task>
+    <task id="LOCAL-00027" summary="- fix бага с weightLimit">
+      <option name="closed" value="true" />
+      <created>1706437808539</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1706437808539</updated>
+    </task>
+    <task id="LOCAL-00028" summary="- feature теперь атаки с лука учитывают скорость полёта стрелы и дистанцию цели (урон получается когда стрела достигает цели)&#10;- feature теперь skill имеет параметр isProjectile, он установлен всем визуальным скилам которые являются projectile&#10;- augmentations.sql, pets.sql удалены, теперь всё лежит в items.sql таблицы переделаны и код переработан под них&#10;- fix багов с запросами в БД по инвентарю, итем конейнеру, петам&#10;- в bt.bat очищены поля от аугментаций и петс&#10;- fix бага с туториал, который давал по книге по какой-то причине*">
+      <option name="closed" value="true" />
+      <created>1706462074012</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1706462074012</updated>
+    </task>
+    <task id="LOCAL-00029" summary="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;- рефакторинг">
+      <option name="closed" value="true" />
+      <created>1706597389277</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1706597389277</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -308,15 +362,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- feature при вхождении в город, игрок получает сообщение о бонус-регенерации, при выходе из города, игрок оповещается о приостановке бонус регенерации" />
-    <MESSAGE value="- augment оружие снижает силу поломки на 15%, на монстрах снижение прочности оружия работает как Random от 1 до нанесённый damage" />
-    <MESSAGE value="- с монстров теперь при дропе брони или оружия базовая прочность составляет от 1% (367) до 100% (36767)" />
-    <MESSAGE value="- Стрельба из лука больше не снижает МП" />
-    <MESSAGE value="bug - слишком большая цена починки...&#10;- добавлено Repair тренерам в гродах (Gludin,Gludio,Dion,Heine,Giran,Aden,&#10;Oren,Goddard,Schuttgard,Rune,Hanter Village)." />
-    <MESSAGE value="- Добавлены mana potion&#10;- Убраны из обихода мамона - CP potion&#10;- добавлено условие поломки оружия: если цель (монстр) level &lt; 9 от атакующего игрока, то оружие ломается на 1 ед.&#10;- добавлено условие поломки оружия и щита: если атака сблокирована в PERFECT BLOCK, то зит теряет 1 ед. прочности а оружие рандомно от 3 до 10x раз от базы.&#10;- добавлены скилы для mana potion" />
-    <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке" />
-    <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке&#10;- fix бага со скилами для предметов Mana Potion" />
-    <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке&#10;- fix бага с скилами для предметов Mana Potion&#10;- fix бага с" />
     <MESSAGE value="Bleed/Poison действуют всё время пока их не излечат.&#10;Bleed&#10;Сопротивление Bleed эффекту не снижает шанс прохождения, но снижает получаемый урон от кровотечения и с мелким шансом после каждого тика - эффект может сойти (раны затягиваются)&#10;Если жертва двигается бегом - урон увеличивается на 60~100%&#10;Если жертва атакует или кастует - урон увеличивается на 30~50%&#10;Poison&#10;Сопротивление Poison эффекту не снижает шанс прохождения, но снижает получаемый урон от отравления и с мелким шансом после каждого тика - эффект может сойти (иммунитет тела исцеляет)&#10;Исцеляющие эффекты могут работать на 0~30%." />
     <MESSAGE value="- fix бага с мана пойшенами - они отменялись после применения&#10;- mana potions добавлены в байлист ГМ шопа" />
     <MESSAGE value="Члены группы больше не получают SP.&#10;Изменено получение SP за убийство монстров.&#10;Правила HARDCORE гласят - SKILL POINTS (SP) мы получаем только за применение скилов по МОНСТРАМ.&#10;Кол-во получаемого SP равно SP REWARD x Damage%&#10;Группа получает EXP в радиусе всего региона (раньше была Range 1600)&#10;Дает в 5 раз больше EXP/SP за убийство монстра." />
@@ -333,9 +378,17 @@
     <MESSAGE value="- fix синхронизации времени удаления персонажа" />
     <MESSAGE value="- эвент OnChangeDayCycle&#10;- рефактор нейминга дроп&#10;- выпилены хербы, но оставляем файл хербов с их айдишниками на будущее (донат&#10;- изменены ExScreenCustomMessage, теперь они применяют Builder.Default&#10;- переработан шанс выпадения предметов по новой структуре:&#10;```Шанс выпадения теперь является не может быть меньше 1% исключая карты.&#10;Карты дропаются с монстров с шансом 0.1% (1000).&#10;Логика выпадения предметов:&#10;Adena выпадает всегда с шансом 100%.&#10;Adena выпадает только с монстров расы HUMANOID.&#10;Кол-во выпадающей adena всегда максимально . &#10;Категории дропа выше 0 больше не работоспособны, теперь мы склеиваем весь categorized drop от категорий &gt; 0 и соединяем в 1 Droplist, чтобы при дропе проверять каждый предмет на успех. Последний предмет (с самым большим шансом) выпадает всегда с шансом 100%. &#10;Spoil Drop работает по такому же принципу что обычные предметы. Сортируются и т.д.&#10;Herb выпилены```" />
     <MESSAGE value="- Fear, Root теперь как и Stun снимаются при получении урона&#10;- Confusion теперь работает и на игрока&#10;- Шаблон системы карт введён (нужны доработки)&#10;- fix баг с опытом в группе" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Fear, Root теперь как и Stun снимаются при получении урона&#10;- Confusion теперь работает и на игрока&#10;- Шаблон системы карт введён (нужны доработки)&#10;- fix баг с опытом в группе" />
+    <MESSAGE value="- удалён мусор&#10;- fix бага с выпадением предметов и их сохранением в БД&#10;- nerf overHit получаемый опыт сниже с 5 до 3&#10;- fix адена теперь выпадает только с монстров HUMANOID и её прототипы&#10;- fix бага с проверкой на потребление МП при атаке из лука&#10;- fix herb теперь адекватно юзается&#10;- fix overhitState теперь задействует простой volotile буль&#10;- fix DieReason.java добавлен тип MORTAL_COMBAT&#10;- fix party bonus rate теперь получаем по 3% за каждого члена в группе&#10;- fix правила дропа адены где с шансом 1% выпадает доп кол-во, с шансом 25% выпадает доп кол-во и 100% - default (считается только один из них)&#10;- fix water task manager&#10;- обавлены конфиги на SINGLE_REWARD_RANGE (если мы не в пати), PICKING_AGRO_RANGE для мобов которые юзают рандомайз хейт на игркоа в радиусе" />
+    <MESSAGE value="- fix мана зелья теперь появились в магазинах&#10;- fix greater mana potion появился у dusk/dawn priest&#10;- fix убрали название (server n) у hexid генератора&#10;- fix установил refrencePrice на mana potions" />
+    <MESSAGE value="- fix бага с аугментацией&#10;- fix PlayerRace максимальное кол-во переносимых вещей&#10;- добавлены комментарии для NpcInfo полей в пакете&#10;- доабвлен максимально переносимый вес игроку&#10;- добавлен макс. кол-во предметов переносимых игроком" />
+    <MESSAGE value="- fix бага с weightLimit" />
+    <MESSAGE value="- Хербы вернулись на место до выяснения обстоятельств&#10;- Player работа с БД вся вынесена в DAO&#10;- Дроп вернулся на место до выяснения обстоятельств" />
+    <MESSAGE value="- guide book теперь not dropable&#10;-" />
+    <MESSAGE value="- feature теперь атаки с лука учитывают скорость полёта стрелы и дистанцию цели (урон получается когда стрела достигает цели)&#10;- feature теперь skill имеет параметр isProjectile, он установлен всем визуальным скилам которые являются projectile&#10;- augmentations.sql, pets.sql удалены, теперь всё лежит в items.sql таблицы переделаны и код переработан под них&#10;- fix багов с запросами в БД по инвентарю, итем конейнеру, петам&#10;- в bt.bat очищены поля от аугментаций и петс&#10;- fix бага с туториал, который давал по книге по какой-то причине*" />
+    <MESSAGE value="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;-" />
+    <MESSAGE value="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;- рефакторинг" />
+    <option name="LAST_COMMIT_MESSAGE" value="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;- рефакторинг" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -343,7 +396,7 @@
         <line-breakpoint type="java-line">
           <condition expression="obj instanceof Player" language="JAVA" />
           <url>file://$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AttackableAI.java</url>
-          <line>264</line>
+          <line>263</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>

@@ -6299,7 +6299,7 @@ public final class Player extends Playable {
         Default.Context context = event.getContext();
 
         if (target == this) {
-            ItemInstance armor = getInventory().getRandomEquippedItem(0);
+            ItemInstance armor = getInventory().getRandomEquippedItem(skill.isMagic() ? 1 : 0);
             if (context.getBlock().isSuccess()) {
                 armor = getSecondaryWeaponInstance();
             }
