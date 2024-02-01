@@ -335,6 +335,7 @@ public final class Config {
     public static int HARDCORE_START_SP;
     public static double HARDCORE_RATE_OVERHIT_SP;
     public static double HARDCORE_RATE_OVERHIT_EXP;
+    public static double HARDCORE_INVENTORY_DROP_RATE;
 
     /** Misc */
     public static boolean EFFECT_CANCELING;
@@ -960,7 +961,8 @@ public final class Config {
         HARDCORE_TOMBSTONE_LIFETIME = TimeUnit.MINUTES.toMillis(players.getProperty("HARDCORE_TOMBSTONE_LIFETIME", 40320));
         HARDCORE_START_SP = players.getProperty("HARDCORE_START_SP", 150);
         HARDCORE_RATE_OVERHIT_SP = players.getProperty("HARDCORE_RATE_OVERHIT_SP", 5.0);
-        HARDCORE_RATE_OVERHIT_EXP = players.getProperty("HARDCORE_RATE_OVERHIT_EXP", 5.0);
+        HARDCORE_RATE_OVERHIT_EXP = players.getProperty("HARDCORE_RATE_OVERHIT_EXP", 3.0);
+        HARDCORE_INVENTORY_DROP_RATE = players.getProperty("HARDCORE_INVENTORY_DROP_RATE", 25);
 
         EFFECT_CANCELING = players.getProperty("CancelLesserEffect", true);
         HP_REGEN_MULTIPLIER = players.getProperty("HpRegenMultiplier", 1.);

@@ -11,6 +11,7 @@ import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+import net.sf.l2j.gameserver.model.item.instance.ItemFactory;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
@@ -23,12 +24,15 @@ import net.sf.l2j.gameserver.model.trade.SellProcessItem;
 import net.sf.l2j.gameserver.model.trade.TradeItem;
 import net.sf.l2j.gameserver.model.trade.TradeList;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
+import net.sf.l2j.gameserver.network.serverpackets.ItemList;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static net.sf.l2j.Config.HARDCORE_INVENTORY_DROP_RATE;
 
 public class PcInventory extends Inventory {
     public static final int ADENA_ID = 57;
@@ -880,4 +884,48 @@ public class PcInventory extends Inventory {
             .filter(i -> !i.isEquipped())
             .collect(Collectors.toSet());
     }
+
+    public ItemInstance getRandomInventoryItem() {
+        return Rnd.get(_items.stream().filter(i -> i.isDropable() && !i.isEquipped()).toList());
+    }
+
+    public void hardcoreDropItems(boolean isMortalCombat) {
+        if (getOwner() == null) {
+            return;
+        }
+
+        Player player = getOwner();
+
+        // if reason is mortal combat or with 20% chance after death we drop items
+        if (isMortalCombat || Rnd.calcChance(HARDCORE_INVENTORY_DROP_RATE, 100)) {
+            ItemInstance equippedItem = getRandomEquippedItem(1);
+            if (equippedItem != null) {
+                player.getInventory().unequipItemInSlot(equippedItem.getSlot());
+                player.dropItem("HardcorePlayerDropEquip", equippedItem, player, true);
+            }
+
+            ItemInstance randomItem = getRandomInventoryItem();
+            if (randomItem != null) {
+                if (randomItem.isStackable()) {
+                    int count = Rnd.get(1, randomItem.getCount());
+                    if (count == randomItem.getCount()) {
+                        // drop all count (just drop item instance)
+                        dropItem("HardcorePlayerDropItem_FullCount", randomItem, player, player);
+                    } else {
+                        // create new item and drop to the ground
+                        ItemInstance newItem = ItemFactory.create(randomItem.getItemId(), count, player, player);
+                        newItem.dropMe(player, 150);
+
+                        // change count of item from dropper
+                        dropItem("HardcorePlayerDropItem_ChangeCount", randomItem.getObjectId(), count, player, player);
+                    }
+                } else {
+                    player.dropItem("HardcorePlayerDropItem", randomItem, player, true);
+                }
+            }
+
+            player.sendPacket(new ItemList(player, false));
+        }
+    }
+
 }

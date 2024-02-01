@@ -60,6 +60,7 @@ import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
+import net.sf.l2j.gameserver.events.OnDie;
 import net.sf.l2j.gameserver.events.OnHit;
 import net.sf.l2j.gameserver.events.OnRevalidateZone;
 import net.sf.l2j.gameserver.events.OnSkillHit;
@@ -6323,6 +6324,11 @@ public final class Player extends Playable {
     }
 
     private void onValidatePosition(OnValidatePosition event) {
+    }
+
+    @Override
+    protected void onDie(OnDie event) {
+        _inventory.hardcoreDropItems(event.getReason() == DieReason.MORTAL_COMBAT);
     }
 
 }
