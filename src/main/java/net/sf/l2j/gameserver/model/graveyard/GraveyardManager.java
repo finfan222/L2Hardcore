@@ -133,8 +133,10 @@ public class GraveyardManager implements Runnable {
                         // killer with karma qualifies like PK if victim is no have karma, PVP otherwise
                         reason = victim.getKarma() > 0 ? DieReason.PVP : DieReason.PK;
                     } else {
+                        if (reason != DieReason.MORTAL_COMBAT) {
+                            reason = DieReason.PVP;
+                        }
                         // killer without karma against victim qualify like PVP (even if victim has karma)
-                        reason = DieReason.PVP;
                     }
                 }
                 return reason;
