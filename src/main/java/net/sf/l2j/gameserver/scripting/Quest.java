@@ -22,6 +22,7 @@ import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
+import net.sf.l2j.gameserver.enums.actors.ClassType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -113,6 +114,11 @@ public class Quest {
         public ClassRace[] races;
         public QuestDetail[] items;
         public boolean checkSubclass;
+        public ClassType classType;
+
+        public boolean validateClassType(Player player) {
+            return classType ==null || player.getClassId().getType() == classType;
+        }
 
         public boolean validateSubclass(Player player) {
             return !checkSubclass || !player.isSubClassActive();

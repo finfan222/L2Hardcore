@@ -1,16 +1,15 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q344_1000YearsTheEndOfLamentation extends Quest {
     private static final String QUEST_NAME = "Q344_1000YearsTheEndOfLamentation";
@@ -57,6 +56,17 @@ public class Q344_1000YearsTheEndOfLamentation extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 48;
+
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -65,7 +75,7 @@ public class Q344_1000YearsTheEndOfLamentation extends Quest {
         }
 
         if (event.equalsIgnoreCase("30754-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30754-07.htm")) {
@@ -123,30 +133,26 @@ public class Q344_1000YearsTheEndOfLamentation extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 48) ? "30754-01.htm" : "30754-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30754-01.htm" : "30754-02.htm";
                 break;
 
             case STARTED:
                 int cond = st.getCond();
-                switch (npc.getNpcId()) {
-                    case GILMORE:
-                        if (cond == 1) {
-                            htmltext = (player.getInventory().hasItems(ARTICLE_DEAD_HERO)) ? "30754-05.htm" : "30754-09.htm";
-                        } else if (cond == 2) {
-                            htmltext = (st.getInteger("success") > 0) ? "30754-16.htm" : "30754-15.htm";
+                if (npc.getNpcId() == GILMORE) {
+                    if (cond == 1) {
+                        htmltext = (player.getInventory().hasItems(ARTICLE_DEAD_HERO)) ? "30754-05.htm" : "30754-09.htm";
+                    } else if (cond == 2) {
+                        htmltext = (st.getInteger("success") > 0) ? "30754-16.htm" : "30754-15.htm";
+                    }
+                } else {
+                    if (cond == 2) {
+                        if (st.getInteger("success") > 0) {
+                            htmltext = npc.getNpcId() + "-02.htm";
+                        } else {
+                            rewards(player, st, npc.getNpcId());
+                            htmltext = npc.getNpcId() + "-01.htm";
                         }
-                        break;
-
-                    default:
-                        if (cond == 2) {
-                            if (st.getInteger("success") > 0) {
-                                htmltext = npc.getNpcId() + "-02.htm";
-                            } else {
-                                rewards(player, st, npc.getNpcId());
-                                htmltext = npc.getNpcId() + "-01.htm";
-                            }
-                        }
-                        break;
+                    }
                 }
                 break;
         }

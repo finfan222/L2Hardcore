@@ -110,15 +110,24 @@ public class Q330_AdeptOfTaste extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 24;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30469-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, INGREDIENT_LIST, 1);
@@ -143,7 +152,7 @@ public class Q330_AdeptOfTaste extends Quest {
             giveItems(player, GREEN_MOSS_BUNDLE, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -156,7 +165,7 @@ public class Q330_AdeptOfTaste extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 24) ? "30469-01.htm" : "30469-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30469-01.htm" : "30469-02.htm";
                 break;
 
             case STARTED:

@@ -876,6 +876,16 @@ public class Q335_SongOfTheHunter extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 35;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -886,7 +896,7 @@ public class Q335_SongOfTheHunter extends Quest {
         // Grey
         if (event.equalsIgnoreCase("30744-03.htm")) {
             st.setCond(1);
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             giveItems(player, TEST_INSTRUCTIONS_1, 1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30744-09.htm")) {
@@ -1123,7 +1133,7 @@ public class Q335_SongOfTheHunter extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() >= 35) {
+                if (condition.validateLevel(player)) {
                     htmltext = "30744-02.htm";
                 } else {
                     htmltext = "30744-01.htm";

@@ -729,6 +729,16 @@ public class Q336_CoinsOfMagic extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 40;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -745,7 +755,7 @@ public class Q336_CoinsOfMagic extends Quest {
                 giveItems(player, COIN_DIAGRAM, 1);
             }
 
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("state", 1);
             playSound(player, SOUND_ACCEPT);
@@ -1135,7 +1145,7 @@ public class Q336_CoinsOfMagic extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 40) ? "30232-01.htm" : "30232-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30232-01.htm" : "30232-02.htm";
                 break;
 
             case STARTED:

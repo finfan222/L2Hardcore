@@ -242,6 +242,17 @@ public class Q333_HuntOfTheBlackLion extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 25;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(BLACK_LION_MARK).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -250,7 +261,7 @@ public class Q333_HuntOfTheBlackLion extends Quest {
         }
 
         if (event.equalsIgnoreCase("30735-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30735-10.htm")) {
@@ -571,9 +582,9 @@ public class Q333_HuntOfTheBlackLion extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() < 25) {
+                if (!condition.validateLevel(player)) {
                     htmltext = "30735-01.htm";
-                } else if (!player.getInventory().hasItems(BLACK_LION_MARK)) {
+                } else if (!condition.validateItems(player)) {
                     htmltext = "30735-02.htm";
                 } else {
                     htmltext = "30735-03.htm";

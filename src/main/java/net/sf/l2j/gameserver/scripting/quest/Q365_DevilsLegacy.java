@@ -32,6 +32,16 @@ public class Q365_DevilsLegacy extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 39;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -40,7 +50,7 @@ public class Q365_DevilsLegacy extends Quest {
         }
 
         if (event.equalsIgnoreCase("30095-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30095-06.htm")) {
@@ -115,7 +125,7 @@ public class Q365_DevilsLegacy extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 39) ? "30095-00.htm" : "30095-01.htm";
+                htmltext = !condition.validateLevel(player) ? "30095-00.htm" : "30095-01.htm";
                 break;
 
             case STARTED:
