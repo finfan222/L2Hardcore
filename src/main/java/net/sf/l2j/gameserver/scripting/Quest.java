@@ -115,22 +115,19 @@ public class Quest {
         public QuestDetail[] items;
         public boolean checkSubclass;
         public ClassType classType;
-        public int reputationKetraVarka;
 
-        public boolean validateKetraVarka(Player player) {
-            if (reputationKetraVarka > 0) {
-                return player.getAllianceWithVarkaKetra() >= reputationKetraVarka;
-            }
-            if (reputationKetraVarka < 0) {
-                return player.getAllianceWithVarkaKetra() <= reputationKetraVarka;
-            }
-            return true;
-        }
-
+        /**
+         * @param player player to check
+         * @return {@code true} if classType is null or equals player.classType, false otherwise
+         */
         public boolean validateClassType(Player player) {
             return classType == null || player.getClassId().getType() == classType;
         }
 
+        /**
+         * @param player player to check
+         * @return {@code true} if checkSubclass is false or player.isSubClassActive(0 is false, false otherwise
+         */
         public boolean validateSubclass(Player player) {
             return !checkSubclass || !player.isSubClassActive();
         }
@@ -179,6 +176,10 @@ public class Quest {
             return hasAtLeastOneQuest;
         }
 
+        /**
+         * @param player player to check
+         * @return {@code true} if player has necessary items or if you need to hasAtLeastOneItem, false otherwise
+         */
         public boolean validateItems(Player player) {
             if (items == null) {
                 return true;
@@ -199,14 +200,17 @@ public class Quest {
             return hasAtleastOneItem;
         }
 
+        /**
+         * @param player player to check
+         * @return {@code true} if all validations is true, false otherwise
+         */
         public boolean checkAllValidations(Player player) {
             return validateLevel(player)
                 && validateRace(player)
                 && validateQuests(player)
                 && validateItems(player)
                 && validateSubclass(player)
-                && validateClassType(player)
-                && validateKetraVarka(player);
+                && validateClassType(player);
         }
 
     }
