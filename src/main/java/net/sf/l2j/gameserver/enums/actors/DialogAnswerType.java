@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.enums.actors;
 
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
+import net.sf.l2j.gameserver.data.manager.DuelManager;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -201,7 +202,40 @@ public enum DialogAnswerType {
             }
         }
     },
-    ;
+    MORTAL_COMBAT {
+        @Override
+        public void onAnswer(Player player, int answer) {
+            if (answer == 1) {
+                Dialog dialog = player.getDialog();
+                Player requester = dialog.findAndGet("requester");
+                if (requester == null
+                    || !requester.isOnline()
+                    || requester.isDead()
+                    || requester.isOperating()
+                    || requester.isInOlympiadMode()
+                    || requester.isCrafting()
+                    || requester.isInDuel()) {
+                    player.sendPacket(ActionFailed.STATIC_PACKET);
+                    return;
+                }
+
+                if (!requester.canDuel()) {
+                    player.sendPacket(requester.getNoDuelReason());
+                    return;
+                }
+
+                if (!player.canDuel()) {
+                    requester.sendPacket(player.getNoDuelReason());
+                    return;
+                }
+
+                player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_HAVE_ACCEPTED_S1_CHALLENGE_TO_A_DUEL_THE_DUEL_WILL_BEGIN_IN_A_FEW_MOMENTS).addCharName(requester));
+                requester.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_HAS_ACCEPTED_YOUR_CHALLENGE_TO_A_DUEL_THE_DUEL_WILL_BEGIN_IN_A_FEW_MOMENTS).addCharName(player));
+
+                DuelManager.getInstance().addDuel(requester, player, false, true);
+            }
+        }
+    };
 
     public abstract void onAnswer(Player player, int answer);
 }

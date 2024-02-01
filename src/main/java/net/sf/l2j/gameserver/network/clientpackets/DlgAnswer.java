@@ -42,6 +42,8 @@ public final class DlgAnswer extends L2GameClientPacket {
                 DialogAnswerType.REPAIR_ALL.onAnswer(player, answer);
             } else if (messageId == SystemMessageId.YOU_WANT_TO_SPENT_S1_ADENA_FOR_REPAIR_S2.getId()) {
                 DialogAnswerType.REPAIR_SINGLE.onAnswer(player, answer);
+            } else if (messageId == SystemMessageId.S1_CALLS_YOU_TO_A_MORTAL_COMBAT.getId()) {
+                DialogAnswerType.MORTAL_COMBAT.onAnswer(player, answer);
             }
         } finally {
             player.setDialog(null);

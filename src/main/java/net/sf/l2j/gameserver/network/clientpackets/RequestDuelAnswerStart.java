@@ -112,7 +112,7 @@ public final class RequestDuelAnswerStart extends L2GameClientPacket {
                 requestor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_HAS_ACCEPTED_YOUR_CHALLENGE_TO_A_DUEL_THE_DUEL_WILL_BEGIN_IN_A_FEW_MOMENTS).addCharName(player));
             }
 
-            DuelManager.getInstance().addDuel(requestor, player, _isPartyDuel);
+            DuelManager.getInstance().addDuel(requestor, player, _isPartyDuel, false);
         } else {
             if (_isPartyDuel) {
                 requestor.sendPacket(SystemMessageId.THE_OPPOSING_PARTY_HAS_DECLINED_YOUR_CHALLENGE_TO_A_DUEL);
