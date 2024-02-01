@@ -1,145 +1,222 @@
-[30-01-2024 00:23:25]	INFO	-------------------------------------------------------------------=[ Config ]
-[30-01-2024 00:23:25]	INFO	Loading gameserver configuration files.
-[30-01-2024 00:23:25]	INFO	------------------------------------------------------------------=[ Poolers ]
-[30-01-2024 00:23:25]	INFO	Initializing ConnectionPool.
-[30-01-2024 00:23:25]	INFO	Initializing ThreadPool.
-[30-01-2024 00:23:25]	INFO	----------------------------------------------------------------=[ IdFactory ]
-[30-01-2024 00:23:25]	INFO	Updated characters online status.
-[30-01-2024 00:23:25]	INFO	Cleaned 0 elements from database.
-[30-01-2024 00:23:25]	INFO	Cleaned 0 expired timestamps from database.
-[30-01-2024 00:23:25]	INFO	Initializing 102912 objectIds pool, with 0 used ids.
-[30-01-2024 00:23:25]	INFO	------------------------------------------------------=[ GlobalEventListener ]
-[30-01-2024 00:23:25]	INFO	Global Event Listener was initialized
-[30-01-2024 00:23:25]	INFO	--------------------------------------------------------------------=[ Cache ]
-[30-01-2024 00:23:25]	INFO	Loaded 0 crests.
-[30-01-2024 00:23:25]	INFO	--------------------------------------------------------------------=[ World ]
-[30-01-2024 00:23:25]	INFO	World grid (176 by 256) is now set up.
-[30-01-2024 00:23:25]	INFO	Loaded regions.
-[30-01-2024 00:23:25]	INFO	Loaded 0 announcements.
-[30-01-2024 00:23:25]	INFO	Loaded 0 server variables.
-[30-01-2024 00:23:25]	INFO	-------------------------------------------------------------------=[ Skills ]
-[30-01-2024 00:23:26]	INFO	SkillTable: Loaded 29746 skills.
-[30-01-2024 00:23:26]	INFO	Loaded 117 fishing skills.
-[30-01-2024 00:23:26]	INFO	Loaded 64 clan skills.
-[30-01-2024 00:23:26]	INFO	Loaded 14550 enchant skills.
-[30-01-2024 00:23:26]	INFO	--------------------------------------------------------------------=[ Items ]
-[30-01-2024 00:23:26]	INFO	Loaded items.
-[30-01-2024 00:23:26]	INFO	Loaded 14 summon items.
-[30-01-2024 00:23:26]	INFO	Loaded 180 hennas.
-[30-01-2024 00:23:26]	INFO	Loaded 675 buyLists.
-[30-01-2024 00:23:26]	INFO	Loaded 85 multisell.
-[30-01-2024 00:23:26]	INFO	Loaded 871 recipes.
-[30-01-2024 00:23:26]	INFO	Loaded 51 armor sets.
-[30-01-2024 00:23:26]	INFO	Loaded 270 fish.
-[30-01-2024 00:23:26]	INFO	Loaded 334 spellbooks.
-[30-01-2024 00:23:26]	INFO	Loaded 39 Soul Crystals data and 124 NPCs data.
-[30-01-2024 00:23:26]	INFO	Loaded 4 sets of augmentation stats.
-[30-01-2024 00:23:26]	INFO	Loaded 170 blue, 1070 purple and 540 red Life-Stone skills.
-[30-01-2024 00:23:26]	INFO	Loaded 2 cursed weapons.
-[30-01-2024 00:23:26]	INFO	-------------------------------------------------------------------=[ Admins ]
-[30-01-2024 00:23:26]	INFO	Loaded 10 access levels.
-[30-01-2024 00:23:26]	INFO	Loaded 97 admin command rights.
-[30-01-2024 00:23:26]	INFO	Loaded 0 bookmarks.
-[30-01-2024 00:23:26]	INFO	Loaded 0 petitions.
-[30-01-2024 00:23:26]	INFO	---------------------------------------------------------------=[ Characters ]
-[30-01-2024 00:23:26]	INFO	Loaded 89 player classes templates.
-[30-01-2024 00:23:26]	INFO	Loaded 0 player infos.
-[30-01-2024 00:23:26]	INFO	Loaded 81 player levels.
-[30-01-2024 00:23:26]	INFO	Loaded 0 RaidPoints entries.
-[30-01-2024 00:23:26]	INFO	---------------------------------------------------------=[ Community server ]
-[30-01-2024 00:23:26]	INFO	--------------------------------------------------------------------=[ Clans ]
-[30-01-2024 00:23:26]	INFO	Loaded 0 clans.
-[30-01-2024 00:23:26]	INFO	----------------------------------------------------=[ Geodata & Pathfinding ]
-[30-01-2024 00:23:28]	INFO	Loaded 139 L2J region files.
-[30-01-2024 00:23:28]	INFO	Loaded 31 node buffers.
-[30-01-2024 00:23:28]	INFO	--------------------------------------------------------------------=[ Zones ]
-[30-01-2024 00:23:32]	INFO	Loaded 23 zones classes and total 1016 zones.
-[30-01-2024 00:23:32]	INFO	-----------------------------------------------------=[ Castles & Clan Halls ]
-[30-01-2024 00:23:32]	INFO	Loaded 9 castles.
-[30-01-2024 00:23:32]	INFO	New date for Gludio siege: Sat Feb 17 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Dion siege: Sat Feb 17 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Giran siege: Sun Feb 18 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Oren siege: Sun Feb 18 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Aden siege: Sat Feb 17 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Innadril siege: Sun Feb 18 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Goddard siege: Sun Feb 18 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Rune siege: Sat Feb 17 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	New date for Schuttgart siege: Sat Feb 17 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	Loaded 44 clan halls and 6 siegable clan halls.
-[30-01-2024 00:23:32]	INFO	------------------------------------------------------------=[ Task Managers ]
-[30-01-2024 00:23:32]	INFO	Restored 0 items on ground.
-[30-01-2024 00:23:32]	SEVERE	Can't delete graveyard.
-[30-01-2024 00:23:32]	SEVERE	Can't restore and spawn tombstones.
-[30-01-2024 00:23:32]	INFO	Graveyard manager is initialized.
-[30-01-2024 00:23:32]	INFO	Buy list task manager was initialized. Next schedule of restock items: 0 7 * * 1
-[30-01-2024 00:23:32]	INFO	--------------------------------------------------------------=[ Auto Spawns ]
-[30-01-2024 00:23:32]	INFO	Loaded 124 auto spawns.
-[30-01-2024 00:23:32]	INFO	--------------------------------------------------------------=[ Seven Signs ]
-[30-01-2024 00:23:32]	INFO	Currently on Competition (Quest Event) period.
-[30-01-2024 00:23:32]	INFO	The Seal of Gnosis remains unclaimed.
-[30-01-2024 00:23:32]	INFO	The Seal of Strife remains unclaimed.
-[30-01-2024 00:23:32]	INFO	The Seal of Avarice remains unclaimed.
-[30-01-2024 00:23:32]	INFO	The Seven Signs competition will end in a tie this week.
-[30-01-2024 00:23:32]	INFO	Next Seven Signs period change set to Mon Feb 05 18:00:00 MSK 2024.
-[30-01-2024 00:23:32]	INFO	Next Seven Signs period begins in 6 days, 17 hours and 36 mins.
-[30-01-2024 00:23:32]	INFO	The first Festival of Darkness cycle begins in 2 minute(s).
-[30-01-2024 00:23:32]	INFO	------------------------------------------------------------=[ Manor Manager ]
-[30-01-2024 00:23:32]	INFO	Loaded 256 seeds.
-[30-01-2024 00:23:32]	INFO	---------------------------------------------------------------------=[ NPCs ]
-[30-01-2024 00:23:32]	INFO	Loaded 60 available buffs.
-[30-01-2024 00:23:32]	INFO	Loaded 6473 NPC templates.
-[30-01-2024 00:23:32]	INFO	Loaded 12 Walker routes.
-[30-01-2024 00:23:32]	INFO	Loaded 547 doors templates.
-[30-01-2024 00:23:33]	INFO	Loaded 29 static objects.
-[30-01-2024 00:23:33]	INFO	Loaded 40634 spawns.
-[30-01-2024 00:23:33]	INFO	Loaded 195 raid bosses.
-[30-01-2024 00:23:33]	INFO	Loaded 12 GrandBosses instances.
-[30-01-2024 00:23:33]	INFO	Loaded night creatures spawns.
-[30-01-2024 00:23:33]	INFO	Loaded Dimensional Rift rooms.
-[30-01-2024 00:23:33]	INFO	Loaded 14 newbie buffs.
-[30-01-2024 00:23:33]	INFO	Loaded 72 instant teleport positions.
-[30-01-2024 00:23:33]	INFO	Loaded 117 teleport positions.
-[30-01-2024 00:23:33]	INFO	-------------------------------------------------------=[ Olympiads & Heroes ]
-[30-01-2024 00:23:33]	INFO	Loaded 22 stadiums.
-[30-01-2024 00:23:33]	INFO	Couldn't load Olympiad data, default values are used.
-[30-01-2024 00:23:33]	INFO	3576 minutes until Olympiad period ends.
-[30-01-2024 00:23:33]	INFO	Next weekly Olympiad change is in 10079 minutes.
-[30-01-2024 00:23:33]	INFO	Loaded 0 nobles.
-[30-01-2024 00:23:33]	INFO	Olympiad competition period starts in 0 days, 17 hours and 36 mins.
-[30-01-2024 00:23:33]	INFO	Olympiad event starts/started @ Tue Jan 30 18:00:00 MSK 2024.
-[30-01-2024 00:23:33]	INFO	Loaded 0 heroes and 0 all time heroes.
-[30-01-2024 00:23:33]	INFO	----------------------------------------------------------=[ Four Sepulchers ]
-[30-01-2024 00:23:33]	INFO	Loaded 20 Mysterious-Box.
-[30-01-2024 00:23:33]	INFO	Loaded 39 Key-Box.
-[30-01-2024 00:23:34]	INFO	Loaded 716 physical type monsters.
-[30-01-2024 00:23:34]	INFO	Loaded 716 magical type monsters.
-[30-01-2024 00:23:34]	INFO	Loaded 4 Shadows of Halisha.
-[30-01-2024 00:23:34]	INFO	Loaded 92 Duke's Hall Gatekeepers.
-[30-01-2024 00:23:34]	INFO	Loaded 68 Emperor's Grave monsters.
-[30-01-2024 00:23:34]	INFO	Loaded 4 managers.
-[30-01-2024 00:23:34]	INFO	---------------------------------------------------------=[ Quests & Scripts ]
-[30-01-2024 00:23:34]	INFO	Devastated Castle siege scheduled for Tue Feb 13 12:00:00 MSK 2024.
-[30-01-2024 00:23:34]	INFO	Fortress of Resistance siege scheduled for Tue Feb 13 12:00:00 MSK 2024.
-[30-01-2024 00:23:34]	INFO	Fortress of the Dead siege scheduled for Tue Feb 13 12:00:00 MSK 2024.
-[30-01-2024 00:23:34]	INFO	Rainbow Springs Chateau siege scheduled for Tue Feb 13 12:00:00 MSK 2024.
-[30-01-2024 00:23:34]	INFO	Loaded 410 regular scripts and 5 scheduled scripts.
-[30-01-2024 00:23:34]	INFO	-------------------------------------------------------------------=[ Events ]
-[30-01-2024 00:23:34]	INFO	Loaded 0 Derby Track records, currently on race #1.
-[30-01-2024 00:23:34]	INFO	A new Fishing Championship event period has started.
-[30-01-2024 00:23:34]	INFO	-----------------------------------------------------------------=[ Handlers ]
-[30-01-2024 00:23:34]	INFO	Loaded 97 admin command handlers.
-[30-01-2024 00:23:34]	INFO	Loaded 13 chat handlers.
-[30-01-2024 00:23:34]	INFO	Loaded 26 item handlers.
-[30-01-2024 00:23:34]	INFO	Loaded 26 target handlers.
-[30-01-2024 00:23:34]	INFO	Loaded 15 user command handlers.
-[30-01-2024 00:23:34]	INFO	-------------------------------------------------------------------=[ System ]
-[30-01-2024 00:23:34]	INFO	Deadlock detector is disabled.
-[30-01-2024 00:23:34]	INFO	Gameserver has started, used memory: 1263 / 2048 Mo.
-[30-01-2024 00:23:34]	INFO	Maximum allowed players: 100.
-[30-01-2024 00:23:34]	INFO	--------------------------------------------------------------------=[ Login ]
-[30-01-2024 00:23:34]	INFO	Connecting to login on 127.0.0.1:9014.
-[30-01-2024 00:23:34]	INFO	Registered as server: [1] Hardcore.
-[30-01-2024 00:24:00]	INFO	A new Four Sepulchers event has been announced (ATTACK).
-[30-01-2024 00:33:20]	INFO	qwer has logged in with Master access level.
-[30-01-2024 00:33:28]	INFO	HtmCache has been cleared (12 entries).
-[30-01-2024 00:36:48]	SEVERE	No connection found with loginserver, next try in 10 seconds.
+[31-01-2024 12:08:26]	INFO	-------------------------------------------------------------------=[ Config ]
+[31-01-2024 12:08:27]	INFO	Loading gameserver configuration files.
+[31-01-2024 12:08:27]	INFO	------------------------------------------------------------------=[ Poolers ]
+[31-01-2024 12:08:27]	INFO	Initializing ConnectionPool.
+[31-01-2024 12:08:27]	INFO	Initializing ThreadPool.
+[31-01-2024 12:08:27]	INFO	----------------------------------------------------------------=[ IdFactory ]
+[31-01-2024 12:08:27]	INFO	Updated characters online status.
+[31-01-2024 12:08:27]	INFO	Cleaned 0 elements from database.
+[31-01-2024 12:08:27]	INFO	Cleaned 0 expired timestamps from database.
+[31-01-2024 12:08:27]	INFO	Initializing 102912 objectIds pool, with 6 used ids.
+[31-01-2024 12:08:27]	INFO	------------------------------------------------------=[ GlobalEventListener ]
+[31-01-2024 12:08:27]	INFO	Global Event Listener was initialized
+[31-01-2024 12:08:27]	INFO	--------------------------------------------------------------------=[ Cache ]
+[31-01-2024 12:08:27]	INFO	Loaded 0 crests.
+[31-01-2024 12:08:27]	INFO	--------------------------------------------------------------------=[ World ]
+[31-01-2024 12:08:27]	INFO	World grid (176 by 256) is now set up.
+[31-01-2024 12:08:27]	INFO	Loaded regions.
+[31-01-2024 12:08:27]	INFO	Loaded 0 announcements.
+[31-01-2024 12:08:27]	INFO	Loaded 1 server variables.
+[31-01-2024 12:08:27]	INFO	-------------------------------------------------------------------=[ Skills ]
+[31-01-2024 12:08:28]	INFO	SkillTable: Loaded 29746 skills.
+[31-01-2024 12:08:28]	INFO	Loaded 117 fishing skills.
+[31-01-2024 12:08:28]	INFO	Loaded 64 clan skills.
+[31-01-2024 12:08:28]	INFO	Loaded 14550 enchant skills.
+[31-01-2024 12:08:28]	INFO	--------------------------------------------------------------------=[ Items ]
+[31-01-2024 12:08:29]	INFO	Loaded items.
+[31-01-2024 12:08:29]	INFO	Loaded 14 summon items.
+[31-01-2024 12:08:29]	INFO	Loaded 180 hennas.
+[31-01-2024 12:08:29]	INFO	Loaded 675 buyLists.
+[31-01-2024 12:08:30]	INFO	Loaded 85 multisell.
+[31-01-2024 12:08:30]	INFO	Loaded 871 recipes.
+[31-01-2024 12:08:30]	INFO	Loaded 51 armor sets.
+[31-01-2024 12:08:30]	INFO	Loaded 270 fish.
+[31-01-2024 12:08:30]	INFO	Loaded 334 spellbooks.
+[31-01-2024 12:08:30]	INFO	Loaded 39 Soul Crystals data and 124 NPCs data.
+[31-01-2024 12:08:30]	INFO	Loaded 4 sets of augmentation stats.
+[31-01-2024 12:08:30]	INFO	Loaded 170 blue, 1070 purple and 540 red Life-Stone skills.
+[31-01-2024 12:08:30]	INFO	Loaded 2 cursed weapons.
+[31-01-2024 12:08:30]	INFO	-------------------------------------------------------------------=[ Admins ]
+[31-01-2024 12:08:30]	INFO	Loaded 10 access levels.
+[31-01-2024 12:08:30]	INFO	Loaded 97 admin command rights.
+[31-01-2024 12:08:30]	INFO	Loaded 0 bookmarks.
+[31-01-2024 12:08:30]	INFO	Loaded 0 petitions.
+[31-01-2024 12:08:30]	INFO	---------------------------------------------------------------=[ Characters ]
+[31-01-2024 12:08:30]	INFO	Loaded 89 player classes templates.
+[31-01-2024 12:08:30]	INFO	Loaded 1 player infos.
+[31-01-2024 12:08:30]	INFO	Loaded 81 player levels.
+[31-01-2024 12:08:30]	INFO	Loaded 0 RaidPoints entries.
+[31-01-2024 12:08:30]	INFO	---------------------------------------------------------=[ Community server ]
+[31-01-2024 12:08:30]	INFO	--------------------------------------------------------------------=[ Clans ]
+[31-01-2024 12:08:30]	INFO	Loaded 0 clans.
+[31-01-2024 12:08:30]	INFO	----------------------------------------------------=[ Geodata & Pathfinding ]
+[31-01-2024 12:08:36]	INFO	Loaded 139 L2J region files.
+[31-01-2024 12:08:36]	INFO	Loaded 31 node buffers.
+[31-01-2024 12:08:36]	INFO	--------------------------------------------------------------------=[ Zones ]
+[31-01-2024 12:08:39]	INFO	Loaded 23 zones classes and total 1016 zones.
+[31-01-2024 12:08:39]	INFO	-----------------------------------------------------=[ Castles & Clan Halls ]
+[31-01-2024 12:08:39]	INFO	Loaded 9 castles.
+[31-01-2024 12:08:39]	INFO	Loaded 44 clan halls and 6 siegable clan halls.
+[31-01-2024 12:08:39]	INFO	------------------------------------------------------------=[ Task Managers ]
+[31-01-2024 12:08:39]	INFO	Restored 0 items on ground.
+[31-01-2024 12:08:39]	SEVERE	Can't delete graveyard.
+[31-01-2024 12:08:39]	SEVERE	Can't restore and spawn tombstones.
+[31-01-2024 12:08:39]	INFO	Graveyard manager is initialized.
+[31-01-2024 12:08:40]	INFO	Buy list task manager was initialized. Next schedule of restock items: 0 7 * * 1
+[31-01-2024 12:08:40]	INFO	--------------------------------------------------------------=[ Auto Spawns ]
+[31-01-2024 12:08:40]	INFO	Loaded 124 auto spawns.
+[31-01-2024 12:08:40]	INFO	--------------------------------------------------------------=[ Seven Signs ]
+[31-01-2024 12:08:40]	INFO	Currently on Competition (Quest Event) period.
+[31-01-2024 12:08:40]	INFO	The Seal of Strife remains unclaimed.
+[31-01-2024 12:08:40]	INFO	The Seal of Gnosis remains unclaimed.
+[31-01-2024 12:08:40]	INFO	The Seal of Avarice remains unclaimed.
+[31-01-2024 12:08:40]	INFO	The Seven Signs competition will end in a tie this week.
+[31-01-2024 12:08:40]	INFO	Next Seven Signs period change set to Mon Feb 05 18:00:00 MSK 2024.
+[31-01-2024 12:08:40]	INFO	Next Seven Signs period begins in 5 days, 5 hours and 51 mins.
+[31-01-2024 12:08:40]	INFO	The first Festival of Darkness cycle begins in 2 minute(s).
+[31-01-2024 12:08:40]	INFO	------------------------------------------------------------=[ Manor Manager ]
+[31-01-2024 12:08:40]	INFO	Loaded 256 seeds.
+[31-01-2024 12:08:40]	INFO	---------------------------------------------------------------------=[ NPCs ]
+[31-01-2024 12:08:40]	INFO	Loaded 60 available buffs.
+[31-01-2024 12:08:40]	INFO	Loaded 6473 NPC templates.
+[31-01-2024 12:08:40]	INFO	Loaded 12 Walker routes.
+[31-01-2024 12:08:40]	INFO	Loaded 547 doors templates.
+[31-01-2024 12:08:40]	INFO	Loaded 29 static objects.
+[31-01-2024 12:08:41]	INFO	Loaded 40634 spawns.
+[31-01-2024 12:08:41]	INFO	Loaded 195 raid bosses.
+[31-01-2024 12:08:41]	INFO	Loaded 12 GrandBosses instances.
+[31-01-2024 12:08:41]	INFO	Loaded night creatures spawns.
+[31-01-2024 12:08:41]	INFO	Loaded Dimensional Rift rooms.
+[31-01-2024 12:08:41]	INFO	Loaded 14 newbie buffs.
+[31-01-2024 12:08:41]	INFO	Loaded 72 instant teleport positions.
+[31-01-2024 12:08:41]	INFO	Loaded 117 teleport positions.
+[31-01-2024 12:08:41]	INFO	-------------------------------------------------------=[ Olympiads & Heroes ]
+[31-01-2024 12:08:41]	INFO	Loaded 22 stadiums.
+[31-01-2024 12:08:41]	INFO	Couldn't load Olympiad data, default values are used.
+[31-01-2024 12:08:41]	INFO	1431 minutes until Olympiad period ends.
+[31-01-2024 12:08:41]	INFO	Next weekly Olympiad change is in 10079 minutes.
+[31-01-2024 12:08:41]	INFO	Loaded 0 nobles.
+[31-01-2024 12:08:41]	INFO	Olympiad competition period starts in 0 days, 5 hours and 51 mins.
+[31-01-2024 12:08:41]	INFO	Olympiad event starts/started @ Wed Jan 31 18:00:00 MSK 2024.
+[31-01-2024 12:08:41]	INFO	Loaded 0 heroes and 0 all time heroes.
+[31-01-2024 12:08:41]	INFO	----------------------------------------------------------=[ Four Sepulchers ]
+[31-01-2024 12:08:41]	INFO	Loaded 20 Mysterious-Box.
+[31-01-2024 12:08:41]	INFO	Loaded 39 Key-Box.
+[31-01-2024 12:08:41]	INFO	Loaded 716 physical type monsters.
+[31-01-2024 12:08:41]	INFO	Loaded 716 magical type monsters.
+[31-01-2024 12:08:41]	INFO	Loaded 4 Shadows of Halisha.
+[31-01-2024 12:08:41]	INFO	Loaded 92 Duke's Hall Gatekeepers.
+[31-01-2024 12:08:41]	INFO	Loaded 68 Emperor's Grave monsters.
+[31-01-2024 12:08:41]	INFO	Loaded 4 managers.
+[31-01-2024 12:08:41]	INFO	---------------------------------------------------------=[ Quests & Scripts ]
+[31-01-2024 12:08:42]	INFO	Devastated Castle siege scheduled for Wed Feb 14 12:00:00 MSK 2024.
+[31-01-2024 12:08:42]	INFO	Fortress of Resistance siege scheduled for Wed Feb 14 12:00:00 MSK 2024.
+[31-01-2024 12:08:42]	INFO	Fortress of the Dead siege scheduled for Wed Feb 14 12:00:00 MSK 2024.
+[31-01-2024 12:08:42]	INFO	Rainbow Springs Chateau siege scheduled for Wed Feb 14 12:00:00 MSK 2024.
+[31-01-2024 12:08:42]	INFO	Loaded 410 regular scripts and 5 scheduled scripts.
+[31-01-2024 12:08:42]	INFO	-------------------------------------------------------------------=[ Events ]
+[31-01-2024 12:08:42]	INFO	Loaded 0 Derby Track records, currently on race #1.
+[31-01-2024 12:08:42]	INFO	-----------------------------------------------------------------=[ Handlers ]
+[31-01-2024 12:08:42]	INFO	Loaded 97 admin command handlers.
+[31-01-2024 12:08:42]	INFO	Loaded 13 chat handlers.
+[31-01-2024 12:08:42]	INFO	Loaded 26 item handlers.
+[31-01-2024 12:08:42]	INFO	Loaded 26 target handlers.
+[31-01-2024 12:08:42]	INFO	Loaded 15 user command handlers.
+[31-01-2024 12:08:42]	INFO	-------------------------------------------------------------------=[ System ]
+[31-01-2024 12:08:42]	INFO	Deadlock detector is disabled.
+[31-01-2024 12:08:42]	INFO	Gameserver has started, used memory: 1290 / 2048 Mo.
+[31-01-2024 12:08:42]	INFO	Maximum allowed players: 100.
+[31-01-2024 12:08:42]	INFO	--------------------------------------------------------------------=[ Login ]
+[31-01-2024 12:08:42]	INFO	Connecting to login on 127.0.0.1:9014.
+[31-01-2024 12:08:42]	INFO	Registered as server: [1] Hardcore.
+[31-01-2024 12:09:00]	INFO	A new Four Sepulchers event has been announced (ATTACK).
+[31-01-2024 12:18:33]	INFO	test2 has logged in with Master access level.
+[31-01-2024 12:18:43]	INFO	HtmCache has been cleared (5 entries).
+[31-01-2024 12:19:16]	WARNING	No handler registered for admin command 'admin_reloat'.
+[31-01-2024 12:19:25]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 12:19:32]	INFO	test2 has logged in with Master access level.
+[31-01-2024 12:20:12]	INFO	test3 has logged in with Master access level.
+[31-01-2024 12:25:47]	INFO	[0][validateDieReason] test3 (268480981)
+[31-01-2024 12:25:47]	INFO	[1][GraveyardManager.onDie] OnDie(victim=test3 (268480981), killer=Gremlin [npcId=18342 objId=268436954], reason=MONSTER)
+[31-01-2024 12:25:47]	INFO	[2][GraveyardManager.validateDeath] test3 (268480981), Gremlin [npcId=18342 objId=268436954], MONSTER
+[31-01-2024 12:25:47]	INFO	OnDie personal for test3 (268480981) called
+[31-01-2024 12:41:00]	INFO	test3 has logged in with Master access level.
+[31-01-2024 12:41:07]	INFO	HtmCache has been cleared (10 entries).
+[31-01-2024 12:41:19]	INFO	test3 has logged in with Master access level.
+[31-01-2024 12:41:29]	INFO	[-1][GraveyardManager.onRevive] OnRevive(reviver=null, victim=test3 (268480981))
+[31-01-2024 12:41:29]	INFO	OnRevive personal for test3 (268480981) called
+[31-01-2024 12:46:53]	INFO	test4 has logged in with Master access level.
+[31-01-2024 12:48:16]	INFO	HtmCache has been cleared (3 entries).
+[31-01-2024 12:48:21]	INFO	test4 has logged in with Master access level.
+[31-01-2024 12:49:09]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 12:49:15]	INFO	test4 has logged in with Master access level.
+[31-01-2024 12:49:50]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 12:49:56]	INFO	test4 has logged in with Master access level.
+[31-01-2024 12:50:00]	INFO	A new Four Sepulchers event has been announced (END).
+[31-01-2024 12:51:24]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 12:51:30]	INFO	test4 has logged in with Master access level.
+[31-01-2024 12:51:59]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 12:52:05]	INFO	test4 has logged in with Master access level.
+[31-01-2024 12:55:00]	INFO	A new Four Sepulchers event has been announced (ENTRY).
+[31-01-2024 12:59:32]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 12:59:37]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:00:00]	INFO	A new Four Sepulchers event has been announced (ATTACK).
+[31-01-2024 13:00:09]	INFO	Loaded day creatures spawns.
+[31-01-2024 13:00:17]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 13:00:23]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:01:29]	INFO	HtmCache has been cleared (3 entries).
+[31-01-2024 13:01:35]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:03:09]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 13:03:24]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:04:32]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 13:04:38]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:06:18]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 13:06:23]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:09:24]	INFO	HtmCache has been cleared (3 entries).
+[31-01-2024 13:09:32]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:12:40]	INFO	HtmCache has been cleared (5 entries).
+[31-01-2024 13:12:53]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:15:43]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 13:15:48]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:17:19]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 13:17:24]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:19:06]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 13:19:10]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:22:30]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 13:22:36]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:24:01]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 13:24:05]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:27:30]	INFO	HtmCache has been cleared (5 entries).
+[31-01-2024 13:27:37]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:29:49]	INFO	HtmCache has been cleared (3 entries).
+[31-01-2024 13:29:55]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:30:50]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 13:30:55]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:50:00]	INFO	A new Four Sepulchers event has been announced (END).
+[31-01-2024 13:53:25]	INFO	HtmCache has been cleared (3 entries).
+[31-01-2024 13:53:29]	INFO	[0][validateDieReason] test4 (268480998)
+[31-01-2024 13:53:29]	INFO	[1][GraveyardManager.onDie] OnDie(victim=test4 (268480998), killer=Gremlin [npcId=18342 objId=268481499], reason=MONSTER)
+[31-01-2024 13:53:29]	INFO	[2][GraveyardManager.validateDeath] test4 (268480998), Gremlin [npcId=18342 objId=268481499], MONSTER
+[31-01-2024 13:53:29]	INFO	OnDie personal for test4 (268480998) called
+[31-01-2024 13:55:00]	INFO	A new Four Sepulchers event has been announced (ENTRY).
+[31-01-2024 13:58:12]	WARNING	No handler registered for admin command 'admin_relod'.
+[31-01-2024 13:58:25]	INFO	HtmCache has been cleared (1 entries).
+[31-01-2024 13:58:28]	INFO	test4 has logged in with Master access level.
+[31-01-2024 13:59:24]	INFO	[-1][GraveyardManager.onRevive] OnRevive(reviver=null, victim=test4 (268480998))
+[31-01-2024 13:59:24]	INFO	OnRevive personal for test4 (268480998) called
+[31-01-2024 14:00:00]	INFO	A new Four Sepulchers event has been announced (ATTACK).
+[31-01-2024 14:00:45]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 14:00:49]	INFO	test4 has logged in with Master access level.
+[31-01-2024 14:08:14]	INFO	HtmCache has been cleared (8 entries).
+[31-01-2024 14:48:41]	INFO	test4 has logged in with Master access level.
+[31-01-2024 14:50:00]	INFO	A new Four Sepulchers event has been announced (END).
+[31-01-2024 14:53:28]	INFO	HtmCache has been cleared (2 entries).
+[31-01-2024 14:53:34]	INFO	test4 has logged in with Master access level.
+[31-01-2024 14:55:00]	INFO	A new Four Sepulchers event has been announced (ENTRY).
+[31-01-2024 14:57:48]	INFO	HtmCache has been cleared (4 entries).
+[31-01-2024 14:57:53]	INFO	test4 has logged in with Master access level.
+[31-01-2024 15:00:00]	INFO	A new Four Sepulchers event has been announced (ATTACK).
+[31-01-2024 15:02:30]	INFO	HtmCache has been cleared (4 entries).
+[31-01-2024 15:02:36]	INFO	test4 has logged in with Master access level.
+[31-01-2024 15:04:50]	INFO	HtmCache has been cleared (4 entries).
+[31-01-2024 15:09:02]	INFO	HtmCache has been cleared (9 entries).
