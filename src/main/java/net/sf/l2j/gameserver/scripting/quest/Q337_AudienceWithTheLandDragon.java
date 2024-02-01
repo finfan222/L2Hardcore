@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -167,6 +166,16 @@ public class Q337_AudienceWithTheLandDragon extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 50;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -176,7 +185,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest {
 
         // Gabrielle
         if (event.equalsIgnoreCase("30753-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("drop1", 1);
             st.set("drop2", 1);
@@ -221,7 +230,7 @@ public class Q337_AudienceWithTheLandDragon extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 50) ? "30753-02.htm" : "30753-01.htm";
+                htmltext = !condition.validateLevel(player) ? "30753-02.htm" : "30753-01.htm";
                 break;
 
             case STARTED:

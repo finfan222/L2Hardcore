@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -13,6 +10,9 @@ import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q234_FatesWhisper extends Quest {
     private static final String QUEST_NAME = "Q234_FatesWhisper";
@@ -80,6 +80,16 @@ public class Q234_FatesWhisper extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 75;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -88,7 +98,7 @@ public class Q234_FatesWhisper extends Quest {
         }
 
         if (event.equalsIgnoreCase("31002-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30182-01c.htm")) {
@@ -146,7 +156,7 @@ public class Q234_FatesWhisper extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 75) ? "31002-01.htm" : "31002-02.htm";
+                htmltext = !condition.validateLevel(player) ? "31002-01.htm" : "31002-02.htm";
                 break;
 
             case STARTED:

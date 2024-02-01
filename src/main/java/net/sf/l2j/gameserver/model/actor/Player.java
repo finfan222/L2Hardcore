@@ -62,6 +62,7 @@ import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.events.OnDie;
 import net.sf.l2j.gameserver.events.OnHit;
+import net.sf.l2j.gameserver.events.OnQuestAccept;
 import net.sf.l2j.gameserver.events.OnRevalidateZone;
 import net.sf.l2j.gameserver.events.OnSkillHit;
 import net.sf.l2j.gameserver.events.OnValidatePosition;
@@ -479,6 +480,7 @@ public final class Player extends Playable {
         getFreight();
 
         eventListener.subscribe().cast(OnValidatePosition.class).forEach(this::onValidatePosition);
+        eventListener.subscribe().cast(OnQuestAccept.class).forEach(this::onQuestAccept);
     }
 
     /**
@@ -6324,6 +6326,9 @@ public final class Player extends Playable {
     }
 
     private void onValidatePosition(OnValidatePosition event) {
+    }
+
+    private void onQuestAccept(OnQuestAccept event) {
     }
 
     @Override

@@ -36,15 +36,24 @@ public class Q043_HelpTheSister extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 26;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30829-01.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30829-03.htm") && player.getInventory().hasItems(CRAFTED_DAGGER)) {
@@ -66,7 +75,7 @@ public class Q043_HelpTheSister extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -79,7 +88,7 @@ public class Q043_HelpTheSister extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 26) ? "30829-00a.htm" : "30829-00.htm";
+                htmltext = !condition.validateLevel(player) ? "30829-00a.htm" : "30829-00.htm";
                 break;
 
             case STARTED:

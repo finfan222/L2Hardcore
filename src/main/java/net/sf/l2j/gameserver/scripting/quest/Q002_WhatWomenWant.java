@@ -36,15 +36,25 @@ public class Q002_WhatWomenWant extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 2;
+        condition.races = new ClassRace[]{ClassRace.HUMAN, ClassRace.ELF};
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30223-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ARUJIEN_LETTER_1, 1);
@@ -60,7 +70,7 @@ public class Q002_WhatWomenWant extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -73,9 +83,9 @@ public class Q002_WhatWomenWant extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.ELF && player.getRace() != ClassRace.HUMAN) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30223-00.htm";
-                } else if (player.getStatus().getLevel() < 2) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30223-01.htm";
                 } else {
                     htmltext = "30223-02.htm";
@@ -150,4 +160,5 @@ public class Q002_WhatWomenWant extends Quest {
 
         return htmltext;
     }
+
 }

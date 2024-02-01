@@ -51,6 +51,16 @@ public class Q021_HiddenTruth extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 63;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -59,7 +69,7 @@ public class Q021_HiddenTruth extends Quest {
         }
 
         if (event.equalsIgnoreCase("31522-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31523-03.htm")) {
@@ -149,7 +159,7 @@ public class Q021_HiddenTruth extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 63) ? "31522-03.htm" : "31522-01.htm";
+                htmltext = !condition.validateLevel(player) ? "31522-03.htm" : "31522-01.htm";
                 break;
 
             case STARTED:

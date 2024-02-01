@@ -2,7 +2,6 @@ package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.data.xml.SoulCrystalData;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -35,18 +34,27 @@ public class Q350_EnhanceYourWeapon extends Quest {
             addItemUse(crystalId);
         }
     }
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 40;
+    }
+
 
     @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         // Start the quest.
         if (event.endsWith("-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
@@ -70,7 +78,7 @@ public class Q350_EnhanceYourWeapon extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -83,7 +91,7 @@ public class Q350_EnhanceYourWeapon extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() < 40) {
+                if (!condition.validateLevel(player)) {
                     htmltext = npc.getNpcId() + "-lvl.htm";
                 } else {
                     htmltext = npc.getNpcId() + "-01.htm";

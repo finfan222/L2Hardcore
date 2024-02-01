@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q004_LongliveThePaagrioLord extends Quest {
     private static final String QUEST_NAME = "Q004_LongliveThePaagrioLord";
@@ -32,20 +32,30 @@ public class Q004_LongliveThePaagrioLord extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 2;
+        condition.races = new ClassRace[]{ClassRace.ORC};
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30578-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -58,9 +68,9 @@ public class Q004_LongliveThePaagrioLord extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.ORC) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30578-00.htm";
-                } else if (player.getStatus().getLevel() < 2) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30578-01.htm";
                 } else {
                     htmltext = "30578-02.htm";

@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -36,6 +35,20 @@ public class Q296_TarantulasSpiderSilk extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 15;
+        condition.items = new QuestDetail[]{
+            QuestDetail.builder().id(RING_OF_RACCOON).build(),
+            QuestDetail.builder().id(RING_OF_FIREFLY).build()
+        };
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -44,8 +57,8 @@ public class Q296_TarantulasSpiderSilk extends Quest {
         }
 
         if (event.equalsIgnoreCase("30519-03.htm")) {
-            if (player.getInventory().hasAtLeastOneItem(RING_OF_RACCOON, RING_OF_FIREFLY)) {
-                st.setState(QuestStatus.STARTED);
+            if (condition.validateItems(player)) {
+                st.setState(QuestStatus.STARTED, player, npc, event);
                 st.setCond(1);
                 playSound(player, SOUND_ACCEPT);
             } else {
@@ -78,7 +91,7 @@ public class Q296_TarantulasSpiderSilk extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 15) ? "30519-01.htm" : "30519-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30519-01.htm" : "30519-02.htm";
                 break;
 
             case STARTED:

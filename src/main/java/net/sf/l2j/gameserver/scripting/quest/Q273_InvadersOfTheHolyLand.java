@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -29,15 +28,25 @@ public class Q273_InvadersOfTheHolyLand extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 6;
+        condition.races = new ClassRace[]{ClassRace.ORC};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30566-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30566-07.htm")) {
@@ -45,7 +54,7 @@ public class Q273_InvadersOfTheHolyLand extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -58,9 +67,9 @@ public class Q273_InvadersOfTheHolyLand extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.ORC) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30566-00.htm";
-                } else if (player.getStatus().getLevel() < 6) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30566-01.htm";
                 } else {
                     htmltext = "30566-02.htm";

@@ -45,14 +45,13 @@ public class Q101_SwordOfSolidarity extends Quest {
 
     @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30008-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ROIEN_LETTER, 1);
@@ -78,7 +77,18 @@ public class Q101_SwordOfSolidarity extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 9;
+        condition.races = new ClassRace[]{ClassRace.HUMAN};
     }
 
     @Override
@@ -91,9 +101,9 @@ public class Q101_SwordOfSolidarity extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.HUMAN) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30008-01a.htm";
-                } else if (player.getStatus().getLevel() < 9) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30008-01.htm";
                 } else {
                     htmltext = "30008-02.htm";

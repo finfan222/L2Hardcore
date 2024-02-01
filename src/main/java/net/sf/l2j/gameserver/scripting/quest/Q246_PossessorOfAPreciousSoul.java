@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -43,6 +42,18 @@ public class Q246_PossessorOfAPreciousSoul extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 75;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(CARADINE_LETTER_1).build()};
+        condition.checkSubclass = true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -52,7 +63,7 @@ public class Q246_PossessorOfAPreciousSoul extends Quest {
 
         // Caradine
         if (event.equalsIgnoreCase("31740-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             takeItems(player, CARADINE_LETTER_1, 1);
@@ -107,13 +118,13 @@ public class Q246_PossessorOfAPreciousSoul extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getInventory().hasItems(CARADINE_LETTER_1)) {
-                    htmltext = (!player.isSubClassActive() || player.getStatus().getLevel() < 65) ? "31740-02.htm" : "31740-01.htm";
+                if (condition.validateItems(player)) {
+                    htmltext = (!condition.validateSubclass(player) || !condition.validateLevel(player)) ? "31740-02.htm" : "31740-01.htm";
                 }
                 break;
 
             case STARTED:
-                if (!player.isSubClassActive()) {
+                if (!condition.validateSubclass(player)) {
                     break;
                 }
 

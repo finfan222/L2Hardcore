@@ -37,6 +37,17 @@ public class Q023_LidiasHeart extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 63;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(22).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -45,7 +56,7 @@ public class Q023_LidiasHeart extends Quest {
         }
 
         if (event.equalsIgnoreCase("31328-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, FOREST_OF_DEADMAN_MAP, 1);
@@ -137,9 +148,8 @@ public class Q023_LidiasHeart extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                QuestState st2 = player.getQuestList().getQuestState("Q022_TragedyInVonHellmannForest");
-                if (st2 != null && st2.isCompleted()) {
-                    if (player.getStatus().getLevel() >= 64) {
+                if (condition.validateQuests(player)) {
+                    if (condition.validateLevel(player)) {
                         htmltext = "31328-01.htm";
                     } else {
                         htmltext = "31328-00a.htm";

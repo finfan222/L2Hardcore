@@ -30,15 +30,24 @@ public class Q326_VanquishRemnants extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 21;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30435-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30435-07.htm")) {
@@ -46,7 +55,7 @@ public class Q326_VanquishRemnants extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -59,7 +68,7 @@ public class Q326_VanquishRemnants extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 21) ? "30435-01.htm" : "30435-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30435-01.htm" : "30435-02.htm";
                 break;
 
             case STARTED:

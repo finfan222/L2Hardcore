@@ -50,6 +50,17 @@ public class Q022_TragedyInVonHellmannForest extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 63;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(21).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -58,12 +69,11 @@ public class Q022_TragedyInVonHellmannForest extends Quest {
         }
 
         if (event.equalsIgnoreCase("31334-03.htm")) {
-            QuestState st2 = player.getQuestList().getQuestState("Q021_HiddenTruth");
-            if (st2 != null && st2.isCompleted() && player.getStatus().getLevel() >= 63) {
+            if (condition.validateQuests(player) && condition.validateLevel(player)) {
                 htmltext = "31334-02.htm";
             }
         } else if (event.equalsIgnoreCase("31334-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31334-07.htm")) {

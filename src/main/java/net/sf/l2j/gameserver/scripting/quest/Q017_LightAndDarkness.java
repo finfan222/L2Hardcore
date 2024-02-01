@@ -29,6 +29,16 @@ public class Q017_LightAndDarkness extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 61;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -37,7 +47,7 @@ public class Q017_LightAndDarkness extends Quest {
         }
 
         if (event.equalsIgnoreCase("31517-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, BLOOD_OF_SAINT, 4);
@@ -88,7 +98,7 @@ public class Q017_LightAndDarkness extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 61) ? "31517-03.htm" : "31517-01.htm";
+                htmltext = !condition.validateLevel(player) ? "31517-03.htm" : "31517-01.htm";
                 break;
 
             case STARTED:

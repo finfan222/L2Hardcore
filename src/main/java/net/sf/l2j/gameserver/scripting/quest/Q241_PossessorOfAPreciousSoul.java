@@ -59,6 +59,17 @@ public class Q241_PossessorOfAPreciousSoul extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 50;
+        condition.checkSubclass = true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -68,7 +79,7 @@ public class Q241_PossessorOfAPreciousSoul extends Quest {
 
         // Talien
         if (event.equalsIgnoreCase("31739-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31739-07.htm")) {
@@ -177,7 +188,7 @@ public class Q241_PossessorOfAPreciousSoul extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (!player.isSubClassActive() || player.getStatus().getLevel() < 50) ? "31739-02.htm" : "31739-01.htm";
+                htmltext = (!condition.validateSubclass(player) || condition.validateLevel(player)) ? "31739-02.htm" : "31739-01.htm";
                 break;
 
             case STARTED:

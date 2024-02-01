@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -280,6 +279,16 @@ public class Q372_LegacyOfInsolence extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 59;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -288,7 +297,7 @@ public class Q372_LegacyOfInsolence extends Quest {
         }
 
         if (event.equalsIgnoreCase("30844-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30844-05b.htm")) {
@@ -323,31 +332,18 @@ public class Q372_LegacyOfInsolence extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 59) ? "30844-01.htm" : "30844-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30844-01.htm" : "30844-02.htm";
                 break;
 
             case STARTED:
-                switch (npc.getNpcId()) {
-                    case WALDERAL:
-                        htmltext = "30844-05.htm";
-                        break;
-
-                    case HOLLY:
-                        htmltext = checkAndRewardItems(player, 1, 4, HOLLY);
-                        break;
-
-                    case PATRIN:
-                        htmltext = checkAndRewardItems(player, 2, 5, PATRIN);
-                        break;
-
-                    case CLAUDIA:
-                        htmltext = checkAndRewardItems(player, 3, 6, CLAUDIA);
-                        break;
-
-                    case DESMOND:
-                        htmltext = checkAndRewardItems(player, 4, 7, DESMOND);
-                        break;
-                }
+                htmltext = switch (npc.getNpcId()) {
+                    case WALDERAL -> "30844-05.htm";
+                    case HOLLY -> checkAndRewardItems(player, 1, 4, HOLLY);
+                    case PATRIN -> checkAndRewardItems(player, 2, 5, PATRIN);
+                    case CLAUDIA -> checkAndRewardItems(player, 3, 6, CLAUDIA);
+                    case DESMOND -> checkAndRewardItems(player, 4, 7, DESMOND);
+                    default -> htmltext;
+                };
                 break;
         }
 

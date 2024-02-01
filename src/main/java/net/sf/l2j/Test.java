@@ -7,6 +7,9 @@ import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -52,7 +55,17 @@ public class Test {
         return data.stream().filter(e -> e.npcId == npcId).findAny().orElseThrow();
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException, NoSuchFieldException, IllegalAccessException {
+    public static void main(String[] args) {
+        String text = "We Dwarves of the Blacksmith Guild have refined our skills";
+        AffineTransform affinetransform = new AffineTransform();
+        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
+        Font font = new Font("asiahm-medium", Font.PLAIN, 12);
+        int textwidth = (int)(font.getStringBounds(text, frc).getWidth());
+        int textheight = (int)(font.getStringBounds(text, frc).getHeight());
+        System.out.println(textwidth + "/" + textheight);
+    }
+
+    public static void x(String[] args) throws IOException, InterruptedException, NoSuchFieldException, IllegalAccessException {
         File dir = new File("D:\\L2Hardcore\\src\\main\\java\\net\\sf\\l2j\\gameserver\\scripting\\quest\\");
 
 

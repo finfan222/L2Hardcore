@@ -28,6 +28,16 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 60;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -36,7 +46,7 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest {
         }
 
         if (event.equalsIgnoreCase("31577-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31577-07.htm")) {
@@ -72,7 +82,7 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() < 60) {
+                if (!condition.validateLevel(player)) {
                     htmltext = "31577-02.htm";
                 } else {
                     QuestState st2 = player.getQuestList().getQuestState("Q053_LinnaeusSpecialBait");
