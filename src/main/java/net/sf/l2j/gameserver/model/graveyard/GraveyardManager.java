@@ -101,7 +101,7 @@ public class GraveyardManager implements Runnable {
         GlobalEventListener.register(OnDie.class).forEach(this::onDie);
         GlobalEventListener.register(OnRevive.class).forEach(this::onRevive);
 
-        ThreadPool.scheduleAtFixedRate(this, 10000, 10000);
+        ThreadPool.scheduleAtFixedRate(this, 3000, 3000);
 
         GraveyardDao.restore();
         LOGGER.info("Graveyard manager is initialized.");
@@ -206,8 +206,13 @@ public class GraveyardManager implements Runnable {
             .z(player.getZ())
             .heading(player.getHeading())
             .isEternal(false) //todo: premium
-            .timestamp(LocalDateTime.now().plusMinutes(TimeUnit.MILLISECONDS.toMinutes(Config.HARDCORE_DELAY_AFTER_DEATH)))
             .build();
+
+        if (reason == DieReason.MORTAL_COMBAT) {
+            necrologue.timestamp = LocalDateTime.now().plusSeconds(TimeUnit.SECONDS.toMillis(3));
+        } else {
+            necrologue.timestamp = LocalDateTime.now().plusMinutes(TimeUnit.MILLISECONDS.toMinutes(Config.HARDCORE_DELAY_AFTER_DEATH));
+        }
 
         necrologues.put(player.getObjectId(), necrologue);
         LOGGER.info("[3][GraveyardManager.addDeadMan] {}", necrologue);

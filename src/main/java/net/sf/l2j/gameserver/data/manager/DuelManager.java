@@ -66,7 +66,11 @@ public final class DuelManager {
 
         final Duel duel = getDuel(player.getDuelId());
         if (duel != null) {
-            duel.doSurrender(player);
+            if (!duel.isMortalCombat()) {
+                duel.doSurrender(player);
+            } else {
+                player.sendMessage("Правила смертельной битвы запрещают сдачу.");
+            }
         }
     }
 
