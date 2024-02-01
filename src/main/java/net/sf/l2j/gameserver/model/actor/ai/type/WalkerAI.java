@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.ai.type;
 
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.data.xml.WalkerRouteData;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -19,7 +20,10 @@ import java.util.List;
  * It is associated to a global task named {@link WalkerTaskManager} to handle individual WalkerLocation delays.
  */
 public class WalkerAI extends CreatureAI {
-    private int _index = 1;
+
+    private static final CLogger LOGGER = new CLogger(WalkerAI.class.getSimpleName());
+
+    private int routeIndex;
 
     public WalkerAI(Creature creature) {
         super(creature);
@@ -39,7 +43,7 @@ public class WalkerAI extends CreatureAI {
         }
 
         // Retrieve current node.
-        final WalkerLocation node = route.get(_index);
+        final WalkerLocation node = route.get(routeIndex);
 
         if (node.getChat() != null) {
             getActor().broadcastNpcSay(node.getChat());
@@ -64,14 +68,20 @@ public class WalkerAI extends CreatureAI {
         }
 
         // Set the next node value.
-        if (_index < route.size() - 1) {
-            _index++;
+        if (routeIndex < route.size() - 1) {
+            routeIndex++;
         } else {
-            _index = 0;
+            routeIndex = 0;
         }
 
         // Retrieve next node.
-        final WalkerLocation node = route.get(_index);
+        final WalkerLocation node;
+        try {
+            node = route.get(routeIndex);
+        } catch (Exception e) {
+            LOGGER.error("Bug occurred in walker routes. NpcId={}, maxRoutes={}, currentIndex={}", getActor().getNpcId(), route.size() - 1, routeIndex, e);
+            throw new RuntimeException(e);
+        }
 
         // Running state.
         if (node.mustRun()) {

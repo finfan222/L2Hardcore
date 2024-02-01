@@ -26,20 +26,30 @@ public class Q272_WrathOfAncestors extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 5;
+        condition.races = new ClassRace[]{ClassRace.ORC};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30572-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -52,9 +62,9 @@ public class Q272_WrathOfAncestors extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.ORC) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30572-00.htm";
-                } else if (player.getStatus().getLevel() < 5) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30572-01.htm";
                 } else {
                     htmltext = "30572-02.htm";

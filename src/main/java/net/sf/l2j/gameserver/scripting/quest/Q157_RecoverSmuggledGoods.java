@@ -28,20 +28,29 @@ public class Q157_RecoverSmuggledGoods extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 5;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30005-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -54,7 +63,7 @@ public class Q157_RecoverSmuggledGoods extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 5) ? "30005-02.htm" : "30005-03.htm";
+                htmltext = !condition.validateLevel(player) ? "30005-02.htm" : "30005-03.htm";
                 break;
 
             case STARTED:

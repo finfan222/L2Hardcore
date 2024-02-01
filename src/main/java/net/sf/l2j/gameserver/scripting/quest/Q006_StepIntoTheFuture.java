@@ -32,6 +32,17 @@ public class Q006_StepIntoTheFuture extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 3;
+        condition.races = new ClassRace[]{ClassRace.HUMAN};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -40,7 +51,7 @@ public class Q006_StepIntoTheFuture extends Quest {
         }
 
         if (event.equalsIgnoreCase("30006-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30033-02.htm")) {
@@ -75,7 +86,7 @@ public class Q006_StepIntoTheFuture extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.HUMAN || player.getStatus().getLevel() < 3) {
+                if (!condition.validateRace(player) || !condition.validateLevel(player)) {
                     htmltext = "30006-01.htm";
                 } else {
                     htmltext = "30006-02.htm";

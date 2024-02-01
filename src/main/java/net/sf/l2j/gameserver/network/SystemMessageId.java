@@ -10104,6 +10104,11 @@ public final class SystemMessageId {
     public static final SystemMessageId YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER;
 
     /**
+     * ID: 2061<br> Message: $s1 invites you to take on the quest $s2. Do you agree?
+     */
+    public static final SystemMessageId S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2;
+
+    /**
      * Array containing all SystemMessageIds<br> Important: Always initialize with a length of the highest
      * SystemMessageId + 1!!!
      */
@@ -12099,6 +12104,7 @@ public final class SystemMessageId {
         YOU_DID_S1_DARK_DMG = new SystemMessageId(2058);
         S1_DEAL_S2_DARK_DMG_TO_YOU = new SystemMessageId(2059);
         YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER = new SystemMessageId(2060);
+        S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2 = new SystemMessageId(2061);
 
         buildFastLookupTable();
     }

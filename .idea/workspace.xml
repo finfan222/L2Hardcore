@@ -4,9 +4,227 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;- рефакторинг">
+    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="- fix для WalkerAI">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/events/OnQuestAccept.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/events/OnQuestCancel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/actors/DialogAnswerType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/enums/actors/DialogAnswerType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AbstractAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AbstractAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/WalkerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/WalkerAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/SystemMessageId.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/SystemMessageId.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/clientpackets/DlgAnswer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/clientpackets/DlgAnswer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestQuestAbort.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/network/clientpackets/RequestQuestAbort.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/Quest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/Quest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/QuestState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/QuestState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q001_LettersOfLove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q001_LettersOfLove.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q002_WhatWomenWant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q002_WhatWomenWant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q003_WillTheSealBeBroken.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q003_WillTheSealBeBroken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q004_LongliveThePaagrioLord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q004_LongliveThePaagrioLord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q005_MinersFavor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q005_MinersFavor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q006_StepIntoTheFuture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q006_StepIntoTheFuture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q007_ATripBegins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q007_ATripBegins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q008_AnAdventureBegins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q008_AnAdventureBegins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q009_IntoTheCityOfHumans.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q009_IntoTheCityOfHumans.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q010_IntoTheWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q010_IntoTheWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q011_SecretMeetingWithKetraOrcs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q011_SecretMeetingWithKetraOrcs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q012_SecretMeetingWithVarkaSilenos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q012_SecretMeetingWithVarkaSilenos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q013_ParcelDelivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q013_ParcelDelivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q014_WhereaboutsOfTheArchaeologist.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q014_WhereaboutsOfTheArchaeologist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q015_SweetWhispers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q015_SweetWhispers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q016_TheComingDarkness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q016_TheComingDarkness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q017_LightAndDarkness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q017_LightAndDarkness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q018_MeetingWithTheGoldenRam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q018_MeetingWithTheGoldenRam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q019_GoToThePastureland.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q019_GoToThePastureland.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q020_BringUpWithLove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q020_BringUpWithLove.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q021_HiddenTruth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q021_HiddenTruth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q022_TragedyInVonHellmannForest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q022_TragedyInVonHellmannForest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q023_LidiasHeart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q023_LidiasHeart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q024_InhabitantsOfTheForestOfTheDead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q024_InhabitantsOfTheForestOfTheDead.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q025_HidingBehindTheTruth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q025_HidingBehindTheTruth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q027_ChestCaughtWithABaitOfWind.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q027_ChestCaughtWithABaitOfWind.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q028_ChestCaughtWithABaitOfIcyAir.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q028_ChestCaughtWithABaitOfIcyAir.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q029_ChestCaughtWithABaitOfEarth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q029_ChestCaughtWithABaitOfEarth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q030_ChestCaughtWithABaitOfFire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q030_ChestCaughtWithABaitOfFire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q031_SecretBuriedInTheSwamp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q031_SecretBuriedInTheSwamp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q032_AnObviousLie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q032_AnObviousLie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q033_MakeAPairOfDressShoes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q033_MakeAPairOfDressShoes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q034_InSearchOfCloth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q034_InSearchOfCloth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q035_FindGlitteringJewelry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q035_FindGlitteringJewelry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q036_MakeASewingKit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q036_MakeASewingKit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q037_MakeFormalWear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q037_MakeFormalWear.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q038_DragonFangs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q038_DragonFangs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q039_RedEyedInvaders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q039_RedEyedInvaders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q042_HelpTheUncle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q042_HelpTheUncle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q043_HelpTheSister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q043_HelpTheSister.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q044_HelpTheSon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q044_HelpTheSon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q045_ToTalkingIsland.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q045_ToTalkingIsland.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q046_OnceMoreInTheArmsOfTheMotherTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q046_OnceMoreInTheArmsOfTheMotherTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q047_IntoTheDarkForest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q047_IntoTheDarkForest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q048_ToTheImmortalPlateau.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q048_ToTheImmortalPlateau.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q049_TheRoadHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q049_TheRoadHome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q050_LanoscosSpecialBait.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q050_LanoscosSpecialBait.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q051_OFullesSpecialBait.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q051_OFullesSpecialBait.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q052_WilliesSpecialBait.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q052_WilliesSpecialBait.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q053_LinnaeusSpecialBait.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q053_LinnaeusSpecialBait.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q101_SwordOfSolidarity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q101_SwordOfSolidarity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q102_SeaOfSporesFever.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q102_SeaOfSporesFever.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q103_SpiritOfCraftsman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q103_SpiritOfCraftsman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q104_SpiritOfMirrors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q104_SpiritOfMirrors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q105_SkirmishWithTheOrcs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q105_SkirmishWithTheOrcs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q106_ForgottenTruth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q106_ForgottenTruth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q107_MercilessPunishment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q107_MercilessPunishment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q108_JumbleTumbleDiamondFuss.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q108_JumbleTumbleDiamondFuss.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q109_InSearchOfTheNest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q109_InSearchOfTheNest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q110_ToThePrimevalIsle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q110_ToThePrimevalIsle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q111_ElrokianHuntersProof.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q111_ElrokianHuntersProof.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q112_WalkOfFate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q112_WalkOfFate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q113_StatusOfTheBeaconTower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q113_StatusOfTheBeaconTower.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q114_ResurrectionOfAnOldManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q114_ResurrectionOfAnOldManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q115_TheOtherSideOfTruth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q115_TheOtherSideOfTruth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q116_BeyondTheHillsOfWinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q116_BeyondTheHillsOfWinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q117_TheOceanOfDistantStars.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q117_TheOceanOfDistantStars.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q118_ToLeadAndBeLed.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q118_ToLeadAndBeLed.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q119_LastImperialPrince.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q119_LastImperialPrince.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q121_PavelTheGiant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q121_PavelTheGiant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q122_OminousNews.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q122_OminousNews.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q123_TheLeaderAndTheFollower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q123_TheLeaderAndTheFollower.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q124_MeetingTheElroki.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q124_MeetingTheElroki.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q125_TheNameOfEvil_1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q125_TheNameOfEvil_1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q126_TheNameOfEvil_2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q126_TheNameOfEvil_2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q151_CureForFeverDisease.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q151_CureForFeverDisease.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q152_ShardsOfGolem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q152_ShardsOfGolem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q153_DeliverGoods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q153_DeliverGoods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q154_SacrificeToTheSea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q154_SacrificeToTheSea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q155_FindSirWindawood.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q155_FindSirWindawood.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q156_MillenniumLove.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q156_MillenniumLove.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q157_RecoverSmuggledGoods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q157_RecoverSmuggledGoods.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q158_SeedOfEvil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q158_SeedOfEvil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q159_ProtectTheWaterSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q159_ProtectTheWaterSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q160_NerupasRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q160_NerupasRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q161_FruitOfTheMotherTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q161_FruitOfTheMotherTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q162_CurseOfTheUndergroundFortress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q162_CurseOfTheUndergroundFortress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q163_LegacyOfThePoet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q163_LegacyOfThePoet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q164_BloodFiend.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q164_BloodFiend.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q165_ShilensHunt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q165_ShilensHunt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q166_MassOfDarkness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q166_MassOfDarkness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q167_DwarvenKinship.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q167_DwarvenKinship.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q168_DeliverSupplies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q168_DeliverSupplies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q169_OffspringOfNightmares.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q169_OffspringOfNightmares.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q170_DangerousSeduction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q170_DangerousSeduction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q171_ActsOfEvil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q171_ActsOfEvil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q212_TrialOfDuty.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q212_TrialOfDuty.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q215_TrialOfThePilgrim.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q215_TrialOfThePilgrim.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q216_TrialOfTheGuildsman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q216_TrialOfTheGuildsman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q217_TestimonyOfTrust.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q217_TestimonyOfTrust.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q218_TestimonyOfLife.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q218_TestimonyOfLife.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q219_TestimonyOfFate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q219_TestimonyOfFate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q220_TestimonyOfGlory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q220_TestimonyOfGlory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q223_TestOfTheChampion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q223_TestOfTheChampion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q224_TestOfSagittarius.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q224_TestOfSagittarius.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q226_TestOfTheHealer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q226_TestOfTheHealer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q227_TestOfTheReformer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q227_TestOfTheReformer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q230_TestOfTheSummoner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q230_TestOfTheSummoner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q233_TestOfTheWarSpirit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q233_TestOfTheWarSpirit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q234_FatesWhisper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q234_FatesWhisper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q235_MimirsElixir.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q235_MimirsElixir.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q241_PossessorOfAPreciousSoul.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q241_PossessorOfAPreciousSoul.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q242_PossessorOfAPreciousSoul.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q242_PossessorOfAPreciousSoul.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q246_PossessorOfAPreciousSoul.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q246_PossessorOfAPreciousSoul.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q247_PossessorOfAPreciousSoul.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q247_PossessorOfAPreciousSoul.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q257_TheGuardIsBusy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q257_TheGuardIsBusy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q258_BringWolfPelts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q258_BringWolfPelts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q259_RanchersPlea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q259_RanchersPlea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q260_HuntTheOrcs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q260_HuntTheOrcs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q261_CollectorsDream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q261_CollectorsDream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q262_TradeWithTheIvoryTower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q262_TradeWithTheIvoryTower.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q263_OrcSubjugation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q263_OrcSubjugation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q264_KeenClaws.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q264_KeenClaws.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q265_ChainsOfSlavery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q265_ChainsOfSlavery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q266_PleasOfPixies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q266_PleasOfPixies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q267_WrathOfVerdure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q267_WrathOfVerdure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q271_ProofOfValor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q271_ProofOfValor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q272_WrathOfAncestors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q272_WrathOfAncestors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q273_InvadersOfTheHolyLand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q273_InvadersOfTheHolyLand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q274_SkirmishWithTheWerewolves.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q274_SkirmishWithTheWerewolves.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q275_DarkWingedSpies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q275_DarkWingedSpies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q276_TotemOfTheHestui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q276_TotemOfTheHestui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q277_GatekeepersOffering.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q277_GatekeepersOffering.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q291_RevengeOfTheRedbonnet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q291_RevengeOfTheRedbonnet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q292_BrigandsSweep.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q292_BrigandsSweep.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q293_TheHiddenVeins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q293_TheHiddenVeins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q294_CovertBusiness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q294_CovertBusiness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q295_DreamingOfTheSkies.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q295_DreamingOfTheSkies.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q296_TarantulasSpiderSilk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q296_TarantulasSpiderSilk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q297_GatekeepersFavor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q297_GatekeepersFavor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q298_LizardmensConspiracy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q298_LizardmensConspiracy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q299_GatherIngredientsForPie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q299_GatherIngredientsForPie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q300_HuntingLetoLizardman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q300_HuntingLetoLizardman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q303_CollectArrowheads.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q303_CollectArrowheads.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q306_CrystalsOfFireAndIce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q306_CrystalsOfFireAndIce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q313_CollectSpores.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q313_CollectSpores.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q316_DestroyPlagueCarriers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q316_DestroyPlagueCarriers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q317_CatchTheWind.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q317_CatchTheWind.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q319_ScentOfDeath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q319_ScentOfDeath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q320_BonesTellTheFuture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q320_BonesTellTheFuture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q324_SweetestVenom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q324_SweetestVenom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q325_GrimCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q325_GrimCollector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q327_RecoverTheFarmland.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q327_RecoverTheFarmland.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q328_SenseForBusiness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q328_SenseForBusiness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q329_CuriosityOfADwarf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q329_CuriosityOfADwarf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q330_AdeptOfTaste.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q330_AdeptOfTaste.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q333_HuntOfTheBlackLion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q333_HuntOfTheBlackLion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q334_TheWishingPotion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q334_TheWishingPotion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q335_SongOfTheHunter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q335_SongOfTheHunter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q336_CoinsOfMagic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q336_CoinsOfMagic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q348_AnArrogantSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q348_AnArrogantSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q350_EnhanceYourWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q350_EnhanceYourWeapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q351_BlackSwan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q351_BlackSwan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q355_FamilyHonor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q355_FamilyHonor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q359_ForSleeplessDeadmen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q359_ForSleeplessDeadmen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q364_JovialAccordion.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q364_JovialAccordion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q365_DevilsLegacy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q365_DevilsLegacy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q366_SilverHairedShaman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q366_SilverHairedShaman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q369_CollectorOfJewels.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q369_CollectorOfJewels.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q370_AnElderSowsSeeds.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q370_AnElderSowsSeeds.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q371_ShriekOfGhosts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q371_ShriekOfGhosts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q372_LegacyOfInsolence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q372_LegacyOfInsolence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q373_SupplierOfReagents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q373_SupplierOfReagents.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q378_MagnificentFeast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q378_MagnificentFeast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q379_FantasyWine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q379_FantasyWine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q382_KailsMagicCoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q382_KailsMagicCoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q385_YokeOfThePast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q385_YokeOfThePast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q386_StolenDignity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q386_StolenDignity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q403_PathToARogue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q403_PathToARogue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q409_PathToAnElvenOracle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q409_PathToAnElvenOracle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q414_PathToAnOrcRaider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q414_PathToAnOrcRaider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q416_PathToAnOrcShaman.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q416_PathToAnOrcShaman.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q419_GetAPet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q419_GetAPet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q420_LittleWing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q420_LittleWing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q422_RepentYourSins.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q422_RepentYourSins.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q426_QuestForFishingShot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q426_QuestForFishingShot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q501_ProofOfClanAlliance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q501_ProofOfClanAlliance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q508_AClansReputation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q508_AClansReputation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q509_TheClansPrestige.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q509_TheClansPrestige.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q601_WatchingEyes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q601_WatchingEyes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q602_ShadowOfLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q602_ShadowOfLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q617_GatherTheFlames.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q617_GatherTheFlames.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q620_FourGoblets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q620_FourGoblets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q621_EggDelivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q621_EggDelivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q623_TheFinestFood.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q623_TheFinestFood.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q626_ADarkTwilight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q626_ADarkTwilight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q640_TheZeroHour.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q640_TheZeroHour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q645_GhostsOfBatur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q645_GhostsOfBatur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q646_SignsOfRevolt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q646_SignsOfRevolt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q647_InfluxOfMachines.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q647_InfluxOfMachines.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q651_RunawayYouth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q651_RunawayYouth.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q652_AnAgedExAdventurer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q652_AnAgedExAdventurer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q653_WildMaiden.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q653_WildMaiden.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q662_AGameOfCards.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q662_AGameOfCards.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q663_SeductiveWhispers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/Q663_SeductiveWhispers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/SecondClassQuest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/SecondClassQuest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/ThirdClassQuest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/scripting/quest/ThirdClassQuest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,7 +243,26 @@
     <option name="BRANCH" value="feature/shops" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "finfan222"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="272df426-bbd9-4e11-bd63-0bbf07695730" />
+        <option name="url" value="https://github.com/finfan222/L2Hardcore.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -49,7 +286,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/(DEV) lineage-development/Final Rising/source&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/L2Hardcore/src/main/java/net/sf/l2j/commons/geometry&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
@@ -57,18 +294,23 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\L2Hardcore\src\main\java\net\sf\l2j\commons\geometry" />
+      <recent name="D:\L2Hardcore\src\main\java\net\sf\l2j\gameserver\model\spawn" />
       <recent name="D:\L2Hardcore\src\main\java\net\sf\l2j\gameserver\model" />
-      <recent name="D:\L2Hardcore\src\main\java\net\sf\l2j\gameserver\model\graveyard" />
+      <recent name="D:\L2Hardcore\sql" />
+      <recent name="D:\L2Hardcore\data\xml" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="net.sf.l2j.gameserver.events" />
+      <recent name="net.sf.l2j.gameserver.model.spawn" />
+      <recent name="net.sf.l2j.gameserver.data.manager" />
       <recent name="net.sf.l2j.gameserver.network.serverpackets" />
       <recent name="net.sf.l2j.gameserver.model.actor.instance" />
-      <recent name="net.sf.l2j.gameserver.skills.effects" />
     </key>
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
+      <command value="open J-Project-mvn" />
       <command value="mvn clean install" />
     </option>
   </component>
@@ -88,6 +330,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Test" />
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.Test" />
       </list>
     </recent_temporary>
@@ -333,7 +577,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706597389277</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="- patch">
+      <option name="closed" value="true" />
+      <created>1706602657824</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1706602657824</updated>
+    </task>
+    <task id="LOCAL-00031" summary="- add события на OnRevalidateZone&#10;- fix бага с получением SP при overhit (получалось дополнительно как за скилл)&#10;- fix получение exp в одиночку и группе - теперь мы получаем сообщение &quot;Получено опыта&quot; SP больше не фигурирует там&#10;- fix поломки предмета при потере прочности, не обновляли ItemList из-за чего предмет оставался в инвентаре (визуально) если тот был открыт&#10;- fix теперь монстры должны быть на 9 уровней ниже чтобы прочность оружия не терялась&#10;- переписан WaterTaskManager">
+      <option name="closed" value="true" />
+      <created>1706637635393</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1706637635393</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -362,9 +622,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Bleed/Poison действуют всё время пока их не излечат.&#10;Bleed&#10;Сопротивление Bleed эффекту не снижает шанс прохождения, но снижает получаемый урон от кровотечения и с мелким шансом после каждого тика - эффект может сойти (раны затягиваются)&#10;Если жертва двигается бегом - урон увеличивается на 60~100%&#10;Если жертва атакует или кастует - урон увеличивается на 30~50%&#10;Poison&#10;Сопротивление Poison эффекту не снижает шанс прохождения, но снижает получаемый урон от отравления и с мелким шансом после каждого тика - эффект может сойти (иммунитет тела исцеляет)&#10;Исцеляющие эффекты могут работать на 0~30%." />
-    <MESSAGE value="- fix бага с мана пойшенами - они отменялись после применения&#10;- mana potions добавлены в байлист ГМ шопа" />
-    <MESSAGE value="Члены группы больше не получают SP.&#10;Изменено получение SP за убийство монстров.&#10;Правила HARDCORE гласят - SKILL POINTS (SP) мы получаем только за применение скилов по МОНСТРАМ.&#10;Кол-во получаемого SP равно SP REWARD x Damage%&#10;Группа получает EXP в радиусе всего региона (раньше была Range 1600)&#10;Дает в 5 раз больше EXP/SP за убийство монстра." />
     <MESSAGE value="- Сообщение о поломке предмета отправляется теперь на русском языке&#10;- fix бага с скилами для предметов Mana Potion&#10;- fix бага с manahealovertime для potions, теперь персонаж должен сидеть чтобы эффект держался, при нажатии на мана potion мы принудительно его сажаем." />
     <MESSAGE value="- fix предметы из gm-shop больше не имеют кол-ва, они бесконечны&#10;- fix durability module, теперь показывает 1% прочности когда прочность равна 1 (это так же пофиксило и баги с ремонтом)&#10;- fix trainer теперь получаем AllBrokenItems как Set&#10;- fix augment drop теперь мы можем выкидывать аугментированные предметы на землю" />
     <MESSAGE value="- fix метода getContextValue у слушателей&#10;- добавил получение SP при юзе offensive скилов" />
@@ -386,20 +643,11 @@
     <MESSAGE value="- guide book теперь not dropable&#10;-" />
     <MESSAGE value="- feature теперь атаки с лука учитывают скорость полёта стрелы и дистанцию цели (урон получается когда стрела достигает цели)&#10;- feature теперь skill имеет параметр isProjectile, он установлен всем визуальным скилам которые являются projectile&#10;- augmentations.sql, pets.sql удалены, теперь всё лежит в items.sql таблицы переделаны и код переработан под них&#10;- fix багов с запросами в БД по инвентарю, итем конейнеру, петам&#10;- в bt.bat очищены поля от аугментаций и петс&#10;- fix бага с туториал, который давал по книге по какой-то причине*" />
     <MESSAGE value="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;-" />
+    <MESSAGE value="- patch" />
     <MESSAGE value="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;- рефакторинг" />
-    <option name="LAST_COMMIT_MESSAGE" value="- add события на StartAttackStance/EndAttackStance&#10;- возможность исцелением игрока зарабатывать SP&#10;- переработаны события в skill-handlers&#10;- рефакторинг" />
+    <MESSAGE value="- add события на OnRevalidateZone&#10;- fix бага с получением SP при overhit (получалось дополнительно как за скилл)&#10;- fix получение exp в одиночку и группе - теперь мы получаем сообщение &quot;Получено опыта&quot; SP больше не фигурирует там&#10;- fix поломки предмета при потере прочности, не обновляли ItemList из-за чего предмет оставался в инвентаре (визуально) если тот был открыт&#10;- fix теперь монстры должны быть на 9 уровней ниже чтобы прочность оружия не терялась&#10;- переписан WaterTaskManager" />
+    <MESSAGE value="- fix для WalkerAI" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fix для WalkerAI" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint type="java-line">
-          <condition expression="obj instanceof Player" language="JAVA" />
-          <url>file://$PROJECT_DIR$/src/main/java/net/sf/l2j/gameserver/model/actor/ai/type/AttackableAI.java</url>
-          <line>263</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

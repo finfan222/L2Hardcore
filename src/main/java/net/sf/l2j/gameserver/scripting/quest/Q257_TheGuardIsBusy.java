@@ -29,15 +29,25 @@ public class Q257_TheGuardIsBusy extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 6;
+        condition.races = new ClassRace[]{ClassRace.HUMAN};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30039-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, GLUDIO_LORD_MARK, 1);
@@ -47,7 +57,7 @@ public class Q257_TheGuardIsBusy extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -60,9 +70,9 @@ public class Q257_TheGuardIsBusy extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.HUMAN) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30039-00.htm";
-                } else if (player.getStatus().getLevel() < 6) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30039-01.htm";
                 } else {
                     htmltext = "30039-02.htm";

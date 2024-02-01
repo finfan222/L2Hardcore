@@ -22,15 +22,24 @@ public class Q020_BringUpWithLove extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 65;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("31537-09.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31537-12.htm")) {
@@ -40,7 +49,7 @@ public class Q020_BringUpWithLove extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -53,7 +62,7 @@ public class Q020_BringUpWithLove extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 65) ? "31537-02.htm" : "31537-01.htm";
+                htmltext = !condition.validateLevel(player) ? "31537-02.htm" : "31537-01.htm";
                 break;
 
             case STARTED:

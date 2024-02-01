@@ -57,7 +57,7 @@ public class Q118_ToLeadAndBeLed extends Quest {
         }
 
         if (event.equalsIgnoreCase("30298-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("state", 1);
             playSound(player, SOUND_ACCEPT);

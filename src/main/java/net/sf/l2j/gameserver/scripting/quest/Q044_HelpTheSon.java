@@ -37,15 +37,24 @@ public class Q044_HelpTheSon extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 24;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30827-01.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30827-03.htm") && player.getInventory().hasItems(WORK_HAMMER)) {
@@ -67,7 +76,7 @@ public class Q044_HelpTheSon extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -64,15 +63,25 @@ public class Q125_TheNameOfEvil_1 extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 76;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(124).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("32114-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("32114-09.htm")) {
@@ -98,7 +107,7 @@ public class Q125_TheNameOfEvil_1 extends Quest {
             giveItems(player, EPITAPH_OF_WISDOM, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -111,8 +120,7 @@ public class Q125_TheNameOfEvil_1 extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                QuestState first = player.getQuestList().getQuestState(Q124_MeetingTheElroki.QUEST_NAME);
-                if (first != null && first.isCompleted() && player.getStatus().getLevel() >= 76) {
+                if (condition.validateQuests(player) && condition.validateLevel(player)) {
                     htmltext = "32114-01.htm";
                 } else {
                     htmltext = "32114-00.htm";

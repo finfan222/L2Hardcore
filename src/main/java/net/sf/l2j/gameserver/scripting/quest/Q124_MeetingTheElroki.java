@@ -24,15 +24,24 @@ public class Q124_MeetingTheElroki extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 75;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("32113-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("32113-04.htm")) {
@@ -57,7 +66,7 @@ public class Q124_MeetingTheElroki extends Quest {
             giveItems(player, 8778, 1); // Egg
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -70,7 +79,7 @@ public class Q124_MeetingTheElroki extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 75) ? "32113-01a.htm" : "32113-01.htm";
+                htmltext = !condition.validateLevel(player) ? "32113-01a.htm" : "32113-01.htm";
                 break;
 
             case STARTED:

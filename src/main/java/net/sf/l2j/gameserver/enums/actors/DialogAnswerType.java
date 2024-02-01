@@ -1,8 +1,10 @@
 package net.sf.l2j.gameserver.enums.actors;
 
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
+import net.sf.l2j.gameserver.events.OnQuestAccept;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.World;
+import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.WeddingManagerNpc;
@@ -11,7 +13,9 @@ import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
+import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.handlers.SummonFriend;
 
 import java.util.List;
@@ -198,6 +202,44 @@ public enum DialogAnswerType {
             } else {
                 player.setActiveEnchantItem(null);
                 player.sendPacket(EnchantResult.CANCELLED);
+            }
+        }
+    },
+    QUEST_SHARE {
+        @Override
+        public void onAnswer(Player player, int answer) {
+            if (answer == 1) {
+                Dialog dialog = player.getDialog();
+                if (dialog == null) {
+                    return;
+                }
+
+                // Check player being overweight.
+                if (player.getWeightPenalty().ordinal() > 2 || player.getStatus().isOverburden()) {
+                    player.sendPacket(SystemMessageId.INVENTORY_LESS_THAN_80_PERCENT);
+                    return;
+                }
+
+                Quest quest = dialog.findAndGet("quest");
+                String event = dialog.findAndGet("event");
+                Npc npc = dialog.findAndGet("npc");
+                if (player.getQuestList().getQuestState(quest.getName()) == null) {
+                    // Check available quest slot.
+                    if (player.getQuestList().getAllQuests(false).size() >= 25) {
+                        final NpcHtmlMessage html = new NpcHtmlMessage(0);
+                        html.setHtml(Quest.getTooMuchQuestsMsg());
+                        player.sendPacket(html);
+                        player.sendPacket(ActionFailed.STATIC_PACKET);
+                        return;
+                    }
+
+                    // Create new state.
+                    quest.newQuestState(player);
+                    quest.onAdvEvent(event, npc, player);
+                    player.getEventListener().notify(new OnQuestAccept(player, npc, quest, event));
+                }
+            } else {
+                player.sendPacket(ActionFailed.STATIC_PACKET);
             }
         }
     },

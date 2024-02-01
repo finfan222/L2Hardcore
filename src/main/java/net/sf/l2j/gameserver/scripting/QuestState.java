@@ -1,19 +1,21 @@
 package net.sf.l2j.gameserver.scripting;
 
+import net.sf.l2j.commons.data.MemoSet;
+import net.sf.l2j.commons.logging.CLogger;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.enums.QuestStatus;
+import net.sf.l2j.gameserver.events.OnQuestAccept;
+import net.sf.l2j.gameserver.events.OnQuestCancel;
+import net.sf.l2j.gameserver.model.actor.Npc;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.network.serverpackets.ExShowQuestMark;
+import net.sf.l2j.gameserver.network.serverpackets.QuestList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
-
-import net.sf.l2j.commons.data.MemoSet;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.network.serverpackets.ExShowQuestMark;
-import net.sf.l2j.gameserver.network.serverpackets.QuestList;
 
 /**
  * A container holding one {@link Player}'s {@link Quest} progress. It extends {@link MemoSet}.<br>
@@ -204,6 +206,17 @@ public final class QuestState extends MemoSet {
         set(STATE, state);
     }
 
+    public void setState(QuestStatus status, Player player, Npc npc, String event) {
+        setState(status);
+        if (status == QuestStatus.STARTED) {
+            if (_quest.isSharable()) {
+                _quest.share(player, npc, event);
+            } else {
+                player.getEventListener().notify(new OnQuestAccept(player, npc, _quest, event));
+            }
+        }
+    }
+
     /**
      * @return The condition value of the {@link Player}'s {@link Quest}.
      */
@@ -351,5 +364,7 @@ public final class QuestState extends MemoSet {
         } catch (Exception e) {
             LOGGER.error("Couldn't delete quest.", e);
         }
+
+        _player.getEventListener().notify(new OnQuestCancel(_player, _quest));
     }
 }

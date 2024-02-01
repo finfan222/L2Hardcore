@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -10,6 +7,9 @@ import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q219_TestimonyOfFate extends SecondClassQuest {
     private static final String QUEST_NAME = "Q219_TestimonyOfFate";

@@ -32,11 +32,21 @@ public class Q166_MassOfDarkness extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 2;
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30130-04.htm")) {
@@ -46,7 +56,7 @@ public class Q166_MassOfDarkness extends Quest {
             giveItems(player, UNDRIAS_LETTER, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -59,9 +69,9 @@ public class Q166_MassOfDarkness extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.DARK_ELF) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30130-00.htm";
-                } else if (player.getStatus().getLevel() < 2) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30130-02.htm";
                 } else {
                     htmltext = "30130-03.htm";

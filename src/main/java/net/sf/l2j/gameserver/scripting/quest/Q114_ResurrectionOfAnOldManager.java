@@ -44,6 +44,17 @@ public class Q114_ResurrectionOfAnOldManager extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 49;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(121).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -52,7 +63,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest {
         }
 
         if (event.equalsIgnoreCase("32041-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("talk", 0);
             playSound(player, SOUND_ACCEPT);
@@ -224,8 +235,7 @@ public class Q114_ResurrectionOfAnOldManager extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                QuestState pavelReq = player.getQuestList().getQuestState("Q121_PavelTheGiant");
-                htmltext = (pavelReq == null || !pavelReq.isCompleted() || player.getStatus().getLevel() < 49) ? "32041-00.htm" : "32041-01.htm";
+                htmltext = condition.validateLevel(player) || !condition.validateQuests(player) ? "32041-00.htm" : "32041-01.htm";
                 break;
 
             case STARTED:

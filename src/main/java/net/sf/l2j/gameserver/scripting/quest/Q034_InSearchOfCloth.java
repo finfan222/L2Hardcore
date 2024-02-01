@@ -40,6 +40,11 @@ public class Q034_InSearchOfCloth extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -48,7 +53,7 @@ public class Q034_InSearchOfCloth extends Quest {
         }
 
         if (event.equalsIgnoreCase("30088-1.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30294-1.htm")) {

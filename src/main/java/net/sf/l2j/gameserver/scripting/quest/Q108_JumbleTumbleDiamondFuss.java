@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -96,15 +95,25 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 10;
+        condition.races = new ClassRace[]{ClassRace.DWARF};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
-        String htmltext = event;
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30523-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, GOUPH_CONTRACT, 1);
@@ -120,7 +129,7 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest {
             giveItems(player, BRUNON_CONTRACT, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -133,9 +142,9 @@ public class Q108_JumbleTumbleDiamondFuss extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.DWARF) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30523-00.htm";
-                } else if (player.getStatus().getLevel() < 10) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30523-01.htm";
                 } else {
                     htmltext = "30523-02.htm";

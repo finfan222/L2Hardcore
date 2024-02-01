@@ -28,6 +28,16 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 48;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -36,7 +46,7 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest {
         }
 
         if (event.equalsIgnoreCase("31574-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31574-07.htm")) {
@@ -72,7 +82,7 @@ public class Q029_ChestCaughtWithABaitOfEarth extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() < 48) {
+                if (!condition.validateLevel(player)) {
                     htmltext = "31574-02.htm";
                 } else {
                     QuestState st2 = player.getQuestList().getQuestState("Q052_WilliesSpecialBait");

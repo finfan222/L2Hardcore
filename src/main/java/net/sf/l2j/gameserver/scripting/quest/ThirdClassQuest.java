@@ -1,14 +1,7 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.model.World;
@@ -22,6 +15,12 @@ import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ThirdClassQuest extends Quest {
     // Class

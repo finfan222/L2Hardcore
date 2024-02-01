@@ -39,6 +39,16 @@ public class Q259_RanchersPlea extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 15;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -47,7 +57,7 @@ public class Q259_RanchersPlea extends Quest {
         }
 
         if (event.equalsIgnoreCase("30497-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30497-06.htm")) {
@@ -86,7 +96,7 @@ public class Q259_RanchersPlea extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 15) ? "30497-01.htm" : "30497-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30497-01.htm" : "30497-02.htm";
                 break;
 
             case STARTED:

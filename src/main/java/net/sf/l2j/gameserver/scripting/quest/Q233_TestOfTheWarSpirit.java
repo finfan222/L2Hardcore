@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;

@@ -1,16 +1,8 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -22,6 +14,13 @@ import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Q501_ProofOfClanAlliance extends Quest {
     private static final String QUEST_NAME = "Q501_ProofOfClanAlliance";
