@@ -82,6 +82,16 @@ public class Q420_LittleWing extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 35;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -91,7 +101,7 @@ public class Q420_LittleWing extends Quest {
 
         // COOPER
         if (event.equalsIgnoreCase("30829-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
@@ -243,7 +253,7 @@ public class Q420_LittleWing extends Quest {
             case CREATED:
                 switch (npc.getNpcId()) {
                     case COOPER:
-                        htmltext = (player.getStatus().getLevel() >= 35) ? "30829-01.htm" : "30829-03.htm";
+                        htmltext = condition.validateLevel(player) ? "30829-01.htm" : "30829-03.htm";
                         break;
 
                     case MIMYU:

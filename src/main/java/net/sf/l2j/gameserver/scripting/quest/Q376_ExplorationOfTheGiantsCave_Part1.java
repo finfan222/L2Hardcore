@@ -1,16 +1,15 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest {
     private static final String QUEST_NAME = "Q376_ExplorationOfTheGiantsCave_Part1";
@@ -109,6 +108,16 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 51;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -118,7 +127,7 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest {
 
         // Sobling
         if (event.equalsIgnoreCase("31147-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ANCIENT_DICTIONARY_BASIC_LEVEL, 1);
@@ -149,7 +158,7 @@ public class Q376_ExplorationOfTheGiantsCave_Part1 extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 51) ? "31147-01.htm" : "31147-02.htm";
+                htmltext = !condition.validateLevel(player) ? "31147-01.htm" : "31147-02.htm";
                 break;
 
             case STARTED:

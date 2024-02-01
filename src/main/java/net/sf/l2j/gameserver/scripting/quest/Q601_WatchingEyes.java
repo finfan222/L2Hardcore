@@ -51,6 +51,16 @@ public class Q601_WatchingEyes extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 71;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -59,10 +69,10 @@ public class Q601_WatchingEyes extends Quest {
         }
 
         if (event.equalsIgnoreCase("31683-03.htm")) {
-            if (player.getStatus().getLevel() < 71) {
+            if (!condition.validateLevel(player)) {
                 htmltext = "31683-02.htm";
             } else {
-                st.setState(QuestStatus.STARTED);
+                st.setState(QuestStatus.STARTED, player, npc, event);
                 st.setCond(1);
                 playSound(player, SOUND_ACCEPT);
             }

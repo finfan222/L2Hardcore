@@ -115,9 +115,20 @@ public class Quest {
         public QuestDetail[] items;
         public boolean checkSubclass;
         public ClassType classType;
+        public int reputationKetraVarka;
+
+        public boolean validateKetraVarka(Player player) {
+            if (reputationKetraVarka > 0) {
+                return player.getAllianceWithVarkaKetra() >= reputationKetraVarka;
+            }
+            if (reputationKetraVarka < 0) {
+                return player.getAllianceWithVarkaKetra() <= reputationKetraVarka;
+            }
+            return true;
+        }
 
         public boolean validateClassType(Player player) {
-            return classType ==null || player.getClassId().getType() == classType;
+            return classType == null || player.getClassId().getType() == classType;
         }
 
         public boolean validateSubclass(Player player) {
@@ -193,7 +204,9 @@ public class Quest {
                 && validateRace(player)
                 && validateQuests(player)
                 && validateItems(player)
-                && validateSubclass(player);
+                && validateSubclass(player)
+                && validateClassType(player)
+                && validateKetraVarka(player);
         }
 
     }

@@ -259,6 +259,16 @@ public class Q373_SupplierOfReagents extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 57;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -268,7 +278,7 @@ public class Q373_SupplierOfReagents extends Quest {
 
         // Wesley
         if (event.equalsIgnoreCase("30166-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
 
@@ -358,7 +368,7 @@ public class Q373_SupplierOfReagents extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 57) ? "30166-01.htm" : "30166-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30166-01.htm" : "30166-02.htm";
                 break;
 
             case STARTED:

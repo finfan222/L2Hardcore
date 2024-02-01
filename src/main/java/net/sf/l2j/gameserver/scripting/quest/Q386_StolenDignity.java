@@ -91,6 +91,16 @@ public class Q386_StolenDignity extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 58;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -99,7 +109,7 @@ public class Q386_StolenDignity extends Quest {
         }
 
         if (event.equalsIgnoreCase("30843-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30843-08.htm")) {
@@ -198,15 +208,11 @@ public class Q386_StolenDignity extends Quest {
             return htmltext;
         }
 
-        switch (st.getState()) {
-            case CREATED:
-                htmltext = (player.getStatus().getLevel() < 58) ? "30843-04.htm" : "30843-01.htm";
-                break;
-
-            case STARTED:
-                htmltext = (player.getInventory().getItemCount(STOLEN_INFERNIUM_ORE) < 100) ? "30843-06.htm" : "30843-07.htm";
-                break;
-        }
+        htmltext = switch (st.getState()) {
+            case CREATED -> !condition.validateLevel(player) ? "30843-04.htm" : "30843-01.htm";
+            case STARTED -> (player.getInventory().getItemCount(STOLEN_INFERNIUM_ORE) < 100) ? "30843-06.htm" : "30843-07.htm";
+            default -> htmltext;
+        };
 
         return htmltext;
     }
