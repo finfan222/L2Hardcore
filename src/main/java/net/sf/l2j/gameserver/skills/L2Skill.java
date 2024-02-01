@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.skills;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
@@ -181,6 +182,9 @@ public abstract class L2Skill implements IChanceSkillTrigger {
     private ExtractableSkill _extractableItems = null;
 
     @Getter private final boolean isProjectile;
+
+    @Setter
+    private L2Skill extender;
 
     protected L2Skill(StatSet set) {
         _id = set.getInteger("skill_id");
@@ -1209,6 +1213,10 @@ public abstract class L2Skill implements IChanceSkillTrigger {
 
     public boolean isHeal() {
         return false;
+    }
+
+    public L2Skill getExtender() {
+        return extender == null ? this : extender;
     }
 
     @Override

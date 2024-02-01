@@ -1,17 +1,18 @@
 package net.sf.l2j.gameserver.data;
 
+import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class SkillTable {
-    private static final Logger _log = Logger.getLogger(SkillTable.class.getName());
+    private static final CLogger LOGGER = new CLogger(SkillTable.class.getName());
 
     private static final Map<Integer, L2Skill> _skills = new HashMap<>();
+    private static final Map<Integer, L2Skill> _extenders = new HashMap<>();
     private static final Map<Integer, Integer> _skillMaxLevel = new HashMap<>();
 
     private static final L2Skill[] _heroSkills = new L2Skill[5];
@@ -48,18 +49,36 @@ public class SkillTable {
     }
 
     private void load() {
-        final File dir = new File("./data/xml/skills");
+        final File dirSkills = new File("./data/xml/skills");
+        final File dirExtenders = new File("./data/xml/skills/extenders");
 
-        for (File file : dir.listFiles()) {
+        if (dirExtenders.exists()) {
+            for (File file : dirExtenders.listFiles()) {
+                DocumentSkill doc = new DocumentSkill(file);
+                doc.parse();
+
+                for (L2Skill skill : doc.getSkills()) {
+                    _extenders.put(getSkillHashCode(skill), skill);
+                }
+            }
+        }
+
+        for (File file : dirSkills.listFiles()) {
+            if (file.isDirectory()) {
+                continue;
+            }
+
             DocumentSkill doc = new DocumentSkill(file);
             doc.parse();
 
             for (L2Skill skill : doc.getSkills()) {
-                _skills.put(getSkillHashCode(skill), skill);
+                int skillHashCode = getSkillHashCode(skill);
+                skill.setExtender(_extenders.get(skillHashCode));
+                _skills.put(skillHashCode, skill);
             }
         }
 
-        _log.info("SkillTable: Loaded " + _skills.size() + " skills.");
+        LOGGER.info("SkillTable: Loaded {} skills.", _skills.size());
 
         // Stores max level of skills in a map for future uses.
         for (final L2Skill skill : _skills.values()) {
@@ -103,6 +122,10 @@ public class SkillTable {
 
     public Collection<L2Skill> getSkills() {
         return _skills.values();
+    }
+
+    public Collection<L2Skill> getExtender() {
+        return _extenders.values();
     }
 
     /**

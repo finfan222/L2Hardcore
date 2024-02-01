@@ -10,8 +10,8 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 
 public final class RequestMagicSkillUse extends L2GameClientPacket {
     private int _skillId;
-    protected boolean _ctrlPressed;
-    protected boolean _shiftPressed;
+    private boolean _ctrlPressed;
+    private boolean _shiftPressed;
 
     @Override
     protected void readImpl() {
@@ -34,7 +34,7 @@ public final class RequestMagicSkillUse extends L2GameClientPacket {
         }
 
         // Get the L2Skill template corresponding to the skillID received from the client
-        final L2Skill skill = player.getSkill(_skillId);
+        L2Skill skill = player.getSkill(_skillId);
         if (skill == null) {
             player.sendPacket(ActionFailed.STATIC_PACKET);
             return;
@@ -44,6 +44,10 @@ public final class RequestMagicSkillUse extends L2GameClientPacket {
         if (skill.isPassive()) {
             player.sendPacket(ActionFailed.STATIC_PACKET);
             return;
+        }
+
+        if (_shiftPressed) {
+            skill = skill.getExtender();
         }
 
         // If Alternate rule Karma punishment is set to true, forbid skill Return to player with Karma
