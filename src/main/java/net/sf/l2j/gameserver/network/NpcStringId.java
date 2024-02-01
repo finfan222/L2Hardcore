@@ -1,5 +1,7 @@
 package net.sf.l2j.gameserver.network;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,11 +11,10 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.l2j.commons.logging.CLogger;
-
 /**
  * NpcStringId implementation
  */
+@Slf4j
 public final class NpcStringId {
     @NpcString(id = 1, message = "Hello! I am %s. Ha-ha, you are %s? Hee hee hee hee")
     public static NpcStringId ID_1;
@@ -12123,8 +12124,6 @@ public final class NpcStringId {
     @NpcString(id = 1900177, message = "<a action=\"bypass -h menu_select?ask=-4&reply=%s\">%s</a><br>")
     public static NpcStringId ID_1900177;
 
-    private static final CLogger LOGGER = new CLogger(NpcStringId.class.getName());
-
     private static final String PARAMETER = "%s";
 
     private static final Map<Integer, NpcStringId> VALUES = new HashMap<>();
@@ -12140,7 +12139,7 @@ public final class NpcStringId {
                     field.set(null, nsId);
                     VALUES.put(nsId.getId(), nsId);
                 } catch (Exception e) {
-                    LOGGER.warn("Failed setting field \"{}\".", field.getName(), e);
+                    log.warn("Failed setting field \"{}\".", field.getName(), e);
                 }
             }
         }
@@ -12149,7 +12148,7 @@ public final class NpcStringId {
     public static NpcStringId get(int id) {
         final NpcStringId nsi = VALUES.get(id);
         if (nsi == null) {
-            LOGGER.warn("Message id {} does not exist.", id);
+            log.warn("Message id {} does not exist.", id);
             return new NpcStringId(id);
         }
 
@@ -12186,7 +12185,7 @@ public final class NpcStringId {
 
     public final String getMessage() {
         if (_paramCount > 0) {
-            LOGGER.warn("Wrong parameter count for {}, {} required.", this, _paramCount);
+            log.warn("Wrong parameter count for {}, {} required.", this, _paramCount);
         }
 
         return _message;
@@ -12200,7 +12199,7 @@ public final class NpcStringId {
         }
 
         if (message.indexOf(PARAMETER) > 0) {
-            LOGGER.warn("Wrong parameter count for {}, {} required and {} given.", this, _paramCount, params.length);
+            log.warn("Wrong parameter count for {}, {} required and {} given.", this, _paramCount, params.length);
         }
 
         return message;

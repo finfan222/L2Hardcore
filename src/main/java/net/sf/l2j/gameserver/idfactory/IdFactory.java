@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.idfactory;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.math.PrimeFinder;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
@@ -17,8 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * This class ensure data integrity and correct allocation of unique object ids towards objects.
  */
+@Slf4j
 public class IdFactory {
-    private static final CLogger LOGGER = new CLogger(IdFactory.class.getName());
 
     public static final int FIRST_OID = 0x10000000;
     public static final int LAST_OID = 0x7FFFFFFF;
@@ -93,14 +93,14 @@ public class IdFactory {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't properly initialize objectIds.", e);
+            log.error("Couldn't properly initialize objectIds.", e);
         }
 
         // Register used objectIds.
         for (int usedObjectId : usedObjectIds) {
             final int objectId = usedObjectId - FIRST_OID;
             if (objectId < 0) {
-                LOGGER.warn("Found invalid objectId {}. It is less than minimum of {}.", usedObjectId, FIRST_OID);
+                log.warn("Found invalid objectId {}. It is less than minimum of {}.", usedObjectId, FIRST_OID);
                 continue;
             }
 
@@ -110,7 +110,7 @@ public class IdFactory {
 
         _nextFreeId = new AtomicInteger(_freeIds.nextClearBit(0));
 
-        LOGGER.info("Initializing {} objectIds pool, with {} used ids.", _freeIds.size(), usedObjectIds.size());
+        log.info("Initializing {} objectIds pool, with {} used ids.", _freeIds.size(), usedObjectIds.size());
     }
 
     /**
@@ -123,7 +123,7 @@ public class IdFactory {
             _freeIds.clear(objectID - FIRST_OID);
             _freeIdCount.incrementAndGet();
         } else {
-            LOGGER.warn("Release objectId {} failed (< {}).", objectID, FIRST_OID);
+            log.warn("Release objectId {} failed (< {}).", objectID, FIRST_OID);
         }
     }
 
@@ -186,9 +186,9 @@ public class IdFactory {
              PreparedStatement ps = con.prepareStatement("UPDATE characters SET online = 0")) {
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.warn("Couldn't set characters offline.", e);
+            log.warn("Couldn't set characters offline.", e);
         }
-        LOGGER.info("Updated characters online status.");
+        log.info("Updated characters online status.");
     }
 
     /**
@@ -261,9 +261,9 @@ public class IdFactory {
                 stmt.executeUpdate("UPDATE clanhall SET ownerId=0, paidUntil=0, paid=0 WHERE clanhall.ownerId NOT IN (SELECT clan_id FROM clan_data);");
             }
         } catch (Exception e) {
-            LOGGER.warn("Couldn't cleanup database.", e);
+            log.warn("Couldn't cleanup database.", e);
         }
-        LOGGER.info("Cleaned {} elements from database.", cleanCount);
+        log.info("Cleaned {} elements from database.", cleanCount);
     }
 
     /**
@@ -278,9 +278,9 @@ public class IdFactory {
 
             cleanCount += ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.warn("Couldn't cleanup timestamps.", e);
+            log.warn("Couldn't cleanup timestamps.", e);
         }
-        LOGGER.info("Cleaned {} expired timestamps from database.", cleanCount);
+        log.info("Cleaned {} expired timestamps from database.", cleanCount);
     }
 
     public static final IdFactory getInstance() {

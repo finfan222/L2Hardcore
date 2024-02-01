@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.pledge;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.actors.Sex;
@@ -12,8 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Slf4j
 public class ClanMember {
-    private static final CLogger LOGGER = new CLogger(ClanMember.class.getName());
 
     private static final String UPDATE_PLEDGE = "UPDATE characters SET subpledge=? WHERE obj_id=?";
     private static final String UPDATE_POWER_GRADE = "UPDATE characters SET power_grade=? WHERE obj_id=?";
@@ -178,7 +178,7 @@ public class ClanMember {
                 ps.setInt(2, getObjectId());
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Couldn't update ClanMember pledge.", e);
+                log.error("Couldn't update ClanMember pledge.", e);
             }
         }
     }
@@ -199,7 +199,7 @@ public class ClanMember {
                 ps.setInt(2, getObjectId());
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Couldn't update ClanMember power grade.", e);
+                log.error("Couldn't update ClanMember power grade.", e);
             }
         }
     }
@@ -257,7 +257,7 @@ public class ClanMember {
             ps.setInt(3, getObjectId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update ClanMember sponsor/apprentice.", e);
+            log.error("Couldn't update ClanMember sponsor/apprentice.", e);
         }
     }
 

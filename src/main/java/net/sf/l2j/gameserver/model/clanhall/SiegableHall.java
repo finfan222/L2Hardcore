@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.clanhall;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.pool.ConnectionPool;
@@ -18,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.Calendar;
 
+@Slf4j
 public final class SiegableHall extends ClanHall {
     private static final String UPDATE_CLANHALL = "UPDATE clanhall SET ownerId=?, endDate=? WHERE id=?";
 
@@ -49,7 +51,7 @@ public final class SiegableHall extends ClanHall {
             ps.setInt(3, getId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save SiegableHall.", e);
+            log.error("Couldn't save SiegableHall.", e);
         }
     }
 

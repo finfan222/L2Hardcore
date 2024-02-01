@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.actor;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
@@ -41,9 +41,8 @@ import java.util.stream.Collectors;
 /**
  * @author finfan
  */
+@Slf4j
 public class PlayerDao {
-
-    private static final CLogger LOGGER = new CLogger(PlayerDao.class.getSimpleName());
 
     private static final String INSERT_CHARACTER = "INSERT INTO characters (account_name,obj_Id,char_name,level,maxHp,curHp,maxCp,curCp,maxMp,curMp,face,hairStyle,hairColor,sex,exp,sp,karma,pvpkills,pkkills,clanid,race,classid,deletetime,cancraft,title,accesslevel,online,isin7sdungeon,clan_privs,wantspeace,base_class,nobless,power_grade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String RESTORE_CHARACTER = "SELECT * FROM characters WHERE obj_id=?";
@@ -151,7 +150,7 @@ public class PlayerDao {
 
             ps.execute();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't store player base data.", e);
+            log.error("Couldn't store player base data.", e);
         }
     }
 
@@ -317,7 +316,7 @@ public class PlayerDao {
                 }
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore player data.", e);
+            log.error("Couldn't restore player data.", e);
         }
 
         return player;
@@ -382,7 +381,7 @@ public class PlayerDao {
                 }
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore subclasses for {}.", e, player.getName());
+            log.error("Couldn't restore subclasses for {}.", e, player.getName());
             return false;
         }
 
@@ -409,7 +408,7 @@ public class PlayerDao {
                 ps.setInt(6, subclass.getClassIndex());
                 ps.execute();
             } catch (final Exception e) {
-                LOGGER.error("Couldn't add subclass for {}.", e, player.getName());
+                log.error("Couldn't add subclass for {}.", e, player.getName());
                 return;
             }
 
@@ -461,7 +460,7 @@ public class PlayerDao {
                     ps.execute();
                 }
             } catch (final Exception e) {
-                LOGGER.error("Couldn't modify subclass for {} to class index {}.", e, player.getName(), classIndex);
+                log.error("Couldn't modify subclass for {} to class index {}.", player.getName(), classIndex, e);
             } finally {
                 subClasses.remove(classIndex);
             }
@@ -488,7 +487,7 @@ public class PlayerDao {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't store subclass data.", e);
+            log.error("Couldn't store subclass data.", e);
         }
     }
 
@@ -501,7 +500,7 @@ public class PlayerDao {
             ps.setInt(4, (classIndex > -1) ? classIndex : player.getClassIndex());
             ps.executeUpdate();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't store player skill.", e);
+            log.error("Couldn't store player skill.", e);
         }
     }
 
@@ -517,7 +516,7 @@ public class PlayerDao {
                 }
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore player skills.", e);
+            log.error("Couldn't restore player skills.", e);
         }
     }
 
@@ -572,7 +571,7 @@ public class PlayerDao {
                 ps.executeUpdate();
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore effects.", e);
+            log.error("Couldn't restore effects.", e);
         }
     }
 
@@ -587,7 +586,7 @@ public class PlayerDao {
                 }
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore recommendations.", e);
+            log.error("Couldn't restore recommendations.", e);
         }
     }
 
@@ -682,7 +681,7 @@ public class PlayerDao {
                 ps.executeBatch();
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't store player effects.", e);
+            log.error("Couldn't store player effects.", e);
         }
     }
 
@@ -694,7 +693,7 @@ public class PlayerDao {
             ps.setInt(3, player.getClassIndex());
             ps.execute();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't delete player skill.", e);
+            log.error("Couldn't delete player skill.", e);
         }
     }
 
@@ -718,7 +717,7 @@ public class PlayerDao {
                 ps.execute();
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't update player recommendations.", e);
+            log.error("Couldn't update player recommendations.", e);
         }
     }
 
@@ -729,7 +728,7 @@ public class PlayerDao {
             ps.setInt(2, player.getObjectId());
             ps.executeUpdate();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't update nobles status for {}.", e, player.getName());
+            log.error("Couldn't update nobles status for {}.", player.getName(), e);
         }
     }
 
@@ -747,7 +746,7 @@ public class PlayerDao {
             ps.setInt(8, pet.getCurrentFed());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't store pet data for {}.", e, pet.getObjectId());
+            log.error("Couldn't store pet data for {}.", pet.getObjectId(), e);
         }
     }
 
@@ -758,7 +757,7 @@ public class PlayerDao {
             ps.setInt(1, pet.getControlItemObjectId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete pet data for {}.", e, pet.getObjectId());
+            log.error("Couldn't delete pet data for {}.", pet.getObjectId(), e);
         }
     }
 
@@ -815,7 +814,7 @@ public class PlayerDao {
                 result = rs.next();
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't check existing pet name.", e);
+            log.error("Couldn't check existing pet name.", e);
         }
         return result;
     }

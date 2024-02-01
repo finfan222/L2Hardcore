@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.skills.basefuncs;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
@@ -9,8 +9,8 @@ import net.sf.l2j.gameserver.skills.conditions.Condition;
 
 import java.lang.reflect.Constructor;
 
+@Slf4j
 public final class FuncTemplate {
-    private static final CLogger LOGGER = new CLogger(FuncTemplate.class.getName());
 
     private final Condition _attachCond;
     private final Condition _applyCond;
@@ -76,7 +76,7 @@ public final class FuncTemplate {
         try {
             return (Func) _constructor.newInstance(owner, _stat, _value, _applyCond);
         } catch (Exception e) {
-            LOGGER.error("An error occured during getFunc.", e);
+            log.error("An error occured during getFunc.", e);
         }
         return null;
     }

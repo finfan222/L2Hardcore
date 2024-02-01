@@ -1,11 +1,10 @@
 package net.sf.l2j.gameserver.model.item.instance;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.model.Augmentation;
-import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 
@@ -19,9 +18,8 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * @author finfan
  */
+@Slf4j
 public class ItemDao {
-
-    public static final CLogger LOGGER = new CLogger(WorldObject.class.getName());
 
     private static final String DELETE_AUGMENTATION = "DELETE FROM item_augmentations WHERE object_id = ?";
     private static final String RESTORE_AUGMENTATION = "SELECT attributes, skill_id, skill_level FROM item_augmentations WHERE object_id = ?";
@@ -79,7 +77,7 @@ public class ItemDao {
             ps.setInt(1, item.getObjectId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove augmentation for {}.", e, item.toString());
+            log.error("Couldn't remove augmentation for {}.", item, e);
         } finally {
             LOCKER.unlock();
         }
@@ -101,7 +99,7 @@ public class ItemDao {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore augmentation for {}.", e, item.toString());
+            log.error("Couldn't restore augmentation for {}.", item, e);
         } finally {
             LOCKER.unlock();
         }
@@ -128,7 +126,7 @@ public class ItemDao {
             }
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update attributes for {}.", e, item.toString());
+            log.error("Couldn't update attributes for {}.", item, e);
         } finally {
             LOCKER.unlock();
         }
@@ -178,7 +176,7 @@ public class ItemDao {
 
             return item;
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore an item owned by {}.", e, ownerId);
+            log.error("Couldn't restore an item owned by {}.", ownerId, e);
             return null;
         } finally {
             LOCKER.unlock();
@@ -211,7 +209,7 @@ public class ItemDao {
             ps.setInt(10, item.getObjectId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update {}. ", e, item.toString());
+            log.error("Couldn't update {}. ", item, e);
         } finally {
             LOCKER.unlock();
         }
@@ -246,7 +244,7 @@ public class ItemDao {
             }
             item.getData().setExistsInDB(true);
         } catch (SQLException e) {
-            LOGGER.error("Couldn't insert {}.", e, item.toString());
+            log.error("Couldn't insert {}.", item, e);
         } finally {
             LOCKER.unlock();
         }
@@ -263,7 +261,7 @@ public class ItemDao {
                 ps.executeUpdate();
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete item with id={}.", e, objectId);
+            log.error("Couldn't delete item with id={}.", objectId, e);
         } finally {
             LOCKER.unlock();
         }
@@ -277,7 +275,7 @@ public class ItemDao {
             ps.setInt(1, item.getObjectId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete pet item: {}.", e, item.toString());
+            log.error("Couldn't delete pet item: {}.", item.toString(), e);
         } finally {
             LOCKER.unlock();
         }
@@ -291,7 +289,7 @@ public class ItemDao {
             preparedStatement.setInt(2, item.getObjectId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //todo: logger
+            //todo: log
         } finally {
             LOCKER.unlock();
         }
@@ -305,7 +303,7 @@ public class ItemDao {
             preparedStatement.setInt(2, item.getObjectId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //todo: logger
+            //todo: log
         } finally {
             LOCKER.unlock();
         }
@@ -319,7 +317,7 @@ public class ItemDao {
             preparedStatement.setInt(2, item.getObjectId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //todo: logger
+            //todo: log
         } finally {
             LOCKER.unlock();
         }
@@ -333,7 +331,7 @@ public class ItemDao {
             preparedStatement.setInt(2, item.getObjectId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //todo: logger
+            //todo: log
         } finally {
             LOCKER.unlock();
         }

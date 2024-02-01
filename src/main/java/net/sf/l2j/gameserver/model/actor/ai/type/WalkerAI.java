@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.ai.type;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.data.xml.WalkerRouteData;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -19,9 +19,8 @@ import java.util.List;
  * <br>
  * It is associated to a global task named {@link WalkerTaskManager} to handle individual WalkerLocation delays.
  */
+@Slf4j
 public class WalkerAI extends CreatureAI {
-
-    private static final CLogger LOGGER = new CLogger(WalkerAI.class.getSimpleName());
 
     private int routeIndex;
 
@@ -79,7 +78,7 @@ public class WalkerAI extends CreatureAI {
         try {
             node = route.get(routeIndex);
         } catch (Exception e) {
-            LOGGER.error("Bug occurred in walker routes. NpcId={}, maxRoutes={}, currentIndex={}", getActor().getNpcId(), route.size() - 1, routeIndex, e);
+            log.error("Bug occurred in walker routes. NpcId={}, maxRoutes={}, currentIndex={}", getActor().getNpcId(), route.size() - 1, routeIndex, e);
             throw new RuntimeException(e);
         }
 

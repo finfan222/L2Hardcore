@@ -1,19 +1,18 @@
 package net.sf.l2j.loginserver.data.sql;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.loginserver.model.Account;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.loginserver.model.Account;
-
 /**
  * This class controls all generated {@link Account}s.
  */
+@Slf4j
 public class AccountTable {
-    private static final CLogger LOGGER = new CLogger(AccountTable.class.getName());
 
     private static final String SELECT_ACCOUNT = "SELECT password, access_level, last_server FROM accounts WHERE login = ?";
     private static final String INSERT_ACCOUNT = "INSERT INTO accounts (login, password, last_active) VALUES (?, ?, ?)";
@@ -40,7 +39,7 @@ public class AccountTable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Exception retrieving account infos.", e);
+            log.error("Exception retrieving account infos.", e);
         }
         return null;
     }
@@ -59,7 +58,7 @@ public class AccountTable {
             ps.setLong(3, currentTime);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Exception auto creating account for {}.", e, login);
+            log.error("Exception auto creating account for {}.", login, e);
             return null;
         }
 
@@ -80,7 +79,7 @@ public class AccountTable {
             ps.setString(2, login);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Exception auto creating account for {}.", e, login);
+            log.error("Exception auto creating account for {}.", login, e);
             return false;
         }
         return true;
@@ -99,7 +98,7 @@ public class AccountTable {
             ps.setString(2, login);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set access level {} for {}.", e, level, login);
+            log.error("Couldn't set access level {} for {}.", level, login, e);
         }
     }
 
@@ -116,7 +115,7 @@ public class AccountTable {
             ps.setString(2, login);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set last server.", e);
+            log.error("Couldn't set last server.", e);
         }
     }
 

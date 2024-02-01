@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 import java.io.File;
@@ -8,8 +8,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class SkillTable {
-    private static final CLogger LOGGER = new CLogger(SkillTable.class.getName());
 
     private static final Map<Integer, L2Skill> _skills = new HashMap<>();
     private static final Map<Integer, L2Skill> _extenders = new HashMap<>();
@@ -78,7 +78,7 @@ public class SkillTable {
             }
         }
 
-        LOGGER.info("SkillTable: Loaded {} skills.", _skills.size());
+        log.info("SkillTable: Loaded {} skills.", _skills.size());
 
         // Stores max level of skills in a map for future uses.
         for (final L2Skill skill : _skills.values()) {

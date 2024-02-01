@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.instance.Fence;
@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * Fence table to manage {@link Fence} spawn/despawn.
  */
+@Slf4j
 public class FenceManager {
-    private static final CLogger LOGGER = new CLogger(FenceManager.class.getName());
 
     /**
      * Description of each fence dimension parameters.
@@ -72,7 +72,7 @@ public class FenceManager {
      */
     public final Fence addFence(int x, int y, int z, int type, int sizeX, int sizeY, int height) {
         if (World.isOutOfWorld(x, x + sizeX, y, y + sizeY)) {
-            LOGGER.error("Fence coords are outside of world.");
+            log.error("Fence coords are outside of world.");
             return null;
         }
 
@@ -80,7 +80,7 @@ public class FenceManager {
         final FenceSize fsy = getFenceSize(sizeY);
 
         if (fsx == null || fsy == null) {
-            LOGGER.warn("Unknown dimensions for fence, x={} y={}.", sizeX, sizeY);
+            log.warn("Unknown dimensions for fence, x={} y={}.", sizeX, sizeY);
             return null;
         }
 

@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.zone.type.subtype;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -26,8 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Zones can be retrieved by id, but since most use dynamic IDs, you must set individual zone id yourself if you want
  * the system works correctly (otherwise id can be different if you add or remove zone types or zones).
  */
+@Slf4j
 public abstract class ZoneType {
-    protected static final CLogger LOGGER = new CLogger(ZoneType.class.getName());
 
     private final int _id;
     protected final Map<Integer, Creature> _characters = new ConcurrentHashMap<>();
@@ -251,7 +251,7 @@ public abstract class ZoneType {
      * @param value : The parameter value.
      */
     public void setParameter(String name, String value) {
-        LOGGER.warn("Unknown name/values couple {}, {} for {}.", name, value, toString());
+        log.warn("Unknown name/values couple {}, {} for {}.", name, value, toString());
     }
 
     /**

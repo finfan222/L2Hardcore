@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.clanhall;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -35,8 +35,8 @@ import java.util.concurrent.ScheduledFuture;
  * <li>Some clan halls come into players possession only once they're conquered. Just like clan halls available via purchase, they are used for making items, teleportation, casting auras etc.</li>
  * </ul>
  */
+@Slf4j
 public class ClanHall {
-    protected static final CLogger LOGGER = new CLogger(ClanHall.class.getName());
 
     private static final String DELETE_FUNCTIONS = "DELETE FROM clanhall_functions WHERE hall_id=?";
     private static final String UPDATE_CH = "UPDATE clanhall SET ownerId=?, paidUntil=?, paid=?, sellerBid=?, sellerName=?, sellerClanName=?, endDate=? WHERE id=?";
@@ -421,7 +421,7 @@ public class ClanHall {
             ps.setInt(1, getId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete all clan hall functions.", e);
+            log.error("Couldn't delete all clan hall functions.", e);
         }
     }
 
@@ -501,7 +501,7 @@ public class ClanHall {
             ps.setInt(8, _id);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update clan hall.", e);
+            log.error("Couldn't update clan hall.", e);
         }
     }
 

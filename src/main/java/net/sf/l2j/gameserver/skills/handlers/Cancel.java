@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.skills.handlers;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.math.MathUtil;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 public class Cancel extends Default {
 
     public Cancel(StatSet set) {
@@ -32,7 +34,7 @@ public class Cancel extends Default {
         double rate = (2 * diffLevel + baseRate + effectPeriod / 120.) * vuln;
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcCancelSuccess(): diffLevel:{}, baseRate:{}, vuln:{}, total:{}.", diffLevel, baseRate, vuln, rate);
+            log.info("calcCancelSuccess(): diffLevel:{}, baseRate:{}, vuln:{}, total:{}.", diffLevel, baseRate, vuln, rate);
         }
 
         return Rnd.get(100) < MathUtil.limit((int) rate, minRate, maxRate);

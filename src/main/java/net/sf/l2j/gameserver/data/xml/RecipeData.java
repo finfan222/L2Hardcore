@@ -23,7 +23,7 @@ public class RecipeData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/recipes.xml");
-        LOGGER.info("Loaded {} recipes.", _recipes.size());
+        log.info("Loaded {} recipes.", _recipes.size());
     }
 
     @Override

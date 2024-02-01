@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.cards;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.model.actor.Player;
 
@@ -9,16 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Slf4j
 public class CardsDao {
-
-    private static final CLogger LOGGER = new CLogger(CardsDao.class.getSimpleName());
 
     public static void delete(int objectId, Connection con) throws SQLException {
         PreparedStatement st = con.prepareStatement("DELETE FROM character_cards WHERE objectId=?");
         st.setInt(1, objectId);
         st.executeUpdate();
         st.close();
-        LOGGER.info("[CARDS]: All cards was removed for objectId={}.", objectId);
+        log.info("[CARDS]: All cards was removed for objectId={}.", objectId);
     }
 
     public static void update(CardEntity entity) {
@@ -29,7 +28,7 @@ public class CardsDao {
             st.setInt(3, entity.getClassIndex());
             st.setInt(4, entity.getSymbolId());
             st.executeUpdate();
-            LOGGER.info("[CARDS]: Entity {} was saved.", entity);
+            log.info("[CARDS]: Entity {} was saved.", entity);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +40,7 @@ public class CardsDao {
             st.setInt(1, objectId);
             st.setInt(2, classIndex);
             st.executeUpdate();
-            LOGGER.info("[CARDS]: All cards was removed for objectId={}/classIndex={}.", objectId, classIndex);
+            log.info("[CARDS]: All cards was removed for objectId={}/classIndex={}.", objectId, classIndex);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -54,7 +53,7 @@ public class CardsDao {
             st.setInt(2, classIndex);
             st.setInt(3, symbolId);
             st.executeUpdate();
-            LOGGER.info("[CARDS]: Card symbolId={} was removed from objectId={}/classIndex={}.", symbolId, objectId, classIndex);
+            log.info("[CARDS]: Card symbolId={} was removed from objectId={}/classIndex={}.", symbolId, objectId, classIndex);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -65,7 +64,7 @@ public class CardsDao {
              PreparedStatement st = con.prepareStatement("DELETE FROM character_cards WHERE objectId=?")) {
             st.setInt(1, objectId);
             st.executeUpdate();
-            LOGGER.info("[CARDS]: All cards was removed for objectId={}.", objectId);
+            log.info("[CARDS]: All cards was removed for objectId={}.", objectId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -86,7 +85,7 @@ public class CardsDao {
                     cards.addCard(data, slotId);
                 }
             }
-            LOGGER.info("[CARDS]: All cards was restored for {}.", player);
+            log.info("[CARDS]: All cards was restored for {}.", player);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

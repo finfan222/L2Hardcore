@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -13,6 +14,7 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class ControlTower extends Npc {
     private final List<Spawn> _spawns = new ArrayList<>();
 
@@ -74,7 +76,7 @@ public class ControlTower extends Npc {
 
                     siege.getDestroyedTowers().add(tower);
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't spawn the control tower.", e);
+                    log.error("Couldn't spawn the control tower.", e);
                 }
             }
         }

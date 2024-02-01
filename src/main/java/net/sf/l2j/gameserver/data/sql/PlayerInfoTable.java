@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.sql;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.model.actor.Player;
 
@@ -19,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * It is notably used for any offline character check, such as friendlist, existing character name, etc.
  * </p>
  */
+@Slf4j
 public final class PlayerInfoTable {
-    private static final CLogger LOGGER = new CLogger(PlayerInfoTable.class.getName());
 
     private static final String LOAD_DATA = "SELECT account_name, obj_Id, char_name, accesslevel FROM characters";
 
@@ -36,10 +36,10 @@ public final class PlayerInfoTable {
                 _infos.put(rs.getInt("obj_Id"), new PlayerInfo(rs.getString("account_name"), rs.getString("char_name"), rs.getInt("accesslevel")));
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load player infos.", e);
+            log.error("Couldn't load player infos.", e);
         }
 
-        LOGGER.info("Loaded {} player infos.", _infos.size());
+        log.info("Loaded {} player infos.", _infos.size());
     }
 
     public void addRestrictedName(String name) {

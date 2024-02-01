@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.siegablehall;
 
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -16,9 +12,15 @@ import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Fortress of Resistance clan hall siege Script.
  */
+@Slf4j
 public final class FortressOfResistance extends ClanHallSiege {
     private static final int MESSENGER = 35382;
     private static final int BLOODY_LORD_NURKA = 35375;
@@ -46,7 +48,7 @@ public final class FortressOfResistance extends ClanHallSiege {
             _nurka.setRespawnDelay(10800);
             _nurka.setLoc(NURKA_COORDS[0]);
         } catch (Exception e) {
-            LOGGER.error("Failed to initialize a spawn.", e);
+            log.error("Failed to initialize a spawn.", e);
         }
     }
 

@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.skills;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
@@ -32,8 +32,8 @@ import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
 import net.sf.l2j.gameserver.skills.handlers.Default;
 import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 
+@Slf4j
 public final class Formulas {
-    private static final CLogger LOGGER = new CLogger(Formulas.class.getName());
 
     private static final int HP_REGENERATE_PERIOD = 3000; // 3 secs
 
@@ -154,7 +154,7 @@ public final class Formulas {
         if (isAttackerInFrontofTarget && isBackstab) {
             if (Config.DEVELOPER) {
                 StringUtil.printSection("Blow Rate");
-                LOGGER.info("Final blow rate overriden by backstab under front target: 30 / 1000");
+                log.info("Final blow rate overriden by backstab under front target: 30 / 1000");
             }
             return 30 > Rnd.get(1000);
         }
@@ -167,9 +167,9 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Blow Rate");
-            LOGGER.info("Basic values: baseRate: {}", baseRate);
-            LOGGER.info("Multipliers: dex: {}, blow: {}, pos: {}", dexMul, blowMul, posMul);
-            LOGGER.info("Final blow rate: {} / 1000", blowRate);
+            log.info("Basic values: baseRate: {}", baseRate);
+            log.info("Multipliers: dex: {}, blow: {}, pos: {}", dexMul, blowMul, posMul);
+            log.info("Final blow rate: {} / 1000", blowRate);
         }
 
         return Math.min(blowRate, (isBackstab) ? 1000 : 800) > Rnd.get(1000);
@@ -209,9 +209,9 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Lethal Rate");
-            LOGGER.info("Basic values: baseRate: {}, editedRate: {}", baseRate, editedRate);
-            LOGGER.info("Multipliers: lethal: {}", lethalMul);
-            LOGGER.info("Final lethal rate: {} / 1000", lethalRate);
+            log.info("Basic values: baseRate: {}, editedRate: {}", baseRate, editedRate);
+            log.info("Multipliers: lethal: {}", lethalMul);
+            log.info("Final lethal rate: {} / 1000", lethalRate);
         }
 
         return lethalRate > Rnd.get(1000);
@@ -309,11 +309,11 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Blow damage");
-            LOGGER.info("ss:{}, shield:{}, isPvp:{}, defence:{}", ss, sDef, isPvP, defence);
-            LOGGER.info("Basic powers: attack: {}, skill: {}, addCrit: {}", attackPower, skillPower, addCritPower);
-            LOGGER.info("Multipliers: critDam: {}, rnd: {}, critPos: {}, pos: {}, pvp: {}", critDamMul, rndMul, critDamPosMul, posMul, pvpMul);
-            LOGGER.info("Vulnerabilities: criticalVuln: {}, daggerVuln: {}", critVuln, daggerVuln);
-            LOGGER.info("Final blow damage: {}", damage);
+            log.info("ss:{}, shield:{}, isPvp:{}, defence:{}", ss, sDef, isPvP, defence);
+            log.info("Basic powers: attack: {}, skill: {}, addCrit: {}", attackPower, skillPower, addCritPower);
+            log.info("Multipliers: critDam: {}, rnd: {}, critPos: {}, pos: {}, pvp: {}", critDamMul, rndMul, critDamPosMul, posMul, pvpMul);
+            log.info("Vulnerabilities: criticalVuln: {}, daggerVuln: {}", critVuln, daggerVuln);
+            log.info("Final blow damage: {}", damage);
         }
         return Math.max(1, damage);
     }
@@ -403,11 +403,11 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Physical attack damage");
-            LOGGER.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
-            LOGGER.info("Basic powers: attack: {}, addCrit: {}", attackPower, addCritPower);
-            LOGGER.info("Multipliers: critDam: {}, critPos: {}, pos: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", critDamMul, critDamPosMul, posMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
-            LOGGER.info("Vulnerabilities: criticalVuln: {}", critVuln);
-            LOGGER.info("Final damage: {}", damage);
+            log.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
+            log.info("Basic powers: attack: {}, addCrit: {}", attackPower, addCritPower);
+            log.info("Multipliers: critDam: {}, critPos: {}, pos: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", critDamMul, critDamPosMul, posMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
+            log.info("Vulnerabilities: criticalVuln: {}", critVuln);
+            log.info("Final damage: {}", damage);
         }
 
         if (damage < 0) {
@@ -497,10 +497,10 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Physical skill damage");
-            LOGGER.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
-            LOGGER.info("Basic powers: attack: {}, skill: {}", attackPower, skillPower);
-            LOGGER.info("Multipliers: ss: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", ssMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
-            LOGGER.info("Final damage: {}", damage);
+            log.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
+            log.info("Basic powers: attack: {}, skill: {}", attackPower, skillPower);
+            log.info("Multipliers: ss: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", ssMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
+            log.info("Final damage: {}", damage);
         }
 
         if (damage < 0) {
@@ -644,7 +644,7 @@ public final class Formulas {
         final int mRate = actor.getStatus().getMCriticalHit(target, skill);
 
         if (Config.DEVELOPER) {
-            LOGGER.info("Current mCritRate: {} / 1000.", mRate);
+            log.info("Current mCritRate: {} / 1000.", mRate);
         }
 
         return mRate > Rnd.get(1000);
@@ -678,7 +678,7 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Cast break rate");
-            LOGGER.info("Final cast break rate: {}%.", rate);
+            log.info("Final cast break rate: {}%.", rate);
         }
 
         if (MathUtil.limit((int) rate, 1, 99) > Rnd.get(100)) {
@@ -743,7 +743,7 @@ public final class Formulas {
         int chance = (90 + (2 * (diff))) * 10;
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcHitMiss diff: {}, rate: {}%.", diff, chance / 10);
+            log.info("calcHitMiss diff: {}, rate: {}%.", diff, chance / 10);
         }
 
         return MathUtil.limit(chance, 300, 980) < Rnd.get(1000);
@@ -822,9 +822,9 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Shield use");
-            LOGGER.info("Basic values: baseRate: {}, degreeSide: {}", baseRate, degreeSide);
-            LOGGER.info("Multipliers: dex: {}, isBow: {}, isCrit: {}", dexMul, (isBow) ? "3.0" : "0.", (isCrit) ? "3.0" : "0.");
-            LOGGER.info("ShieldDefense: {}, rate: {} / 100, chance: {}", sDef, shieldRate, chance);
+            log.info("Basic values: baseRate: {}, degreeSide: {}", baseRate, degreeSide);
+            log.info("Multipliers: dex: {}, isBow: {}, isCrit: {}", dexMul, (isBow) ? "3.0" : "0.", (isCrit) ? "3.0" : "0.");
+            log.info("ShieldDefense: {}, rate: {} / 100, chance: {}", sDef, shieldRate, chance);
         }
 
         return sDef;
@@ -918,7 +918,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 99));
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcEffectSuccess(): name:{} eff.type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), type.toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcEffectSuccess(): name:{} eff.type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), type.toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.isGM()) {
@@ -951,7 +951,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 100));
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.isGM()) {
@@ -1001,7 +1001,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 99));
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcCubicSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcCubicSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.getOwner().isGM()) {
@@ -1028,7 +1028,7 @@ public final class Formulas {
         }
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcMagicSuccess(): name:{} lvlDiff:{} fail:{}%.", skill.getName(), lvlDifference, String.format("%1.2f", rate / 100));
+            log.info("calcMagicSuccess(): name:{} lvlDiff:{} fail:{}%.", skill.getName(), lvlDifference, String.format("%1.2f", rate / 100));
         }
 
         rate = Math.min(rate, 9900);

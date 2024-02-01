@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.attack;
 
 import lombok.Getter;
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.GaugeColor;
@@ -37,10 +37,9 @@ import java.util.concurrent.ScheduledFuture;
  *
  * @param <T> : The {@link Creature} used as actor.
  */
+@Slf4j
 @Getter
 public class CreatureAttack<T extends Creature> {
-
-    public static final CLogger LOGGER = new CLogger(CreatureAttack.class.getName());
 
     protected final T attacker;
 

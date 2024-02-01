@@ -1,5 +1,10 @@
 package net.sf.l2j.gameserver.communitybbs.manager;
 
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.communitybbs.model.Favorite;
+import net.sf.l2j.gameserver.data.cache.HtmCache;
+import net.sf.l2j.gameserver.model.actor.Player;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,12 +14,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.communitybbs.model.Favorite;
-import net.sf.l2j.gameserver.data.cache.HtmCache;
-import net.sf.l2j.gameserver.model.actor.Player;
 
 public class FavoriteBBSManager extends BaseBBSManager {
     private static final String SELECT_FAVORITES = "SELECT * FROM bbs_favorite ORDER BY id ASC";
@@ -39,7 +38,7 @@ public class FavoriteBBSManager extends BaseBBSManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load favorites.", e);
+            log.error("Couldn't load favorites.", e);
         }
     }
 
@@ -104,7 +103,7 @@ public class FavoriteBBSManager extends BaseBBSManager {
                     ps.setTimestamp(5, date);
                     ps.execute();
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't add the favorite.", e);
+                    log.error("Couldn't add the favorite.", e);
                 }
             }
 
@@ -125,7 +124,7 @@ public class FavoriteBBSManager extends BaseBBSManager {
                     ps.setInt(1, id);
                     ps.execute();
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't delete favorite #{}.", e, id);
+                    log.error("Couldn't delete favorite #{}.", e, id);
                 }
             }
 

@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.model.olympiad;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
@@ -28,8 +28,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
+@Slf4j
 public class Olympiad {
-    protected static final CLogger LOGGER = new CLogger(Olympiad.class.getName());
 
     private final Map<Integer, StatSet> _nobles = new ConcurrentHashMap<>();
     private final Map<Integer, Integer> _rankRewards = new HashMap<>();
@@ -132,10 +132,10 @@ public class Olympiad {
                 _validationEnd = 0;
                 _nextWeeklyChange = 0;
 
-                LOGGER.info("Couldn't load Olympiad data, default values are used.");
+                log.info("Couldn't load Olympiad data, default values are used.");
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load Olympiad data.", e);
+            log.error("Couldn't load Olympiad data.", e);
         }
 
         switch (_period) {
@@ -179,7 +179,7 @@ public class Olympiad {
                 addNobleStats(rset.getInt(CHAR_ID), set);
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load noblesse data.", e);
+            log.error("Couldn't load noblesse data.", e);
         }
 
         synchronized (this) {
@@ -190,15 +190,15 @@ public class Olympiad {
                 milliToEnd = getMillisToValidationEnd();
             }
 
-            LOGGER.info("{} minutes until Olympiad period ends.", Math.round(milliToEnd / 60000));
+            log.info("{} minutes until Olympiad period ends.", Math.round(milliToEnd / 60000));
 
             if (_period == OlympiadState.COMPETITION) {
                 milliToEnd = getMillisToWeekChange();
-                LOGGER.info("Next weekly Olympiad change is in {} minutes.", Math.round(milliToEnd / 60000));
+                log.info("Next weekly Olympiad change is in {} minutes.", Math.round(milliToEnd / 60000));
             }
         }
 
-        LOGGER.info("Loaded {} nobles.", _nobles.size());
+        log.info("Loaded {} nobles.", _nobles.size());
     }
 
     /**
@@ -220,7 +220,7 @@ public class Olympiad {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load Olympiad ranks.", e);
+            log.error("Couldn't load Olympiad ranks.", e);
         }
 
         final int size = temporaryRanks.size();
@@ -283,8 +283,8 @@ public class Olympiad {
             int numHours = (int) Math.floor(countDown % 24);
             int numDays = (int) Math.floor((countDown - numHours) / 24);
 
-            LOGGER.info("Olympiad competition period starts in {} days, {} hours and {} mins.", numDays, numHours, numMins);
-            LOGGER.info("Olympiad event starts/started @ {}.", _compStart.getTime());
+            log.info("Olympiad competition period starts in {} days, {} hours and {} mins.", numDays, numHours, numMins);
+            log.info("Olympiad event starts/started @ {}.", _compStart.getTime());
         }
 
         _competitionStartTask = ThreadPool.schedule(() ->
@@ -296,7 +296,7 @@ public class Olympiad {
             _isInCompPeriod = true;
 
             World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.THE_OLYMPIAD_GAME_HAS_STARTED));
-            LOGGER.info("Olympiad game started.");
+            log.info("Olympiad game started.");
 
             _gameManagerTask = ThreadPool.scheduleAtFixedRate(OlympiadGameManager.getInstance(), 30000, 30000);
 
@@ -340,7 +340,7 @@ public class Olympiad {
 
                 _isInCompPeriod = false;
                 World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.THE_OLYMPIAD_GAME_HAS_ENDED));
-                LOGGER.info("Olympiad game ended.");
+                log.info("Olympiad game ended.");
 
                 while (OlympiadGameManager.getInstance().isBattleStarted()) // cleared in game manager
                 {
@@ -426,7 +426,7 @@ public class Olympiad {
 
         _compEnd = _compStart.getTimeInMillis() + Config.OLY_CPERIOD;
 
-        LOGGER.info("New Olympiad schedule @ {}.", _compStart.getTime());
+        log.info("New Olympiad schedule @ {}.", _compStart.getTime());
 
         return _compStart.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
     }
@@ -459,7 +459,7 @@ public class Olympiad {
                 set.set(POINTS, set.getInteger(POINTS) + Config.OLY_WEEKLY_POINTS);
             }
 
-            LOGGER.info("Added weekly Olympiad points to nobles.");
+            log.info("Added weekly Olympiad points to nobles.");
         }, getMillisToWeekChange(), Config.OLY_WPERIOD);
     }
 
@@ -494,7 +494,7 @@ public class Olympiad {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save Olympiad nobles data.", e);
+            log.error("Couldn't save Olympiad nobles data.", e);
         }
     }
 
@@ -518,7 +518,7 @@ public class Olympiad {
             ps.setLong(10, _nextWeeklyChange);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save Olympiad status.", e);
+            log.error("Couldn't save Olympiad status.", e);
         }
     }
 
@@ -536,7 +536,7 @@ public class Olympiad {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load Olympiad leaders.", e);
+            log.error("Couldn't load Olympiad leaders.", e);
         }
         return names;
     }
@@ -596,7 +596,7 @@ public class Olympiad {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load last Olympiad points.", e);
+            log.error("Couldn't load last Olympiad points.", e);
         }
         return result;
     }
@@ -606,7 +606,7 @@ public class Olympiad {
              PreparedStatement ps = con.prepareStatement(TRUNCATE_OLYMPIAD_NOBLES)) {
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete Olympiad nobles.", e);
+            log.error("Couldn't delete Olympiad nobles.", e);
         }
         _nobles.clear();
     }
@@ -635,7 +635,7 @@ public class Olympiad {
             ps.execute();
             ps2.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update monthly Olympiad nobles.", e);
+            log.error("Couldn't update monthly Olympiad nobles.", e);
         }
 
         // Process rank rewards AFTER updating monthly data.

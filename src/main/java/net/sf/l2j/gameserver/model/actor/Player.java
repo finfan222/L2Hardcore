@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.model.actor;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
@@ -235,6 +236,7 @@ import java.util.stream.Collectors;
  * This class represents a player in the world.<br> There is always a client-thread connected to this (except if a
  * player-store is activated upon logout).
  */
+@Slf4j
 public final class Player extends Playable {
 
     public static final int REQUEST_TIMEOUT = 15;
@@ -3672,7 +3674,7 @@ public final class Player extends Playable {
 
                 _controlItemId = 0;
             } catch (final Exception e) {
-                LOGGER.error("Couldn't store pet food data for {}.", e, _controlItemId);
+                log.error("Couldn't store pet food data for {}.", e, _controlItemId);
             }
         }
     }
@@ -3849,7 +3851,7 @@ public final class Player extends Playable {
         // Retrieve the AccessLevel. Even if not existing, it returns user level.
         AccessLevel accessLevel = AdminData.getInstance().getAccessLevel(level);
         if (accessLevel == null) {
-            LOGGER.warn("An invalid access level {} has been granted for {}, therefore it has been reset.", level, toString());
+            log.warn("An invalid access level {} has been granted for {}, therefore it has been reset.", level, toString());
             accessLevel = AdminData.getInstance().getAccessLevel(0);
         }
 
@@ -3861,7 +3863,7 @@ public final class Player extends Playable {
 
             // We log master access.
             if (level == AdminData.getInstance().getMasterAccessLevel()) {
-                LOGGER.info("{} has logged in with Master access level.", getName());
+                log.info("{} has logged in with Master access level.", getName());
             }
         }
 
@@ -3971,7 +3973,7 @@ public final class Player extends Playable {
             ps.setInt(3, getObjectId());
             ps.execute();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't set player online status.", e);
+            log.error("Couldn't set player online status.", e);
         }
     }
 
@@ -5522,7 +5524,7 @@ public final class Player extends Playable {
             notifyFriends(false);
             getBlockList().playerLogout();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't disconnect correctly the player.", e);
+            log.error("Couldn't disconnect correctly the player.", e);
         }
     }
 
@@ -5957,7 +5959,7 @@ public final class Player extends Playable {
         return _selectedFriendList;
     }
 
-    protected void restoreFriendList() {
+    void restoreFriendList() {
         _friendList.clear();
 
         try (Connection con = ConnectionPool.getConnection();
@@ -5975,7 +5977,7 @@ public final class Player extends Playable {
                 }
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore {}'s friendlist.", e, getName());
+            log.error("Couldn't restore {}'s friendlist.", getName(), e);
         }
     }
 
@@ -5999,9 +6001,7 @@ public final class Player extends Playable {
     }
 
     public void deselectBlock(Integer friendId) {
-        if (_selectedBlocksList.contains(friendId)) {
-            _selectedBlocksList.remove(friendId);
-        }
+        _selectedBlocksList.remove(friendId);
     }
 
     public List<Integer> getSelectedBlocksList() {

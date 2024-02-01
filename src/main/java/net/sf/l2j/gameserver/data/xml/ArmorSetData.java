@@ -23,7 +23,7 @@ public class ArmorSetData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/armorSets.xml");
-        LOGGER.info("Loaded {} armor sets.", _armorSets.size());
+        log.info("Loaded {} armor sets.", _armorSets.size());
     }
 
     @Override

@@ -1,15 +1,15 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.handler.ChatHandler;
 import net.sf.l2j.gameserver.handler.IChatHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 public final class Say2 extends L2GameClientPacket {
     private static final Logger CHAT_LOG = Logger.getLogger("chat");
@@ -122,7 +122,7 @@ public final class Say2 extends L2GameClientPacket {
 
         final IChatHandler handler = ChatHandler.getInstance().getHandler(type);
         if (handler == null) {
-            LOGGER.warn("{} tried to use unregistred chathandler type: {}.", player.getName(), type);
+            log.warn("{} tried to use unregistred chathandler type: {}.", player.getName(), type);
             return;
         }
 

@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.zone.type;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.ZoneId;
@@ -24,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * The Map is used for Players disconnections, while the List is used for Players to re-enter the zone after server
  * downtime/restart.
  */
+@Slf4j
 public class BossZone extends ZoneType {
     private static final String SELECT_GRAND_BOSS_LIST = "SELECT * FROM grandboss_list WHERE zone = ?";
 
@@ -50,7 +52,7 @@ public class BossZone extends ZoneType {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load players for {}.", e, toString());
+            log.error("Couldn't load players for {}.", e, toString());
         }
     }
 

@@ -34,7 +34,7 @@ public class AnnouncementData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/announcements.xml");
-        LOGGER.info("Loaded {} announcements.", _announcements.size());
+        log.info("Loaded {} announcements.", _announcements.size());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class AnnouncementData implements IXmlReader {
             final NamedNodeMap attrs = announcementNode.getAttributes();
             final String message = parseString(attrs, "message");
             if (message == null || message.isEmpty()) {
-                LOGGER.warn("The message is empty on an announcement. Ignoring it.");
+                log.warn("The message is empty on an announcement. Ignoring it.");
                 return;
             }
 
@@ -191,7 +191,7 @@ public class AnnouncementData implements IXmlReader {
         try (FileWriter fw = new FileWriter(new File("./data/xml/announcements.xml"))) {
             fw.write(sb.toString());
         } catch (Exception e) {
-            LOGGER.error("Error regenerating XML.", e);
+            log.error("Error regenerating XML.", e);
         }
     }
 

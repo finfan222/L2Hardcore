@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.entity;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
@@ -45,8 +45,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+@Slf4j
 public class Castle {
-    protected static final CLogger LOGGER = new CLogger(Castle.class.getName());
 
     private static final String UPDATE_TREASURY = "UPDATE castle SET treasury = ? WHERE id = ?";
     private static final String UPDATE_CERTIFICATES = "UPDATE castle SET certificates=? WHERE id=?";
@@ -208,7 +208,7 @@ public class Castle {
             ps.setInt(2, _castleId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update treasury.", e);
+            log.error("Couldn't update treasury.", e);
         }
         return true;
     }
@@ -256,7 +256,7 @@ public class Castle {
                 ps.setInt(2, _castleId);
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Couldn't update certificates amount.", e);
+                log.error("Couldn't update certificates amount.", e);
             }
         }
     }
@@ -405,7 +405,7 @@ public class Castle {
                 ps.setInt(2, _castleId);
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Couldn't update tax amount.", e);
+                log.error("Couldn't update tax amount.", e);
             }
         }
     }
@@ -459,7 +459,7 @@ public class Castle {
                 ps.setInt(3, _castleId);
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't upgrade castle doors.", e);
+                log.error("Couldn't upgrade castle doors.", e);
             }
         }
     }
@@ -478,7 +478,7 @@ public class Castle {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load door upgrades.", e);
+            log.error("Couldn't load door upgrades.", e);
         }
     }
 
@@ -495,7 +495,7 @@ public class Castle {
             ps.setInt(1, _castleId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete door upgrade.", e);
+            log.error("Couldn't delete door upgrade.", e);
         }
     }
 
@@ -525,7 +525,7 @@ public class Castle {
             ps2.setInt(2, _ownerId);
             ps2.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update castle owner.", e);
+            log.error("Couldn't update castle owner.", e);
         }
     }
 
@@ -601,7 +601,7 @@ public class Castle {
 
                     _siegeGuards.add(guard);
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't spawn npc ticket {}. ", e, ticket.getNpcId());
+                    log.error("Couldn't spawn npc ticket {}. ", e, ticket.getNpcId());
                     continue;
                 }
 
@@ -650,7 +650,7 @@ public class Castle {
                     }
                 }
             } catch (Exception e) {
-                LOGGER.error("Couldn't load siege guards.", e);
+                log.error("Couldn't load siege guards.", e);
             }
         }
     }
@@ -696,7 +696,7 @@ public class Castle {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load traps.", e);
+            log.error("Couldn't load traps.", e);
         }
     }
 
@@ -839,7 +839,7 @@ public class Castle {
                 ps.setInt(3, level);
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't replace trap upgrade.", e);
+                log.error("Couldn't replace trap upgrade.", e);
             }
         }
 
@@ -862,7 +862,7 @@ public class Castle {
             ps.setInt(1, _castleId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete trap upgrade.", e);
+            log.error("Couldn't delete trap upgrade.", e);
         }
     }
 
@@ -877,7 +877,7 @@ public class Castle {
                 ps.setInt(2, member.getObjectId());
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Couldn't update items for member.", e);
+                log.error("Couldn't update items for member.", e);
             }
         }
     }
@@ -898,7 +898,7 @@ public class Castle {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update items for clan.", e);
+            log.error("Couldn't update items for clan.", e);
         }
     }
 }

@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.network;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
+@Slf4j
 public final class SystemMessageId {
-    private static final CLogger LOGGER = new CLogger(SystemMessageId.class.getName());
 
     public static final SystemMessageId[] EMPTY_ARRAY = new SystemMessageId[0];
 
@@ -12134,7 +12134,7 @@ public final class SystemMessageId {
 
                     smIds.add(smId);
                 } catch (Exception e) {
-                    LOGGER.error("Failed to access field for '{}'.", e, field.getName());
+                    log.error("Failed to access field for '{}'.", e, field.getName());
                 }
             }
         }

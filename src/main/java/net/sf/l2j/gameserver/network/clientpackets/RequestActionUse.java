@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
 import net.sf.l2j.gameserver.enums.SayType;
@@ -21,6 +22,7 @@ import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 
 import java.util.Map;
 
+@Slf4j
 public final class RequestActionUse extends L2GameClientPacket {
     private static final int[] PASSIVE_SUMMONS =
         {
@@ -495,7 +497,7 @@ public final class RequestActionUse extends L2GameClientPacket {
                 break;
 
             default:
-                LOGGER.warn("Unhandled action type {} detected for {}.", _actionId, player.getName());
+                log.warn("Unhandled action type {} detected for {}.", _actionId, player.getName());
         }
     }
 

@@ -69,7 +69,7 @@ public final class CastleManager implements IXmlReader {
                 _castles.put(id, castle);
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to load castles.", e);
+            log.error("Failed to load castles.", e);
         }
 
         // Feed Castle objects with static data.
@@ -85,7 +85,7 @@ public final class CastleManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/castles.xml");
-        LOGGER.info("Loaded {} castles.", _castles.size());
+        log.info("Loaded {} castles.", _castles.size());
     }
 
     @Override
@@ -197,7 +197,7 @@ public final class CastleManager implements IXmlReader {
              PreparedStatement ps = con.prepareStatement(RESET_CERTIFICATES)) {
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Failed to reset certificates.", e);
+            log.error("Failed to reset certificates.", e);
         }
     }
 

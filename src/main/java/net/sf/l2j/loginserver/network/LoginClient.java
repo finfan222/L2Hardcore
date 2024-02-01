@@ -1,15 +1,10 @@
 package net.sf.l2j.loginserver.network;
 
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
-import java.security.interfaces.RSAPrivateKey;
-
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.mmocore.MMOClient;
 import net.sf.l2j.commons.mmocore.MMOConnection;
 import net.sf.l2j.commons.mmocore.SendablePacket;
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.loginserver.LoginController;
 import net.sf.l2j.loginserver.crypt.LoginCrypt;
 import net.sf.l2j.loginserver.crypt.ScrambledKeyPair;
@@ -19,11 +14,15 @@ import net.sf.l2j.loginserver.network.serverpackets.L2LoginServerPacket;
 import net.sf.l2j.loginserver.network.serverpackets.LoginFail;
 import net.sf.l2j.loginserver.network.serverpackets.PlayFail;
 
+import java.net.InetAddress;
+import java.nio.ByteBuffer;
+import java.security.interfaces.RSAPrivateKey;
+
 /**
  * Represents a client connected into the LoginServer
  */
+@Slf4j
 public final class LoginClient extends MMOClient<MMOConnection<LoginClient>> {
-    private static final CLogger LOGGER = new CLogger(LoginClient.class.getName());
 
     private final LoginCrypt _loginCrypt;
     private final ScrambledKeyPair _scrambledPair;
@@ -67,7 +66,7 @@ public final class LoginClient extends MMOClient<MMOConnection<LoginClient>> {
             }
             return true;
         } catch (Exception e) {
-            LOGGER.error("Couldn't decrypt LoginClient packet.", e);
+            log.error("Couldn't decrypt LoginClient packet.", e);
             super.getConnection().close((SendablePacket<LoginClient>) null);
             return false;
         }
@@ -79,7 +78,7 @@ public final class LoginClient extends MMOClient<MMOConnection<LoginClient>> {
         try {
             size = _loginCrypt.encrypt(buf.array(), offset, size);
         } catch (Exception e) {
-            LOGGER.error("Couldn't encrypt LoginClient packet.", e);
+            log.error("Couldn't encrypt LoginClient packet.", e);
             return false;
         }
 

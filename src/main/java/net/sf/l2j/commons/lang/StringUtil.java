@@ -1,6 +1,7 @@
 package net.sf.l2j.commons.lang;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
+import org.fusesource.jansi.Ansi;
 
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+@Slf4j
 public final class StringUtil {
     public static final String DIGITS = "0123456789";
     public static final String LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz";
@@ -18,8 +20,6 @@ public final class StringUtil {
 
     public static final String LETTERS = LOWER_CASE_LETTERS + UPPER_CASE_LETTERS;
     public static final String LETTERS_AND_DIGITS = LETTERS + DIGITS;
-
-    private static final CLogger LOGGER = new CLogger(StringUtil.class.getName());
 
     /**
      * Checks each String passed as parameter. If at least one is empty or null, than return true.
@@ -128,14 +128,10 @@ public final class StringUtil {
      * @param text : the String to format.
      */
     public static void printSection(String text) {
-        final StringBuilder sb = new StringBuilder(80);
-        for (int i = 0; i < (73 - text.length()); i++) {
-            sb.append("-");
-        }
-
-        StringUtil.append(sb, "=[ ", text, " ]");
-
-        LOGGER.info(sb.toString());
+        System.out.println(Ansi.ansi().fg(Ansi.Color.CYAN)
+            .a("---------------------------------------------------------------------")
+            .a(text)
+            .reset().toString());
     }
 
     /**
@@ -157,7 +153,7 @@ public final class StringUtil {
         if (minutes > 0) {
             result += " " + minutes + "m";
         }
-        if (time > 0 || result.length() == 0) {
+        if (time > 0 || result.isEmpty()) {
             result += " " + time + "s";
         }
 

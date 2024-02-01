@@ -5,8 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.LoginServerThread;
@@ -43,9 +43,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author finfan
  */
+@Slf4j
 public class GraveyardManager implements Runnable {
-
-    private static final CLogger LOGGER = new CLogger(GraveyardManager.class.getSimpleName());
 
     @Getter(lazy = true)
     private static final GraveyardManager instance = new GraveyardManager();
@@ -104,7 +103,7 @@ public class GraveyardManager implements Runnable {
         ThreadPool.scheduleAtFixedRate(this, 3000, 3000);
 
         GraveyardDao.restore();
-        LOGGER.info("Graveyard manager is initialized.");
+        log.info("Graveyard manager is initialized.");
     }
 
     public boolean isDeadMan(int objectId) {
@@ -112,7 +111,7 @@ public class GraveyardManager implements Runnable {
     }
 
     public DieReason validateDieReason(Player victim, Creature killer, DieReason reason) {
-        LOGGER.info("[0][validateDieReason] {}", victim, killer, reason);
+        log.info("[0][validateDieReason] {}, {}, {}", victim, killer, reason);
 
         switch (reason) {
             case DROWN, FALL:
@@ -144,7 +143,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void onDie(OnDie event) {
-        LOGGER.info("[1][GraveyardManager.onDie] {}", event);
+        log.info("[1][GraveyardManager.onDie] {}", event);
         if (event.getVictim() instanceof Player player) {
             if (validateDeath(player, event.getKiller(), event.getReason())) {
                 // add dead man to queue for future delete
@@ -159,7 +158,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private boolean validateDeath(Player player, Creature killer, DieReason reason) {
-        LOGGER.info("[2][GraveyardManager.validateDeath] {}, {}, {}", player, killer, reason);
+        log.info("[2][GraveyardManager.validateDeath] {}, {}, {}", player, killer, reason);
 
         // no action if player died in siege/peace/town/pvp zone
         if (player.isInsideZone(ZoneId.TOWN) || player.isInsideZone(ZoneId.PEACE)
@@ -215,7 +214,7 @@ public class GraveyardManager implements Runnable {
         }
 
         necrologues.put(player.getObjectId(), necrologue);
-        LOGGER.info("[3][GraveyardManager.addDeadMan] {}", necrologue);
+        log.info("[3][GraveyardManager.addDeadMan] {}", necrologue);
     }
 
     @Override
@@ -239,7 +238,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void deleteOnline(Player player) {
-        LOGGER.info("[4][GraveyardManager.deleteOnline] {}", player);
+        log.info("[4][GraveyardManager.deleteOnline] {}", player);
         Clan clan = player.getClan();
         if (clan != null) {
             int objectId = player.getObjectId();
@@ -280,7 +279,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void deleteOffline(int objectId, String name, int clanId, String accountName) {
-        LOGGER.info("[4][GraveyardManager.deleteOffline] {}, {}, {}", objectId, name, clanId);
+        log.info("[4][GraveyardManager.deleteOffline] {}, {}, {}", objectId, name, clanId);
         Clan clan = ClanTable.getInstance().getClan(clanId);
         if (clan != null) {
             // get all clan members except @player
@@ -316,7 +315,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void changeClanLeader(Clan clan, List<ClanMember> members, int objectId, String name) {
-        LOGGER.info("[5][GraveyardManager.changeClanLeader] {}, {}, {}, {}", clan, members, objectId, name);
+        log.info("[5][GraveyardManager.changeClanLeader] {}, {}, {}, {}", clan, members, objectId, name);
         members.stream()
             .max(Comparator.comparing(ClanMember::getLevel)) // pick high level as a new clan leader
             .ifPresentOrElse(e -> {
@@ -330,7 +329,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void tryCreateTombstone(Necrologue necrologue) {
-        LOGGER.info("[6][GraveyardManager.tryCreateTombstone] {}", necrologue);
+        log.info("[6][GraveyardManager.tryCreateTombstone] {}", necrologue);
         PostScript ps = PostScript.builder()
             .name(necrologue.name + " Lvl. " + necrologue.level)
             .heading(necrologue.heading)
@@ -347,7 +346,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private String tryGenerateMessage(String playerName, String killerName, DieReason reason, String zoneName) {
-        LOGGER.info("[7][GraveyardManager.tryGenerateMessage] {}, {}, {}, {}", playerName, killerName, reason, zoneName);
+        log.info("[7][GraveyardManager.tryGenerateMessage] {}, {}, {}, {}", playerName, killerName, reason, zoneName);
         StringBuilder builder = new StringBuilder();
         builder.append("<center>Здесь расстался с жизнью один из нас</center><br>");
         return switch (reason) {
@@ -385,7 +384,7 @@ public class GraveyardManager implements Runnable {
     }
 
     private void onRevive(OnRevive event) {
-        LOGGER.info("[-1][GraveyardManager.onRevive] {}", event);
+        log.info("[-1][GraveyardManager.onRevive] {}", event);
         if (event.getVictim() instanceof Player player) {
             necrologues.remove(player.getObjectId());
         }

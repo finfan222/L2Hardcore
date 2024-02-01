@@ -1,25 +1,11 @@
 package net.sf.l2j.gameserver.scripting.script.siegablehall;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledFuture;
-
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
@@ -44,6 +30,20 @@ import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * Rainbow Springs Chateau is located north of the Hot Springs area. A new style of siege war has been applied to it,
@@ -114,6 +114,7 @@ import net.sf.l2j.gameserver.skills.L2Skill;
  * <br>
  * The game continues even if the server goes down in the middle of the mini-game.
  */
+@Slf4j
 public final class RainbowSpringsChateau extends ClanHallSiege {
     private static final int RAINBOW_SPRINGS = 62;
 
@@ -202,7 +203,7 @@ public final class RainbowSpringsChateau extends ClanHallSiege {
 
             _nextSiege = ThreadPool.schedule(new SetFinalAttackers(), delay);
         } else {
-            LOGGER.warn("No date was set for Rainbow Springs Chateau siege. Siege is canceled.");
+            log.warn("No date was set for Rainbow Springs Chateau siege. Siege is canceled.");
         }
     }
 
@@ -542,7 +543,7 @@ public final class RainbowSpringsChateau extends ClanHallSiege {
                     _gourds[i] = new Spawn(GOURDS[i]);
                     _gourds[i].setLoc(ARENAS[i].getX() + 150, ARENAS[i].getY() + 150, ARENAS[i].getZ(), 1);
                 } catch (Exception e) {
-                    LOGGER.error("Failed to initialize a spawn.", e);
+                    log.error("Failed to initialize a spawn.", e);
                 }
             }
             SpawnTable.getInstance().addSpawn(_gourds[i], false);
@@ -583,7 +584,7 @@ public final class RainbowSpringsChateau extends ClanHallSiege {
             ps.setInt(1, clanId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove attacker.", e);
+            log.error("Couldn't remove attacker.", e);
         }
     }
 
@@ -594,7 +595,7 @@ public final class RainbowSpringsChateau extends ClanHallSiege {
             ps.setInt(2, count);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't add attacker.", e);
+            log.error("Couldn't add attacker.", e);
         }
     }
 
@@ -607,11 +608,11 @@ public final class RainbowSpringsChateau extends ClanHallSiege {
                 _warDecreesCount.put(rset.getInt("clan_id"), rset.getInt("decrees_count"));
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load attackers.", e);
+            log.error("Couldn't load attackers.", e);
         }
     }
 
-    protected void setRegistrationEndString(long time) {
+    private void setRegistrationEndString(long time) {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date(time));
         int year = c.get(Calendar.YEAR);

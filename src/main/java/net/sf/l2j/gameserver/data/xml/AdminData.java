@@ -39,10 +39,10 @@ public final class AdminData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/accessLevels.xml");
-        LOGGER.info("Loaded {} access levels.", _accessLevels.size());
+        log.info("Loaded {} access levels.", _accessLevels.size());
 
         parseFile("./data/xml/adminCommands.xml");
-        LOGGER.info("Loaded {} admin command rights.", _adminCommands.size());
+        log.info("Loaded {} admin command rights.", _adminCommands.size());
     }
 
     @Override
@@ -101,7 +101,7 @@ public final class AdminData implements IXmlReader {
     public boolean hasAccess(String command, AccessLevel accessToCheck) {
         final AdminCommand ac = _adminCommands.stream().filter(c -> c.getName().equalsIgnoreCase(command)).findFirst().orElse(null);
         if (ac == null) {
-            LOGGER.warn("No rights defined for admin command '{}'.", command);
+            log.warn("No rights defined for admin command '{}'.", command);
             return false;
         }
 

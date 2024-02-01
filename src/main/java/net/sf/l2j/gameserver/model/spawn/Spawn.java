@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.spawn;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.NpcData;
@@ -17,8 +17,8 @@ import java.lang.reflect.Constructor;
 /**
  * This class manages the spawn and respawn of a {@link Npc}.
  */
+@Slf4j
 public final class Spawn implements Runnable {
-    private static final CLogger LOGGER = new CLogger(Spawn.class.getName());
 
     private final SpawnLocation _loc = new SpawnLocation(0, 0, 0, 0);
 
@@ -55,7 +55,7 @@ public final class Spawn implements Runnable {
     public Spawn(int id) throws SecurityException, ClassNotFoundException, NoSuchMethodException {
         final NpcTemplate template = NpcData.getInstance().getTemplate(id);
         if (template == null) {
-            LOGGER.warn("Couldn't properly spawn with id {} ; the template is missing.", id);
+            log.warn("Couldn't properly spawn with id {} ; the template is missing.", id);
             return;
         }
 
@@ -298,7 +298,7 @@ public final class Spawn implements Runnable {
 
             return (T) _npc;
         } catch (Exception e) {
-            LOGGER.error("Couldn't spawn properly {}.", e, _template.getName());
+            log.error("Couldn't spawn properly {}.", e, _template.getName());
             return null;
         }
     }
@@ -338,7 +338,7 @@ public final class Spawn implements Runnable {
     private void initializeAndSpawn() {
         // If location does not exist, there's a problem.
         if (_loc.equals(SpawnLocation.DUMMY_SPAWNLOC)) {
-            LOGGER.warn("{} misses location informations.", _template.getName());
+            log.warn("{} misses location informations.", _template.getName());
             return;
         }
 
@@ -347,7 +347,7 @@ public final class Spawn implements Runnable {
         final int locY = _loc.getY();
 
         if (World.isOutOfWorld(locX, locY)) {
-            LOGGER.error("{} spawn coords are outside of world.", _template.getName());
+            log.error("{} spawn coords are outside of world.", _template.getName());
             return;
         }
 

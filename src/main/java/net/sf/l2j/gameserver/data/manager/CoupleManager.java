@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.World;
@@ -19,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * <br>
  * Loads and stores couples using {@link IntIntHolder}, id being requesterId and value being partnerId.
  */
+@Slf4j
 public class CoupleManager {
-    private static final CLogger LOGGER = new CLogger(CoupleManager.class.getName());
 
     private static final String LOAD_COUPLES = "SELECT * FROM mods_wedding";
     private static final String DELETE_COUPLES = "DELETE FROM mods_wedding";
@@ -36,9 +36,9 @@ public class CoupleManager {
                 _couples.put(rs.getInt("id"), new IntIntHolder(rs.getInt("requesterId"), rs.getInt("partnerId")));
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load couples.", e);
+            log.error("Couldn't load couples.", e);
         }
-        LOGGER.info("Loaded {} couples.", _couples.size());
+        log.info("Loaded {} couples.", _couples.size());
     }
 
     public final Map<Integer, IntIntHolder> getCouples() {
@@ -118,7 +118,7 @@ public class CoupleManager {
                 ps.executeBatch();
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't add a couple.", e);
+            log.error("Couldn't add a couple.", e);
         }
     }
 
@@ -136,7 +136,7 @@ public class CoupleManager {
         return (couple.getId() == objectId) ? couple.getValue() : couple.getId();
     }
 
-    public static final CoupleManager getInstance() {
+    public static CoupleManager getInstance() {
         return SingletonHolder.INSTANCE;
     }
 

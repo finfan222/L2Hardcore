@@ -1,17 +1,16 @@
 package net.sf.l2j.gameserver.model.cards;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.xml.IXmlReader;
-import net.sf.l2j.commons.logging.CLogger;
 import org.w3c.dom.Document;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class CardManager implements IXmlReader {
-
-    private static final CLogger LOGGER = new CLogger(CardManager.class.getSimpleName());
 
     @Getter(lazy = true)
     private static final CardManager instance = new CardManager();
@@ -33,7 +32,7 @@ public class CardManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/cards.xml");
-        LOGGER.info("Loaded {} cards.", cards.size());
+        log.info("Loaded {} cards.", cards.size());
     }
 
     @Override

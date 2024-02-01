@@ -1,19 +1,9 @@
 package net.sf.l2j.loginserver;
 
-import java.net.InetAddress;
-import java.security.GeneralSecurityException;
-import java.security.KeyPairGenerator;
-import java.security.spec.RSAKeyGenParameterSpec;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.crypto.Cipher;
-
-import net.sf.l2j.commons.crypt.BCrypt;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.random.Rnd;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.crypt.BCrypt;
+import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.loginserver.crypt.ScrambledKeyPair;
 import net.sf.l2j.loginserver.data.manager.GameServerManager;
 import net.sf.l2j.loginserver.data.manager.IpBanManager;
@@ -29,8 +19,16 @@ import net.sf.l2j.loginserver.network.serverpackets.LoginFail;
 import net.sf.l2j.loginserver.network.serverpackets.LoginOk;
 import net.sf.l2j.loginserver.network.serverpackets.ServerList;
 
+import javax.crypto.Cipher;
+import java.net.InetAddress;
+import java.security.GeneralSecurityException;
+import java.security.KeyPairGenerator;
+import java.security.spec.RSAKeyGenParameterSpec;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Slf4j
 public class LoginController {
-    protected static final CLogger LOGGER = new CLogger(LoginController.class.getName());
 
     public static final int LOGIN_TIMEOUT = 60 * 1000;
 
@@ -58,7 +56,7 @@ public class LoginController {
                 _keyPairs[i] = new ScrambledKeyPair(keygen.generateKeyPair());
             }
 
-            LOGGER.info("Cached 10 KeyPairs for RSA communication.");
+            log.info("Cached 10 KeyPairs for RSA communication.");
 
             // Test the cipher.
             final Cipher rsaCipher = Cipher.getInstance("RSA/ECB/nopadding");
@@ -72,9 +70,9 @@ public class LoginController {
                     _blowfishKeys[i][j] = (byte) (Rnd.get(255) + 1);
                 }
             }
-            LOGGER.info("Stored {} keys for Blowfish communication.", _blowfishKeys.length);
+            log.info("Stored {} keys for Blowfish communication.", _blowfishKeys.length);
         } catch (GeneralSecurityException gse) {
-            LOGGER.error("Failed generating keys.", gse);
+            log.error("Failed generating keys.", gse);
         }
 
         // "Dropping AFK connections on login" task.
@@ -113,7 +111,7 @@ public class LoginController {
             // Clear all failed login attempts.
             _failedAttempts.remove(address);
 
-            LOGGER.info("IP address: {} has been banned due to too many login attempts.", address.getHostAddress());
+            log.info("IP address: {} has been banned due to too many login attempts.", address.getHostAddress());
         }
     }
 
@@ -147,7 +145,7 @@ public class LoginController {
                 return;
             }
 
-            LOGGER.info("Auto created account '{}'.", login);
+            log.info("Auto created account '{}'.", login);
         } else {
             // Check if that an unencrypted password matches one that has previously been hashed.
             if (!BCrypt.checkPw(password, account.getPassword())) {

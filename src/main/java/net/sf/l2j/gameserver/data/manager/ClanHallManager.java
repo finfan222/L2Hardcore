@@ -56,7 +56,7 @@ public class ClanHallManager implements IXmlReader {
                 // Find the related zone, and associate it with the Clan Hall.
                 final ClanHallZone zone = ZoneManager.getInstance().getAllZones(ClanHallZone.class).stream().filter(z -> z.getResidenceId() == id).findFirst().orElse(null);
                 if (zone == null) {
-                    LOGGER.warn("No existing ClanHallZone for ClanHall {}.", id);
+                    log.warn("No existing ClanHallZone for ClanHall {}.", id);
                 }
 
                 // A default bid exists, it means it's a regular Clan Hall. Generate an Auction.
@@ -111,14 +111,14 @@ public class ClanHallManager implements IXmlReader {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load clan hall data.", e);
+            log.error("Couldn't load clan hall data.", e);
         }
     }
 
     @Override
     public void load() {
         parseFile("./data/xml/clanHalls.xml");
-        LOGGER.info("Loaded {} clan halls and {} siegable clan halls.", _clanHalls.size(), getSiegableHalls().size());
+        log.info("Loaded {} clan halls and {} siegable clan halls.", _clanHalls.size(), getSiegableHalls().size());
     }
 
     @Override

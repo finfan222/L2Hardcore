@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -14,6 +15,7 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 
 import java.util.List;
 
+@Slf4j
 public class FlameTower extends Npc {
     private int _upgradeLevel;
     private List<Integer> _zoneList;
@@ -68,7 +70,7 @@ public class FlameTower extends Npc {
 
                 getCastle().getSiege().getDestroyedTowers().add(tower);
             } catch (Exception e) {
-                LOGGER.error("Couldn't spawn the flame tower.", e);
+                log.error("Couldn't spawn the flame tower.", e);
             }
         }
 

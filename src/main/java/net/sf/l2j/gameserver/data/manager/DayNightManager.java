@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
@@ -8,8 +8,8 @@ import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class DayNightManager {
-    private static final CLogger LOGGER = new CLogger(DayNightManager.class.getName());
 
     private final List<Spawn> _dayCreatures = new ArrayList<>();
     private final List<Spawn> _nightCreatures = new ArrayList<>();
@@ -43,7 +43,7 @@ public class DayNightManager {
             spawn.doSpawn(false);
         }
 
-        LOGGER.info("Loaded {} creatures spawns.", ((isNight) ? "night" : "day"));
+        log.info("Loaded {} creatures spawns.", ((isNight) ? "night" : "day"));
     }
 
     public void notifyChangeMode() {

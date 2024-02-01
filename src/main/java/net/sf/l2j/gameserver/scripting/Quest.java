@@ -5,9 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.DocumentSkill.Skill;
@@ -71,6 +71,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class Quest {
 
     @Data
@@ -214,8 +215,6 @@ public class Quest {
         }
 
     }
-
-    protected static final CLogger LOGGER = new CLogger(Quest.class.getName());
 
     private static final String HTML_NONE_AVAILABLE = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>";
     private static final String HTML_ALREADY_COMPLETED = "<html><body>This quest has already been completed.</body></html>";
@@ -863,7 +862,7 @@ public class Quest {
     public final boolean startQuestTimerAtFixedRate(String name, Npc npc, Player player, long initial, long period) {
         // Name must exist.
         if (name == null) {
-            LOGGER.warn("Script {} adding timer without name.", toString());
+            log.warn("Script {} adding timer without name.", toString());
             return false;
         }
 
@@ -1069,7 +1068,7 @@ public class Quest {
 
             return npc;
         } catch (Exception e) {
-            LOGGER.error("Couldn't spawn npcId {} for {}.", npcId, toString());
+            log.error("Couldn't spawn npcId {} for {}.", npcId, toString());
             return null;
         }
     }
@@ -1682,7 +1681,7 @@ public class Quest {
         try {
             res = onAttack(npc, attacker, damage, skill);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, attacker, res);
@@ -1722,7 +1721,7 @@ public class Quest {
         try {
             res = onAttackAct(npc, victim);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, victim, res);
@@ -1763,7 +1762,7 @@ public class Quest {
             try {
                 res = onAggro(npc, player, isPet);
             } catch (Exception e) {
-                LOGGER.warn(toString(), e);
+                log.warn(toString(), e);
                 return;
             }
             showResult(npc, player, res);
@@ -1803,7 +1802,7 @@ public class Quest {
         try {
             res = onCreatureSee(npc, creature);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, creature, res);
@@ -1831,7 +1830,7 @@ public class Quest {
         try {
             res = onDeath(killer, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult((killer instanceof Npc) ? (Npc) killer : null, player, res);
@@ -1865,7 +1864,7 @@ public class Quest {
         try {
             res = onAdvEvent(event, npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);
@@ -1898,7 +1897,7 @@ public class Quest {
         try {
             res = onEnterWorld(player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, player, res);
@@ -1939,7 +1938,7 @@ public class Quest {
         try {
             res = onEnterZone(character, zone);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, character, res);
@@ -1981,7 +1980,7 @@ public class Quest {
         try {
             res = onExitZone(character, zone);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, character, res);
@@ -2019,7 +2018,7 @@ public class Quest {
         try {
             res = onFactionCall(caller, called, target);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(caller, target, res);
@@ -2057,7 +2056,7 @@ public class Quest {
         try {
             res = onFirstTalk(npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
 
@@ -2106,7 +2105,7 @@ public class Quest {
         try {
             res = onItemUse(item, player, target);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, player, res);
@@ -2144,7 +2143,7 @@ public class Quest {
         try {
             res = onKill(npc, killer);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, killer, res);
@@ -2179,7 +2178,7 @@ public class Quest {
         try {
             onSpawn(npc);
         } catch (Exception e) {
-            LOGGER.error(toString(), e);
+            log.error(toString(), e);
         }
     }
 
@@ -2211,7 +2210,7 @@ public class Quest {
         try {
             onDecay(npc);
         } catch (Exception e) {
-            LOGGER.error(toString(), e);
+            log.error(toString(), e);
         }
     }
 
@@ -2250,7 +2249,7 @@ public class Quest {
             try {
                 res = onSkillSee(npc, caster, skill, targets, isPet);
             } catch (Exception e) {
-                LOGGER.warn(toString(), e);
+                log.warn(toString(), e);
                 return;
             }
             showResult(npc, caster, res);
@@ -2292,7 +2291,7 @@ public class Quest {
         try {
             res = onSpellFinished(npc, player, skill);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);
@@ -2330,7 +2329,7 @@ public class Quest {
         try {
             res = onTalk(npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);
@@ -2359,7 +2358,7 @@ public class Quest {
         try {
             res = onTimer(name, npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);

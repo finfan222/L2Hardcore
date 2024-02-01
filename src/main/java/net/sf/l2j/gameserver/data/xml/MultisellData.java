@@ -35,7 +35,7 @@ public class MultisellData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/multisell");
-        LOGGER.info("Loaded {} multisell.", _entries.size());
+        log.info("Loaded {} multisell.", _entries.size());
     }
 
     @Override

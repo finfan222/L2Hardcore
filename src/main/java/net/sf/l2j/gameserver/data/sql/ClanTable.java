@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.data.sql;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
@@ -29,8 +29,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class ClanTable {
-    private static final CLogger LOGGER = new CLogger(ClanTable.class.getName());
 
     private static final String LOAD_CLANS = "SELECT * FROM clan_data";
 
@@ -100,9 +100,9 @@ public class ClanTable {
                 clan.setIntroduction(rs.getString("introduction"), false);
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore clans.", e);
+            log.error("Couldn't restore clans.", e);
         }
-        LOGGER.info("Loaded {} clans.", _clans.size());
+        log.info("Loaded {} clans.", _clans.size());
 
         // Check for non-existing alliances.
         allianceCheck();
@@ -283,7 +283,7 @@ public class ClanTable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete clan.", e);
+            log.error("Couldn't delete clan.", e);
         }
 
         // Release clan id.
@@ -346,7 +346,7 @@ public class ClanTable {
             ps.setInt(2, clanId2);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't store clans wars.", e);
+            log.error("Couldn't store clans wars.", e);
         }
     }
 
@@ -386,7 +386,7 @@ public class ClanTable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete clans wars.", e);
+            log.error("Couldn't delete clans wars.", e);
         }
     }
 
@@ -440,7 +440,7 @@ public class ClanTable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore clans wars.", e);
+            log.error("Couldn't restore clans wars.", e);
         }
     }
 
@@ -497,7 +497,7 @@ public class ClanTable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't refresh clans ladder.", e);
+            log.error("Couldn't refresh clans ladder.", e);
         }
     }
 

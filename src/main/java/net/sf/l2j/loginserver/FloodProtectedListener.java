@@ -1,5 +1,8 @@
 package net.sf.l2j.loginserver;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -7,12 +10,8 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.l2j.commons.logging.CLogger;
-
-import net.sf.l2j.Config;
-
+@Slf4j
 public abstract class FloodProtectedListener extends Thread {
-    private static final CLogger LOGGER = new CLogger(FloodProtectedListener.class.getName());
 
     private final Map<String, ForeignConnection> _flooders = new ConcurrentHashMap<>();
 
@@ -49,7 +48,7 @@ public abstract class FloodProtectedListener extends Thread {
                             connection.close();
 
                             if (!fc.isFlooding) {
-                                LOGGER.info("Flood detected from {}.", address);
+                                log.info("Flood detected from {}.", address);
                             }
 
                             fc.isFlooding = true;
@@ -59,7 +58,7 @@ public abstract class FloodProtectedListener extends Thread {
                         // If connection was flooding server but now passed the check.
                         if (fc.isFlooding) {
                             fc.isFlooding = false;
-                            LOGGER.info("{} isn't considered as flooding anymore.", address);
+                            log.info("{} isn't considered as flooding anymore.", address);
                         }
 
                         fc.lastConnection = currentTime;
@@ -73,13 +72,13 @@ public abstract class FloodProtectedListener extends Thread {
                     if (connection != null) {
                         connection.close();
                     }
-                } catch (Exception e2) {
+                } catch (Exception ignored) {
                 }
                 if (isInterrupted()) {
                     try {
                         _serverSocket.close();
                     } catch (IOException io) {
-                        LOGGER.error(io);
+                        log.error("", io);
                     }
                     break;
                 }

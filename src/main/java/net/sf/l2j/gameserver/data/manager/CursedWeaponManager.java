@@ -37,7 +37,7 @@ public class CursedWeaponManager implements IXmlReader {
 
     public CursedWeaponManager() {
         if (!Config.ALLOW_CURSED_WEAPONS) {
-            LOGGER.info("Cursed weapons loading is skipped.");
+            log.info("Cursed weapons loading is skipped.");
             return;
         }
 
@@ -47,7 +47,7 @@ public class CursedWeaponManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/cursedWeapons.xml");
-        LOGGER.info("Loaded {} cursed weapons.", _cursedWeapons.size());
+        log.info("Loaded {} cursed weapons.", _cursedWeapons.size());
     }
 
     @Override

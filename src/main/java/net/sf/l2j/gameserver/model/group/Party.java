@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.group;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -40,9 +40,8 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
 
+@Slf4j
 public class Party extends AbstractGroup {
-
-    private static final CLogger LOGGER = new CLogger(Party.class.getSimpleName());
 
     private static final double[] BONUS_EXP_SP = {
         1,

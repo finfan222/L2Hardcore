@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.model.actor;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
@@ -51,6 +52,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * This class represents all {@link Playable} actors in the world : {@link Player}s and their different {@link Summon}
  * types.
  */
+@Slf4j
 public abstract class Playable extends Creature {
 
     private final Map<Integer, Long> _disabledItems = new ConcurrentHashMap<>();
@@ -710,11 +712,11 @@ public abstract class Playable extends Creature {
     }
 
     protected void onDie(OnDie event) {
-        LOGGER.info("OnDie personal for {} called", this);
+        log.info("OnDie personal for {} called", this);
     }
 
     protected void onRevive(OnRevive onRevive) {
-        LOGGER.info("OnRevive personal for {} called", this);
+        log.info("OnRevive personal for {} called", this);
     }
 
     protected void onHit(OnHit event) {

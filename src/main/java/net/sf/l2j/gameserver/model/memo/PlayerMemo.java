@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.memo;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.MemoSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 
 import java.sql.Connection;
@@ -11,10 +11,9 @@ import java.sql.ResultSet;
 /**
  * An implementation of {@link MemoSet} used for Player. There is a restore/save system.
  */
+@Slf4j
 public class PlayerMemo extends MemoSet {
     private static final long serialVersionUID = 1L;
-
-    private static final CLogger LOGGER = new CLogger(PlayerMemo.class.getName());
 
     private static final String SELECT_MEMOS = "SELECT * FROM character_memo WHERE charId = ?";
     private static final String DELETE_MEMO = "DELETE FROM character_memo WHERE charId = ? AND var = ?";
@@ -36,7 +35,7 @@ public class PlayerMemo extends MemoSet {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore memos for player id {}.", e, _objectId);
+            log.error("Couldn't restore memos for player id {}.", _objectId, e);
         }
     }
 
@@ -50,7 +49,7 @@ public class PlayerMemo extends MemoSet {
             ps.setString(3, value);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set {} memo for player id {}.", e, key, _objectId);
+            log.error("Couldn't set {} memo for player id {}.", key, _objectId, e);
         }
     }
 
@@ -63,7 +62,7 @@ public class PlayerMemo extends MemoSet {
             ps.setString(2, key);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't unset {} memo for player id {}.", e, key, _objectId);
+            log.error("Couldn't unset {} memo for player id {}.", key, _objectId, e);
         }
     }
 }

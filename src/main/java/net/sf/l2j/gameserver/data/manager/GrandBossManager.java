@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.data.manager;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.model.actor.instance.GrandBoss;
@@ -15,8 +15,8 @@ import java.util.Map;
 /**
  * This class handles the status of all {@link GrandBoss}es.
  */
+@Slf4j
 public class GrandBossManager {
-    private static final CLogger LOGGER = new CLogger(GrandBossManager.class.getName());
 
     private static final String SELECT_GRAND_BOSS_DATA = "SELECT * from grandboss_data ORDER BY boss_id";
     private static final String UPDATE_GRAND_BOSS_DATA = "UPDATE grandboss_data set loc_x = ?, loc_y = ?, loc_z = ?, heading = ?, respawn_time = ?, currentHP = ?, currentMP = ?, status = ? where boss_id = ?";
@@ -46,9 +46,9 @@ public class GrandBossManager {
                 _sets.put(bossId, set);
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load grandboss.", e);
+            log.error("Couldn't load grandboss.", e);
         }
-        LOGGER.info("Loaded {} GrandBosses instances.", _sets.size());
+        log.info("Loaded {} GrandBosses instances.", _sets.size());
     }
 
     public int getBossStatus(int bossId) {
@@ -58,7 +58,7 @@ public class GrandBossManager {
     public void setBossStatus(int bossId, int status) {
         _bossStatus.put(bossId, status);
 
-        LOGGER.info("Updated {} (id: {}) status to {}.", NpcData.getInstance().getTemplate(bossId).getName(), bossId, status);
+        log.info("Updated {} (id: {}) status to {}.", NpcData.getInstance().getTemplate(bossId).getName(), bossId, status);
 
         updateDb(bossId, true);
     }
@@ -132,7 +132,7 @@ public class GrandBossManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't update grandbosses.", e);
+            log.error("Couldn't update grandbosses.", e);
         }
     }
 
@@ -169,7 +169,7 @@ public class GrandBossManager {
             ps1.executeBatch();
             ps2.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't store grandbosses.", e);
+            log.error("Couldn't store grandbosses.", e);
         }
 
         _bosses.clear();

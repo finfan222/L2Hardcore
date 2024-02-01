@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.scripting;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.MemoSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.events.OnQuestAccept;
@@ -27,10 +27,9 @@ import java.util.Objects;
  * <li>cond : help server-side to trigger events, help client-side to show the correct {@link Quest} log.</li>
  * </ul>
  */
+@Slf4j
 public final class QuestState extends MemoSet {
     private static final long serialVersionUID = 1L;
-
-    protected static final CLogger LOGGER = new CLogger(QuestState.class.getName());
 
     private static final String QUEST_SET_VAR = "INSERT INTO character_quests (charId,name,var,value) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE value=VALUES(value)";
     private static final String QUEST_DEL_VAR = "DELETE FROM character_quests WHERE charId=? AND name=? AND var=?";
@@ -90,7 +89,7 @@ public final class QuestState extends MemoSet {
             ps.setString(4, value);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set quest {} variable {}.", e, _quest.getName(), key);
+            log.error("Couldn't set quest {} variable {}.", _quest.getName(), key, e);
         }
     }
 
@@ -104,7 +103,7 @@ public final class QuestState extends MemoSet {
             ps.setString(3, key);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove quest {} variable {}.", e, _quest.getName(), key);
+            log.error("Couldn't remove quest {} variable {}.", _quest.getName(), key, e);
         }
     }
 
@@ -362,7 +361,7 @@ public final class QuestState extends MemoSet {
             ps.setString(2, _quest.getName());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete quest.", e);
+            log.error("Couldn't delete quest.", e);
         }
 
         _player.getEventListener().notify(new OnQuestCancel(_player, _quest));

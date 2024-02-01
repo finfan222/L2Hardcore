@@ -92,12 +92,12 @@ public class AugmentationData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/augmentation");
-        LOGGER.info("Loaded {} sets of augmentation stats.", _augStats.size());
+        log.info("Loaded {} sets of augmentation stats.", _augStats.size());
 
         final int blue = _blueSkills.stream().mapToInt(List::size).sum();
         final int purple = _purpleSkills.stream().mapToInt(List::size).sum();
         final int red = _redSkills.stream().mapToInt(List::size).sum();
-        LOGGER.info("Loaded {} blue, {} purple and {} red Life-Stone skills.", blue, purple, red);
+        log.info("Loaded {} blue, {} purple and {} red Life-Stone skills.", blue, purple, red);
     }
 
     @Override

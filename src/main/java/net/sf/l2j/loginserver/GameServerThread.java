@@ -1,21 +1,6 @@
 package net.sf.l2j.loginserver;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.KeyPair;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import net.sf.l2j.commons.logging.CLogger;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.loginserver.crypt.NewCrypt;
 import net.sf.l2j.loginserver.data.manager.GameServerManager;
@@ -37,8 +22,22 @@ import net.sf.l2j.loginserver.network.loginserverpackets.LoginServerFail;
 import net.sf.l2j.loginserver.network.loginserverpackets.PlayerAuthResponse;
 import net.sf.l2j.loginserver.network.serverpackets.ServerBasePacket;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+@Slf4j
 public class GameServerThread extends Thread {
-    protected static final CLogger LOGGER = new CLogger(GameServerThread.class.getName());
 
     private final Set<String> _accountsOnGameServer = new HashSet<>();
 
@@ -63,7 +62,7 @@ public class GameServerThread extends Thread {
             _in = _connection.getInputStream();
             _out = new BufferedOutputStream(_connection.getOutputStream());
         } catch (IOException e) {
-            LOGGER.debug("Couldn't process gameserver input stream.", e);
+            log.debug("Couldn't process gameserver input stream.", e);
         }
 
         final KeyPair pair = GameServerManager.getInstance().getKeyPair();
@@ -80,7 +79,7 @@ public class GameServerThread extends Thread {
     public void run() {
         // Ensure no further processing for this connection if server is considered as banned.
         if (IpBanManager.getInstance().isBannedAddress(_connection.getInetAddress())) {
-            LOGGER.info("Banned gameserver with IP {} tried to register.", _connection.getInetAddress().getHostAddress());
+            log.info("Banned gameserver with IP {} tried to register.", _connection.getInetAddress().getHostAddress());
             forceClose(LoginServerFail.REASON_IP_BANNED);
             return;
         }
@@ -111,7 +110,7 @@ public class GameServerThread extends Thread {
                 }
 
                 if (receivedBytes != length - 2) {
-                    LOGGER.warn("Incomplete packet is sent to the server, closing connection.");
+                    log.warn("Incomplete packet is sent to the server, closing connection.");
                     break;
                 }
 
@@ -120,7 +119,7 @@ public class GameServerThread extends Thread {
 
                 checksumOk = NewCrypt.verifyChecksum(data);
                 if (!checksumOk) {
-                    LOGGER.warn("Incorrect packet checksum, closing connection.");
+                    log.warn("Incorrect packet checksum, closing connection.");
                     return;
                 }
 
@@ -155,16 +154,16 @@ public class GameServerThread extends Thread {
                         break;
 
                     default:
-                        LOGGER.warn("Unknown opcode ({}) from gameserver, closing connection.", Integer.toHexString(packetType).toUpperCase());
+                        log.warn("Unknown opcode ({}) from gameserver, closing connection.", Integer.toHexString(packetType).toUpperCase());
                         forceClose(LoginServerFail.NOT_AUTHED);
                 }
             }
         } catch (IOException e) {
-            LOGGER.debug("Couldn't process packet.", e);
+            log.debug("Couldn't process packet.", e);
         } finally {
             if (isAuthed()) {
                 _gsi.setDown();
-                LOGGER.info("GameServer [{}] {} is now set as disconnected.", getServerId(), GameServerManager.getInstance().getServerNames().get(getServerId()));
+                log.info("GameServer [{}] {} is now set as disconnected.", getServerId(), GameServerManager.getInstance().getServerNames().get(getServerId()));
             }
             LoginServer.getInstance().getGameServerListener().removeGameServer(this);
             LoginServer.getInstance().getGameServerListener().removeFloodProtection(_connectionIp);
@@ -212,7 +211,7 @@ public class GameServerThread extends Thread {
             final ChangeAccessLevel cal = new ChangeAccessLevel(data);
 
             AccountTable.getInstance().setAccountAccessLevel(cal.getAccount(), cal.getLevel());
-            LOGGER.info("Changed {} access level to {}.", cal.getAccount(), cal.getLevel());
+            log.info("Changed {} access level to {}.", cal.getAccount(), cal.getLevel());
         } else {
             forceClose(LoginServerFail.NOT_AUTHED);
         }
@@ -311,7 +310,7 @@ public class GameServerThread extends Thread {
             try {
                 _gsi.setHostName(InetAddress.getByName(gameServerAuth.getHostName()).getHostAddress());
             } catch (UnknownHostException e) {
-                LOGGER.error("Couldn't resolve hostname '{}'.", e, gameServerAuth.getHostName());
+                log.error("Couldn't resolve hostname '{}'.", gameServerAuth.getHostName(), e);
                 _gsi.setHostName(_connectionIp);
             }
         } else {
@@ -321,7 +320,7 @@ public class GameServerThread extends Thread {
         gsi.setMaxPlayers(gameServerAuth.getMaxPlayers());
         gsi.setAuthed(true);
 
-        LOGGER.info("Hooked [{}] {} gameserver on: {}.", getServerId(), GameServerManager.getInstance().getServerNames().get(getServerId()), _gsi.getHostName());
+        log.info("Hooked [{}] {} gameserver on: {}.", getServerId(), GameServerManager.getInstance().getServerNames().get(getServerId()), _gsi.getHostName());
     }
 
     private void forceClose(int reason) {
@@ -330,7 +329,7 @@ public class GameServerThread extends Thread {
         try {
             _connection.close();
         } catch (IOException e) {
-            LOGGER.debug("Failed disconnecting banned server, server is already disconnected.", e);
+            log.debug("Failed disconnecting banned server, server is already disconnected.", e);
         }
     }
 
@@ -348,7 +347,7 @@ public class GameServerThread extends Thread {
                 _out.flush();
             }
         } catch (IOException e) {
-            LOGGER.error("Exception while sending packet {}.", sl.getClass().getSimpleName());
+            log.error("Exception while sending packet {}.", sl.getClass().getSimpleName());
         }
     }
 

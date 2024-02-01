@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.itemcontainer;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
@@ -16,9 +16,8 @@ import java.sql.ResultSet;
 /**
  * @author finfan
  */
+@Slf4j
 public class InventoryDao {
-
-    private static final CLogger LOGGER = new CLogger(InventoryDao.class.getSimpleName());
 
     private static final String RESTORE_INVENTORY = "SELECT object_id, item_id, count, enchant_level, location, slot, custom_type1, custom_type2, durability, time FROM items WHERE owner_id=? AND (location=? OR location=?) ORDER BY slot";
     private static final String RESTORE_ITEM_CONTAINER = "SELECT object_id, item_id, count, enchant_level, location, slot, custom_type1, custom_type2, durability, time FROM items WHERE owner_id=? AND location=?";
@@ -55,7 +54,7 @@ public class InventoryDao {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore inventory for {}.", e, inventory.getOwnerId());
+            log.error("Couldn't restore inventory for {}.", inventory.getOwnerId(), e);
         }
     }
 
@@ -86,7 +85,7 @@ public class InventoryDao {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore container for {}.", e, container.getOwnerId());
+            log.error("Couldn't restore container for {}.", container.getOwnerId(), e);
         }
     }
 

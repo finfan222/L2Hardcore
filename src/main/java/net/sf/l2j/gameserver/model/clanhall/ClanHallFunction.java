@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.clanhall;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
@@ -34,8 +34,8 @@ import java.util.concurrent.ScheduledFuture;
  * </li>
  * </ul>
  */
+@Slf4j
 public class ClanHallFunction {
-    private static final CLogger LOGGER = new CLogger(ClanHallFunction.class.getName());
 
     private static final String UPDATE_FUNCTION = "REPLACE INTO clanhall_functions (hall_id, type, lvl, lease, rate, endTime) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_FUNCTION = "DELETE FROM clanhall_functions WHERE hall_id=? AND type=?";
@@ -117,7 +117,7 @@ public class ClanHallFunction {
             ps.setLong(6, getEndTime());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save clan hall function.", e);
+            log.error("Couldn't save clan hall function.", e);
         }
     }
 
@@ -138,7 +138,7 @@ public class ClanHallFunction {
             ps.setInt(2, getType());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove clan hall function.", e);
+            log.error("Couldn't remove clan hall function.", e);
         }
     }
 

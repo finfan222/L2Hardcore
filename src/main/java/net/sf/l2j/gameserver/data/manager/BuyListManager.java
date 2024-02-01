@@ -34,7 +34,7 @@ public class BuyListManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/buyLists.xml");
-        LOGGER.info("Loaded {} buyLists.", _buyLists.size());
+        log.info("Loaded {} buyLists.", _buyLists.size());
 
         try (Connection con = ConnectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement("SELECT * FROM `buylists`");
@@ -53,7 +53,7 @@ public class BuyListManager implements IXmlReader {
                 product.setCount(rs.getInt("count"));
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to load buyList data from database.", e);
+            log.error("Failed to load buyList data from database.", e);
         }
     }
 

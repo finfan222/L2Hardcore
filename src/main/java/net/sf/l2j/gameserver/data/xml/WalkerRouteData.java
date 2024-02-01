@@ -25,7 +25,7 @@ public class WalkerRouteData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/walkerRoutes.xml");
-        LOGGER.info("Loaded {} Walker routes.", _routes.size());
+        log.info("Loaded {} Walker routes.", _routes.size());
     }
 
     @Override

@@ -1,29 +1,10 @@
 package net.sf.l2j.gameserver;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.security.GeneralSecurityException;
-import java.security.KeyFactory;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.RSAKeyGenParameterSpec;
-import java.security.spec.RSAPublicKeySpec;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.network.AttributeType;
 import net.sf.l2j.commons.network.ServerType;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.FailReason;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -46,8 +27,26 @@ import net.sf.l2j.gameserver.network.serverpackets.AuthLoginFail;
 import net.sf.l2j.gameserver.network.serverpackets.CharSelectInfo;
 import net.sf.l2j.loginserver.crypt.NewCrypt;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.GeneralSecurityException;
+import java.security.KeyFactory;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.RSAKeyGenParameterSpec;
+import java.security.spec.RSAPublicKeySpec;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Slf4j
 public class LoginServerThread extends Thread {
-    protected static final CLogger LOGGER = new CLogger(LoginServerThread.class.getName());
 
     private static final int REVISION = 0x0102;
 
@@ -89,7 +88,7 @@ public class LoginServerThread extends Thread {
         while (!isInterrupted()) {
             try {
                 // Connection
-                LOGGER.info("Connecting to login on {}:{}.", Config.GAMESERVER_LOGIN_HOSTNAME, Config.GAMESERVER_LOGIN_PORT);
+                log.info("Connecting to login on {}:{}.", Config.GAMESERVER_LOGIN_HOSTNAME, Config.GAMESERVER_LOGIN_PORT);
 
                 _loginSocket = new Socket(Config.GAMESERVER_LOGIN_HOSTNAME, Config.GAMESERVER_LOGIN_PORT);
                 _in = _loginSocket.getInputStream();
@@ -121,7 +120,7 @@ public class LoginServerThread extends Thread {
                     }
 
                     if (receivedBytes != length - 2) {
-                        LOGGER.warn("Incomplete packet is sent to the server, closing connection.");
+                        log.warn("Incomplete packet is sent to the server, closing connection.");
                         break;
                     }
 
@@ -130,7 +129,7 @@ public class LoginServerThread extends Thread {
 
                     // Verify the checksum.
                     if (!NewCrypt.verifyChecksum(decrypt)) {
-                        LOGGER.warn("Incorrect packet checksum, ignoring packet.");
+                        log.warn("Incorrect packet checksum, ignoring packet.");
                         break;
                     }
 
@@ -140,7 +139,7 @@ public class LoginServerThread extends Thread {
                             final InitLS init = new InitLS(decrypt);
 
                             if (init.getRevision() != REVISION) {
-                                LOGGER.warn("Revision mismatch between LS and GS.");
+                                log.warn("Revision mismatch between LS and GS.");
                                 break;
                             }
 
@@ -151,7 +150,7 @@ public class LoginServerThread extends Thread {
 
                                 _publicKey = (RSAPublicKey) kfac.generatePublic(kspec1);
                             } catch (GeneralSecurityException e) {
-                                LOGGER.error("Troubles while init the public key sent by login.");
+                                log.error("Troubles while init the public key sent by login.");
                                 break;
                             }
 
@@ -167,7 +166,7 @@ public class LoginServerThread extends Thread {
                         case 0x01:
                             // login will close the connection here
                             final LoginServerFail lsf = new LoginServerFail(decrypt);
-                            LOGGER.info("LoginServer registration failed: {}.", lsf.getReasonString());
+                            log.info("LoginServer registration failed: {}.", lsf.getReasonString());
                             break;
 
                         case 0x02:
@@ -177,7 +176,7 @@ public class LoginServerThread extends Thread {
                             _serverName = aresp.getServerName();
 
                             Config.saveHexid(_serverId, new BigInteger(_hexId).toString(16));
-                            LOGGER.info("Registered as server: [{}] {}.", _serverId, _serverName);
+                            log.info("Registered as server: [{}] {}.", _serverId, _serverName);
 
                             final ServerStatus ss = new ServerStatus();
                             ss.addAttribute(AttributeType.STATUS, (Config.SERVER_GMONLY) ? ServerType.GM_ONLY.getId() : ServerType.AUTO.getId());
@@ -224,7 +223,7 @@ public class LoginServerThread extends Thread {
                 }
             } catch (UnknownHostException e) {
             } catch (IOException e) {
-                LOGGER.error("No connection found with loginserver, next try in 10 seconds.");
+                log.error("No connection found with loginserver, next try in 10 seconds.");
             } finally {
                 try {
                     _loginSocket.close();
@@ -252,7 +251,7 @@ public class LoginServerThread extends Thread {
         try {
             sendPacket(new PlayerLogout(account));
         } catch (IOException e) {
-            LOGGER.error("Error while sending logout packet to login.");
+            log.error("Error while sending logout packet to login.");
         } finally {
             _clients.remove(account);
         }
@@ -264,7 +263,7 @@ public class LoginServerThread extends Thread {
             try {
                 sendPacket(new PlayerAuthRequest(client.getAccountName(), client.getSessionId()));
             } catch (IOException e) {
-                LOGGER.error("Error while sending player auth request.");
+                log.error("Error while sending player auth request.");
             }
         } else {
             client.closeNow();

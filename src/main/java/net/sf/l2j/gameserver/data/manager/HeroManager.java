@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.data.manager;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
@@ -34,8 +34,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class HeroManager {
-    private static final CLogger LOGGER = new CLogger(HeroManager.class.getName());
 
     private static final String LOAD_HEROES = "SELECT heroes.char_id, characters.char_name, heroes.class_id, heroes.count, heroes.played, heroes.active FROM heroes, characters WHERE characters.obj_Id = heroes.char_id AND heroes.played = 1";
     private static final String LOAD_ALL_HEROES = "SELECT heroes.char_id, characters.char_name, heroes.class_id, heroes.count, heroes.played, heroes.active FROM heroes, characters WHERE characters.obj_Id = heroes.char_id";
@@ -178,9 +178,9 @@ public class HeroManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load heroes.", e);
+            log.error("Couldn't load heroes.", e);
         }
-        LOGGER.info("Loaded {} heroes and {} all time heroes.", _heroes.size(), _completeHeroes.size());
+        log.info("Loaded {} heroes and {} all time heroes.", _heroes.size(), _completeHeroes.size());
     }
 
     private static String calcFightTime(long fightTime) {
@@ -207,7 +207,7 @@ public class HeroManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load hero message for: {}.", e, objectId);
+            log.error("Couldn't load hero message for: {}.", e, objectId);
         }
     }
 
@@ -248,9 +248,9 @@ public class HeroManager {
 
             _heroDiaries.put(objectId, _diary);
         } catch (Exception e) {
-            LOGGER.error("Couldn't load hero diary for: {}.", e, objectId);
+            log.error("Couldn't load hero diary for: {}.", e, objectId);
         }
-        LOGGER.info("Loaded {} diary entries for hero: {}.", entries, PlayerInfoTable.getInstance().getPlayerName(objectId));
+        log.info("Loaded {} diary entries for hero: {}.", entries, PlayerInfoTable.getInstance().getPlayerName(objectId));
     }
 
     private void loadFights(int charId) {
@@ -350,9 +350,9 @@ public class HeroManager {
             _heroCounts.put(charId, heroCountData);
             _heroFights.put(charId, _fights);
         } catch (Exception e) {
-            LOGGER.error("Couldn't load hero fights history for: {}.", e, charId);
+            log.error("Couldn't load hero fights history for: {}.", e, charId);
         }
-        LOGGER.info("Loaded {} fights for: {}.", numberOfFights, PlayerInfoTable.getInstance().getPlayerName(charId));
+        log.info("Loaded {} fights for: {}.", numberOfFights, PlayerInfoTable.getInstance().getPlayerName(charId));
     }
 
     public Map<Integer, StatSet> getHeroes() {
@@ -512,7 +512,7 @@ public class HeroManager {
              PreparedStatement ps = con.prepareStatement(RESET_PLAYED)) {
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't reset heroes.", e);
+            log.error("Couldn't reset heroes.", e);
         }
 
         // If heroes exist, do special operations on them before computing new heroes.
@@ -570,7 +570,7 @@ public class HeroManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load heroes to be.", e);
+            log.error("Couldn't load heroes to be.", e);
         }
 
         if (newHeroes.isEmpty()) {
@@ -604,7 +604,7 @@ public class HeroManager {
              PreparedStatement ps = con.prepareStatement(DELETE_ITEMS)) {
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete hero items.", e);
+            log.error("Couldn't delete hero items.", e);
         }
 
         _heroes.clear();
@@ -667,7 +667,7 @@ public class HeroManager {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update heroes.", e);
+            log.error("Couldn't update heroes.", e);
         }
     }
 
@@ -742,7 +742,7 @@ public class HeroManager {
             ps.setInt(4, param);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save diary data for {}.", e, objectId);
+            log.error("Couldn't save diary data for {}.", e, objectId);
         }
     }
 
@@ -773,7 +773,7 @@ public class HeroManager {
             ps.setInt(2, objectId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save hero message for {}.", e, objectId);
+            log.error("Couldn't save hero message for {}.", e, objectId);
         }
     }
 
@@ -790,7 +790,7 @@ public class HeroManager {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save hero messages upon shutdown.", e);
+            log.error("Couldn't save hero messages upon shutdown.", e);
         }
     }
 

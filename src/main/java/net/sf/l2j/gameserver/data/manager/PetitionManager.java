@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.enums.SayType;
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
  * <br>
  * An "active" {@link Petition} stands for its {@link PetitionState} being either PENDING or ACCEPTED.
  */
+@Slf4j
 public final class PetitionManager {
-    protected static final CLogger LOGGER = new CLogger(PetitionManager.class.getName());
 
     private static final String SELECT_PETITIONS = "SELECT * FROM petition ORDER BY oid ASC";
     private static final String TRUNCATE_PETITIONS = "TRUNCATE TABLE petition";
@@ -37,7 +37,7 @@ public final class PetitionManager {
 
     private final Map<Integer, Petition> _petitions = new ConcurrentSkipListMap<>();
 
-    protected PetitionManager() {
+    private PetitionManager() {
         try (Connection con = ConnectionPool.getConnection()) {
             try (PreparedStatement ps = con.prepareStatement(SELECT_PETITIONS);
                  ResultSet rs = ps.executeQuery()) {
@@ -58,9 +58,9 @@ public final class PetitionManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load petitions.", e);
+            log.error("Couldn't load petitions.", e);
         }
-        LOGGER.info("Loaded {} petitions.", _petitions.size());
+        log.info("Loaded {} petitions.", _petitions.size());
     }
 
     public Map<Integer, Petition> getPetitions() {
@@ -313,7 +313,7 @@ public final class PetitionManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to save petitions data.", e);
+            log.error("Failed to save petitions data.", e);
         }
     }
 

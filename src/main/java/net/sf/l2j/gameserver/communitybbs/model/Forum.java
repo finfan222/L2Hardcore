@@ -1,5 +1,11 @@
 package net.sf.l2j.gameserver.communitybbs.model;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
+import net.sf.l2j.gameserver.enums.bbs.ForumAccess;
+import net.sf.l2j.gameserver.enums.bbs.ForumType;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,15 +13,8 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
-import net.sf.l2j.gameserver.enums.bbs.ForumAccess;
-import net.sf.l2j.gameserver.enums.bbs.ForumType;
-
+@Slf4j
 public class Forum {
-    private static final CLogger LOGGER = new CLogger(Forum.class.getName());
 
     private static final String ADD_FORUM = "INSERT INTO bbs_forum (id,type,access,owner_id) VALUES (?,?,?,?)";
 
@@ -91,7 +90,7 @@ public class Forum {
             ps.setInt(4, _ownerId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save new Forum.", e);
+            log.error("Couldn't save new Forum.", e);
         }
     }
 
