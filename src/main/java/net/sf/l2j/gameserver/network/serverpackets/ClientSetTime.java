@@ -1,13 +1,18 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
 
-@AllArgsConstructor
-@NoArgsConstructor
 public class ClientSetTime extends L2GameServerPacket {
 
-    private int time;
+    private final int time;
+
+    public ClientSetTime(int time) {
+        this.time = time;
+    }
+
+    public ClientSetTime() {
+        time = DayNightTaskManager.getInstance().getDayTime();
+    }
 
     @Override
     protected final void writeImpl() {

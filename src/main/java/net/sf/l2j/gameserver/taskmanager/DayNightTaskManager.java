@@ -109,8 +109,8 @@ public class DayNightTaskManager implements Runnable {
      * {@link DayCycle#getEnd()}
      */
     public boolean is(DayCycle cycle) {
-        LocalTime time = getTime().toLocalTime();
-        return time.isAfter(cycle.getStart()) && time.isBefore(cycle.getEnd());
+        int dayTime = getDayTime();
+        return dayTime >= cycle.getStart() && dayTime < cycle.getEnd();
     }
 
     /**
@@ -136,8 +136,6 @@ public class DayNightTaskManager implements Runnable {
     private DayCycle calcPreviousCycle() {
         if (currentCycle == DayCycle.MORNING) {
             previousCycle = DayCycle.NIGHT;
-        } else if (currentCycle == DayCycle.NIGHT) {
-            previousCycle = DayCycle.MORNING;
         } else {
             previousCycle = DayCycle.values()[currentCycle.ordinal() - 1];
         }
@@ -150,10 +148,8 @@ public class DayNightTaskManager implements Runnable {
         previousCycle = calcPreviousCycle();
         int difference = currentCycle.getId() - previousCycle.getId();
         if (cycleDiff != difference) {
-            log.info("Cycle difference: {}/{}", cycleDiff, difference);
             cycleDiff = difference;
             GlobalEventListener.notify(new OnDayCycleChange(currentCycle, previousCycle));
-            log.info("------Day cycle was changed!");
         }
         log.info("[{} -> {}] Next execution date-time: {}", previousCycle, currentCycle, getNextExecutionDateTime().toLocalTime());
         log.info("Current game day time: {}", getDayTime());
