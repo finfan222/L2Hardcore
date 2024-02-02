@@ -61,7 +61,6 @@ import net.sf.l2j.gameserver.network.serverpackets.TutorialShowQuestionMark;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2395,21 +2394,6 @@ public class Quest {
      * @param siege : Notified {@link Siege}.
      */
     public void onSiegeEvent(Siege siege) {
-    }
-
-    /**
-     * Register this {@link Quest} to be notified by time change (each in-game minute).
-     */
-    public final void addGameTimeNotify() {
-        GameTimeTaskManager.getInstance().addQuestEvent(this);
-    }
-
-    /**
-     * Quest event for time change (each in-game minute).
-     *
-     * @param gameTime : The current game time. Range 0-1439 minutes per game day corresponds 00:00-23:59 time.
-     */
-    public void onGameTime(int gameTime) {
     }
 
     protected void initializeConditions() {

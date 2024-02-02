@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.sf.l2j.gameserver.enums.DayCycle;
 
 /**
  * @author finfan
@@ -12,8 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OnChangeDayCycle implements EventSituation {
+public class OnDayCycleChange implements EventSituation {
 
-    private boolean isNight;
+    private DayCycle current;
+    private DayCycle previous;
 
 }

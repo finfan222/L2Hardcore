@@ -32,6 +32,7 @@ import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.CabalType;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.GaugeColor;
 import net.sf.l2j.gameserver.enums.LootRule;
 import net.sf.l2j.gameserver.enums.MessageType;
@@ -61,6 +62,7 @@ import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
+import net.sf.l2j.gameserver.events.OnDayCycleChange;
 import net.sf.l2j.gameserver.events.OnDie;
 import net.sf.l2j.gameserver.events.OnHit;
 import net.sf.l2j.gameserver.events.OnQuestAccept;
@@ -145,6 +147,7 @@ import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ChairSit;
 import net.sf.l2j.gameserver.network.serverpackets.ChangeWaitType;
 import net.sf.l2j.gameserver.network.serverpackets.CharInfo;
+import net.sf.l2j.gameserver.network.serverpackets.ClientSetTime;
 import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.DeleteObject;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
@@ -208,7 +211,6 @@ import net.sf.l2j.gameserver.skills.funcs.FuncMaxCpMul;
 import net.sf.l2j.gameserver.skills.funcs.FuncRegenCpMul;
 import net.sf.l2j.gameserver.skills.handlers.Default;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 import net.sf.l2j.gameserver.taskmanager.PvpFlagTaskManager;
 import net.sf.l2j.gameserver.taskmanager.WaterTaskManager;
 
@@ -480,6 +482,8 @@ public final class Player extends Playable {
         getInventory().restore();
         getWarehouse();
         getFreight();
+
+        GlobalEventListener.register(OnDayCycleChange.class).forEach(this::onDayCycleChange);
 
         eventListener.subscribe().cast(OnValidatePosition.class).forEach(this::onValidatePosition);
         eventListener.subscribe().cast(OnQuestAccept.class).forEach(this::onQuestAccept);
@@ -5106,9 +5110,6 @@ public final class Player extends Playable {
             CursedWeaponManager.getInstance().getCursedWeapon(getCursedWeaponEquippedId()).cursedOnLogin();
         }
 
-        // Add to the GameTimeTask to keep inform about activity time.
-        GameTimeTaskManager.getInstance().add(this);
-
         // Teleport player if the Seven Signs period isn't the good one, or if the player isn't in a cabal.
         if (isIn7sDungeon() && !isGM()) {
             if (SevenSignsManager.getInstance().isSealValidationPeriod() || SevenSignsManager.getInstance().isCompResultsPeriod()) {
@@ -5427,7 +5428,6 @@ public final class Player extends Playable {
             WaterTaskManager.getInstance().remove(this);
             AttackStanceTaskManager.getInstance().remove(this);
             PvpFlagTaskManager.getInstance().remove(this, false);
-            GameTimeTaskManager.getInstance().remove(this);
 
             // Cancel the cast of eventual fusion skill users on this target.
             for (final Creature creature : getKnownType(Creature.class)) {
@@ -6336,4 +6336,28 @@ public final class Player extends Playable {
         _inventory.hardcoreDropItems(event.getReason() == DieReason.MORTAL_COMBAT);
     }
 
+    private void onDayCycleChange(OnDayCycleChange event) {
+        DayCycle current = event.getCurrent();
+        DayCycle previous = event.getPrevious();
+        L2Skill skill = SkillTable.getInstance().getInfo(L2Skill.SKILL_SHADOW_SENSE, 1);
+        boolean hasSkill = skill != null && hasSkill(L2Skill.SKILL_SHADOW_SENSE);
+        if (current == DayCycle.NIGHT) {
+            // Shadow Sense skill is set and player has Shadow Sense skill, activate/deactivate its effect.
+            if (hasSkill) {
+                // Remove and add Shadow Sense to activate/deactivate effect.
+                removeSkill(L2Skill.SKILL_SHADOW_SENSE, false);
+                addSkill(skill, false);
+                sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NIGHT_S1_EFFECT_APPLIES).addSkillName(L2Skill.SKILL_SHADOW_SENSE));
+            }
+        } else if (previous == DayCycle.NIGHT) {
+            if (hasSkill) {
+                sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DAY_S1_EFFECT_DISAPPEARS).addSkillName(L2Skill.SKILL_SHADOW_SENSE));
+            }
+        }
+
+        sendPacket(SystemMessageId.PLAYING_FOR_LONG_TIME);
+
+        // synchronize for all players current game time
+        sendPacket(new ClientSetTime());
+    }
 }

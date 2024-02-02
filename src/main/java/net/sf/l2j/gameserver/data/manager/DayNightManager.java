@@ -1,9 +1,11 @@
 package net.sf.l2j.gameserver.data.manager;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.gameserver.GlobalEventListener;
+import net.sf.l2j.gameserver.enums.DayCycle;
+import net.sf.l2j.gameserver.events.OnDayCycleChange;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ public class DayNightManager {
     private final List<Spawn> _nightCreatures = new ArrayList<>();
 
     protected DayNightManager() {
+        GlobalEventListener.register(OnDayCycleChange.class).forEach(this::onDayCycleChange);
     }
 
     public void addDayCreature(Spawn spawnDat) {
@@ -23,6 +26,14 @@ public class DayNightManager {
 
     public void addNightCreature(Spawn spawnDat) {
         _nightCreatures.add(spawnDat);
+    }
+
+    private void onDayCycleChange(OnDayCycleChange event) {
+        if (_nightCreatures.isEmpty() && _dayCreatures.isEmpty()) {
+            return;
+        }
+
+        spawnCreatures(event.getCurrent() == DayCycle.NIGHT);
     }
 
     public void spawnCreatures(boolean isNight) {
@@ -44,14 +55,6 @@ public class DayNightManager {
         }
 
         log.info("Loaded {} creatures spawns.", ((isNight) ? "night" : "day"));
-    }
-
-    public void notifyChangeMode() {
-        if (_nightCreatures.isEmpty() && _dayCreatures.isEmpty()) {
-            return;
-        }
-
-        spawnCreatures(GameTimeTaskManager.getInstance().isNight());
     }
 
     public void cleanUp() {

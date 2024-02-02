@@ -6,6 +6,7 @@ import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.CrystalType;
@@ -30,7 +31,7 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
 import net.sf.l2j.gameserver.skills.handlers.Default;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
 
 @Slf4j
 public final class Formulas {
@@ -729,7 +730,7 @@ public final class Formulas {
         }
 
         // Get weather bonus.
-        if (GameTimeTaskManager.getInstance().isNight()) {
+        if (DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             diff -= 10;
         }
 

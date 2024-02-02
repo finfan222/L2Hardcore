@@ -1,17 +1,16 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.DoorData;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.IntentionType;
+import net.sf.l2j.gameserver.events.OnDayCycleChange;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -25,7 +24,10 @@ import net.sf.l2j.gameserver.model.zone.type.BossZone;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
+
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Zaken extends AttackableAIScript {
     private static final BossZone ZONE = ZoneManager.getInstance().getZoneById(110000, BossZone.class);
@@ -89,6 +91,8 @@ public class Zaken extends AttackableAIScript {
         else {
             spawnBoss(false);
         }
+
+        GlobalEventListener.register(OnDayCycleChange.class).forEach(this::onDayCycleChange);
     }
 
     @Override
@@ -99,8 +103,6 @@ public class Zaken extends AttackableAIScript {
         addKillId(ZAKEN, DOLL_BLADER, VALE_MASTER, PIRATE_CAPTAIN, PIRATE_ZOMBIE);
         addSkillSeeId(ZAKEN);
         addSpellFinishedId(ZAKEN);
-
-        addGameTimeNotify();
     }
 
     @Override
@@ -110,7 +112,7 @@ public class Zaken extends AttackableAIScript {
         }
 
         if (name.equalsIgnoreCase("1001")) {
-            if (GameTimeTaskManager.getInstance().isNight()) {
+            if (DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
                 L2Skill skill = FrequentSkill.ZAKEN_DAY_TO_NIGHT.getSkill();
                 if (npc.getFirstEffect(skill) == null) {
                     // Add effect "Day to Night" if not found.
@@ -371,7 +373,7 @@ public class Zaken extends AttackableAIScript {
             callSkills(npc, attacker);
         }
 
-        if (!GameTimeTaskManager.getInstance().isNight() && (npc.getStatus().getHp() < (npc.getStatus().getMaxHp() * _teleportCheck) / 4)) {
+        if (!DayNightTaskManager.getInstance().is(DayCycle.NIGHT) && (npc.getStatus().getHp() < (npc.getStatus().getMaxHp() * _teleportCheck) / 4)) {
             _teleportCheck -= 1;
             npc.getAI().tryToCast(npc, FrequentSkill.ZAKEN_SELF_TELE.getSkill());
         }
@@ -380,7 +382,7 @@ public class Zaken extends AttackableAIScript {
 
     @Override
     public String onFactionCall(Attackable caller, Attackable called, Creature target) {
-        if (caller.getNpcId() == ZAKEN && GameTimeTaskManager.getInstance().isNight()) {
+        if (caller.getNpcId() == ZAKEN && DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             if (called.getAI().getCurrentIntention().getType() == IntentionType.IDLE && !_hasTeleported && caller.getStatus().getHpRatio() < 0.9 && Rnd.get(450) < 1) {
                 // Set the teleport flag as true.
                 _hasTeleported = true;
@@ -461,13 +463,18 @@ public class Zaken extends AttackableAIScript {
         return super.onSpellFinished(npc, player, skill);
     }
 
-    @Override
-    public void onGameTime(int gameTime) {
-        if (gameTime == 0) {
-            final Door door = DoorData.getInstance().getDoor(21240006);
-            if (door != null) {
-                door.openMe();
-            }
+    public void onDayCycleChange(OnDayCycleChange event) {
+        final Door door = DoorData.getInstance().getDoor(21240006);
+        if (door == null) {
+            return;
+        }
+
+        DayCycle current = event.getCurrent();
+        DayCycle previous = event.getPrevious();
+        if (current == DayCycle.NIGHT) {
+            door.openMe();
+        } else if (previous == DayCycle.NIGHT) {
+            door.closeMe();
         }
     }
 
