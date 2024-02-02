@@ -19,7 +19,7 @@ public class Time implements IUserCommandHandler {
     public void useUserCommand(int id, Player player) {
         LocalTime time = LocalTime.from(DayNightTaskManager.getInstance().getTime());
         DayCycle currentCycle = DayNightTaskManager.getInstance().getCurrentCycle();
-        player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.TIME_S1_S2_IN_THE_DAY)
+        player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.TIME_S1_S2_IN_S3)
             .addNumber(time.getHour())
             .addNumber(time.getMinute())
             .addString(currentCycle.getName()));

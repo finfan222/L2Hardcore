@@ -4391,13 +4391,14 @@ public final class SystemMessageId {
     public static final SystemMessageId LOC_HEINE_S1_S2_S3;
 
     /**
-     * ID: 927<br> Message: The current time is $s1:$s2.
+     * ID: 927<br> Message: The current time is $s1:$s2 $s3.
      */
-    public static final SystemMessageId TIME_S1_S2_IN_THE_DAY;
+    public static final SystemMessageId TIME_S1_S2_IN_S3;
 
     /**
      * ID: 928<br> Message: The current time is $s1:$s2.
      */
+    @Deprecated(since = "не используется, за все отвечает 927")
     public static final SystemMessageId TIME_S1_S2_IN_THE_NIGHT;
 
     /**
@@ -10984,7 +10985,7 @@ public final class SystemMessageId {
         LOC_ADEN_S1_S2_S3 = new SystemMessageId(924);
         LOC_COLISEUM_S1_S2_S3 = new SystemMessageId(925);
         LOC_HEINE_S1_S2_S3 = new SystemMessageId(926);
-        TIME_S1_S2_IN_THE_DAY = new SystemMessageId(927);
+        TIME_S1_S2_IN_S3 = new SystemMessageId(927);
         TIME_S1_S2_IN_THE_NIGHT = new SystemMessageId(928);
         NO_COMPENSATION_FOR_FARM_PRODUCTS = new SystemMessageId(929);
         NO_LOTTERY_TICKETS_CURRENT_SOLD = new SystemMessageId(930);
