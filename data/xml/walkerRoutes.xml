@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <list>
 	<route npcId="31356" run="true">
-		<node X="-81681" Y="243384" Z="-3712" delay="61" chat="A delivery for Mr. Lector? Very good!"/>
+        <node X="-81681" Y="243384" Z="-3712" delay="61" chat="Посылка для Mr. Lector? Очень хорошо!"/>
 		<node X="-81915" Y="243870" Z="-3712" delay="1"/>
 		<node X="-82084" Y="243659" Z="-3712"/>
 		<node X="-83148" Y="243731" Z="-3728"/>
-		<node X="-84497" Y="243241" Z="-3728" delay="6" chat="I need a break!"/>
+        <node X="-84497" Y="243241" Z="-3728" delay="6" chat="Мне нужен перерыв!"/>
 		<node X="-85212" Y="243184" Z="-3728"/>
 		<node X="-86161" Y="242898" Z="-3728"/>
 		<node X="-86281" Y="242963" Z="-3720"/>
-		<node X="-86356" Y="243201" Z="-3720" delay="7" chat="Hello, Mr. Lector! Long time no see, Mr. Jackson!"/>
+        <node X="-86356" Y="243201" Z="-3720" delay="7"
+              chat="Здравствуйте, Mr. Lector! Давно не виделись, Mr. Jackson!"/>
 		<node X="-86491" Y="242781" Z="-3720"/>
 		<node X="-86497" Y="242585" Z="-3728"/>
 		<node X="-86114" Y="241587" Z="-3728"/>
 		<node X="-85184" Y="240679" Z="-3728"/>
-		<node X="-84099" Y="241264" Z="-3728" delay="6" chat="Lulu! Lulu!"/>
-		<node X="-83709" Y="241238" Z="-3728" chat="Lulu!"/>
+        <node X="-84099" Y="241264" Z="-3728" delay="6" chat="Лулу! Лулу!"/>
+        <node X="-83709" Y="241238" Z="-3728" chat="Лулу!"/>
 		<node X="-83075" Y="241150" Z="-3728" delay="1"/>
 		<node X="-82383" Y="242926" Z="-3720" delay="1"/>
 	</route>
 	<route npcId="31357" run="false">
-		<node X="-86328" Y="241120" Z="-3734" delay="60" chat="Where did he go?"/>
+        <node X="-86328" Y="241120" Z="-3734" delay="60" chat="Куда он делся?"/>
 		<node X="-86505" Y="240727" Z="-3704"/>
 		<node X="-86081" Y="240402" Z="-3712"/>
-		<node X="-86078" Y="240853" Z="-3720" delay="15" chat="Have you seen Windawood?"/>
+        <node X="-86078" Y="240853" Z="-3720" delay="15" chat="Вы видели Windawood?"/>
 		<node X="-85957" Y="241389" Z="-3728"/>
-		<node X="-83993" Y="242766" Z="-3728" delay="10" chat="Where has he gone?"/>
+        <node X="-83993" Y="242766" Z="-3728" delay="10" chat="Куда он делся?"/>
 		<node X="-82952" Y="244461" Z="-3728"/>
 		<node X="-82370" Y="244919" Z="-3720"/>
 		<node X="-82129" Y="245020" Z="-3720"/>
@@ -35,9 +36,9 @@
 		<node X="-82129" Y="245020" Z="-3720"/>
 		<node X="-82370" Y="244919" Z="-3720"/>
 		<node X="-82952" Y="244461" Z="-3728"/>
-		<node X="-83993" Y="242766" Z="-3728" delay="10" chat="Where has he gone?"/>
+        <node X="-83993" Y="242766" Z="-3728" delay="10" chat="Куда он делся?"/>
 		<node X="-85957" Y="241389" Z="-3728"/>
-		<node X="-86078" Y="240853" Z="-3720" delay="15" chat="Have you seen Windawood?"/>
+        <node X="-86078" Y="240853" Z="-3720" delay="15" chat="Вы видели Windawood?"/>
 		<node X="-86081" Y="240402" Z="-3712"/>
 		<node X="-86505" Y="240727" Z="-3704"/>
 	</route>
