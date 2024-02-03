@@ -443,7 +443,6 @@ public final class Player extends Playable {
     private final List<Integer> _selectedBlocksList = new ArrayList<>(); // Related to CB.
 
     @Getter
-    @Setter
     private volatile Dialog dialog;
 
     @Getter
@@ -614,6 +613,10 @@ public final class Player extends Playable {
     @Override
     public boolean denyAiAction() {
         return super.denyAiAction() || isInStoreMode() || _operateType == OperateType.OBSERVE;
+    }
+
+    public void setDialog(Dialog dialog) {
+        lock(() -> this.dialog = dialog);
     }
 
     @Override

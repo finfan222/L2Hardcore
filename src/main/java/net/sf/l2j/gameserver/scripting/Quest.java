@@ -2440,6 +2440,9 @@ public class Quest {
             }
 
             if (member.getDialog() != null || member.isInDuel() || member.isInOlympiadMode() || member.isTeleporting()) {
+                if (member.getDialog() != null) {
+                    log.info("Quest Sharing: DIALOG IS NOT NULL = {}", member.getDialog());
+                }
                 player.sendMessage(String.format("%s не может принять это задание т.к. он сейчас занят.", member.getName()));
                 continue;
             }
