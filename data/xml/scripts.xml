@@ -3,7 +3,7 @@
 
 	<!-- Quests Section -->
 
-	<script path="quest.Q001_LettersOfLove"/>
+	<script path="quest.translated.Q001_LettersOfLove"/>
 	<script path="quest.Q002_WhatWomenWant"/>
 	<script path="quest.Q003_WillTheSealBeBroken"/>
 	<script path="quest.Q004_LongliveThePaagrioLord"/>
