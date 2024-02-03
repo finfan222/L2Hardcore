@@ -62,7 +62,10 @@ public final class RequestEnchantItem extends AbstractEnchantPacket {
         ItemInstance targetItem = player.getInventory().getItemByObjectId(objectId);
 
         if (tool == ItemData.DUMMY) {
-            repair(player, targetItem);
+            if (targetItem.getItem().isRepairable()) {
+                // todo: client side > add itemid for Non repairable items for not show in item list
+                repair(player, targetItem);
+            }
         } else {
             enchant(player, tool, targetItem);
         }
@@ -307,7 +310,7 @@ public final class RequestEnchantItem extends AbstractEnchantPacket {
             return;
         }
 
-        DurabilityModule durabilityModule = item.getModule(DurabilityModule.class);
+        DurabilityModule durabilityModule = item.getDurabilityModule();
         int repairPrice = durabilityModule.getRepairPrice();
         ConfirmDlg packet = new ConfirmDlg(SystemMessageId.YOU_WANT_TO_SPENT_S1_ADENA_FOR_REPAIR_S2);
         packet.addTime(15000);

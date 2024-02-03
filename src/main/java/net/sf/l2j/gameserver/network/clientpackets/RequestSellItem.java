@@ -10,7 +10,6 @@ import net.sf.l2j.gameserver.model.actor.instance.MercenaryManagerNpc;
 import net.sf.l2j.gameserver.model.actor.instance.Merchant;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.network.serverpackets.ItemList;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
@@ -75,7 +74,7 @@ public final class RequestSellItem extends L2GameClientPacket {
 
             int price;
             if (item.getDurabilityPercent() > 0) {
-                price = item.getModule(DurabilityModule.class).getReferencePrice() / 2;
+                price = item.getDurabilityModule().getReferencePrice() / 2;
             } else {
                 price = item.getReferencePrice() / 2;
             }

@@ -6267,7 +6267,7 @@ public final class Player extends Playable {
             if (hit.block.isSuccess()) {
                 armor = getSecondaryWeaponInstance();
             }
-            DurabilityModule durability = armor.getModule(DurabilityModule.class);
+            DurabilityModule durability = armor.getDurabilityModule();
             if (durability != null) {
                 durability.fractureArmor(this, null, Default.Context.builder()
                     .block(hit.block)
@@ -6279,7 +6279,7 @@ public final class Player extends Playable {
         } else if (attacker == this) {
             ItemInstance wpn = getActiveWeaponInstance();
             if (wpn != null) {
-                DurabilityModule durability = wpn.getModule(DurabilityModule.class);
+                DurabilityModule durability = wpn.getDurabilityModule();
                 if (durability != null) {
                     durability.fractureWeapon(this, target, null, Default.Context.builder()
                         .block(hit.block)
@@ -6306,14 +6306,14 @@ public final class Player extends Playable {
             if (context.getBlock().isSuccess()) {
                 armor = getSecondaryWeaponInstance();
             }
-            DurabilityModule durability = armor.getModule(DurabilityModule.class);
+            DurabilityModule durability = armor.getDurabilityModule();
             if (durability != null) {
                 durability.fractureArmor(this, skill, context);
             }
         } else if (caster == this) {
             ItemInstance wpn = getActiveWeaponInstance();
             if (wpn != null) {
-                DurabilityModule durability = wpn.getModule(DurabilityModule.class);
+                DurabilityModule durability = wpn.getDurabilityModule();
                 if (durability != null) {
                     durability.fractureWeapon(this, target, skill, context);
                 }

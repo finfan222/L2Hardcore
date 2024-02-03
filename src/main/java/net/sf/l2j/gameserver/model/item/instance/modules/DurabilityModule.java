@@ -87,9 +87,8 @@ public class DurabilityModule implements ItemModule {
 
     public int getRepairPrice() {
         CrystalType grade = instance.getItem().getCrystalType();
-        int currentDurability = Short.MAX_VALUE - durability;
         double gradeModifier = (grade.getId() * 1. / grade.getRepairModifier()) + 1;
-        return (int) Math.pow(currentDurability, gradeModifier);
+        return (int) Math.pow(getReferencePrice(), gradeModifier);
     }
 
     public void fractureWeapon(Player player, Creature target, L2Skill skill, Default.Context context) {

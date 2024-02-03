@@ -20,7 +20,6 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.item.MercenaryTicket;
 import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
-import net.sf.l2j.gameserver.model.item.instance.modules.ItemModule;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.EtcItem;
 import net.sf.l2j.gameserver.model.item.kind.Item;
@@ -36,9 +35,7 @@ import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.basefuncs.Func;
 import net.sf.l2j.gameserver.taskmanager.ItemsOnGroundTaskManager;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
@@ -55,7 +52,9 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
     private Augmentation augmentation;
     private int shotsMask;
 
-    private Map<Class<? extends ItemModule>, ItemModule> modules = new HashMap<>();
+    @Getter
+    @Setter
+    private DurabilityModule durabilityModule;
 
     public ItemInstance(int objectId, int itemId) {
         super(objectId);
@@ -73,16 +72,6 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
 
     public ItemInstance(int objectId, Item item) {
         this(objectId, item.getItemId());
-    }
-
-    public <T extends ItemModule> void registerModule(T module) {
-        modules.put(module.getClass(), module);
-        module.onRegister(this);
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T extends ItemModule> T getModule(Class<T> type) {
-        return (T) modules.get(type);
     }
 
     public void setOwnerId(String process, int ownerId, Player creator, WorldObject reference) {
@@ -559,7 +548,6 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
 
     public int getDurabilityPercent() {
         int value = -1;
-        DurabilityModule durabilityModule = getModule(DurabilityModule.class);
         if (durabilityModule == null) {
             return value;
         }

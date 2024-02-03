@@ -167,7 +167,7 @@ public class ItemDao {
             item.setSlot(slot);
             item.getData().setTime(time);
             item.getData().setExistsInDB(true);
-            Optional.ofNullable(item.getModule(DurabilityModule.class)).ifPresent(e -> e.setDurability(durability));
+            Optional.ofNullable(item.getDurabilityModule()).ifPresent(e -> e.setDurability(durability));
 
             // load augmentation
             if (item.isEquipable()) {
@@ -188,7 +188,7 @@ public class ItemDao {
      * Update the database with values of the item
      */
     public static void update(ItemInstance item) {
-        DurabilityModule durabilityModule = item.getModule(DurabilityModule.class);
+        DurabilityModule durabilityModule = item.getDurabilityModule();
 
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection();
@@ -219,7 +219,7 @@ public class ItemDao {
      * Insert the item in database
      */
     public static void create(ItemInstance item) {
-        DurabilityModule durabilityModule = item.getModule(DurabilityModule.class);
+        DurabilityModule durabilityModule = item.getDurabilityModule();
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(INSERT_ITEM)) {
@@ -299,7 +299,7 @@ public class ItemDao {
         LOCKER.lock();
         try (Connection con = ConnectionPool.getConnection()) {
             PreparedStatement preparedStatement = con.prepareStatement("UPDATE items SET durability=? WHERE object_id=?");
-            preparedStatement.setInt(1, item.getModule(DurabilityModule.class).getDurability());
+            preparedStatement.setInt(1, item.getDurabilityModule().getDurability());
             preparedStatement.setInt(2, item.getObjectId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

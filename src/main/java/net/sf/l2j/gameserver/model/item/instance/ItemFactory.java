@@ -27,8 +27,8 @@ public class ItemFactory {
             item.setCount(count);
         }
 
-        if (item.isWeapon() || item.isArmor()) {
-            item.registerModule(new DurabilityModule(item));
+        if (item.getItem().getDurability() > 0) {
+            item.setDurabilityModule(new DurabilityModule(item));
         }
 
         if (Config.LOG_ITEMS) {
@@ -52,8 +52,8 @@ public class ItemFactory {
             item.setCount(count);
         }
 
-        if (item.isWeapon() || item.isArmor()) {
-            item.registerModule(new DurabilityModule(item));
+        if (item.getItem().getDurability() > 0) {
+            item.setDurabilityModule(new DurabilityModule(item));
         }
 
         if (Config.LOG_ITEMS) {

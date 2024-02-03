@@ -6,7 +6,6 @@ import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ChooseInventoryItem;
 import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
@@ -25,19 +24,17 @@ public final class Trainer extends Folk {
 
     private static final String[] REPAIR_TEXT = {
         """
-        Ah, greetings, <font color=LEVEL>adventurer</font>! Indeed, you have come to the right place. I am the esteemed 
-        provider of repair services for all your weapons and armor needs. If you have any worn-out or damaged equipment, 
-        fear not! I possess the skills and knowledge to restore them to their former glory.
+        О, приветствую тебя <font color=LEVEL>искатель приключений</font>!<br>
+        Желаете отремонтировать свои поношенные шмотки? Тогда вы пришли в нужное место. Я специализируюсь на мастерстве 
+        починки. Всё что попадает под мой молот - выходит новеньким! Кроме головы врага конечно. Хе-хе-хе.
         """,
         """
-        Greetings, <font color=LEVEL>adventurer</font>! You've come to the right place. I specialize in repairing\s
-        weapons and armor. Whether you need a sword sharpened or a set of plate armor fixed, I can take care of it. 
-        Simply give me your worn-out equipment, and I'll have it restored to its former glory in no time.
+        О, вы выбрали правильное место для починки своего снаряжения. Я мастер своего дела, кузнец в третьем поколении, 
+        хотя дела идут не ладно, учитывая текущую ситуацию в мире.<br> О чем это я? Ах да, ремонт снаряжения...
         """,
         """
-        Ah, greetings, <font color=LEVEL>adventurer</font>! Indeed, you've come to the right place. I am the expert in 
-        all things related to weapon and armor repairs. No matter how battered or shattered your gear may be, I can 
-        mend it for you!"
+        Вы пришли в нужное место. Я эксперт во всем, что связано с ремонтом оружия, брони и аксессуаров. Независимо от 
+        того, насколько изношено или разбито ваше снаряжение, я смогу починить его и будет как новенькое.
         """
     };
 
@@ -84,7 +81,7 @@ public final class Trainer extends Folk {
             html.setFile("data/html/" + path);
             html.replace("%objectId%", getObjectId());
             html.replace("%npcName%", getName());
-            html.replace("%repair_answer%", REPAIR_TEXT[Rnd.get(REPAIR_TEXT.length - 1)]);
+            html.replace("%repair_answer%", Rnd.get(REPAIR_TEXT));
             player.sendPacket(html);
         } else {
             super.onBypassFeedback(player, command);
@@ -111,8 +108,9 @@ public final class Trainer extends Folk {
         }
 
         for (ItemInstance item : items) {
-            Optional.ofNullable(item.getModule(DurabilityModule.class))
-                .ifPresent(e -> price.addAndGet(e.getRepairPrice()));
+            if (item.getItem().isRepairable()) {
+                Optional.ofNullable(item.getDurabilityModule()).ifPresent(e -> price.addAndGet(e.getRepairPrice()));
+            }
         }
 
         if (adena < price.get()) {

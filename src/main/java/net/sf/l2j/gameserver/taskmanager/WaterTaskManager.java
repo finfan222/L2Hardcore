@@ -126,6 +126,7 @@ public class WaterTaskManager implements Runnable {
                     swimmers.put(player.getObjectId(), new Swimmer(player));
                 }
             } else {
+                player.sendPacket(new SetupGauge(GaugeColor.CYAN, 0));//
                 swimmers.remove(player.getObjectId());
             }
         }
