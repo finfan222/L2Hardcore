@@ -749,7 +749,7 @@ public final class Formulas {
         }
 
         int chance = MathUtil.limit((100 + (2 * (diff))) * 10, skill != null ? 300 : 50, 980);
-        if (attacker.isGM()) {
+        if (Config.DEVELOPER) {
             log.info("calcHitMiss diff: {}, rate: {}%.", diff, chance / 10);
         }
 
@@ -925,7 +925,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 99));
 
         if (Config.DEVELOPER) {
-            log.info("calcEffectSuccess(): name:{} eff.type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), type.toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcEffectSuccess(): name:{} eff.type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), type, chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.isGM()) {
@@ -958,7 +958,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 100));
 
         if (Config.DEVELOPER) {
-            log.info("calcSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.isGM()) {
@@ -1008,7 +1008,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 99));
 
         if (Config.DEVELOPER) {
-            log.info("calcCubicSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcCubicSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.getOwner().isGM()) {
