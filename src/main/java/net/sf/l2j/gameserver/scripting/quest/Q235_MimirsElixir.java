@@ -41,6 +41,17 @@ public class Q235_MimirsElixir extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 75;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(STAR_OF_DESTINY).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -49,7 +60,7 @@ public class Q235_MimirsElixir extends Quest {
         }
 
         if (event.equalsIgnoreCase("30721-06.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30721-12.htm") && player.getInventory().hasItems(TRUE_GOLD)) {
@@ -111,9 +122,9 @@ public class Q235_MimirsElixir extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() < 75) {
+                if (!condition.validateLevel(player)) {
                     htmltext = "30721-01b.htm";
-                } else if (!player.getInventory().hasItems(STAR_OF_DESTINY)) {
+                } else if (!condition.validateItems(player)) {
                     htmltext = "30721-01a.htm";
                 } else {
                     htmltext = "30721-01.htm";

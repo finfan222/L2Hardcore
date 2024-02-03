@@ -445,7 +445,7 @@ abstract public class OlympiadGameNormal extends AbstractOlympiadGame {
             ps.setInt(8, (type == OlympiadType.CLASSED ? 1 : 0));
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save Olympiad results.", e);
+            log.error("Couldn't save Olympiad results.", e);
         }
     }
 }

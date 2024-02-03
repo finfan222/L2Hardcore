@@ -44,7 +44,7 @@ public class ItemSkills implements IItemHandler {
 
         final IntIntHolder[] skills = item.getEtcItem().getSkills();
         if (skills == null) {
-            LOGGER.warn("{} doesn't have any registered skill for handler.", item.getName());
+            log.warn("{} doesn't have any registered skill for handler.", item.getName());
             return;
         }
 

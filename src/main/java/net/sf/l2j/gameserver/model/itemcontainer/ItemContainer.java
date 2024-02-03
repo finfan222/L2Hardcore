@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.itemcontainer;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+@Slf4j
 public abstract class ItemContainer {
-    protected static final CLogger LOGGER = new CLogger(ItemContainer.class.getName());
 
     protected final Set<ItemInstance> _items = new ConcurrentSkipListSet<>();
 

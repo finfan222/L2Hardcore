@@ -1,12 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.container.npc;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
@@ -15,6 +9,11 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
+
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class MinionList extends ConcurrentHashMap<Monster, Boolean> {
     private static final long serialVersionUID = 1L;

@@ -1,18 +1,17 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.network.ServerType;
 import net.sf.l2j.commons.util.SysUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.LoginServerThread;
 import net.sf.l2j.gameserver.Shutdown;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
+
+import java.util.StringTokenizer;
 
 public class AdminMaintenance implements IAdminCommandHandler {
     private static final String[] ADMIN_COMMANDS =
@@ -79,7 +78,7 @@ public class AdminMaintenance implements IAdminCommandHandler {
         html.replace("%server_name%", LoginServerThread.getInstance().getServerName());
         html.replace("%status%", LoginServerThread.getInstance().getServerType().getName());
         html.replace("%max_players%", LoginServerThread.getInstance().getMaxPlayers());
-        html.replace("%time%", GameTimeTaskManager.getInstance().getGameTimeFormated());
+        html.replace("%time%", DayNightTaskManager.getInstance().getGameTimeFormatted());
         player.sendPacket(html);
     }
 

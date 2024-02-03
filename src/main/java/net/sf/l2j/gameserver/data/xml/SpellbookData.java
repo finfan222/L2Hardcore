@@ -24,7 +24,7 @@ public class SpellbookData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/spellbooks.xml");
-        LOGGER.info("Loaded {} spellbooks.", _books.size());
+        log.info("Loaded {} spellbooks.", _books.size());
     }
 
     @Override

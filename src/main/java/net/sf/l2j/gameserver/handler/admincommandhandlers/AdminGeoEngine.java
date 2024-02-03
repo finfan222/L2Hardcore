@@ -1,9 +1,5 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.geoengine.geodata.ABlock;
@@ -18,6 +14,10 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
+
+import java.awt.*;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class AdminGeoEngine implements IAdminCommandHandler {
     private static final String Y = "x ";
@@ -226,7 +226,7 @@ public class AdminGeoEngine implements IAdminCommandHandler {
                         }
 
                         for (String msg : info) {
-                            LOGGER.info(msg);
+                            log.info(msg);
                             player.sendMessage(msg);
                         }
                         break;

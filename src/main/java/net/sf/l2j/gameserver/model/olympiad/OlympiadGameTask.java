@@ -1,17 +1,18 @@
 package net.sf.l2j.gameserver.model.olympiad;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.enums.SpawnType;
 import net.sf.l2j.gameserver.model.zone.type.OlympiadStadiumZone;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
+@Slf4j
 public final class OlympiadGameTask implements Runnable {
-    protected static final CLogger LOGGER = new CLogger(OlympiadGameTask.class.getName());
 
-    protected static final long BATTLE_PERIOD = Config.OLY_BATTLE; // 6 mins
+    @Deprecated(since = "Почему-то не используется")
+    private static final long BATTLE_PERIOD = Config.OLY_BATTLE; // 6 mins
 
     public static final int[] TELEPORT_TO_ARENA =
         {
@@ -233,13 +234,13 @@ public final class OlympiadGameTask implements Runnable {
                 case TELE_TO_TOWN:
                 case CLEANUP:
                 case IDLE:
-                    LOGGER.error("Couldn't return players back in town.", e);
+                    log.error("Couldn't return players back in town.", e);
                     _state = GameState.IDLE;
                     _game = null;
                     return;
             }
 
-            LOGGER.error("Couldn't return players back in town.", e);
+            log.error("Couldn't return players back in town.", e);
             _state = GameState.GAME_STOPPED;
 
             ThreadPool.schedule(this, 1000);

@@ -31,20 +31,30 @@ public class Q003_WillTheSealBeBroken extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 16;
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30141-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -57,9 +67,9 @@ public class Q003_WillTheSealBeBroken extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.DARK_ELF) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30141-00.htm";
-                } else if (player.getStatus().getLevel() < 16) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30141-01.htm";
                 } else {
                     htmltext = "30141-02.htm";

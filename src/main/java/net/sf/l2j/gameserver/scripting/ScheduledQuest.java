@@ -1,10 +1,12 @@
 package net.sf.l2j.gameserver.scripting;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.gameserver.enums.ScheduleType;
+
 import java.util.Calendar;
 import java.util.concurrent.ScheduledFuture;
 
-import net.sf.l2j.gameserver.enums.ScheduleType;
-
+@Slf4j
 public abstract class ScheduledQuest extends Quest {
     private ScheduleType _type;
     private Calendar _start;
@@ -87,7 +89,7 @@ public abstract class ScheduledQuest extends Quest {
             // initialize script and return
             return init();
         } catch (Exception e) {
-            LOGGER.error("Error loading schedule data for {}.", e, toString());
+            log.error("Error loading schedule data for {}.", this, e);
 
             _type = null;
             _start = null;
@@ -109,8 +111,8 @@ public abstract class ScheduledQuest extends Quest {
             case HOURLY:
                 // HOURLY, "20:10", "50:00"
                 timeStamp = value.split(":");
-                calendar.set(Calendar.MINUTE, Integer.valueOf(timeStamp[0]));
-                calendar.set(Calendar.SECOND, Integer.valueOf(timeStamp[1]));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(timeStamp[0]));
+                calendar.set(Calendar.SECOND, Integer.parseInt(timeStamp[1]));
                 calendar.set(Calendar.MILLISECOND, 0);
                 return calendar;
 
@@ -200,7 +202,7 @@ public abstract class ScheduledQuest extends Quest {
             try {
                 onStart();
             } catch (Exception e) {
-                LOGGER.error("Error starting {}.", e, toString());
+                log.error("Error starting {}.", this, e);
             }
 
             // schedule next start
@@ -216,7 +218,7 @@ public abstract class ScheduledQuest extends Quest {
                 onEnd();
                 _started = false;
             } catch (Exception e) {
-                LOGGER.error("Error ending {}.", e, toString());
+                log.error("Error ending {}.", this, e);
             }
 
             // schedule start
@@ -228,7 +230,7 @@ public abstract class ScheduledQuest extends Quest {
                 onStart();
                 _started = true;
             } catch (Exception e) {
-                LOGGER.error("Error starting {}.", e, toString());
+                log.error("Error starting {}.", this, e);
             }
 
             // schedule end
@@ -269,28 +271,36 @@ public abstract class ScheduledQuest extends Quest {
      * @return The {@link Calendar} representation of a day.
      */
     private final int getDayOfWeek(String day) {
-        if (day.equals("MON")) {
-            return Calendar.MONDAY;
-        } else if (day.equals("TUE")) {
-            return Calendar.TUESDAY;
-        } else if (day.equals("WED")) {
-            return Calendar.WEDNESDAY;
-        } else if (day.equals("THU")) {
-            return Calendar.THURSDAY;
-        } else if (day.equals("FRI")) {
-            return Calendar.FRIDAY;
-        } else if (day.equals("SAT")) {
-            return Calendar.SATURDAY;
-        } else if (day.equals("SUN")) {
-            return Calendar.SUNDAY;
+        switch (day) {
+            case "MON" -> {
+                return Calendar.MONDAY;
+            }
+            case "TUE" -> {
+                return Calendar.TUESDAY;
+            }
+            case "WED" -> {
+                return Calendar.WEDNESDAY;
+            }
+            case "THU" -> {
+                return Calendar.THURSDAY;
+            }
+            case "FRI" -> {
+                return Calendar.FRIDAY;
+            }
+            case "SAT" -> {
+                return Calendar.SATURDAY;
+            }
+            case "SUN" -> {
+                return Calendar.SUNDAY;
+            }
         }
 
-        LOGGER.error("Error parsing day of week {}, MONDAY will be used for {}.", day, toString());
+        log.error("Error parsing day of week {}, MONDAY will be used for {}.", day, toString());
         return Calendar.MONDAY;
     }
 
     private final void print(Calendar c) {
-        LOGGER.debug("{}: {} = {}.", toString(), ((c == _start) ? "Next start" : "Next end"), String.format("%d.%d.%d %d:%02d:%02d", c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR), c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)));
+        log.debug("{}: {} = {}.", this, ((c == _start) ? "Next start" : "Next end"), String.format("%d.%d.%d %d:%02d:%02d", c.get(Calendar.DAY_OF_MONTH), c.get(Calendar.MONTH) + 1, c.get(Calendar.YEAR), c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), c.get(Calendar.SECOND)));
     }
 
     public final void setTask(ScheduledFuture<?> task) {

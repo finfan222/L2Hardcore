@@ -1,15 +1,15 @@
 package net.sf.l2j.gameserver.communitybbs.model;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.pool.ConnectionPool;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
+@Slf4j
 public class Post {
-    private static final CLogger LOGGER = new CLogger(Post.class.getName());
 
     private static final String UPDATE_TEXT = "UPDATE bbs_post SET txt=? WHERE id=? AND topic_id=? AND forum_id=?";
 
@@ -85,7 +85,7 @@ public class Post {
             ps.setInt(4, _forumId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update Post text.", e);
+            log.error("Couldn't update Post text.", e);
         }
     }
 }

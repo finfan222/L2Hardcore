@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.skills;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
@@ -26,9 +26,8 @@ import java.util.Optional;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public abstract class AbstractEffect {
-
-    private static final CLogger LOGGER = new CLogger(AbstractEffect.class.getSimpleName());
 
     private EffectState _state;
 

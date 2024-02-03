@@ -9,12 +9,16 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
-import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class HealPercent extends L2Skill {
+public class HealPercent extends Default {
 
     public HealPercent(StatSet set) {
         super(set);
+    }
+
+    @Override
+    public boolean isHeal() {
+        return true;
     }
 
     @Override
@@ -30,6 +34,7 @@ public class HealPercent extends L2Skill {
                 continue;
             }
 
+            Context context = Context.builder().build();
             double amount;
             if (isHp) {
                 double hp = target.getStatus().getMaxHp() * getPower() / 100.;
@@ -44,6 +49,8 @@ public class HealPercent extends L2Skill {
                 }
                 amount = target.getStatus().addMp(mp);
             }
+
+            context.value = amount;
 
             if (hasEffects()) {
                 target.stopSkillEffects(getId());
@@ -68,6 +75,8 @@ public class HealPercent extends L2Skill {
                 sm.addNumber((int) amount);
                 target.sendPacket(sm);
             }
+
+            notifyAboutSkillHit(caster, target, context);
         }
     }
 }

@@ -48,15 +48,25 @@ public class Q104_SpiritOfMirrors extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 11;
+        condition.races = new ClassRace[]{ClassRace.HUMAN};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30017-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, GALLINS_OAK_WAND, 1);
@@ -64,7 +74,7 @@ public class Q104_SpiritOfMirrors extends Quest {
             giveItems(player, GALLINS_OAK_WAND, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -77,9 +87,9 @@ public class Q104_SpiritOfMirrors extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.HUMAN) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30017-00.htm";
-                } else if (player.getStatus().getLevel() < 10) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30017-01.htm";
                 } else {
                     htmltext = "30017-02.htm";

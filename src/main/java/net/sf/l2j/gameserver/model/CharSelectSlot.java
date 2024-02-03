@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 
@@ -11,8 +11,8 @@ import java.sql.ResultSet;
 /**
  * A datatype used to store character selection screen informations.
  */
+@Slf4j
 public class CharSelectSlot {
-    private static final CLogger LOGGER = new CLogger(CharSelectSlot.class.getName());
 
     private static final String RESTORE_PAPERDOLLS = "SELECT object_id,item_id,slot,enchant_level FROM items WHERE owner_id=? AND location='PAPERDOLL'";
 
@@ -298,7 +298,7 @@ public class CharSelectSlot {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore paperdolls for {}.", e, objectId);
+            log.error("Couldn't restore paperdolls for {}.", objectId, e);
         }
         return paperdoll;
     }

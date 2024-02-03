@@ -1,7 +1,7 @@
 package net.sf.l2j.util;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.gameserver.Shutdown;
 import net.sf.l2j.gameserver.model.World;
 
@@ -14,8 +14,8 @@ import java.lang.management.ThreadMXBean;
 /**
  * Thread to check for deadlocked threads.
  */
+@Slf4j
 public class DeadLockDetector extends Thread {
-    private static final CLogger LOGGER = new CLogger(DeadLockDetector.class.getName());
 
     /** Interval to check for deadlocked threads */
     private static final int SLEEP_TIME = Config.DEADLOCK_CHECK_INTERVAL * 1000;
@@ -75,7 +75,7 @@ public class DeadLockDetector extends Thread {
                             info.append("\n");
                         }
                     }
-                    LOGGER.warn(info.toString());
+                    log.warn(info.toString());
 
                     if (Config.RESTART_ON_DEADLOCK) {
                         World.announceToOnlinePlayers("Server has stability issues - restarting now.");
@@ -84,7 +84,7 @@ public class DeadLockDetector extends Thread {
                 }
                 Thread.sleep(SLEEP_TIME);
             } catch (Exception e) {
-                LOGGER.warn("The DeadLockDetector encountered a problem.", e);
+                log.warn("The DeadLockDetector encountered a problem.", e);
             }
         }
     }

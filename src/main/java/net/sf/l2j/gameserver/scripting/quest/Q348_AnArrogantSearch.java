@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -85,15 +84,25 @@ public class Q348_AnArrogantSearch extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 60;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(BLOODED_FABRIC).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30864-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.setCond(2);
             st.set("points", 0);
@@ -134,7 +143,7 @@ public class Q348_AnArrogantSearch extends Quest {
             giveItems(player, WHITE_FABRIC, 10);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -147,9 +156,9 @@ public class Q348_AnArrogantSearch extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getInventory().hasItems(BLOODED_FABRIC)) {
+                if (condition.validateItems(player)) {
                     htmltext = "30864-00.htm";
-                } else if (player.getStatus().getLevel() < 60) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30864-01.htm";
                 } else {
                     htmltext = "30864-02.htm";

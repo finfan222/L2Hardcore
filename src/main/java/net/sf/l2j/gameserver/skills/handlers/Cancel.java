@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.skills.handlers;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.math.MathUtil;
@@ -16,8 +17,8 @@ import net.sf.l2j.gameserver.skills.Formulas;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
+@Slf4j
 public class Cancel extends Default {
 
     public Cancel(StatSet set) {
@@ -33,7 +34,7 @@ public class Cancel extends Default {
         double rate = (2 * diffLevel + baseRate + effectPeriod / 120.) * vuln;
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcCancelSuccess(): diffLevel:{}, baseRate:{}, vuln:{}, total:{}.", diffLevel, baseRate, vuln, rate);
+            log.info("calcCancelSuccess(): diffLevel:{}, baseRate:{}, vuln:{}, total:{}.", diffLevel, baseRate, vuln, rate);
         }
 
         return Rnd.get(100) < MathUtil.limit((int) rate, minRate, maxRate);
@@ -57,6 +58,7 @@ public class Cancel extends Default {
                 continue;
             }
 
+            Context context = Context.builder().build();
             int count = getMaxNegatedEffects();
 
             // Calculate the difference of level between skill level and victim, and retrieve the vuln/prof.
@@ -65,7 +67,7 @@ public class Cancel extends Default {
 
             final List<AbstractEffect> list = Arrays.asList(target.getAllEffects());
             Collections.shuffle(list);
-            boolean success = false;
+
             for (AbstractEffect effect : list) {
                 // Don't cancel toggles or debuffs.
                 if (effect.getSkill().isToggle() || effect.getSkill().isDebuff()) {
@@ -103,7 +105,8 @@ public class Cancel extends Default {
                 }
 
                 // Calculate the success chance following previous variables.
-                if (success = calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, resistance, minRate, maxRate)) {
+                context.isSuccess = calcCancelSuccess(effect.getPeriod(), diffLevel, skillPower, resistance, minRate, maxRate);
+                if (context.isSuccess) {
                     effect.exit();
                 }
 
@@ -116,7 +119,8 @@ public class Cancel extends Default {
                 }
             }
 
-            notifyAboutSkillHit(caster, target, Map.of("damage", success ? Formulas.calcNegateSkillPower(this, caster, target) : 0));
+            context.value = context.isSuccess ? (int) Formulas.calcNegateSkillPower(this, caster, target) : 0;
+            notifyAboutSkillHit(caster, target, context);
         }
 
         if (hasSelfEffects()) {

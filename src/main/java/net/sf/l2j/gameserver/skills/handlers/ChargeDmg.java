@@ -2,16 +2,12 @@ package net.sf.l2j.gameserver.skills.handlers;
 
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.gameserver.enums.items.ShotType;
-import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
+import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.network.SystemMessageId;
-import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
-
-import java.util.Map;
 
 public class ChargeDmg extends Default {
     public ChargeDmg(StatSet set) {
@@ -31,66 +27,54 @@ public class ChargeDmg extends Default {
         }
 
         final boolean ss = caster.isChargedShot(ShotType.SOULSHOT);
+        Context context = Context.builder().build();
 
         for (WorldObject obj : targets) {
-            if (!(obj instanceof Creature)) {
+            if (!(obj instanceof Creature target)) {
                 continue;
             }
 
-            final Creature target = ((Creature) obj);
             if (target.isAlikeDead()) {
                 continue;
             }
 
-            // Calculate skill evasion.
-            boolean skillIsEvaded = Formulas.calcPhysicalSkillEvasion(target, this);
-            if (skillIsEvaded) {
-                if (caster instanceof Player player) {
-                    player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_DODGES_ATTACK).addCharName(target));
-                }
-
-                if (target instanceof Player player) {
-                    player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.AVOIDED_S1_ATTACK).addCharName(caster));
-                }
-
+            context.isMissed = isEvaded(caster, target);
+            if (context.isMissed) {
                 continue;
             }
 
-            final boolean isCrit = getBaseCritRate() > 0 && Formulas.calcCrit(getBaseCritRate() * 10 * Formulas.getSTRBonus(caster));
-            final ShieldDefense sDef = Formulas.calcShldUse(caster, target, this, isCrit);
+            context.isCritical = getBaseCritRate() > 0 && Formulas.calcCrit(getBaseCritRate() * 10 * Formulas.getSTRBonus(caster));
+            context.block = Formulas.calcShldUse(caster, target, this, context.isCritical);
+            context.value = Formulas.calcPhysicalSkillDamage(caster, target, this, context.block, context.isCritical, ss);
 
-            final double damage = Formulas.calcPhysicalSkillDamage(caster, target, this, sDef, isCrit, ss);
-            if (damage > 0) {
-                byte reflect = Formulas.calcSkillReflect(target, this);
-                if (hasEffects()) {
-                    if ((reflect & Formulas.SKILL_REFLECT_SUCCEED) != 0) {
-                        caster.stopSkillEffects(getId());
+            if (context.value > 0) {
+                context.value *= modifier;
+
+                // vengeance reflected damage
+                context.isAvenged = isAvenged(caster, target);
+                if (context.isAvenged) {
+                    caster.reduceCurrentHp(context.value, target, this);
+                } else {
+                    target.reduceCurrentHp(context.value, caster, this);
+                }
+
+                if (hasEffects() && target.getFirstEffect(EffectType.BLOCK_DEBUFF) == null) {
+                    context.isReflected = isReflected(caster, target, context.block);
+                    if (context.isReflected) {
+                        caster.stopSkillEffects(this.getId());
                         applyEffects(target, caster);
                     } else {
-                        // activate attacked effects, if any
-                        target.stopSkillEffects(getId());
-                        if (Formulas.calcSkillSuccess(caster, target, this, sDef, true)) {
-                            applyEffects(caster, target, sDef, false);
-                        } else {
-                            caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(this));
-                        }
+                        target.stopSkillEffects(this.getId());
+                        applyEffects(caster, target, context.block, false);
                     }
                 }
 
-                double finalDamage = damage * modifier;
-                target.reduceCurrentHp(finalDamage, caster, this);
-
-                // vengeance reflected damage
-                if ((reflect & Formulas.SKILL_REFLECT_VENGEANCE) != 0) {
-                    caster.reduceCurrentHp(damage, target, this);
-                }
-
-                caster.sendDamageMessage(target, (int) finalDamage, false, isCrit, false);
+                caster.sendDamageMessage(target, (int) context.value, false, context.isCritical, false);
             } else {
                 caster.sendDamageMessage(target, 0, false, false, true);
             }
 
-            notifyAboutSkillHit(caster, target, Map.of("damage", damage));
+            notifyAboutSkillHit(caster, target, context);
         }
 
         if (hasSelfEffects()) {

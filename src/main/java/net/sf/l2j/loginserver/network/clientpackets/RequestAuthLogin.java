@@ -1,12 +1,11 @@
 package net.sf.l2j.loginserver.network.clientpackets;
 
-import java.security.GeneralSecurityException;
-
-import javax.crypto.Cipher;
-
 import net.sf.l2j.loginserver.LoginController;
 import net.sf.l2j.loginserver.network.LoginClient;
 import net.sf.l2j.loginserver.network.serverpackets.LoginFail;
+
+import javax.crypto.Cipher;
+import java.security.GeneralSecurityException;
 
 public class RequestAuthLogin extends L2LoginClientPacket {
     private final byte[] _raw = new byte[128];
@@ -30,7 +29,7 @@ public class RequestAuthLogin extends L2LoginClientPacket {
             rsaCipher.init(Cipher.DECRYPT_MODE, client.getRSAPrivateKey());
             decrypted = rsaCipher.doFinal(_raw, 0x00, 0x80);
         } catch (GeneralSecurityException e) {
-            LOGGER.error("Failed to generate a cipher.", e);
+            log.error("Failed to generate a cipher.", e);
             client.close(LoginFail.REASON_ACCESS_FAILED);
             return;
         }
@@ -41,7 +40,7 @@ public class RequestAuthLogin extends L2LoginClientPacket {
 
             LoginController.getInstance().retrieveAccountInfo(client, user, password);
         } catch (Exception e) {
-            LOGGER.error("Failed to decrypt user/password.", e);
+            log.error("Failed to decrypt user/password.", e);
             client.close(LoginFail.REASON_ACCESS_FAILED);
         }
     }

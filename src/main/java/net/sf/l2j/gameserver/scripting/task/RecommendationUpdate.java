@@ -1,16 +1,17 @@
 package net.sf.l2j.gameserver.scripting.task;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
 import net.sf.l2j.gameserver.scripting.ScheduledQuest;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+@Slf4j
 public final class RecommendationUpdate extends ScheduledQuest {
     private static final String DELETE_CHAR_RECOMS = "TRUNCATE TABLE character_recommends";
     private static final String SELECT_ALL_RECOMS = "SELECT obj_Id, level, rec_have FROM characters";
@@ -73,7 +74,7 @@ public final class RecommendationUpdate extends ScheduledQuest {
                 ps2.executeBatch();
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't clear players recommendations.", e);
+            log.error("Couldn't clear players recommendations.", e);
         }
     }
 

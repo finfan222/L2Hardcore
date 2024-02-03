@@ -30,15 +30,24 @@ public class Q016_TheComingDarkness extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 62;
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("31517-2.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, CRYSTAL_OF_SEAL, 5);
@@ -64,7 +73,7 @@ public class Q016_TheComingDarkness extends Quest {
             takeItems(player, CRYSTAL_OF_SEAL, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -77,7 +86,7 @@ public class Q016_TheComingDarkness extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 62) ? "31517-0a.htm" : "31517-0.htm";
+                htmltext = !condition.validateLevel(player) ? "31517-0a.htm" : "31517-0.htm";
                 break;
 
             case STARTED:

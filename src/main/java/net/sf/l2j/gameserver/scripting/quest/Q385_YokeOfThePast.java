@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q385_YokeOfThePast extends Quest {
     private static final String QUEST_NAME = "Q385_YokeOfThePast";
@@ -114,15 +114,24 @@ public class Q385_YokeOfThePast extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 20;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("10.htm")) {
@@ -130,7 +139,7 @@ public class Q385_YokeOfThePast extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -143,7 +152,7 @@ public class Q385_YokeOfThePast extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 20) ? "02.htm" : "01.htm";
+                htmltext = !condition.validateLevel(player) ? "02.htm" : "01.htm";
                 break;
 
             case STARTED:

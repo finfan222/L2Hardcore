@@ -1,19 +1,21 @@
 package net.sf.l2j.gameserver.scripting;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.data.MemoSet;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.enums.QuestStatus;
+import net.sf.l2j.gameserver.events.OnQuestAccept;
+import net.sf.l2j.gameserver.events.OnQuestCancel;
+import net.sf.l2j.gameserver.model.actor.Npc;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.network.serverpackets.ExShowQuestMark;
+import net.sf.l2j.gameserver.network.serverpackets.QuestList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
-
-import net.sf.l2j.commons.data.MemoSet;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.network.serverpackets.ExShowQuestMark;
-import net.sf.l2j.gameserver.network.serverpackets.QuestList;
 
 /**
  * A container holding one {@link Player}'s {@link Quest} progress. It extends {@link MemoSet}.<br>
@@ -25,10 +27,9 @@ import net.sf.l2j.gameserver.network.serverpackets.QuestList;
  * <li>cond : help server-side to trigger events, help client-side to show the correct {@link Quest} log.</li>
  * </ul>
  */
+@Slf4j
 public final class QuestState extends MemoSet {
     private static final long serialVersionUID = 1L;
-
-    protected static final CLogger LOGGER = new CLogger(QuestState.class.getName());
 
     private static final String QUEST_SET_VAR = "INSERT INTO character_quests (charId,name,var,value) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE value=VALUES(value)";
     private static final String QUEST_DEL_VAR = "DELETE FROM character_quests WHERE charId=? AND name=? AND var=?";
@@ -88,7 +89,7 @@ public final class QuestState extends MemoSet {
             ps.setString(4, value);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set quest {} variable {}.", e, _quest.getName(), key);
+            log.error("Couldn't set quest {} variable {}.", _quest.getName(), key, e);
         }
     }
 
@@ -102,7 +103,7 @@ public final class QuestState extends MemoSet {
             ps.setString(3, key);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove quest {} variable {}.", e, _quest.getName(), key);
+            log.error("Couldn't remove quest {} variable {}.", _quest.getName(), key, e);
         }
     }
 
@@ -202,6 +203,17 @@ public final class QuestState extends MemoSet {
 
         // Set new state.
         set(STATE, state);
+    }
+
+    public void setState(QuestStatus status, Player player, Npc npc, String event) {
+        setState(status);
+        if (status == QuestStatus.STARTED) {
+            if (_quest.isSharable()) {
+                _quest.share(player, npc, event);
+            } else {
+                player.getEventListener().notify(new OnQuestAccept(player, npc, _quest, event));
+            }
+        }
     }
 
     /**
@@ -349,7 +361,9 @@ public final class QuestState extends MemoSet {
             ps.setString(2, _quest.getName());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete quest.", e);
+            log.error("Couldn't delete quest.", e);
         }
+
+        _player.getEventListener().notify(new OnQuestCancel(_player, _quest));
     }
 }

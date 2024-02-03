@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -28,8 +28,8 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class DerbyTrackManager {
-    protected static final CLogger LOGGER = new CLogger(DerbyTrackManager.class.getName());
 
     private static final String SAVE_HISTORY = "INSERT INTO mdt_history (race_id, first, second, odd_rate) VALUES (?,?,?,?)";
     private static final String LOAD_HISTORY = "SELECT * FROM mdt_history";
@@ -99,7 +99,7 @@ public class DerbyTrackManager {
                 _runners.add((Npc) constructor.newInstance(IdFactory.getInstance().getNextId(), template));
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't initialize runners.", e);
+            log.error("Couldn't initialize runners.", e);
         }
 
         _speeds = new int[8][20];
@@ -235,9 +235,9 @@ public class DerbyTrackManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Can't load Derby Track history.", e);
+            log.error("Can't load Derby Track history.", e);
         }
-        LOGGER.info("Loaded {} Derby Track records, currently on race #{}.", _history.size(), _raceNumber);
+        log.info("Loaded {} Derby Track records, currently on race #{}.", _history.size(), _raceNumber);
     }
 
     /**
@@ -254,7 +254,7 @@ public class DerbyTrackManager {
             ps.setDouble(4, history.getOddRate());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Can't save Derby Track history.", e);
+            log.error("Can't save Derby Track history.", e);
         }
     }
 
@@ -269,7 +269,7 @@ public class DerbyTrackManager {
                 setBetOnLane(rs.getInt("lane_id"), rs.getLong("bet"), false);
             }
         } catch (Exception e) {
-            LOGGER.error("Can't load Derby Track bets.", e);
+            log.error("Can't load Derby Track bets.", e);
         }
     }
 
@@ -286,7 +286,7 @@ public class DerbyTrackManager {
             ps.setLong(2, sum);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Can't save Derby Track bet.", e);
+            log.error("Can't save Derby Track bet.", e);
         }
     }
 
@@ -302,7 +302,7 @@ public class DerbyTrackManager {
              PreparedStatement ps = con.prepareStatement(CLEAR_BETS)) {
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Can't clear Derby Track bets.", e);
+            log.error("Can't clear Derby Track bets.", e);
         }
     }
 

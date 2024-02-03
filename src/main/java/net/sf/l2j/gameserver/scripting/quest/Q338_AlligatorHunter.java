@@ -25,15 +25,24 @@ public class Q338_AlligatorHunter extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 40;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30892-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30892-05.htm")) {
@@ -51,7 +60,7 @@ public class Q338_AlligatorHunter extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -62,15 +71,11 @@ public class Q338_AlligatorHunter extends Quest {
             return htmltext;
         }
 
-        switch (st.getState()) {
-            case CREATED:
-                htmltext = (player.getStatus().getLevel() < 40) ? "30892-00.htm" : "30892-01.htm";
-                break;
-
-            case STARTED:
-                htmltext = (player.getInventory().hasItems(ALLIGATOR_PELT)) ? "30892-03.htm" : "30892-04.htm";
-                break;
-        }
+        htmltext = switch (st.getState()) {
+            case CREATED -> !condition.validateLevel(player) ? "30892-00.htm" : "30892-01.htm";
+            case STARTED -> (player.getInventory().hasItems(ALLIGATOR_PELT)) ? "30892-03.htm" : "30892-04.htm";
+            default -> htmltext;
+        };
 
         return htmltext;
     }

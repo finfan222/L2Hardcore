@@ -47,6 +47,17 @@ public class Q024_InhabitantsOfTheForestOfTheDead extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 65;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(23).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -55,7 +66,7 @@ public class Q024_InhabitantsOfTheForestOfTheDead extends Quest {
         }
 
         if (event.equalsIgnoreCase("31389-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("state", 1);
             playSound(player, SOUND_ACCEPT);
@@ -130,8 +141,7 @@ public class Q024_InhabitantsOfTheForestOfTheDead extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                QuestState st2 = player.getQuestList().getQuestState("Q023_LidiasHeart");
-                if (st2 == null || !st2.isCompleted() || player.getStatus().getLevel() < 65) {
+                if (!condition.validateQuests(player) || !condition.validateLevel(player)) {
                     htmltext = "31389-02.htm";
                 } else {
                     htmltext = "31389-01.htm";

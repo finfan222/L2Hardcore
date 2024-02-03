@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.spawn;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -15,8 +15,8 @@ import java.util.concurrent.ScheduledFuture;
 /**
  * A data holder keeping informations related to the {@link Spawn} of a RaidBoss.
  */
+@Slf4j
 public class BossSpawn {
-    protected static final CLogger LOGGER = new CLogger(BossSpawn.class.getName());
 
     private static final String DELETE_RAIDBOSS = "DELETE FROM raidboss_spawnlist WHERE boss_id=?";
     private static final String UPDATE_RAIDBOSS = "UPDATE raidboss_spawnlist SET respawn_time = ?, currentHP = ?, currentMP = ? WHERE boss_id = ?";
@@ -127,7 +127,7 @@ public class BossSpawn {
         // Refresh the database for this particular boss entry.
         updateOnDb();
 
-        LOGGER.info("Raid boss: {} - {} ({}h).", _spawn.getNpc().getName(), new SimpleDateFormat("dd-MM-yyyy HH:mm").format(respawnTime), respawnDelay);
+        log.info("Raid boss: {} - {} ({}h).", _spawn.getNpc().getName(), new SimpleDateFormat("dd-MM-yyyy HH:mm").format(respawnTime), respawnDelay);
     }
 
     /**
@@ -154,7 +154,7 @@ public class BossSpawn {
         // Refresh the database for this particular boss entry.
         updateOnDb();
 
-        LOGGER.info("{} raid boss has spawned.", npc.getName());
+        log.info("{} raid boss has spawned.", npc.getName());
     }
 
     /**
@@ -182,7 +182,7 @@ public class BossSpawn {
             ps.setInt(1, _spawn.getNpcId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove raid boss #{}.", e, _spawn.getNpcId());
+            log.error("Couldn't remove raid boss #{}.", _spawn.getNpcId(), e);
         }
 
         // Drop the Spawn reference.
@@ -201,7 +201,7 @@ public class BossSpawn {
             ps.setInt(4, _spawn.getNpcId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update raid boss #{}.", e, _spawn.getNpcId());
+            log.error("Couldn't update raid boss #{}.", _spawn.getNpcId(), e);
         }
     }
 }

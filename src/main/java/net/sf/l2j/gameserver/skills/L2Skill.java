@@ -1,8 +1,9 @@
 package net.sf.l2j.gameserver.skills;
 
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
@@ -43,8 +44,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
+@Slf4j
 public abstract class L2Skill implements IChanceSkillTrigger {
-    protected static final CLogger LOGGER = new CLogger(L2Skill.class.getName());
 
     public static final int SKILL_LUCKY = 194;
     public static final int SKILL_EXPERTISE = 239;
@@ -182,6 +183,9 @@ public abstract class L2Skill implements IChanceSkillTrigger {
 
     @Getter private final boolean isProjectile;
 
+    @Setter
+    private L2Skill extender;
+
     protected L2Skill(StatSet set) {
         _id = set.getInteger("skill_id");
         _level = set.getInteger("level", 1);
@@ -316,7 +320,7 @@ public abstract class L2Skill implements IChanceSkillTrigger {
                 }
 
                 if (old == mask) {
-                    LOGGER.warn("Unknown item type {} found on weaponsAllowed parse.", item);
+                    log.warn("Unknown item type {} found on weaponsAllowed parse.", item);
                 }
             }
             _weaponsAllowed = mask;
@@ -370,7 +374,7 @@ public abstract class L2Skill implements IChanceSkillTrigger {
         final String capsuledItems = set.getString("capsuled_items_skill", null);
         if (capsuledItems != null) {
             if (capsuledItems.isEmpty()) {
-                LOGGER.warn("Empty extractable data for skill: {}.", _id);
+                log.warn("Empty extractable data for skill: {}.", _id);
             }
 
             _extractableItems = parseExtractableSkill(_id, _level, capsuledItems);
@@ -817,7 +821,7 @@ public abstract class L2Skill implements IChanceSkillTrigger {
     }
 
     public final boolean isOffensive() {
-        return _isOffensive || isSkillTypeOffensive();
+        return _isOffensive || isSkillTypeOffensive() || isDamage();
     }
 
     public final boolean isHeroSkill() {
@@ -1133,12 +1137,12 @@ public abstract class L2Skill implements IChanceSkillTrigger {
 
                 products.add(new ExtractableProductItem(items, chance));
             } catch (Exception e) {
-                LOGGER.error("Couldn't properly parse extractable skill data for id: {} and level: {}.", skillId, skillLvl);
+                log.error("Couldn't properly parse extractable skill data for id: {} and level: {}.", skillId, skillLvl);
             }
         }
 
         if (products.isEmpty()) {
-            LOGGER.warn("No production items were found for id: {} and level: {}.", skillId, skillLvl);
+            log.warn("No production items were found for id: {} and level: {}.", skillId, skillLvl);
         }
 
         return new ExtractableSkill(SkillTable.getSkillHashCode(this), products);
@@ -1207,8 +1211,16 @@ public abstract class L2Skill implements IChanceSkillTrigger {
         return false;
     }
 
+    public boolean isHeal() {
+        return false;
+    }
+
+    public L2Skill getExtender() {
+        return extender == null ? this : extender;
+    }
+
     @Override
     public String toString() {
-        return "" + _name + "[id=" + _id + ",lvl=" + _level + "]";
+        return _name + "[id=" + _id + ",lvl=" + _level + "]";
     }
 }

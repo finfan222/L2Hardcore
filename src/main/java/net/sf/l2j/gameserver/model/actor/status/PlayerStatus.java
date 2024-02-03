@@ -513,36 +513,59 @@ public class PlayerStatus extends PlayableStatus<Player> {
     public boolean addExpAndSp(long addToExp, int addToSp, Map<Creature, RewardInfo> rewards) {
         // If this player has a pet, give the xp to the pet now (if any).
         if (_actor.hasPet()) {
-            final Pet pet = (Pet) _actor.getSummon();
-            if (pet.getStatus().getExp() <= (pet.getTemplate().getPetDataEntry(81).getMaxExp() + 10000) && !pet.isDead() && pet.isIn3DRadius(_actor, Config.PARTY_RANGE)) {
-                long petExp = 0;
-                int petSp = 0;
-
-                int ratio = pet.getPetData().getExpType();
-                if (ratio == -1) {
-                    RewardInfo r = rewards.get(pet);
-                    RewardInfo reward = rewards.get(_actor);
-                    if (r != null && reward != null) {
-                        double damageDoneByPet = ((double) (r.getDamage())) / reward.getDamage();
-                        petExp = (long) (addToExp * damageDoneByPet);
-                        petSp = (int) (addToSp * damageDoneByPet);
-                    }
-                } else {
-                    // now adjust the max ratio to avoid the owner earning negative exp/sp
-                    if (ratio > 100) {
-                        ratio = 100;
-                    }
-
-                    petExp = Math.round(addToExp * (1 - (ratio / 100.0)));
-                    petSp = (int) Math.round(addToSp * (1 - (ratio / 100.0)));
-                }
-
-                addToExp -= petExp;
-                addToSp -= petSp;
-                pet.addExpAndSp(petExp, petSp);
-            }
+            Number[] addExpSp = petPenaltyCalc(addToExp, addToSp, rewards);
+            addToExp = addExpSp[0].longValue();
+            addToSp = addExpSp[1].intValue();
         }
         return addExpAndSp(addToExp, addToSp);
+    }
+
+    public boolean addExp(long addToExp, Map<Creature, RewardInfo> rewards) {
+        // If this player has a pet, give the xp to the pet now (if any).
+        if (_actor.hasPet()) {
+            addToExp = petPenaltyCalc(addToExp, 0, rewards)[0].longValue();
+        }
+
+        if (addToExp > 0) {
+            _actor.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.EARNED_S1_EXPERIENCE).addNumber((int) addToExp));
+        }
+
+        return addExp(addToExp);
+    }
+
+    private Number[] petPenaltyCalc(long addToExp, int addToSp, Map<Creature, RewardInfo> rewards) {
+        final Pet pet = (Pet) _actor.getSummon();
+        if (pet.getStatus().getExp() <= (pet.getTemplate().getPetDataEntry(81).getMaxExp() + 10000) && !pet.isDead() && pet.isIn3DRadius(_actor, Config.PARTY_RANGE)) {
+            long petExp = 0;
+            int petSp = 0;
+
+            int ratio = pet.getPetData().getExpType();
+            if (ratio == -1) {
+                RewardInfo r = rewards.get(pet);
+                RewardInfo reward = rewards.get(_actor);
+                if (r != null && reward != null) {
+                    double damageDoneByPet = ((double) (r.getDamage())) / reward.getDamage();
+                    petExp = (long) (addToExp * damageDoneByPet);
+                    petSp = (int) (addToSp * damageDoneByPet);
+                }
+            } else {
+                // now adjust the max ratio to avoid the owner earning negative exp/sp
+                if (ratio > 100) {
+                    ratio = 100;
+                }
+
+                petExp = Math.round(addToExp * (1 - (ratio / 100.0)));
+                petSp = (int) Math.round(addToSp * (1 - (ratio / 100.0)));
+            }
+
+            addToExp -= petExp;
+            addToSp -= petSp;
+            pet.addExpAndSp(petExp, petSp);
+        }
+        return new Number[]{
+            addToExp,
+            addToSp
+        };
     }
 
     @Override

@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -33,6 +32,16 @@ public class Q351_BlackSwan extends Quest {
 
         addKillId(20784, 20785, 21639, 21640);
     }
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 32;
+    }
+
 
     @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
@@ -43,7 +52,7 @@ public class Q351_BlackSwan extends Quest {
         }
 
         if (event.equalsIgnoreCase("30916-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ORDER_OF_GOSTA, 1);
@@ -92,7 +101,7 @@ public class Q351_BlackSwan extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 32) ? "30916-00.htm" : "30916-01.htm";
+                htmltext = !condition.validateLevel(player) ? "30916-00.htm" : "30916-01.htm";
                 break;
 
             case STARTED:

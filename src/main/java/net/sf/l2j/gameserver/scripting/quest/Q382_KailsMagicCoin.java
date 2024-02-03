@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -36,20 +35,30 @@ public class Q382_KailsMagicCoin extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 55;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(ROYAL_MEMBERSHIP).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30687-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -60,15 +69,11 @@ public class Q382_KailsMagicCoin extends Quest {
             return htmltext;
         }
 
-        switch (st.getState()) {
-            case CREATED:
-                htmltext = (player.getStatus().getLevel() < 55 || !player.getInventory().hasItems(ROYAL_MEMBERSHIP)) ? "30687-01.htm" : "30687-02.htm";
-                break;
-
-            case STARTED:
-                htmltext = "30687-04.htm";
-                break;
-        }
+        htmltext = switch (st.getState()) {
+            case CREATED -> (!condition.validateLevel(player) || !condition.validateItems(player)) ? "30687-01.htm" : "30687-02.htm";
+            case STARTED -> "30687-04.htm";
+            default -> htmltext;
+        };
 
         return htmltext;
     }

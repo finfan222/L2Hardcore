@@ -2,8 +2,8 @@ package net.sf.l2j.gameserver.model.graveyard;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.xml.NpcData;
@@ -23,13 +23,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author finfan
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GraveyardDao {
 
-    private static final CLogger LOGGER = new CLogger(GraveyardDao.class.getSimpleName());
-
     public static void create(PostScript ps) {
-        LOGGER.info("[9][GraveyardDao.create] {}", ps);
+        log.info("[9][GraveyardDao.create] {}", ps);
         PlayerInfoTable.getInstance().addRestrictedName(ps.getName());
         try (Connection con = ConnectionPool.getConnection()) {
             PreparedStatement st = con.prepareStatement("INSERT INTO graveyard (name,message,reason,x,y,z,heading,date,is_eternal) VALUES (?,?,?,?,?,?,?,?,?)");
@@ -44,7 +43,7 @@ public class GraveyardDao {
             st.setBoolean(9, ps.isEternal());
             st.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Can't create tombstone with data={}.\n{}", ps, e);
+            log.error("Can't create tombstone with data={}.", ps, e);
         }
 
         createTombstoneNpc(ps);
@@ -79,11 +78,11 @@ public class GraveyardDao {
 
                     Tombstone tombstone = createTombstoneNpc(ps);
                     PlayerInfoTable.getInstance().addRestrictedName(ps.getName());
-                    LOGGER.info("Tombstone {} was spawned.", tombstone);
+                    log.info("Tombstone {} was spawned.", tombstone);
                 }
             }
         } catch (SQLException e) {
-            LOGGER.error("Can't restore and spawn tombstones.", e);
+            log.error("Can't restore and spawn tombstones.", e);
         }
     }
 
@@ -93,7 +92,7 @@ public class GraveyardDao {
         try (Connection con = ConnectionPool.getConnection()) {
             con.prepareStatement(query).executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Can't delete graveyard.", e);
+            log.error("Can't delete graveyard.", e);
         }
     }
 
@@ -106,7 +105,7 @@ public class GraveyardDao {
         try {
             tombstone.spawnMe(spawnLoc);
         } catch (Exception e) {
-            LOGGER.error("{}", e);
+            log.error("Error. Can't spawn tombstone.", e);
         }
         return tombstone;
     }

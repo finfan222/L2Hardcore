@@ -24,7 +24,7 @@ public class PlayerLevelData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/playerLevels.xml");
-        LOGGER.info("Loaded {} player levels.", _levels.size());
+        log.info("Loaded {} player levels.", _levels.size());
     }
 
     @Override

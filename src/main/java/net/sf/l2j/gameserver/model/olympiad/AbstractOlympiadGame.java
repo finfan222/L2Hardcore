@@ -1,6 +1,5 @@
 package net.sf.l2j.gameserver.model.olympiad;
 
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.util.ArraysUtil;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
@@ -24,6 +23,8 @@ import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ import java.util.List;
  * The abstract layer for an Olympiad game (individual, class and non-class based).
  */
 public abstract class AbstractOlympiadGame {
-    protected static final CLogger LOGGER = new CLogger(AbstractOlympiadGame.class.getName());
+    protected static final Logger log = LoggerFactory.getLogger(AbstractOlympiadGame.class.getName());
 
     protected static final String POINTS = "olympiad_points";
     protected static final String COMP_DONE = "competitions_done";

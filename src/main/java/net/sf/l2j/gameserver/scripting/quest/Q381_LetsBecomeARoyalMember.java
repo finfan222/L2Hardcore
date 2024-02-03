@@ -35,22 +35,32 @@ public class Q381_LetsBecomeARoyalMember extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 55;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(COIN_COLLECTOR_MEMBERSHIP).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30090-02.htm")) {
             st.set("aCond", 1); // Alternative cond used for Sandra.
         } else if (event.equalsIgnoreCase("30232-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -63,7 +73,7 @@ public class Q381_LetsBecomeARoyalMember extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 55 || !player.getInventory().hasItems(COIN_COLLECTOR_MEMBERSHIP)) ? "30232-02.htm" : "30232-01.htm";
+                htmltext = (!condition.validateLevel(player) || !condition.validateItems(player)) ? "30232-02.htm" : "30232-01.htm";
                 break;
 
             case STARTED:

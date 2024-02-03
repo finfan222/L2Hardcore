@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
-import java.util.ArrayList;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.RadarMarker;
 import net.sf.l2j.gameserver.network.serverpackets.RadarControl;
+
+import java.util.ArrayList;
 
 public final class RadarList extends ArrayList<RadarMarker> {
     private static final long serialVersionUID = 1L;

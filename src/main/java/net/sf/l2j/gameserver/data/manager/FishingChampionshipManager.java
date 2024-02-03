@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.data.manager;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -56,8 +56,8 @@ import java.util.List;
  * <li>5th Place: 100,000 Adena</li>
  * </ul>
  */
+@Slf4j
 public class FishingChampionshipManager {
-    private static final CLogger LOGGER = new CLogger(FishingChampionshipManager.class.getName());
 
     private static final String INSERT = "INSERT INTO fishing_championship(player_name,fish_length,rewarded) VALUES (?,?,?)";
     private static final String DELETE = "DELETE FROM fishing_championship";
@@ -115,7 +115,7 @@ public class FishingChampionshipManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore fishing championship data.", e);
+            log.error("Couldn't restore fishing championship data.", e);
         }
     }
 
@@ -181,7 +181,7 @@ public class FishingChampionshipManager {
         setEndOfChamp();
         shutdown();
 
-        LOGGER.info("A new Fishing Championship event period has started.");
+        log.info("A new Fishing Championship event period has started.");
         ThreadPool.schedule(this::finishChamp, _endDate - System.currentTimeMillis());
     }
 
@@ -411,11 +411,11 @@ public class FishingChampionshipManager {
             }
             ps2.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update fishing championship data.", e);
+            log.error("Couldn't update fishing championship data.", e);
         }
     }
 
-    private class Fisher {
+    private static class Fisher {
         private double _length;
         private final String _name;
         private int _reward;

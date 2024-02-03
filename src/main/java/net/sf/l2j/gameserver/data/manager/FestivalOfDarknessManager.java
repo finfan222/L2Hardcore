@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.data.manager;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
+@Slf4j
 public class FestivalOfDarknessManager {
-    private static final CLogger LOGGER = new CLogger(FestivalOfDarknessManager.class.getName());
 
     private static final String RESTORE_FESTIVAL = "SELECT festivalId, cabal, cycle, date, score, members FROM seven_signs_festival";
     private static final String RESTORE_FESTIVAL_2 = "SELECT festival_cycle, accumulated_bonus0, accumulated_bonus1, accumulated_bonus2, accumulated_bonus3, accumulated_bonus4 FROM seven_signs_status WHERE id=0";
@@ -3139,7 +3139,7 @@ public class FestivalOfDarknessManager {
         restoreFestivalData();
 
         if (SevenSignsManager.getInstance().isSealValidationPeriod()) {
-            LOGGER.info("Seven Signs Festival initialization was bypassed due to Seal Validation being under effect.");
+            log.info("Seven Signs Festival initialization was bypassed due to Seal Validation being under effect.");
             return;
         }
 
@@ -3194,7 +3194,7 @@ public class FestivalOfDarknessManager {
         setNextFestivalStart(Config.FESTIVAL_MANAGER_START + FESTIVAL_SIGNUP_TIME);
         _managerScheduledTask = ThreadPool.scheduleAtFixedRate(fm, Config.FESTIVAL_MANAGER_START, Config.FESTIVAL_CYCLE_LENGTH);
 
-        LOGGER.info("The first Festival of Darkness cycle begins in {} minute(s).", (Config.FESTIVAL_MANAGER_START / 60000));
+        log.info("The first Festival of Darkness cycle begins in {} minute(s).", (Config.FESTIVAL_MANAGER_START / 60000));
     }
 
     /**
@@ -3244,7 +3244,7 @@ public class FestivalOfDarknessManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load Seven Signs Festival data.", e);
+            log.error("Couldn't load Seven Signs Festival data.", e);
         }
     }
 
@@ -3295,7 +3295,7 @@ public class FestivalOfDarknessManager {
                 SevenSignsManager.getInstance().saveSevenSignsStatus();
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't save Seven Signs Festival data.", e);
+            log.error("Couldn't save Seven Signs Festival data.", e);
         }
     }
 
@@ -3335,7 +3335,7 @@ public class FestivalOfDarknessManager {
                     }
                 }
             } catch (Exception e) {
-                LOGGER.error("Couldn't get clan name of {}.", e, playerName);
+                log.error("Couldn't get clan name of {}.", e, playerName);
             }
         }
     }
@@ -3404,7 +3404,7 @@ public class FestivalOfDarknessManager {
             }
         }
 
-        LOGGER.info("Reinitialized Seven Signs Festival for next competition period.");
+        log.info("Reinitialized Seven Signs Festival for next competition period.");
     }
 
     public final int getCurrentFestivalCycle() {
@@ -4150,7 +4150,7 @@ public class FestivalOfDarknessManager {
                 SpawnTable.getInstance().addSpawn(spawn, false);
                 _witchInst = spawn.doSpawn(false);
             } catch (Exception e) {
-                LOGGER.error("Couldn't properly spawn Festival Witch {}.", e, _witchSpawn._npcId);
+                log.error("Couldn't properly spawn Festival Witch {}.", _witchSpawn._npcId, e);
             }
 
             // Make it appear as though the Witch has apparated there.
@@ -4254,7 +4254,7 @@ public class FestivalOfDarknessManager {
 
                     _npcInsts.add(festivalMob);
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't properly spawn Npc {}.", e, currSpawn._npcId);
+                    log.error("Couldn't properly spawn Npc {}.", currSpawn._npcId, e);
                 }
             }
         }

@@ -37,15 +37,24 @@ public class Q005_MinersFavor extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 2;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30554-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, BOLTERS_LIST, 1);
@@ -62,7 +71,7 @@ public class Q005_MinersFavor extends Quest {
             }
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -75,7 +84,7 @@ public class Q005_MinersFavor extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 2) ? "30554-01.htm" : "30554-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30554-01.htm" : "30554-02.htm";
                 break;
 
             case STARTED:

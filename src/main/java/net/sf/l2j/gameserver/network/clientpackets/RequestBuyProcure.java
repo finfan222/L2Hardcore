@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequestBuyProcure extends L2GameClientPacket {
     private static final int BATCH_LENGTH = 8;
@@ -38,6 +38,6 @@ public class RequestBuyProcure extends L2GameClientPacket {
 
     @Override
     protected void runImpl() {
-        LOGGER.warn("RequestBuyProcure: normally unused, but infos found for manorId {}.", _manorId);
+        log.warn("RequestBuyProcure: normally unused, but infos found for manorId {}.", _manorId);
     }
 }

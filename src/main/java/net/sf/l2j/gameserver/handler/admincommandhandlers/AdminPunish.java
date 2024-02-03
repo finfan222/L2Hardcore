@@ -1,18 +1,17 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.LoginServerThread;
 import net.sf.l2j.gameserver.enums.PunishmentType;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.StringTokenizer;
 
 public class AdminPunish implements IAdminCommandHandler {
     private static final String UPDATE_BAN = "UPDATE characters SET punish_level=?, punish_timer=? WHERE char_name=?";
@@ -270,7 +269,7 @@ public class AdminPunish implements IAdminCommandHandler {
                 player.sendMessage(playerName + "'s chat ban has been lifted.");
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't chatban offline Player.", e);
+            log.error("Couldn't chatban offline Player.", e);
         }
     }
 
@@ -289,7 +288,7 @@ public class AdminPunish implements IAdminCommandHandler {
                 player.sendMessage(playerName + " has been jailed" + ((delay > 0) ? " for " + delay + " minutes." : "."));
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't jail offline Player.", e);
+            log.error("Couldn't jail offline Player.", e);
         }
     }
 
@@ -306,7 +305,7 @@ public class AdminPunish implements IAdminCommandHandler {
                 player.sendMessage(playerName + " has been unjailed.");
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't unjail offline Player.", e);
+            log.error("Couldn't unjail offline Player.", e);
         }
     }
 
@@ -336,7 +335,7 @@ public class AdminPunish implements IAdminCommandHandler {
 
                 player.sendMessage(name + " now has an access level of " + lvl + ".");
             } catch (Exception e) {
-                LOGGER.error("Couldn't change Player's AccessLevel.", e);
+                log.error("Couldn't change Player's AccessLevel.", e);
             }
         }
     }

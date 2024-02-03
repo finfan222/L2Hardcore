@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.move;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.enums.actors.MoveType;
 import net.sf.l2j.gameserver.model.actor.Creature;

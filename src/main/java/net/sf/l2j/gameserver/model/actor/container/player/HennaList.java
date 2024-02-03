@@ -1,5 +1,13 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.data.xml.HennaData;
+import net.sf.l2j.gameserver.enums.actors.ClassId;
+import net.sf.l2j.gameserver.enums.actors.HennaType;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.item.Henna;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,20 +16,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.data.xml.HennaData;
-import net.sf.l2j.gameserver.enums.actors.ClassId;
-import net.sf.l2j.gameserver.enums.actors.HennaType;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.item.Henna;
-
 /**
  * This class handles dyes (or {@link Henna}s) of a {@link Player}.
  */
+@Slf4j
 public class HennaList {
-    private static final CLogger LOGGER = new CLogger(HennaList.class.getName());
 
     private static final int MAX_HENNA_STAT_VALUE = 5;
     private static final int HENNA_FIRST_SLOT_ID = 1;
@@ -126,13 +125,13 @@ public class HennaList {
                     final int symbolId = rs.getInt("symbol_id");
 
                     if (slot < HENNA_FIRST_SLOT_ID || slot > HENNA_FIRST_SLOT_ID + HennaList.MAX_HENNAS_AMOUNT) {
-                        LOGGER.warn("{} has Henna on invalid slot {}.", _owner.toString(), slot);
+                        log.warn("{} has Henna on invalid slot {}.", _owner.toString(), slot);
                         continue;
                     }
 
                     final Henna henna = HennaData.getInstance().getHenna(symbolId);
                     if (henna == null) {
-                        LOGGER.warn("{} has unknown Henna Symbol Id: {} in slot {}.", _owner.toString(), symbolId, slot);
+                        log.warn("{} has unknown Henna Symbol Id: {} in slot {}.", _owner.toString(), symbolId, slot);
                         continue;
                     }
 
@@ -140,7 +139,7 @@ public class HennaList {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore hennas.", e);
+            log.error("Couldn't restore hennas.", e);
         }
 
         for (int i = 0; i < hennas.length; i++) {
@@ -241,7 +240,7 @@ public class HennaList {
             ps.setInt(4, _owner.getClassIndex());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't add Henna.", e);
+            log.error("Couldn't add Henna.", e);
         }
 
         recalculateStats();
@@ -267,7 +266,7 @@ public class HennaList {
             ps.setInt(3, _owner.getClassIndex());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove Henna.", e);
+            log.error("Couldn't remove Henna.", e);
         }
 
         recalculateStats();

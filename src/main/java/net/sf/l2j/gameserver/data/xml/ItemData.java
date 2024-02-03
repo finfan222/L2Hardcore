@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.xml;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.data.DocumentItem;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
@@ -16,9 +16,8 @@ import java.util.Objects;
 /**
  * This class loads and stores all {@link Item} templates.
  */
+@Slf4j
 public class ItemData {
-
-    private static final CLogger LOGGER = new CLogger(ItemData.class.getName());
 
     public static ItemInstance DUMMY;
 
@@ -76,7 +75,7 @@ public class ItemData {
 
         DUMMY = new ItemInstance(0, getTemplate(9209));
 
-        LOGGER.info("Loaded items.");
+        log.info("Loaded items.");
     }
 
     /**

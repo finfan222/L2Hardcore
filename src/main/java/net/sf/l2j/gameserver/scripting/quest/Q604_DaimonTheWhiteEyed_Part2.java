@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.manager.RaidBossManager;
 import net.sf.l2j.gameserver.enums.BossStatus;
 import net.sf.l2j.gameserver.enums.QuestStatus;
@@ -66,6 +65,17 @@ public class Q604_DaimonTheWhiteEyed_Part2 extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 73;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(UNFINISHED_SUMMON_CRYSTAL).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -75,8 +85,8 @@ public class Q604_DaimonTheWhiteEyed_Part2 extends Quest {
 
         // Eye of Argos
         if (event.equalsIgnoreCase("31683-03.htm")) {
-            if (player.getInventory().hasItems(UNFINISHED_SUMMON_CRYSTAL)) {
-                st.setState(QuestStatus.STARTED);
+            if (condition.validateItems(player)) {
+                st.setState(QuestStatus.STARTED, player, npc, event);
                 st.setCond(1);
                 playSound(player, SOUND_ACCEPT);
                 takeItems(player, UNFINISHED_SUMMON_CRYSTAL, 1);
@@ -124,7 +134,7 @@ public class Q604_DaimonTheWhiteEyed_Part2 extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() < 73) {
+                if (!condition.validateLevel(player)) {
                     htmltext = "31683-02.htm";
                     st.exitQuest(true);
                 } else {

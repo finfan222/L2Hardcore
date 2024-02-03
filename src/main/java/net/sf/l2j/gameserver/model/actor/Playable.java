@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.model.actor;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
@@ -11,8 +12,12 @@ import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
+import net.sf.l2j.gameserver.events.OnAttackStanceEnd;
+import net.sf.l2j.gameserver.events.OnAttackStanceStart;
 import net.sf.l2j.gameserver.events.OnDie;
+import net.sf.l2j.gameserver.events.OnHit;
 import net.sf.l2j.gameserver.events.OnRevive;
+import net.sf.l2j.gameserver.events.OnSkillHit;
 import net.sf.l2j.gameserver.model.actor.attack.PlayableAttack;
 import net.sf.l2j.gameserver.model.actor.cast.PlayableCast;
 import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
@@ -36,25 +41,61 @@ import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * This class represents all {@link Playable} actors in the world : {@link Player}s and their different {@link Summon}
  * types.
  */
+@Slf4j
 public abstract class Playable extends Creature {
+
     private final Map<Integer, Long> _disabledItems = new ConcurrentHashMap<>();
+
     @Getter
     @Setter
     private DieReason dieReason;
 
+    @Getter
+    @Setter
+    private List<Monster> monstersAttackers = new ArrayList<>(0);
+
+    private final ReentrantLock locker = new ReentrantLock();
+
     protected Playable(int objectId, CreatureTemplate template) {
         super(objectId, template);
         dieReason = DieReason.NONE;
-        getEventListener().subscribe().cast(OnDie.class).forEach(this::onDie);
-        getEventListener().subscribe().cast(OnRevive.class).forEach(this::onRevive);
+        eventListener.subscribe().cast(OnHit.class).forEach(this::onHit);
+        eventListener.subscribe().cast(OnSkillHit.class).forEach(this::onSkillHit);
+        eventListener.subscribe().cast(OnDie.class).forEach(this::onDie);
+        eventListener.subscribe().cast(OnRevive.class).forEach(this::onRevive);
+        eventListener.subscribe().cast(OnAttackStanceStart.class).forEach(this::onAttackStanceStart);
+        eventListener.subscribe().cast(OnAttackStanceEnd.class).forEach(this::onAttackStanceEnd);
+    }
+
+    public boolean isAttackingByMonsters() {
+        return !monstersAttackers.isEmpty();
+    }
+
+    public void addAttackingMonster(Monster monster) {
+        if (!monstersAttackers.contains(monster)) {
+            locker.lock();
+            try {
+                monstersAttackers.add(monster);
+                monstersAttackers.sort(Comparator.comparing(Monster::getSpReward).reversed());
+            } finally {
+                locker.unlock();
+            }
+        }
+    }
+
+    public Monster getFirstMonsterAttacker() {
+        return monstersAttackers.get(0);
     }
 
     /**
@@ -671,10 +712,35 @@ public abstract class Playable extends Creature {
     }
 
     protected void onDie(OnDie event) {
-        LOGGER.info("OnDie personal for {} called", this);
+        log.info("OnDie personal for {} called", this);
     }
 
     protected void onRevive(OnRevive onRevive) {
-        LOGGER.info("OnRevive personal for {} called", this);
+        log.info("OnRevive personal for {} called", this);
+    }
+
+    protected void onHit(OnHit event) {
+        if (event.getAttacker() instanceof Monster monster) {
+            addAttackingMonster(monster);
+        }
+    }
+
+    protected void onSkillHit(OnSkillHit event) {
+        if (event.getCaster() instanceof Monster monster) {
+            addAttackingMonster(monster);
+        }
+    }
+
+    protected void onAttackStanceStart(OnAttackStanceStart event) {
+
+    }
+
+    protected void onAttackStanceEnd(OnAttackStanceEnd event) {
+        locker.lock();
+        try {
+            monstersAttackers.clear();
+        } finally {
+            locker.unlock();
+        }
     }
 }

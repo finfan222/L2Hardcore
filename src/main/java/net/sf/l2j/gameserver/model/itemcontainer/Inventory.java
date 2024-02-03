@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.model.itemcontainer;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
@@ -30,6 +31,7 @@ import java.util.stream.Stream;
  * <br>
  * It extends {@link ItemContainer}.
  */
+@Slf4j
 public abstract class Inventory extends ItemContainer {
 
     protected final ItemInstance[] _paperdoll = new ItemInstance[Paperdoll.TOTAL_SLOTS];
@@ -561,7 +563,7 @@ public abstract class Inventory extends ItemContainer {
                 break;
 
             default:
-                LOGGER.warn("Unknown body slot {} for itemId {}.", item.getItem().getBodyPart(), item.getItemId());
+                log.warn("Unknown body slot {} for itemId {}.", item.getItem().getBodyPart(), item.getItemId());
         }
     }
 
@@ -750,7 +752,7 @@ public abstract class Inventory extends ItemContainer {
                 break;
 
             default:
-                LOGGER.warn("Slot type {} is unhandled.", slot);
+                log.warn("Slot type {} is unhandled.", slot);
         }
 
         return (slot == Paperdoll.NULL) ? null : setPaperdollItem(slot, null);
@@ -766,27 +768,13 @@ public abstract class Inventory extends ItemContainer {
         }
 
         // Get the ItemInstance corresponding to the item identifier and return it.
-        switch (bow.getCrystalType()) {
-            case NONE:
-                return getItemByItemId(17); // Wooden arrow
-
-            case D:
-                return getItemByItemId(1341); // Bone arrow
-
-            case C:
-                return getItemByItemId(1342); // Fine steel arrow
-
-            case B:
-                return getItemByItemId(1343); // Silver arrow
-
-            case A:
-                return getItemByItemId(1344); // Mithril arrow
-
-            case S:
-                return getItemByItemId(1345); // Shining arrow
-
-            default:
-                return null;
-        }
+        return switch (bow.getCrystalType()) {
+            case NONE -> getItemByItemId(17); // Wooden arrow
+            case D -> getItemByItemId(1341); // Bone arrow
+            case C -> getItemByItemId(1342); // Fine steel arrow
+            case B -> getItemByItemId(1343); // Silver arrow
+            case A -> getItemByItemId(1344); // Mithril arrow
+            case S -> getItemByItemId(1345); // Shining arrow
+        };
     }
 }

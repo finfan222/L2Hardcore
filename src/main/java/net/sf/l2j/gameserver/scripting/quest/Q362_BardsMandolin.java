@@ -29,15 +29,24 @@ public class Q362_BardsMandolin extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 15;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30957-3.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30957-7.htm") || event.equalsIgnoreCase("30957-8.htm")) {
@@ -47,7 +56,7 @@ public class Q362_BardsMandolin extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -60,7 +69,7 @@ public class Q362_BardsMandolin extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 15) ? "30957-2.htm" : "30957-1.htm";
+                htmltext = !condition.validateLevel(player) ? "30957-2.htm" : "30957-1.htm";
                 break;
 
             case STARTED:

@@ -9,8 +9,6 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.Formulas;
 
-import java.util.Map;
-
 public class Spoil extends Default {
 
     public Spoil(StatSet set) {
@@ -41,19 +39,21 @@ public class Spoil extends Default {
                 continue;
             }
 
+            Context context = Context.builder().build();
             if (target.getSpoilState().isSpoiled()) {
                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ALREADY_SPOILED));
                 continue;
             }
 
-            if (Formulas.calcMagicSuccess(caster, (Creature) tgt, this)) {
+            context.isSuccess = Formulas.calcMagicSuccess(caster, (Creature) tgt, this);
+            if (context.isSuccess) {
                 target.getSpoilState().setSpoilerId(caster.getObjectId());
                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.SPOIL_SUCCESS));
             } else {
                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(target).addSkillName(getId()));
             }
 
-            notifyAboutSkillHit(caster, target, Map.of("damage", caster.getStatus().getLevel() * 120));
+            notifyAboutSkillHit(caster, target, context);
         }
     }
 }

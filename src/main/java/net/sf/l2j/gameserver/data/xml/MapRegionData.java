@@ -52,7 +52,7 @@ public class MapRegionData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/mapRegions.xml");
-        LOGGER.info("Loaded regions.");
+        log.info("Loaded regions.");
     }
 
     @Override

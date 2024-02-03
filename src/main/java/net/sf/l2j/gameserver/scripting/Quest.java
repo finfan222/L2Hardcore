@@ -1,18 +1,15 @@
 package net.sf.l2j.gameserver.scripting;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.DocumentSkill.Skill;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
@@ -24,7 +21,10 @@ import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
+import net.sf.l2j.gameserver.enums.actors.ClassRace;
+import net.sf.l2j.gameserver.enums.actors.ClassType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
+import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -47,6 +47,7 @@ import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -59,10 +60,160 @@ import net.sf.l2j.gameserver.network.serverpackets.TutorialShowHtml;
 import net.sf.l2j.gameserver.network.serverpackets.TutorialShowQuestionMark;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Slf4j
 public class Quest {
-    protected static final CLogger LOGGER = new CLogger(Quest.class.getName());
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class QuestDetail {
+        public int id;
+        public int value;
+        @Builder.Default
+        public boolean isNecessary = true;
+        public boolean isCanBeUnCompleted;
+
+        private boolean validateQuest(Player player) {
+            QuestState questState = player.getQuestList().getQuestState(id);
+            if (questState == null) {
+                return false;
+            }
+
+            boolean isCondValid = value <= 0 || questState.getCond() == value;
+            if (isCanBeUnCompleted && isCondValid) {
+                return true;
+            }
+
+            return questState.isCompleted() && isCondValid;
+        }
+
+        private boolean validateItem(Player player) {
+            return value > 1 ? player.getInventory().getItemCount(id) >= value : player.getInventory().hasItems(id);
+        }
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static final class Condition {
+
+        public int level;
+        public QuestDetail[] quests;
+        public ClassRace[] races;
+        public QuestDetail[] items;
+        public boolean checkSubclass;
+        public ClassType classType;
+
+        /**
+         * @param player player to check
+         * @return {@code true} if classType is null or equals player.classType, false otherwise
+         */
+        public boolean validateClassType(Player player) {
+            return classType == null || player.getClassId().getType() == classType;
+        }
+
+        /**
+         * @param player player to check
+         * @return {@code true} if checkSubclass is false or player.isSubClassActive(0 is false, false otherwise
+         */
+        public boolean validateSubclass(Player player) {
+            return !checkSubclass || !player.isSubClassActive();
+        }
+
+        /**
+         * @param player player to check
+         * @return {@code true} if player level >= level, {@code false} otherwise
+         */
+        public boolean validateLevel(Player player) {
+            return player.getStatus().getLevel() >= level;
+        }
+
+        /**
+         * @param player player to check
+         * @return {@code true} if player race is any match with races, {@code false} otherwise
+         */
+        public boolean validateRace(Player player) {
+            if (races == null) {
+                return true;
+            }
+
+            return Arrays.stream(races).anyMatch(r -> r == player.getRace());
+        }
+
+        /**
+         * @param player player to check
+         * @return {@code true} if player quests (ids) full match with quests, {@code false} otherwise
+         */
+        public boolean validateQuests(Player player) {
+            if (quests == null) {
+                return true;
+            }
+
+            boolean hasAtLeastOneQuest = false;
+            for (QuestDetail detail : quests) {
+                // if quest is necessray and not validated we
+                if (!detail.validateQuest(player)) {
+                    if (detail.isNecessary) {
+                        return false;
+                    }
+                } else if (!hasAtLeastOneQuest) {
+                    hasAtLeastOneQuest = true;
+                }
+            }
+
+            return hasAtLeastOneQuest;
+        }
+
+        /**
+         * @param player player to check
+         * @return {@code true} if player has necessary items or if you need to hasAtLeastOneItem, false otherwise
+         */
+        public boolean validateItems(Player player) {
+            if (items == null) {
+                return true;
+            }
+
+            boolean hasAtleastOneItem = false;
+            for (QuestDetail detail : items) {
+                // if quest is necessray and not validated we
+                if (!detail.validateItem(player)) {
+                    if (detail.isNecessary) {
+                        return false;
+                    }
+                } else if (!hasAtleastOneItem) {
+                    hasAtleastOneItem = true;
+                }
+            }
+
+            return hasAtleastOneItem;
+        }
+
+        /**
+         * @param player player to check
+         * @return {@code true} if all validations is true, false otherwise
+         */
+        public boolean checkAllValidations(Player player) {
+            return validateLevel(player)
+                && validateRace(player)
+                && validateQuests(player)
+                && validateItems(player)
+                && validateSubclass(player)
+                && validateClassType(player);
+        }
+
+    }
 
     private static final String HTML_NONE_AVAILABLE = "<html><body>You are either not on a quest that involves this NPC, or you don't meet this NPC's minimum quest requirements.</body></html>";
     private static final String HTML_ALREADY_COMPLETED = "<html><body>This quest has already been completed.</body></html>";
@@ -92,6 +243,8 @@ public class Quest {
 
     private boolean _isOnEnterWorld;
     private boolean _isOnDeath;
+    @Getter
+    protected final Condition condition = new Condition();
 
     /**
      * Create a script/quest using quest id and description.
@@ -102,6 +255,7 @@ public class Quest {
     public Quest(int id, String descr) {
         _id = id;
         _descr = descr;
+        initializeConditions();
     }
 
     @Override
@@ -707,7 +861,7 @@ public class Quest {
     public final boolean startQuestTimerAtFixedRate(String name, Npc npc, Player player, long initial, long period) {
         // Name must exist.
         if (name == null) {
-            LOGGER.warn("Script {} adding timer without name.", toString());
+            log.warn("Script {} adding timer without name.", toString());
             return false;
         }
 
@@ -913,7 +1067,7 @@ public class Quest {
 
             return npc;
         } catch (Exception e) {
-            LOGGER.error("Couldn't spawn npcId {} for {}.", npcId, toString());
+            log.error("Couldn't spawn npcId {} for {}.", npcId, toString());
             return null;
         }
     }
@@ -1526,7 +1680,7 @@ public class Quest {
         try {
             res = onAttack(npc, attacker, damage, skill);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, attacker, res);
@@ -1566,7 +1720,7 @@ public class Quest {
         try {
             res = onAttackAct(npc, victim);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, victim, res);
@@ -1607,7 +1761,7 @@ public class Quest {
             try {
                 res = onAggro(npc, player, isPet);
             } catch (Exception e) {
-                LOGGER.warn(toString(), e);
+                log.warn(toString(), e);
                 return;
             }
             showResult(npc, player, res);
@@ -1647,7 +1801,7 @@ public class Quest {
         try {
             res = onCreatureSee(npc, creature);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, creature, res);
@@ -1675,7 +1829,7 @@ public class Quest {
         try {
             res = onDeath(killer, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult((killer instanceof Npc) ? (Npc) killer : null, player, res);
@@ -1709,7 +1863,7 @@ public class Quest {
         try {
             res = onAdvEvent(event, npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);
@@ -1742,7 +1896,7 @@ public class Quest {
         try {
             res = onEnterWorld(player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, player, res);
@@ -1783,7 +1937,7 @@ public class Quest {
         try {
             res = onEnterZone(character, zone);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, character, res);
@@ -1825,7 +1979,7 @@ public class Quest {
         try {
             res = onExitZone(character, zone);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, character, res);
@@ -1863,7 +2017,7 @@ public class Quest {
         try {
             res = onFactionCall(caller, called, target);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(caller, target, res);
@@ -1901,7 +2055,7 @@ public class Quest {
         try {
             res = onFirstTalk(npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
 
@@ -1950,7 +2104,7 @@ public class Quest {
         try {
             res = onItemUse(item, player, target);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(null, player, res);
@@ -1988,7 +2142,7 @@ public class Quest {
         try {
             res = onKill(npc, killer);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, killer, res);
@@ -2023,7 +2177,7 @@ public class Quest {
         try {
             onSpawn(npc);
         } catch (Exception e) {
-            LOGGER.error(toString(), e);
+            log.error(toString(), e);
         }
     }
 
@@ -2055,7 +2209,7 @@ public class Quest {
         try {
             onDecay(npc);
         } catch (Exception e) {
-            LOGGER.error(toString(), e);
+            log.error(toString(), e);
         }
     }
 
@@ -2094,7 +2248,7 @@ public class Quest {
             try {
                 res = onSkillSee(npc, caster, skill, targets, isPet);
             } catch (Exception e) {
-                LOGGER.warn(toString(), e);
+                log.warn(toString(), e);
                 return;
             }
             showResult(npc, caster, res);
@@ -2136,7 +2290,7 @@ public class Quest {
         try {
             res = onSpellFinished(npc, player, skill);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);
@@ -2174,7 +2328,7 @@ public class Quest {
         try {
             res = onTalk(npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);
@@ -2203,7 +2357,7 @@ public class Quest {
         try {
             res = onTimer(name, npc, player);
         } catch (Exception e) {
-            LOGGER.warn(toString(), e);
+            log.warn(toString(), e);
             return;
         }
         showResult(npc, player, res);
@@ -2242,18 +2396,64 @@ public class Quest {
     public void onSiegeEvent(Siege siege) {
     }
 
-    /**
-     * Register this {@link Quest} to be notified by time change (each in-game minute).
-     */
-    public final void addGameTimeNotify() {
-        GameTimeTaskManager.getInstance().addQuestEvent(this);
+    protected void initializeConditions() {
     }
 
-    /**
-     * Quest event for time change (each in-game minute).
-     *
-     * @param gameTime : The current game time. Range 0-1439 minutes per game day corresponds 00:00-23:59 time.
-     */
-    public void onGameTime(int gameTime) {
+    public boolean isSharable() {
+        return false;
+    }
+
+    protected void share(Player player, Npc npc, String event) {
+        QuestState qs = player.getQuestList().getQuestState(getQuestId());
+        if (qs == null) {
+            throw new RuntimeException(String.format("QuestState is null for %s. Check it out, it can;t be cause callable is onQuestAccepted.", this));
+        }
+
+        if (!player.isInParty()) {
+            return;
+        }
+
+        for (Player member : player.getParty().getMembers()) {
+            if (member == player || member.isDead() || AttackStanceTaskManager.getInstance().isInAttackStance(member)) {
+                continue;
+            }
+
+            if (!member.isIn2DRadius(player, 900)) {
+                member.sendMessage(String.format("%s попытался поделиться с вами квестом %s, но вы оказались слишком далеко.", player.getName(), _descr));
+                continue;
+            }
+
+            QuestState playerQuest = member.getQuestList().getQuestState(_id);
+            if (playerQuest != null) {
+                if (playerQuest.isCompleted()) {
+                    member.sendMessage(String.format("%s попытался поделиться с вами квестом %s, но у вас он уже выполнен.", player.getName(), _descr));
+                } else {
+                    member.sendMessage(String.format("%s попытался поделиться с вами квестом %s, но у вас он уже есть.", player.getName(), _descr));
+                }
+                continue;
+            }
+
+            if (!condition.checkAllValidations(member)) {
+                member.sendMessage(String.format("%s попытался поделиться с вами квестом %s, но вы не можете принять это задание т.к. не подходите по условиям.", player.getName(), _descr));
+                continue;
+            }
+
+            if (member.getDialog() != null || member.isInDuel() || member.isInOlympiadMode() || member.isTeleporting()) {
+                player.sendMessage(String.format("%s не может принять это задание т.к. он сейчас занят.", member.getName()));
+                continue;
+            }
+
+            ConfirmDlg dlg = new ConfirmDlg(SystemMessageId.S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2)
+                .addTime(30000)
+                .addCharName(player)
+                .addString(getName());
+            member.setDialog(new Dialog(member, dlg, Map.of(
+                "quest", this,
+                "npc", npc,
+                "event", event)
+            ).send());
+
+            player.sendMessage("Вы делитесь заданием с " + member.getName());
+        }
     }
 }

@@ -23,7 +23,7 @@ public class SummonItemData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/summonItems.xml");
-        LOGGER.info("Loaded {} summon items.", _items.size());
+        log.info("Loaded {} summon items.", _items.size());
     }
 
     @Override

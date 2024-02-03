@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q357_WarehouseKeepersAmbition extends Quest {
     private static final String QUEST_NAME = "Q357_WarehouseKeepersAmbition";
@@ -25,7 +25,7 @@ public class Q357_WarehouseKeepersAmbition extends Quest {
     // Drop chances
     private static final Map<Integer, Integer> CHANCES = new HashMap<>();
 
-    {
+    static {
         CHANCES.put(FOREST_RUNNER, 400000);
         CHANCES.put(FLINE_ELDER, 410000);
         CHANCES.put(LIELE_ELDER, 440000);
@@ -44,6 +44,16 @@ public class Q357_WarehouseKeepersAmbition extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 47;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -52,7 +62,7 @@ public class Q357_WarehouseKeepersAmbition extends Quest {
         }
 
         if (event.equalsIgnoreCase("30686-2.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30686-7.htm")) {
@@ -84,15 +94,11 @@ public class Q357_WarehouseKeepersAmbition extends Quest {
             return htmltext;
         }
 
-        switch (st.getState()) {
-            case CREATED:
-                htmltext = (player.getStatus().getLevel() < 47) ? "30686-0a.htm" : "30686-0.htm";
-                break;
-
-            case STARTED:
-                htmltext = (!player.getInventory().hasItems(JADE_CRYSTAL)) ? "30686-4.htm" : "30686-6.htm";
-                break;
-        }
+        htmltext = switch (st.getState()) {
+            case CREATED -> !condition.validateLevel(player) ? "30686-0a.htm" : "30686-0.htm";
+            case STARTED -> (!player.getInventory().hasItems(JADE_CRYSTAL)) ? "30686-4.htm" : "30686-6.htm";
+            default -> htmltext;
+        };
 
         return htmltext;
     }

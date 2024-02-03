@@ -1,26 +1,10 @@
 package net.sf.l2j.gameserver.geoengine;
 
-import java.awt.Color;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.io.RandomAccessFile;
-import java.nio.ByteOrder;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.config.ExProperties;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.GeoType;
 import net.sf.l2j.gameserver.enums.MoveDirectionType;
 import net.sf.l2j.gameserver.geoengine.geodata.ABlock;
@@ -41,8 +25,23 @@ import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.io.RandomAccessFile;
+import java.nio.ByteOrder;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Slf4j
 public class GeoEngine {
-    protected static final CLogger LOGGER = new CLogger(GeoEngine.class.getName());
 
     private static final String GEO_BUG = "%d;%d;%d;%d;%d;%d;%d;%s\r\n";
 
@@ -93,13 +92,13 @@ public class GeoEngine {
                 }
             }
         }
-        LOGGER.info("Loaded {} {} region files.", loaded, Config.GEODATA_TYPE);
+        log.info("Loaded {} {} region files.", loaded, Config.GEODATA_TYPE);
 
         // release multilayer block temporarily buffer
         BlockMultilayer.release();
 
         if (failed > 0) {
-            LOGGER.warn("Failed to load {} {} region files. Please consider to check your \"geodata.properties\" settings and location of your geodata files.", failed, Config.GEODATA_TYPE);
+            log.warn("Failed to load {} {} region files. Please consider to check your \"geodata.properties\" settings and location of your geodata files.", failed, Config.GEODATA_TYPE);
             System.exit(1);
         }
 
@@ -108,7 +107,7 @@ public class GeoEngine {
         try {
             writer = new PrintWriter(new FileOutputStream(new File(Config.GEODATA_PATH + "geo_bugs.txt"), true), true);
         } catch (Exception e) {
-            LOGGER.error("Couldn't load \"geo_bugs.txt\" file.", e);
+            log.error("Couldn't load \"geo_bugs.txt\" file.", e);
         }
         _geoBugReports = writer;
 
@@ -125,11 +124,11 @@ public class GeoEngine {
                 count += size;
                 _buffers[i] = new BufferHolder(Integer.parseInt(args[0]), size);
             } catch (Exception e) {
-                LOGGER.error("Couldn't load buffer setting: {}.", e, buf);
+                log.error("Couldn't load buffer setting: {}.", buf, e);
             }
         }
 
-        LOGGER.info("Loaded {} node buffers.", count);
+        log.info("Loaded {} node buffers.", count);
     }
 
     /**
@@ -235,14 +234,14 @@ public class GeoEngine {
 
             // check data consistency
             if (buffer.remaining() > 0) {
-                LOGGER.warn("Region file {} can be corrupted, remaining {} bytes to read.", filename, buffer.remaining());
+                log.warn("Region file {} can be corrupted, remaining {} bytes to read.", filename, buffer.remaining());
             }
 
             // loading was successful
             return true;
         } catch (Exception e) {
             // an error occured while loading, load null blocks
-            LOGGER.error("Error loading {} region file.", e, filename);
+            log.error("Error loading {} region file.", e, filename);
 
             // replace whole region file with null blocks
             loadNullBlocks(regionX, regionY);
@@ -1768,7 +1767,7 @@ public class GeoEngine {
 
             _findSuccess++;
         } catch (Exception e) {
-            LOGGER.error("Failed to generate a path.", e);
+            log.error("Failed to generate a path.", e);
 
             _findFails++;
             return Collections.emptyList();
@@ -1895,7 +1894,7 @@ public class GeoEngine {
             _geoBugReports.printf(GEO_BUG, rx, ry, bx, by, cx, cy, goz, comment.replace(";", ":"));
             return true;
         } catch (Exception e) {
-            LOGGER.error("Couldn't save new entry to \"geo_bugs.txt\" file.", e);
+            log.error("Couldn't save new entry to \"geo_bugs.txt\" file.", e);
             return false;
         }
     }
@@ -1948,7 +1947,7 @@ public class GeoEngine {
                 _buffer.add(buffer);
 
                 if (_buffer.size() == _count) {
-                    LOGGER.warn("NodeBuffer holder with {} size reached max capacity.", _size);
+                    log.warn("NodeBuffer holder with {} size reached max capacity.", _size);
                 }
 
                 _uses++;

@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.clanhall;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -45,8 +45,8 @@ import java.util.concurrent.Future;
  * <li>If a clan successfully sells a clan hall, the clan leader will receive a message. The highest bid, minus taxes, is placed in the selling clan's warehouse, along with the deposit.</li>
  * </ul>
  */
+@Slf4j
 public class Auction {
-    private static final CLogger LOGGER = new CLogger(Auction.class.getName());
 
     private static final String LOAD_BIDDERS = "SELECT bidder_name, clan_oid, clan_name, max_bid, time_bid FROM auctions WHERE clanhall_id = ? ORDER BY max_bid DESC";
     private static final String UPDATE_DATE = "UPDATE clanhall SET endDate = ? WHERE id = ?";
@@ -91,7 +91,7 @@ public class Auction {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load Auction bid.", e);
+            log.error("Couldn't load Auction bid.", e);
         }
 
         startAutoTask();
@@ -144,7 +144,7 @@ public class Auction {
                 ps.setInt(2, _ch.getId());
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't save Auction date.", e);
+                log.error("Couldn't save Auction date.", e);
             }
         } else {
             taskDelay = _endDate - currentTime;
@@ -229,7 +229,7 @@ public class Auction {
             ps.setLong(6, time);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update Auction.", e);
+            log.error("Couldn't update Auction.", e);
         }
     }
 
@@ -291,7 +291,7 @@ public class Auction {
             ps.setInt(1, _ch.getId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't remove Auction bids.", e);
+            log.error("Couldn't remove Auction bids.", e);
         }
 
         for (Bidder bidder : _bidders.values()) {
@@ -368,7 +368,7 @@ public class Auction {
             ps.setInt(2, clan.getClanId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't cancel Auction bid.", e);
+            log.error("Couldn't cancel Auction bid.", e);
         }
 
         final Bidder bidder = _bidders.remove(clan.getClanId());
@@ -417,7 +417,7 @@ public class Auction {
             ps.setInt(5, _ch.getId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't confirm Auction.", e);
+            log.error("Couldn't confirm Auction.", e);
         }
     }
 

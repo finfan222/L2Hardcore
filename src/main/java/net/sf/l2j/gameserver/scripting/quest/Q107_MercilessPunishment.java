@@ -45,15 +45,25 @@ public class Q107_MercilessPunishment extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 12;
+        condition.races = new ClassRace[]{ClassRace.ORC};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
-        String htmltext = event;
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30568-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, HATOS_ORDER_1, 1);
@@ -72,7 +82,7 @@ public class Q107_MercilessPunishment extends Quest {
             giveItems(player, HATOS_ORDER_3, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -85,9 +95,9 @@ public class Q107_MercilessPunishment extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.ORC) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30568-00.htm";
-                } else if (player.getStatus().getLevel() < 12) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30568-01.htm";
                 } else {
                     htmltext = "30568-02.htm";

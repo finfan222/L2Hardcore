@@ -13,12 +13,16 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
-import net.sf.l2j.gameserver.skills.L2Skill;
 
-public class Heal extends L2Skill {
+public class Heal extends Default {
 
     public Heal(StatSet set) {
         super(set);
+    }
+
+    @Override
+    public boolean isHeal() {
+        return true;
     }
 
     @Override
@@ -69,10 +73,15 @@ public class Heal extends L2Skill {
                 continue;
             }
 
+            Context context = Context.builder().build();
             double amount = target.getStatus().addHp(power * target.getStatus().calcStat(Stats.HEAL_EFFECTIVNESS, 100, null, null) / 100.);
+
+            // poison reduce healing potency
             if (target.isAffected(EffectFlag.POISON)) {
                 amount *= 1 - Rnd.get(0, 30) / 100.;
             }
+
+            context.value = amount;
 
             if (hasEffects()) {
                 target.stopSkillEffects(getId());
@@ -90,6 +99,8 @@ public class Heal extends L2Skill {
                     }
                 }
             }
+
+            notifyAboutSkillHit(caster, target, context);
         }
     }
 }

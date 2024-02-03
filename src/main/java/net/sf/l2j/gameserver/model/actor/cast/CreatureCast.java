@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.cast;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.enums.AiEventType;
@@ -38,8 +38,8 @@ import java.util.concurrent.ScheduledFuture;
  *
  * @param <T> : The {@link Creature} used as actor.
  */
+@Slf4j
 public class CreatureCast<T extends Creature> {
-    public static final CLogger LOGGER = new CLogger(CreatureCast.class.getName());
 
     protected final T _caster;
 

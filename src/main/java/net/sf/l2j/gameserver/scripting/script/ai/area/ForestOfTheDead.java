@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.scripting.script.ai.area;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.manager.RaidBossManager;
 import net.sf.l2j.gameserver.enums.BossStatus;
+import net.sf.l2j.gameserver.enums.DayCycle;
+import net.sf.l2j.gameserver.events.OnDayCycleChange;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -13,7 +13,10 @@ import net.sf.l2j.gameserver.model.spawn.BossSpawn;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
+
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ForestOfTheDead extends AttackableAIScript {
     public static final SpawnLocation HELLMANN_DAY_LOC = new SpawnLocation(-104100, -252700, -15542, 0);
@@ -40,18 +43,18 @@ public class ForestOfTheDead extends AttackableAIScript {
     public ForestOfTheDead() {
         super("ai/area");
 
-        if (!GameTimeTaskManager.getInstance().isNight()) {
+        if (!DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             handleDay();
         } else {
             handleNight();
         }
+
+        GlobalEventListener.register(OnDayCycleChange.class).forEach(this::onDayCycleChange);
     }
 
     @Override
     protected void registerNpcs() {
         addCreatureSeeId(NIGHT_DORIAN);
-
-        addGameTimeNotify();
     }
 
     @Override
@@ -75,15 +78,16 @@ public class ForestOfTheDead extends AttackableAIScript {
         return super.onCreatureSee(npc, creature);
     }
 
-    @Override
-    public void onGameTime(int gameTime) {
-        // Hellmann despawns at day.
-        if (gameTime == 360) {
-            handleDay();
-        }
-        // And spawns at night.
-        else if (gameTime == 0) {
+    public void onDayCycleChange(OnDayCycleChange event) {
+        DayCycle current = event.getCurrent();
+        DayCycle previous = event.getPrevious();
+        // Hellmann spawn/despawn
+        if (current == DayCycle.NIGHT) {
+            // And spawns at night.
             handleNight();
+        } else if (previous == DayCycle.NIGHT) {
+            // And despawns at day.
+            handleDay();
         }
     }
 

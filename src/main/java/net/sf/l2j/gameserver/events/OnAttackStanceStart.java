@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.sf.l2j.gameserver.model.actor.Creature;
-import net.sf.l2j.gameserver.model.actor.attack.CreatureAttack;
 
 /**
  * @author finfan
@@ -14,10 +13,9 @@ import net.sf.l2j.gameserver.model.actor.attack.CreatureAttack;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OnHitBy implements EventSituation {
+public class OnAttackStanceStart implements EventSituation {
 
-    private Creature attacker;
-    private Creature target;
-    private CreatureAttack.HitHolder hit;
+    private Creature creature;
+    private long timestamp;
 
 }

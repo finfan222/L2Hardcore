@@ -26,6 +26,16 @@ public class Q019_GoToThePastureland extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 63;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -34,7 +44,7 @@ public class Q019_GoToThePastureland extends Quest {
         }
 
         if (event.equalsIgnoreCase("31302-01.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, YOUNG_WILD_BEAST_MEAT, 1);
@@ -62,7 +72,7 @@ public class Q019_GoToThePastureland extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 63) ? "31302-03.htm" : "31302-00.htm";
+                htmltext = !condition.validateLevel(player) ? "31302-03.htm" : "31302-00.htm";
                 break;
 
             case STARTED:

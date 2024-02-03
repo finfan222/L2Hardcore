@@ -3,21 +3,14 @@ package net.sf.l2j.gameserver.skills.handlers;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.util.ArraysUtil;
 import net.sf.l2j.gameserver.enums.items.ShotType;
-import net.sf.l2j.gameserver.enums.items.WeaponType;
-import net.sf.l2j.gameserver.enums.skills.EffectType;
-import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.effects.EffectFear;
-
-import java.util.Map;
 
 public class Pdam extends Default {
 
@@ -33,14 +26,11 @@ public class Pdam extends Default {
 
         final boolean ss = caster.isChargedShot(ShotType.SOULSHOT);
 
-        final ItemInstance weapon = caster.getActiveWeaponInstance();
-
         for (WorldObject obj : targets) {
-            if (!(obj instanceof Creature)) {
+            if (!(obj instanceof Creature target)) {
                 continue;
             }
 
-            final Creature target = ((Creature) obj);
             if (target.isDead()) {
                 continue;
             }
@@ -49,63 +39,46 @@ public class Pdam extends Default {
                 continue;
             }
 
-            // Calculate skill evasion. As Dodge blocks only melee skills, make an exception with bow weapons.
-            if (weapon != null && weapon.getItemType() != WeaponType.BOW && Formulas.calcPhysicalSkillEvasion(target, this)) {
-                if (caster instanceof Player) {
-                    caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_DODGES_ATTACK).addCharName(target));
-                }
-
-                if (target instanceof Player) {
-                    target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.AVOIDED_S1_ATTACK).addCharName(caster));
-                }
-
-                // no futher calculations needed.
+            Context context = Context.builder().build();
+            context.isMissed = isEvaded(caster, target);
+            if (context.isMissed) {
                 continue;
             }
 
-            final boolean isCrit = getBaseCritRate() > 0 && Formulas.calcCrit(getBaseCritRate() * 10 * Formulas.getSTRBonus(caster));
-            final ShieldDefense sDef = Formulas.calcShldUse(caster, target, this, isCrit);
-            final byte reflect = Formulas.calcSkillReflect(target, this);
+            context.isCritical = getBaseCritRate() > 0 && Formulas.calcCrit(getBaseCritRate() * 10 * Formulas.getSTRBonus(caster));
+            context.block = Formulas.calcShldUse(caster, target, this, context.isCritical);
+            context.value = Formulas.calcPhysicalSkillDamage(caster, target, this, context.block, context.isCritical, ss);
 
-            if (hasEffects() && target.getFirstEffect(EffectType.BLOCK_DEBUFF) == null) {
-                if ((reflect & Formulas.SKILL_REFLECT_SUCCEED) != 0) {
-                    caster.stopSkillEffects(getId());
-
-                    applyEffects(target, caster);
-                } else {
-                    target.stopSkillEffects(getId());
-
-                    applyEffects(caster, target, sDef, false);
-                }
-            }
-
-            final int damage = (int) Formulas.calcPhysicalSkillDamage(caster, target, this, sDef, isCrit, ss);
-            if (damage > 0) {
-                caster.sendDamageMessage(target, damage, false, isCrit, false);
+            if (context.value > 0) {
+                caster.sendDamageMessage(target, (int) context.value, false, context.isCritical, false);
 
                 // Possibility of a lethal strike
                 Formulas.calcLethalHit(caster, target, this);
 
-                target.reduceCurrentHp(damage, caster, this);
-
                 // vengeance reflected damage
-                if ((reflect & Formulas.SKILL_REFLECT_VENGEANCE) != 0) {
-                    if (target instanceof Player) {
-                        target.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.COUNTERED_S1_ATTACK).addCharName(caster));
-                    }
-
-                    if (caster instanceof Player) {
-                        caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_PERFORMING_COUNTERATTACK).addCharName(target));
-                    }
-
-                    double vegdamage = (700. * target.getStatus().getPAtk(caster) / caster.getStatus().getPDef(target));
-                    caster.reduceCurrentHp(vegdamage, target, this);
+                context.isAvenged = isAvenged(caster, target);
+                if (context.isAvenged) {
+                    caster.reduceCurrentHp(context.value, target, this);
+                } else {
+                    target.reduceCurrentHp(context.value, caster, this);
                 }
+
+                if (hasEffects()) {
+                    context.isReflected = isReflected(caster, target, context.block);
+                    if (context.isReflected) {
+                        caster.stopSkillEffects(this.getId());
+                        applyEffects(target, caster);
+                    } else {
+                        target.stopSkillEffects(this.getId());
+                        applyEffects(caster, target, context.block, false);
+                    }
+                }
+
             } else {
                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ATTACK_FAILED));
             }
 
-            notifyAboutSkillHit(caster, target, Map.of("damage", damage));
+            notifyAboutSkillHit(caster, target, context);
         }
 
         if (hasSelfEffects()) {

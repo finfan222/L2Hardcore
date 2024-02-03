@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.model.buylist;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.model.item.kind.Item;
@@ -13,8 +13,8 @@ import java.sql.PreparedStatement;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
+@Slf4j
 public class Product {
-    private static final CLogger LOGGER = new CLogger(Product.class.getName());
 
     private static final String INSERT = "INSERT INTO buylists (buylist_id,item_id,count) VALUES(?,?,?) ON DUPLICATE KEY UPDATE count=VALUES(count)";
     private static final String DELETE = "DELETE FROM buylists WHERE buylist_id=? AND item_id=?";
@@ -90,7 +90,7 @@ public class Product {
             ps.setInt(3, getCount());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save product for buylist id:{} and item id: {}.", e, getBuyListId(), getItemId());
+            log.error("Couldn't save product for buylist id:{} and item id: {}.", getBuyListId(), getItemId(), e);
         }
     }
 
@@ -101,7 +101,7 @@ public class Product {
             ps.setInt(2, getItemId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete product for buylist id:{} and item id: {}.", e, getBuyListId(), getItemId());
+            log.error("Couldn't delete product for buylist id:{} and item id: {}.", getBuyListId(), getItemId(), e);
         }
     }
 }

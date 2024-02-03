@@ -26,15 +26,24 @@ public class Q014_WhereaboutsOfTheArchaeologist extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 74;
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("31263-2.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, LETTER, 1);
@@ -45,7 +54,7 @@ public class Q014_WhereaboutsOfTheArchaeologist extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -58,7 +67,7 @@ public class Q014_WhereaboutsOfTheArchaeologist extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 74) ? "31263-1.htm" : "31263-0.htm";
+                htmltext = !condition.validateLevel(player) ? "31263-1.htm" : "31263-0.htm";
                 break;
 
             case STARTED:

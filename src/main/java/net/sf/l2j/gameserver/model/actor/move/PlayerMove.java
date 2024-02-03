@@ -1,12 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.move;
 
-import java.awt.Color;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
-
 import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.actors.MoveType;
@@ -22,6 +16,11 @@ import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 import net.sf.l2j.gameserver.network.serverpackets.MoveToLocation;
 import net.sf.l2j.gameserver.network.serverpackets.MoveToPawn;
+
+import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.List;
 
 /**
  * This class groups all movement data related to a {@link Player}.

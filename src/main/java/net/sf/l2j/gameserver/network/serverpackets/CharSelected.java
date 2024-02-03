@@ -1,15 +1,17 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
 
 public class CharSelected extends L2GameServerPacket {
     private final Player _player;
     private final int _sessionId;
+    private final int time;
 
     public CharSelected(Player player, int sessionId) {
         _player = player;
         _sessionId = sessionId;
+        time = DayNightTaskManager.getInstance().getDayTime();
     }
 
     @Override
@@ -54,7 +56,7 @@ public class CharSelected extends L2GameServerPacket {
         writeD(0x00); // c3 work
         writeD(0x00); // c3 work
 
-        writeD(GameTimeTaskManager.getInstance().getGameTime());
+        writeD(time);
 
         writeD(0x00); // c3
 

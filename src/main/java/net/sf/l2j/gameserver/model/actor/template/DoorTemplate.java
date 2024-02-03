@@ -1,13 +1,12 @@
 package net.sf.l2j.gameserver.model.actor.template;
 
-import java.awt.Color;
-
 import net.sf.l2j.commons.data.StatSet;
-
 import net.sf.l2j.gameserver.enums.DoorType;
 import net.sf.l2j.gameserver.enums.OpenType;
 import net.sf.l2j.gameserver.model.location.Point2D;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
+
+import java.awt.*;
 
 public class DoorTemplate extends CreatureTemplate {
     private final Point2D[] _coords;

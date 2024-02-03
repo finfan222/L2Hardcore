@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.model;
 
 import net.sf.l2j.commons.data.StatSet;
-
 import net.sf.l2j.gameserver.data.xml.AdminData;
 
 /**

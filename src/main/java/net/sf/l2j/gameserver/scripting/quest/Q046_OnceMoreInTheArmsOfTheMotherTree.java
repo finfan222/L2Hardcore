@@ -36,15 +36,26 @@ public class Q046_OnceMoreInTheArmsOfTheMotherTree extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 3;
+        condition.races = new ClassRace[]{ClassRace.ELF};
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(MARK_OF_TRAVELER).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30097-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ORDER_DOCUMENT_1, 1);
@@ -81,7 +92,7 @@ public class Q046_OnceMoreInTheArmsOfTheMotherTree extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -94,8 +105,8 @@ public class Q046_OnceMoreInTheArmsOfTheMotherTree extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() == ClassRace.ELF && player.getStatus().getLevel() >= 3) {
-                    if (player.getInventory().hasItems(MARK_OF_TRAVELER)) {
+                if (condition.validateRace(player) && condition.validateLevel(player)) {
+                    if (condition.validateItems(player)) {
                         htmltext = "30097-02.htm";
                     } else {
                         htmltext = "30097-01.htm";

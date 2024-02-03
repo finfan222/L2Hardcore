@@ -23,17 +23,26 @@ public class Q353_PowerOfDarkness extends Quest {
 
         addKillId(20244, 20245, 20283, 20284);
     }
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 55;
+    }
+
 
     @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("31044-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31044-08.htm")) {
@@ -41,7 +50,7 @@ public class Q353_PowerOfDarkness extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -54,7 +63,7 @@ public class Q353_PowerOfDarkness extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 55) ? "31044-01.htm" : "31044-02.htm";
+                htmltext = !condition.validateLevel(player) ? "31044-01.htm" : "31044-02.htm";
                 break;
 
             case STARTED:

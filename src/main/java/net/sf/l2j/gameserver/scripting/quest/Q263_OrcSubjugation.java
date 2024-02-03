@@ -27,15 +27,25 @@ public class Q263_OrcSubjugation extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 8;
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30346-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30346-06.htm")) {
@@ -43,7 +53,7 @@ public class Q263_OrcSubjugation extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -56,9 +66,9 @@ public class Q263_OrcSubjugation extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.DARK_ELF) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30346-00.htm";
-                } else if (player.getStatus().getLevel() < 8) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30346-01.htm";
                 } else {
                     htmltext = "30346-02.htm";

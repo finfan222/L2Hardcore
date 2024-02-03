@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.actors.ClassType;
@@ -14,6 +10,9 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q343_UnderTheShadowOfTheIvoryTower extends Quest {
     private static final String QUEST_NAME = "Q343_UnderTheShadowOfTheIvoryTower";
@@ -60,6 +59,18 @@ public class Q343_UnderTheShadowOfTheIvoryTower extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 40;
+        condition.races = new ClassRace[]{ClassRace.ORC};
+        condition.classType = ClassType.MYSTIC;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -68,7 +79,7 @@ public class Q343_UnderTheShadowOfTheIvoryTower extends Quest {
         }
 
         if (event.equalsIgnoreCase("30834-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("memoState", 1);
             st.set("memoStateEx", 0);
@@ -320,7 +331,7 @@ public class Q343_UnderTheShadowOfTheIvoryTower extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getClassId().getType() == ClassType.MYSTIC && player.getRace() != ClassRace.ORC) ? ((player.getStatus().getLevel() < 40) ? "30834-02.htm" : "30834-03.htm") : "30834-01.htm";
+                htmltext = (condition.validateClassType(player) && !condition.validateRace(player)) ? (condition.validateLevel(player) ? "30834-02.htm" : "30834-03.htm") : "30834-01.htm";
                 break;
 
             case STARTED:

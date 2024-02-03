@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.network;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
+@Slf4j
 public final class SystemMessageId {
-    private static final CLogger LOGGER = new CLogger(SystemMessageId.class.getName());
 
     public static final SystemMessageId[] EMPTY_ARRAY = new SystemMessageId[0];
 
@@ -4391,13 +4391,14 @@ public final class SystemMessageId {
     public static final SystemMessageId LOC_HEINE_S1_S2_S3;
 
     /**
-     * ID: 927<br> Message: The current time is $s1:$s2.
+     * ID: 927<br> Message: The current time is $s1:$s2 $s3.
      */
-    public static final SystemMessageId TIME_S1_S2_IN_THE_DAY;
+    public static final SystemMessageId TIME_S1_S2_IN_S3;
 
     /**
      * ID: 928<br> Message: The current time is $s1:$s2.
      */
+    @Deprecated(since = "не используется, за все отвечает 927")
     public static final SystemMessageId TIME_S1_S2_IN_THE_NIGHT;
 
     /**
@@ -10104,6 +10105,16 @@ public final class SystemMessageId {
     public static final SystemMessageId YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER;
 
     /**
+     * ID: 2061<br> Message: $s1 invites you to take on the quest $s2. Do you agree?
+     */
+    public static final SystemMessageId S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2;
+
+    /**
+     * ID: 2062<br> Message: $s1 deal $s2 fire damage to you
+     */
+    public static final SystemMessageId S1_CALLS_YOU_TO_A_MORTAL_COMBAT;
+
+    /**
      * Array containing all SystemMessageIds<br> Important: Always initialize with a length of the highest
      * SystemMessageId + 1!!!
      */
@@ -10974,7 +10985,7 @@ public final class SystemMessageId {
         LOC_ADEN_S1_S2_S3 = new SystemMessageId(924);
         LOC_COLISEUM_S1_S2_S3 = new SystemMessageId(925);
         LOC_HEINE_S1_S2_S3 = new SystemMessageId(926);
-        TIME_S1_S2_IN_THE_DAY = new SystemMessageId(927);
+        TIME_S1_S2_IN_S3 = new SystemMessageId(927);
         TIME_S1_S2_IN_THE_NIGHT = new SystemMessageId(928);
         NO_COMPENSATION_FOR_FARM_PRODUCTS = new SystemMessageId(929);
         NO_LOTTERY_TICKETS_CURRENT_SOLD = new SystemMessageId(930);
@@ -12099,6 +12110,8 @@ public final class SystemMessageId {
         YOU_DID_S1_DARK_DMG = new SystemMessageId(2058);
         S1_DEAL_S2_DARK_DMG_TO_YOU = new SystemMessageId(2059);
         YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER = new SystemMessageId(2060);
+        S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2 = new SystemMessageId(2061);
+        S1_CALLS_YOU_TO_A_MORTAL_COMBAT = new SystemMessageId(2062);
 
         buildFastLookupTable();
     }
@@ -12122,7 +12135,7 @@ public final class SystemMessageId {
 
                     smIds.add(smId);
                 } catch (Exception e) {
-                    LOGGER.error("Failed to access field for '{}'.", e, field.getName());
+                    log.error("Failed to access field for '{}'.", e, field.getName());
                 }
             }
         }

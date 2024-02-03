@@ -1,5 +1,18 @@
 package net.sf.l2j.loginserver;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
+import net.sf.l2j.commons.lang.StringUtil;
+import net.sf.l2j.commons.mmocore.SelectorConfig;
+import net.sf.l2j.commons.mmocore.SelectorThread;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.loginserver.data.manager.GameServerManager;
+import net.sf.l2j.loginserver.data.manager.IpBanManager;
+import net.sf.l2j.loginserver.data.sql.AccountTable;
+import net.sf.l2j.loginserver.network.LoginClient;
+import net.sf.l2j.loginserver.network.LoginPacketHandler;
+import org.fusesource.jansi.AnsiConsole;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,21 +21,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.LogManager;
 
-import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.mmocore.SelectorConfig;
-import net.sf.l2j.commons.mmocore.SelectorThread;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.Config;
-import net.sf.l2j.loginserver.data.manager.GameServerManager;
-import net.sf.l2j.loginserver.data.manager.IpBanManager;
-import net.sf.l2j.loginserver.data.sql.AccountTable;
-import net.sf.l2j.loginserver.network.LoginClient;
-import net.sf.l2j.loginserver.network.LoginPacketHandler;
-
+@Slf4j
 public class LoginServer {
-    private static final CLogger LOGGER = new CLogger(LoginServer.class.getName());
 
     public static final int PROTOCOL_REV = 0x0102;
 
@@ -36,6 +36,8 @@ public class LoginServer {
     }
 
     public LoginServer() throws Exception {
+        AnsiConsole.systemInstall();
+
         // Create log folder
         new File("./log").mkdir();
         new File("./log/console").mkdir();
@@ -69,7 +71,7 @@ public class LoginServer {
             try {
                 bindAddress = InetAddress.getByName(Config.LOGINSERVER_HOSTNAME);
             } catch (UnknownHostException uhe) {
-                LOGGER.error("The LoginServer bind address is invalid, using all available IPs.", uhe);
+                log.error("The LoginServer bind address is invalid, using all available IPs.", uhe);
             }
         }
 
@@ -84,7 +86,7 @@ public class LoginServer {
         try {
             _selectorThread = new SelectorThread<>(sc, sh, lph, sh, sh);
         } catch (IOException ioe) {
-            LOGGER.error("Failed to open selector.", ioe);
+            log.error("Failed to open selector.", ioe);
 
             System.exit(1);
         }
@@ -93,9 +95,9 @@ public class LoginServer {
             _gameServerListener = new GameServerListener();
             _gameServerListener.start();
 
-            LOGGER.info("Listening for gameservers on {}:{}.", Config.GAMESERVER_LOGIN_HOSTNAME, Config.GAMESERVER_LOGIN_PORT);
+            log.info("Listening for gameservers on {}:{}.", Config.GAMESERVER_LOGIN_HOSTNAME, Config.GAMESERVER_LOGIN_PORT);
         } catch (IOException ioe) {
-            LOGGER.error("Failed to start the gameserver listener.", ioe);
+            log.error("Failed to start the gameserver listener.", ioe);
 
             System.exit(1);
         }
@@ -103,12 +105,12 @@ public class LoginServer {
         try {
             _selectorThread.openServerSocket(bindAddress, Config.LOGINSERVER_PORT);
         } catch (IOException ioe) {
-            LOGGER.error("Failed to open server socket.", ioe);
+            log.error("Failed to open server socket.", ioe);
 
             System.exit(1);
         }
         _selectorThread.start();
-        LOGGER.info("Loginserver ready on {}:{}.", (bindAddress == null) ? "*" : bindAddress.getHostAddress(), Config.LOGINSERVER_PORT);
+        log.info("Loginserver ready on {}:{}.", (bindAddress == null) ? "*" : bindAddress.getHostAddress(), Config.LOGINSERVER_PORT);
 
         StringUtil.printSection("Waiting for gameserver answer");
     }

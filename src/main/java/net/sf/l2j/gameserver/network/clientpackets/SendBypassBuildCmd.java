@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.logging.Logger;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.handler.AdminCommandHandler;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
+
+import java.util.logging.Logger;
 
 public final class SendBypassBuildCmd extends L2GameClientPacket {
     private static final Logger GMAUDIT_LOG = Logger.getLogger("gmaudit");
@@ -36,13 +36,13 @@ public final class SendBypassBuildCmd extends L2GameClientPacket {
                 player.sendMessage("The command " + command.substring(6) + " doesn't exist.");
             }
 
-            LOGGER.warn("No handler registered for admin command '{}'.", command);
+            log.warn("No handler registered for admin command '{}'.", command);
             return;
         }
 
         if (!AdminData.getInstance().hasAccess(command, player.getAccessLevel())) {
             player.sendMessage("You don't have the access right to use this command.");
-            LOGGER.warn("{} tried to use admin command '{}', but has no access to use it.", player.getName(), command);
+            log.warn("{} tried to use admin command '{}', but has no access to use it.", player.getName(), command);
             return;
         }
 

@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.items.ShotType;
@@ -21,8 +21,8 @@ import java.util.function.Predicate;
 /**
  * Mother class of all interactive objects in the world (PC, NPC, Item...)
  */
+@Slf4j
 public abstract class WorldObject {
-    public static final CLogger LOGGER = new CLogger(WorldObject.class.getName());
 
     private String _name;
     private int _objectId;

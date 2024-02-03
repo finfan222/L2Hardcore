@@ -9,7 +9,6 @@ import net.sf.l2j.gameserver.scripting.QuestState;
 
 public class Q123_TheLeaderAndTheFollower extends Quest {
     private static final String QUEST_NAME = "Q123_TheLeaderAndTheFollower";
-    private static final String qn2 = "Q118_ToLeadAndBeLed";
 
     // NPC
     private static final int NEWYEAR = 31961;
@@ -47,6 +46,17 @@ public class Q123_TheLeaderAndTheFollower extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 18;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(118).isCanBeUnCompleted(true).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -55,7 +65,7 @@ public class Q123_TheLeaderAndTheFollower extends Quest {
         }
 
         if (event.equalsIgnoreCase("31961-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("state", 1);
             playSound(player, SOUND_ACCEPT);
@@ -126,11 +136,11 @@ public class Q123_TheLeaderAndTheFollower extends Quest {
         switch (st.getState()) {
             case CREATED:
                 if (player.getSponsor() > 0) {
-                    QuestState st2 = player.getQuestList().getQuestState(qn2);
-                    if (st2 != null) {
-                        htmltext = (st2.isCompleted()) ? "31961-02a.htm" : "31961-02b.htm";
-                    } else {
-                        htmltext = (player.getStatus().getLevel() > 18) ? "31961-01.htm" : "31961-02.htm";
+                    if (condition.level > 0) {
+                        htmltext = condition.validateLevel(player) ? "31961-01.htm" : "31961-02.htm";
+                    } else if (condition.quests != null) {
+                        // if quest is uncompleted but player have it: show 31961-02a.htm, otherwise 31961-02b.htm
+                        htmltext = !condition.validateQuests(player) ? "31961-02a.htm" : "31961-02b.htm";
                     }
                 } else if (player.getApprentice() > 0) {
                     final Player academic = getApprentice(player);

@@ -1,5 +1,14 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
+import net.sf.l2j.gameserver.model.World;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.network.SystemMessageId;
+import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
+import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,18 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
-import net.sf.l2j.gameserver.model.World;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.network.SystemMessageId;
-import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
-import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
-
+@Slf4j
 public class BlockList {
-    private static final CLogger LOGGER = new CLogger(BlockList.class.getName());
 
     private static final Map<Integer, List<Integer>> OFFLINE_LIST = new HashMap<>();
 
@@ -86,7 +85,7 @@ public class BlockList {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load blocklist for {}.", e, objectId);
+            log.error("Couldn't load blocklist for {}.", objectId, e);
         }
         return list;
     }
@@ -98,7 +97,7 @@ public class BlockList {
             ps.setInt(2, targetId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't add/remove block player.", e);
+            log.error("Couldn't add/remove block player.", e);
         }
     }
 

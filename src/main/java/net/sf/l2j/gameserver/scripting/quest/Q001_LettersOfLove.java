@@ -33,21 +33,30 @@ public class Q001_LettersOfLove extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 2;
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30048-06.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, DARIN_LETTER, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -60,7 +69,7 @@ public class Q001_LettersOfLove extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 2) ? "30048-01.htm" : "30048-02.htm";
+                htmltext = condition.validateLevel(player) ? "30048-02.htm" : "30048-01.htm";
                 break;
 
             case STARTED:
@@ -121,4 +130,5 @@ public class Q001_LettersOfLove extends Quest {
 
         return htmltext;
     }
+
 }

@@ -1,12 +1,15 @@
 package net.sf.l2j.gameserver.skills;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
+import net.sf.l2j.gameserver.enums.items.ArmorType;
+import net.sf.l2j.gameserver.enums.items.CrystalType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.ElementType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
@@ -20,16 +23,18 @@ import net.sf.l2j.gameserver.model.actor.instance.Cubic;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeFlag;
+import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.skills.handlers.Default;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
 
+@Slf4j
 public final class Formulas {
-    private static final CLogger LOGGER = new CLogger(Formulas.class.getName());
 
     private static final int HP_REGENERATE_PERIOD = 3000; // 3 secs
 
@@ -150,7 +155,7 @@ public final class Formulas {
         if (isAttackerInFrontofTarget && isBackstab) {
             if (Config.DEVELOPER) {
                 StringUtil.printSection("Blow Rate");
-                LOGGER.info("Final blow rate overriden by backstab under front target: 30 / 1000");
+                log.info("Final blow rate overriden by backstab under front target: 30 / 1000");
             }
             return 30 > Rnd.get(1000);
         }
@@ -163,9 +168,9 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Blow Rate");
-            LOGGER.info("Basic values: baseRate: {}", baseRate);
-            LOGGER.info("Multipliers: dex: {}, blow: {}, pos: {}", dexMul, blowMul, posMul);
-            LOGGER.info("Final blow rate: {} / 1000", blowRate);
+            log.info("Basic values: baseRate: {}", baseRate);
+            log.info("Multipliers: dex: {}, blow: {}, pos: {}", dexMul, blowMul, posMul);
+            log.info("Final blow rate: {} / 1000", blowRate);
         }
 
         return Math.min(blowRate, (isBackstab) ? 1000 : 800) > Rnd.get(1000);
@@ -205,9 +210,9 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Lethal Rate");
-            LOGGER.info("Basic values: baseRate: {}, editedRate: {}", baseRate, editedRate);
-            LOGGER.info("Multipliers: lethal: {}", lethalMul);
-            LOGGER.info("Final lethal rate: {} / 1000", lethalRate);
+            log.info("Basic values: baseRate: {}, editedRate: {}", baseRate, editedRate);
+            log.info("Multipliers: lethal: {}", lethalMul);
+            log.info("Final lethal rate: {} / 1000", lethalRate);
         }
 
         return lethalRate > Rnd.get(1000);
@@ -305,11 +310,11 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Blow damage");
-            LOGGER.info("ss:{}, shield:{}, isPvp:{}, defence:{}", ss, sDef, isPvP, defence);
-            LOGGER.info("Basic powers: attack: {}, skill: {}, addCrit: {}", attackPower, skillPower, addCritPower);
-            LOGGER.info("Multipliers: critDam: {}, rnd: {}, critPos: {}, pos: {}, pvp: {}", critDamMul, rndMul, critDamPosMul, posMul, pvpMul);
-            LOGGER.info("Vulnerabilities: criticalVuln: {}, daggerVuln: {}", critVuln, daggerVuln);
-            LOGGER.info("Final blow damage: {}", damage);
+            log.info("ss:{}, shield:{}, isPvp:{}, defence:{}", ss, sDef, isPvP, defence);
+            log.info("Basic powers: attack: {}, skill: {}, addCrit: {}", attackPower, skillPower, addCritPower);
+            log.info("Multipliers: critDam: {}, rnd: {}, critPos: {}, pos: {}, pvp: {}", critDamMul, rndMul, critDamPosMul, posMul, pvpMul);
+            log.info("Vulnerabilities: criticalVuln: {}, daggerVuln: {}", critVuln, daggerVuln);
+            log.info("Final blow damage: {}", damage);
         }
         return Math.max(1, damage);
     }
@@ -399,11 +404,11 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Physical attack damage");
-            LOGGER.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
-            LOGGER.info("Basic powers: attack: {}, addCrit: {}", attackPower, addCritPower);
-            LOGGER.info("Multipliers: critDam: {}, critPos: {}, pos: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", critDamMul, critDamPosMul, posMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
-            LOGGER.info("Vulnerabilities: criticalVuln: {}", critVuln);
-            LOGGER.info("Final damage: {}", damage);
+            log.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
+            log.info("Basic powers: attack: {}, addCrit: {}", attackPower, addCritPower);
+            log.info("Multipliers: critDam: {}, critPos: {}, pos: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", critDamMul, critDamPosMul, posMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
+            log.info("Vulnerabilities: criticalVuln: {}", critVuln);
+            log.info("Final damage: {}", damage);
         }
 
         if (damage < 0) {
@@ -493,10 +498,10 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Physical skill damage");
-            LOGGER.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
-            LOGGER.info("Basic powers: attack: {}, skill: {}", attackPower, skillPower);
-            LOGGER.info("Multipliers: ss: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", ssMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
-            LOGGER.info("Final damage: {}", damage);
+            log.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
+            log.info("Basic powers: attack: {}, skill: {}", attackPower, skillPower);
+            log.info("Multipliers: ss: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", ssMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
+            log.info("Final damage: {}", damage);
         }
 
         if (damage < 0) {
@@ -640,7 +645,7 @@ public final class Formulas {
         final int mRate = actor.getStatus().getMCriticalHit(target, skill);
 
         if (Config.DEVELOPER) {
-            LOGGER.info("Current mCritRate: {} / 1000.", mRate);
+            log.info("Current mCritRate: {} / 1000.", mRate);
         }
 
         return mRate > Rnd.get(1000);
@@ -674,7 +679,7 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Cast break rate");
-            LOGGER.info("Final cast break rate: {}%.", rate);
+            log.info("Final cast break rate: {}%.", rate);
         }
 
         if (MathUtil.limit((int) rate, 1, 99) > Rnd.get(100)) {
@@ -725,7 +730,7 @@ public final class Formulas {
         }
 
         // Get weather bonus.
-        if (GameTimeTaskManager.getInstance().isNight()) {
+        if (DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             diff -= 10;
         }
 
@@ -739,7 +744,7 @@ public final class Formulas {
         int chance = (90 + (2 * (diff))) * 10;
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcHitMiss diff: {}, rate: {}%.", diff, chance / 10);
+            log.info("calcHitMiss diff: {}, rate: {}%.", diff, chance / 10);
         }
 
         return MathUtil.limit(chance, 300, 980) < Rnd.get(1000);
@@ -818,9 +823,9 @@ public final class Formulas {
 
         if (Config.DEVELOPER) {
             StringUtil.printSection("Shield use");
-            LOGGER.info("Basic values: baseRate: {}, degreeSide: {}", baseRate, degreeSide);
-            LOGGER.info("Multipliers: dex: {}, isBow: {}, isCrit: {}", dexMul, (isBow) ? "3.0" : "0.", (isCrit) ? "3.0" : "0.");
-            LOGGER.info("ShieldDefense: {}, rate: {} / 100, chance: {}", sDef, shieldRate, chance);
+            log.info("Basic values: baseRate: {}, degreeSide: {}", baseRate, degreeSide);
+            log.info("Multipliers: dex: {}, isBow: {}, isCrit: {}", dexMul, (isBow) ? "3.0" : "0.", (isCrit) ? "3.0" : "0.");
+            log.info("ShieldDefense: {}, rate: {} / 100, chance: {}", sDef, shieldRate, chance);
         }
 
         return sDef;
@@ -914,7 +919,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 99));
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcEffectSuccess(): name:{} eff.type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), type.toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcEffectSuccess(): name:{} eff.type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), type.toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.isGM()) {
@@ -947,7 +952,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 100));
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.isGM()) {
@@ -997,7 +1002,7 @@ public final class Formulas {
         chance = Math.max(1, Math.min((chance * statModifier * mAtkModifier * lvlModifier), 99));
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcCubicSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
+            log.info("calcCubicSkillSuccess(): name:{} type:{} power:{} statMod:{} mAtkMod:{} lvlMod:{} total:{}%.", skill.getName(), skill.getSkillType().toString(), chance, String.format("%1.2f", statModifier), String.format("%1.2f", mAtkModifier), String.format("%1.2f", lvlModifier), String.format("%1.2f", chance));
         }
 
         if (attacker.getOwner().isGM()) {
@@ -1024,7 +1029,7 @@ public final class Formulas {
         }
 
         if (Config.DEVELOPER) {
-            LOGGER.info("calcMagicSuccess(): name:{} lvlDiff:{} fail:{}%.", skill.getName(), lvlDifference, String.format("%1.2f", rate / 100));
+            log.info("calcMagicSuccess(): name:{} lvlDiff:{} fail:{}%.", skill.getName(), lvlDifference, String.format("%1.2f", rate / 100));
         }
 
         rate = Math.min(rate, 9900);
@@ -1060,7 +1065,7 @@ public final class Formulas {
             return false;
         }
 
-        return Rnd.get(100) < target.getStatus().calcStat(Stats.P_SKILL_EVASION, 0, null, skill);
+        return Rnd.calcChance(target.getStatus().calcStat(Stats.P_SKILL_EVASION, 0, null, skill), 100);
     }
 
     public static boolean calcSkillMastery(Creature actor, L2Skill sk) {
@@ -1167,8 +1172,8 @@ public final class Formulas {
             case MDAM:
             case DEATHLINK:
             case CHARGEDAM:
-                final double venganceChance = target.getStatus().calcStat((skill.isMagic()) ? Stats.VENGEANCE_SKILL_MAGIC_DAMAGE : Stats.VENGEANCE_SKILL_PHYSICAL_DAMAGE, 0, target, skill);
-                if (venganceChance > Rnd.get(100)) {
+                final double vengeanceChance = target.getStatus().calcStat((skill.isMagic()) ? Stats.VENGEANCE_SKILL_MAGIC_DAMAGE : Stats.VENGEANCE_SKILL_PHYSICAL_DAMAGE, 0, target, skill);
+                if (vengeanceChance > Rnd.get(100)) {
                     reflect |= SKILL_REFLECT_VENGEANCE;
                 }
                 break;
@@ -1180,6 +1185,58 @@ public final class Formulas {
         }
 
         return reflect;
+    }
+
+    public static boolean calcEffectReflect(Creature target, L2Skill skill) {
+        // Some special skills (like hero debuffs...) or ignoring resistances skills can't be reflected.
+        if (skill.ignoreResists() || !skill.canBeReflected()) {
+            return false;
+        }
+
+        // Only magic and melee skills can be reflected.
+        if (!skill.isMagic() && (skill.getCastRange() == -1 || skill.getCastRange() > MELEE_ATTACK_RANGE)) {
+            return false;
+        }
+
+        // Check for non-reflected skilltypes, need additional retail check.
+        switch (skill.getSkillType()) {
+            case BUFF:
+            case REFLECT:
+            case HEAL_PERCENT:
+            case MANAHEAL_PERCENT:
+            case HOT:
+            case MPHOT:
+            case AGGDEBUFF:
+            case CONT:
+                return false;
+        }
+
+        final double reflectChance = target.getStatus().calcStat((skill.isMagic()) ? Stats.REFLECT_SKILL_MAGIC : Stats.REFLECT_SKILL_PHYSIC, 0, null, skill);
+        return Rnd.calcChance(reflectChance, 100);
+    }
+
+    public static boolean calcSkillVengeance(Creature target, L2Skill skill) {
+        // Some special skills (like hero debuffs...) or ignoring resistances skills can't be reflected.
+        if (skill.ignoreResists() || !skill.canBeReflected()) {
+            return false;
+        }
+
+        // Only magic and melee skills can be reflected.
+        if (!skill.isMagic() && (skill.getCastRange() == -1 || skill.getCastRange() > MELEE_ATTACK_RANGE)) {
+            return false;
+        }
+
+        // Check for non-reflected skilltypes, need additional retail check.
+        return switch (skill.getSkillType()) {
+            case PDAM, BLOW, MDAM, DEATHLINK, CHARGEDAM -> {
+                final double vengeanceChance = target.getStatus().calcStat((skill.isMagic())
+                    ? Stats.VENGEANCE_SKILL_MAGIC_DAMAGE
+                    : Stats.VENGEANCE_SKILL_PHYSICAL_DAMAGE, 0, target, skill);
+                yield Rnd.calcChance(vengeanceChance, 100);
+            }
+            default -> false;
+        };
+
     }
 
     /**
@@ -1297,5 +1354,93 @@ public final class Formulas {
 
     public static int calcProjectileFlyTime(Creature attacker, Creature target, int baseFlyTime) {
         return (int) ((attacker.distance2D(target.getPosition()) * 0.3333333333) + (baseFlyTime * 0.7777777777) + 200);
+    }
+
+    public static int calcWeaponFractureValue(Player attacker, Creature target, L2Skill skill, Default.Context context) {
+        ItemInstance activeWeaponInstance = attacker.getActiveWeaponInstance();
+        if (activeWeaponInstance == null || attacker.getAttackType() == WeaponType.FIST) {
+            return 0;
+        }
+
+        Weapon weapon = activeWeaponInstance.getWeaponItem();
+        WeaponType weaponType = attacker.getAttackType();
+
+        // calc for weapon if use magic
+        if (skill != null && skill.isMagic()) {
+            CrystalType crystalType = weapon.getCrystalType();
+            double gradeModifier = (crystalType.getId() + 1.) / 10.;
+            double mpConsume = skill.getMpConsume() + skill.getMpInitialConsume();
+            double typeModifier = skill.isDebuff() ? 0.156 : 0.64;
+            return (int) Math.max(mpConsume * (gradeModifier * typeModifier), 1);
+        } else {
+            if (weaponType == WeaponType.BOW) {
+                return 4;
+            }
+
+            if (context.isMissed()) {
+                return 0;
+            }
+
+            double damage = context.getValue();
+            double augmentedMod = activeWeaponInstance.isAugmented() ? 0.85 : 1.;
+            double blockMod = context.getBlock() == ShieldDefense.PERFECT ? Rnd.get(3, 10) : context.getBlock() == ShieldDefense.SUCCESS ? 2. : 1.;
+            double armorMod;
+            if (target instanceof Player player) {
+                // against armor modifier for target=player
+                ItemInstance armor = player.getInventory().getRandomEquippedItem(0);
+                if (armor != null) {
+                    armorMod = ((ArmorType) armor.getItemType()).getDamageToWeaponDurability();
+                } else {
+                    armorMod = 1.;
+                }
+            } else {
+                // against monster which level is lower than attacker level
+                armorMod = target.getStatus().getLevel() - attacker.getStatus().getLevel();
+                if (armorMod < -9) {
+                    return  1;
+                }
+            }
+
+            double value = Math.max(damage * augmentedMod * blockMod * armorMod, 1);
+            double reduce = Math.sqrt(value);
+            return (int) reduce;
+        }
+    }
+
+    public static int calcArmorFractureValue(Armor armor, L2Skill skill, Default.Context context) {
+        // if doesnt have equipped armor
+        if (armor == null) {
+            return 0;
+        }
+
+        double damage = context.getValue();
+        // when attack was blocked by shield
+        double blockMod = blockFractureValue(context.getBlock());
+        // armor durability absorb
+        double armorMod = armor.getItemType().getDurabilityAbsorb();
+
+        if (skill != null && skill.isMagic()) {
+            if (skill.isDamage() && armor.isAccessory()) {
+                armorMod = 1.;
+            } else if (skill.isDebuff() && context.isSuccess()) {
+                // target armor is fracture from debuffs
+                damage = skill.getMagicLevel() > 0 ? skill.getMagicLevel() : 80;
+            }
+        }
+
+        double reduce = Math.sqrt(damage * blockMod * armorMod);
+        return (int) Math.max(reduce, 1);
+    }
+
+    private static double blockFractureValue(ShieldDefense block) {
+        if (!block.isSuccess()) {
+            return 1.;
+        }
+
+        if (block == ShieldDefense.PERFECT) {
+            return 0.01;
+        }
+
+        return ArmorType.SHIELD.getDurabilityAbsorb();
     }
 }

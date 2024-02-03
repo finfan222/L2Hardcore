@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.sql.SpawnTable;
@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public final class World {
-    private static final CLogger LOGGER = new CLogger(World.class.getName());
 
     // Geodata min/max tiles
     public static final int TILE_X_MIN = 16;
@@ -72,7 +72,7 @@ public final class World {
 
         GlobalEventListener.register(OnDieLethal.class).forEach(this::onDieLethal);
 
-        LOGGER.info("World grid ({} by {}) is now set up.", REGIONS_X, REGIONS_Y);
+        log.info("World grid ({} by {}) is now set up.", REGIONS_X, REGIONS_Y);
     }
 
     public void addObject(WorldObject object) {
@@ -187,7 +187,7 @@ public final class World {
      * Delete all spawns in the world.
      */
     public void deleteVisibleNpcSpawns() {
-        LOGGER.info("Deleting all visible NPCs.");
+        log.info("Deleting all visible NPCs.");
         for (int i = 0; i < REGIONS_X; i++) {
             for (int j = 0; j < REGIONS_Y; j++) {
                 for (WorldObject obj : _worldRegions[i][j].getObjects()) {
@@ -203,7 +203,7 @@ public final class World {
                 }
             }
         }
-        LOGGER.info("All visibles NPCs are now deleted.");
+        log.info("All visibles NPCs are now deleted.");
     }
 
     /**
@@ -252,7 +252,7 @@ public final class World {
     }
 
     private void onDieLethal(OnDieLethal event) {
-        LOGGER.info("[8][onDieLethal] {}", event);
+        log.info("[8][onDieLethal] {}", event);
         String blackMessage = String.format("Elmoreaden bulletin: %s has left us. The reason was %s.",
             event.getName(), event.getReason().getDieWorldMessage());
         ExShowScreenMessageCustom message = ExShowScreenMessageCustom.builder()

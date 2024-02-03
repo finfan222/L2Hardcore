@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.model.actor.Player;
 
@@ -20,8 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@link Player}s obtain Raid Points by killing Raid Bosses within the world of Lineage 2. Each week the Top ranked
  * players clans get rewarded with Clan Reputation Points in relation to their members ranking.
  */
+@Slf4j
 public class RaidPointManager {
-    private static final CLogger LOGGER = new CLogger(RaidPointManager.class.getName());
 
     private static final String LOAD_DATA = "SELECT * FROM character_raid_points";
     private static final String INSERT_DATA = "REPLACE INTO character_raid_points (char_id,boss_id,points) VALUES (?,?,?)";
@@ -42,9 +42,9 @@ public class RaidPointManager {
                 playerData.put(bossId, points);
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load RaidPoints entries.", e);
+            log.error("Couldn't load RaidPoints entries.", e);
         }
-        LOGGER.info("Loaded {} RaidPoints entries.", _entries.size());
+        log.info("Loaded {} RaidPoints entries.", _entries.size());
     }
 
     public final Map<Integer, Integer> getList(Player player) {
@@ -75,7 +75,7 @@ public class RaidPointManager {
             ps.setInt(3, points);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't update RaidPoints entries.", e);
+            log.error("Couldn't update RaidPoints entries.", e);
         }
     }
 
@@ -102,7 +102,7 @@ public class RaidPointManager {
              PreparedStatement ps = con.prepareStatement(DELETE_DATA)) {
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete RaidPoints entries.", e);
+            log.error("Couldn't delete RaidPoints entries.", e);
         }
     }
 

@@ -1,10 +1,9 @@
 package net.sf.l2j.gameserver.model.item;
 
-import java.util.List;
-
 import net.sf.l2j.commons.data.StatSet;
-
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+
+import java.util.List;
 
 /**
  * This datatype is used to store Recipe informations used by Dwarf to craft items.<br> It holds a List of

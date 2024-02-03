@@ -1,16 +1,15 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q355_FamilyHonor extends Quest {
     private static final String QUEST_NAME = "Q355_FamilyHonor";
@@ -36,7 +35,7 @@ public class Q355_FamilyHonor extends Quest {
     // Drop chances
     private static final Map<Integer, int[]> CHANCES = new HashMap<>();
 
-    {
+    static {
         CHANCES.put(TIMAK_ORC_TROOP_LEADER, new int[]
             {
                 44,
@@ -71,6 +70,16 @@ public class Q355_FamilyHonor extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 36;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -79,7 +88,7 @@ public class Q355_FamilyHonor extends Quest {
         }
 
         if (event.equalsIgnoreCase("30181-2.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30181-4b.htm")) {
@@ -135,7 +144,7 @@ public class Q355_FamilyHonor extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 36) ? "30181-0a.htm" : "30181-0.htm";
+                htmltext = !condition.validateLevel(player) ? "30181-0a.htm" : "30181-0.htm";
                 break;
 
             case STARTED:

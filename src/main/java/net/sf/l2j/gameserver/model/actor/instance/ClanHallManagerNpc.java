@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.text.SimpleDateFormat;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.xml.TeleportData;
 import net.sf.l2j.gameserver.enums.TeleportType;
@@ -20,6 +17,9 @@ import net.sf.l2j.gameserver.network.serverpackets.ClanHallDecoration;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.WarehouseDepositList;
 import net.sf.l2j.gameserver.network.serverpackets.WarehouseWithdrawList;
+
+import java.text.SimpleDateFormat;
+import java.util.StringTokenizer;
 
 public class ClanHallManagerNpc extends Merchant {
     private static final String HP_GRADE_0 = "[<a action=\"bypass -h npc_%objectId%_manage recovery edit_hp 20\">20%</a>][<a action=\"bypass -h npc_%objectId%_manage recovery edit_hp 40\">40%</a>][<a action=\"bypass -h npc_%objectId%_manage recovery edit_hp 220\">220%</a>]";

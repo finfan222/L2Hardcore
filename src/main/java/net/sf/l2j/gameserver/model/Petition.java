@@ -1,12 +1,6 @@
 package net.sf.l2j.gameserver.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.enums.petitions.PetitionRate;
@@ -19,6 +13,11 @@ import net.sf.l2j.gameserver.network.serverpackets.CreatureSay;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.PetitionVote;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A Petition is a report, generally made by a {@link Player} to a Game Master. The categories of report are multiple.

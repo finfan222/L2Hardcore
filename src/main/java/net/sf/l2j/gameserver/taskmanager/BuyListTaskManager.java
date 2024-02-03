@@ -2,15 +2,14 @@ package net.sf.l2j.gameserver.taskmanager;
 
 import it.sauronsoftware.cron4j.Scheduler;
 import lombok.Getter;
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.model.buylist.Product;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Slf4j
 public final class BuyListTaskManager implements Runnable {
-
-    private static final CLogger LOGGER = new CLogger(BuyListTaskManager.class.getSimpleName());
 
     @Getter(lazy = true)
     private static final BuyListTaskManager instance = new BuyListTaskManager();
@@ -23,7 +22,7 @@ public final class BuyListTaskManager implements Runnable {
         Scheduler scheduler = new Scheduler();
         scheduler.schedule(CRON_PATTERN, this);
         scheduler.start();
-        LOGGER.info("Buy list task manager was initialized. Next schedule of restock items: {}", CRON_PATTERN);
+        log.info("Buy list task manager was initialized. Next schedule of restock items: {}", CRON_PATTERN);
     }
 
     @Override

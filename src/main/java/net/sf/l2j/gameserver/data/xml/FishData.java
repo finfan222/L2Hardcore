@@ -24,7 +24,7 @@ public class FishData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/fish.xml");
-        LOGGER.info("Loaded {} fish.", _fish.size());
+        log.info("Loaded {} fish.", _fish.size());
     }
 
     @Override

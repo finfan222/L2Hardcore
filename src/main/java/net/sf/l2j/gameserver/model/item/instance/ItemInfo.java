@@ -1,10 +1,7 @@
 package net.sf.l2j.gameserver.model.item.instance;
 
 import net.sf.l2j.gameserver.enums.items.ItemState;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.model.item.kind.Item;
-
-import java.util.Optional;
 
 /**
  * Get all information from ItemInstance to generate ItemInfo.

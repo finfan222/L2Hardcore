@@ -1,15 +1,6 @@
 package net.sf.l2j.gameserver.model.zone.type.subtype;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.l2j.commons.logging.CLogger;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -20,6 +11,14 @@ import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.scripting.Quest;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * An abstract base class for any zone type, which holds {@link Creature}s affected by this zone, linked {@link Quest}s
  * and the associated {@link ZoneForm}.<br>
@@ -27,8 +26,8 @@ import net.sf.l2j.gameserver.scripting.Quest;
  * Zones can be retrieved by id, but since most use dynamic IDs, you must set individual zone id yourself if you want
  * the system works correctly (otherwise id can be different if you add or remove zone types or zones).
  */
+@Slf4j
 public abstract class ZoneType {
-    protected static final CLogger LOGGER = new CLogger(ZoneType.class.getName());
 
     private final int _id;
     protected final Map<Integer, Creature> _characters = new ConcurrentHashMap<>();
@@ -252,7 +251,7 @@ public abstract class ZoneType {
      * @param value : The parameter value.
      */
     public void setParameter(String name, String value) {
-        LOGGER.warn("Unknown name/values couple {}, {} for {}.", name, value, toString());
+        log.warn("Unknown name/values couple {}, {} for {}.", name, value, toString());
     }
 
     /**

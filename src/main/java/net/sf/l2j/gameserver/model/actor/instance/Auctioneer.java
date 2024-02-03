@@ -1,13 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -19,6 +13,11 @@ import net.sf.l2j.gameserver.model.clanhall.Seller;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public final class Auctioneer extends Folk {
     private static final int PAGE_LIMIT = 15;

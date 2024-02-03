@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.xml.DoorData;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -9,6 +7,8 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+
+import java.util.StringTokenizer;
 
 /**
  * An instance type extending {@link Folk}, used to open doors and teleport into specific locations. Used notably by

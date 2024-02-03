@@ -1,7 +1,8 @@
 package net.sf.l2j.gameserver.model;
 
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.enums.DayCycle;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
 
 /**
  * A datatype used to retain a fish information.
@@ -52,7 +53,7 @@ public class Fish {
     }
 
     public int getType(boolean isLureNight) {
-        if (!GameTimeTaskManager.getInstance().isNight() && isLureNight) {
+        if (!DayNightTaskManager.getInstance().is(DayCycle.NIGHT) && isLureNight) {
             return -1;
         }
 

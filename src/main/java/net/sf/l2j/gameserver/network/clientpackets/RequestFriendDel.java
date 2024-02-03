@@ -1,16 +1,15 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.L2Friend;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public final class RequestFriendDel extends L2GameClientPacket {
     private static final String DELETE_FRIEND = "DELETE FROM character_friends WHERE (char_id = ? AND friend_id = ?) OR (char_id = ? AND friend_id = ?)";
@@ -57,7 +56,7 @@ public final class RequestFriendDel extends L2GameClientPacket {
             ps.setInt(4, player.getObjectId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete friendId {} for {}.", e, targetId, player.toString());
+            log.error("Couldn't delete friendId {} for {}.", e, targetId, player.toString());
         }
     }
 }

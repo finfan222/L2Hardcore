@@ -1,14 +1,13 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.scripting.Quest;
+
+import java.util.List;
 
 /**
  * This class extends {@link Attackable} and manages all {@link Guard}s.<br>

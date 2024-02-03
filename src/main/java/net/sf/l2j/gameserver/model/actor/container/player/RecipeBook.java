@@ -1,15 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.data.xml.RecipeData;
 import net.sf.l2j.gameserver.enums.ShortcutType;
 import net.sf.l2j.gameserver.model.Shortcut;
@@ -17,8 +9,15 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.craft.ManufactureItem;
 import net.sf.l2j.gameserver.model.item.Recipe;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+@Slf4j
 public class RecipeBook {
-    private static final CLogger LOGGER = new CLogger(RecipeBook.class.getName());
 
     private static final String INSERT_RECIPE = "INSERT INTO character_recipebook (charId, recipeId) VALUES (?,?)";
     private static final String DELETE_RECIPE = "DELETE FROM character_recipebook WHERE charId=? AND recipeId=?";
@@ -106,7 +105,7 @@ public class RecipeBook {
                 ps.setInt(2, recipe.getId());
                 ps.execute();
             } catch (final Exception e) {
-                LOGGER.error("Couldn't store recipe.", e);
+                log.error("Couldn't store recipe.", e);
             }
         }
     }
@@ -138,7 +137,7 @@ public class RecipeBook {
             ps.setInt(2, recipeId);
             ps.execute();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't remove recipe.", e);
+            log.error("Couldn't remove recipe.", e);
         }
     }
 
@@ -157,7 +156,7 @@ public class RecipeBook {
                 }
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore recipe book data.", e);
+            log.error("Couldn't restore recipe book data.", e);
         }
     }
 }

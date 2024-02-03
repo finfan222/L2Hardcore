@@ -1,10 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-
-import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
@@ -15,6 +12,8 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
+
+import java.util.List;
 
 /**
  * Custom class allowing you to choose your class.<br>

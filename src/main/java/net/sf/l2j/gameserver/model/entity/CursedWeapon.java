@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.entity;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -46,8 +46,8 @@ import java.util.concurrent.ScheduledFuture;
  * If the owner dies, the sword either disappears or drops. When the sword is gone, the owner gains back their skills
  * and characteristics go back to normal.
  */
+@Slf4j
 public class CursedWeapon {
-    protected static final CLogger LOGGER = new CLogger(CursedWeapon.class.getName());
 
     private static final String LOAD_CW = "SELECT * FROM cursed_weapons WHERE itemId=?";
     private static final String DELETE_ITEM = "DELETE FROM items WHERE owner_id=? AND item_id=?";
@@ -130,7 +130,7 @@ public class CursedWeapon {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore cursed weapons data.", e);
+            log.error("Couldn't restore cursed weapons data.", e);
         }
     }
 
@@ -231,7 +231,7 @@ public class CursedWeapon {
         if (_isActivated) {
             // Player is online ; unequip weapon && destroy it.
             if (_player != null && _player.isOnline()) {
-                LOGGER.info("{} is being removed online.", _name);
+                log.info("{} is being removed online.", _name);
 
                 _player.getAttack().stop();
 
@@ -250,7 +250,7 @@ public class CursedWeapon {
             }
             // Player is offline ; make only SQL operations.
             else {
-                LOGGER.info("{} is being removed offline.", _name);
+                log.info("{} is being removed offline.", _name);
 
                 try (Connection con = ConnectionPool.getConnection()) {
                     // Delete the item
@@ -266,19 +266,19 @@ public class CursedWeapon {
                         ps.setInt(3, _playerId);
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't cleanup {} from offline player {}.", e, _name, _playerId);
+                    log.error("Couldn't cleanup {} from offline player {}.", _name, _playerId, e);
                 }
             }
         } else {
             // This CW is in the inventory of someone who has another cursed weapon equipped.
             if (_player != null && _player.getInventory().getItemByItemId(_itemId) != null) {
                 _player.destroyItemByItemId("CW", _itemId, 1, _player, false);
-                LOGGER.info("{} has been assimilated.", _name);
+                log.info("{} has been assimilated.", _name);
             }
             // This CW is on the ground.
             else if (_item != null) {
                 _item.decayMe();
-                LOGGER.info("{} has been removed from world.", _name);
+                log.info("{} has been removed from world.", _name);
             }
         }
 
@@ -534,7 +534,7 @@ public class CursedWeapon {
                 ps.executeUpdate();
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to insert cursed weapon data.", e);
+            log.error("Failed to insert cursed weapon data.", e);
         }
 
         // Change player stats
@@ -578,7 +578,7 @@ public class CursedWeapon {
                 ps.executeUpdate();
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to remove cursed weapon data.", e);
+            log.error("Failed to remove cursed weapon data.", e);
         }
     }
 
@@ -725,7 +725,7 @@ public class CursedWeapon {
                         ps.executeUpdate();
                     }
                 } catch (Exception e) {
-                    LOGGER.error("Failed to update cursed weapon data.", e);
+                    log.error("Failed to update cursed weapon data.", e);
                 }
             }
         }

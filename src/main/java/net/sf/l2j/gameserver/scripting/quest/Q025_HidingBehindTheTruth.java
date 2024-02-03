@@ -1,9 +1,5 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -13,6 +9,10 @@ import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Q025_HidingBehindTheTruth extends Quest {
     private static final String QUEST_NAME = "Q025_HidingBehindTheTruth";
@@ -76,6 +76,17 @@ public class Q025_HidingBehindTheTruth extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 66;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(24).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -85,7 +96,7 @@ public class Q025_HidingBehindTheTruth extends Quest {
 
         // Benedict
         if (event.equalsIgnoreCase("31349-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.set("state", 1);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
@@ -271,8 +282,7 @@ public class Q025_HidingBehindTheTruth extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                QuestState st2 = player.getQuestList().getQuestState("Q024_InhabitantsOfTheForestOfTheDead");
-                htmltext = (st2 != null && st2.isCompleted() && player.getStatus().getLevel() >= 66) ? "31349-01.htm" : "31349-02.htm";
+                htmltext = condition.validateQuests(player) && condition.validateLevel(player) ? "31349-01.htm" : "31349-02.htm";
                 break;
 
             case STARTED:

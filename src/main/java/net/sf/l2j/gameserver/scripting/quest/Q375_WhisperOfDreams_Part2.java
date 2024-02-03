@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -44,16 +43,26 @@ public class Q375_WhisperOfDreams_Part2 extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 60;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(MYSTERIOUS_STONE).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         // Manakia
         if (event.equalsIgnoreCase("30515-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             takeItems(player, MYSTERIOUS_STONE, 1);
@@ -62,7 +71,7 @@ public class Q375_WhisperOfDreams_Part2 extends Quest {
             st.exitQuest(true);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -75,7 +84,7 @@ public class Q375_WhisperOfDreams_Part2 extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (!player.getInventory().hasItems(MYSTERIOUS_STONE) || player.getStatus().getLevel() < 60) ? "30515-01.htm" : "30515-02.htm";
+                htmltext = (!condition.validateItems(player) || !condition.validateLevel(player)) ? "30515-01.htm" : "30515-02.htm";
                 break;
 
             case STARTED:

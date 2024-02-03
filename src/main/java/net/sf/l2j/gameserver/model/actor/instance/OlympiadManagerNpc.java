@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.manager.HeroManager;
 import net.sf.l2j.gameserver.data.xml.MultisellData;
 import net.sf.l2j.gameserver.enums.OlympiadType;
@@ -17,6 +13,9 @@ import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ExHeroList;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OlympiadManagerNpc extends Folk {
     private static final List<OlympiadManagerNpc> _managers = new CopyOnWriteArrayList<>();

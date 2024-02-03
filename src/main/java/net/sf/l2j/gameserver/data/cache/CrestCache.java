@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.cache;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -14,6 +14,7 @@ import java.util.Map;
  * <br>
  * Size integrity checks are made on crest save, deletion, get and also during server first load.
  */
+@Slf4j
 public class CrestCache {
     public enum CrestType {
         PLEDGE("Crest_", 256),
@@ -37,8 +38,6 @@ public class CrestCache {
         }
     }
 
-    private static final CLogger LOGGER = new CLogger(CrestCache.class.getName());
-
     private static final String CRESTS_DIR = "./data/crests/";
 
     private final Map<Integer, byte[]> _crests = new HashMap<>();
@@ -61,7 +60,7 @@ public class CrestCache {
             if (!_ddsFilter.accept(file)) {
                 file.delete();
 
-                LOGGER.warn("Invalid file {} has been deleted while loading crests.", fileName);
+                log.warn("Invalid file {} has been deleted while loading crests.", fileName);
                 continue;
             }
 
@@ -71,7 +70,7 @@ public class CrestCache {
                 data = new byte[(int) f.length()];
                 f.readFully(data);
             } catch (Exception e) {
-                LOGGER.error("Error loading crest file: {}.", e, fileName);
+                log.error("Error loading crest file: {}.", fileName, e);
                 continue;
             }
 
@@ -83,7 +82,7 @@ public class CrestCache {
                     if (data.length != type.getSize()) {
                         file.delete();
 
-                        LOGGER.warn("The data for crest {} is invalid. The crest has been deleted.", fileName);
+                        log.warn("The data for crest {} is invalid. The crest has been deleted.", fileName);
                         continue;
                     }
 
@@ -94,7 +93,7 @@ public class CrestCache {
             }
         }
 
-        LOGGER.info("Loaded {} crests.", _crests.size());
+        log.info("Loaded {} crests.", _crests.size());
     }
 
     /**
@@ -144,7 +143,7 @@ public class CrestCache {
         // delete file
         final File file = new File(CRESTS_DIR + type.getPrefix() + id + ".dds");
         if (!file.delete()) {
-            LOGGER.warn("Error deleting crest file: {}.", file.getName());
+            log.warn("Error deleting crest file: {}.", file.getName());
         }
     }
 
@@ -162,7 +161,7 @@ public class CrestCache {
 
         // Verify the data size integrity.
         if (data.length != type.getSize()) {
-            LOGGER.warn("The data for crest {} is invalid. Saving process is aborted.", file.getName());
+            log.warn("The data for crest {} is invalid. Saving process is aborted.", file.getName());
             return false;
         }
 
@@ -170,7 +169,7 @@ public class CrestCache {
         try (FileOutputStream out = new FileOutputStream(file)) {
             out.write(data);
         } catch (Exception e) {
-            LOGGER.error("Error saving crest file: {}.", e, file.getName());
+            log.error("Error saving crest file: {}.", file.getName(), e);
             return false;
         }
 

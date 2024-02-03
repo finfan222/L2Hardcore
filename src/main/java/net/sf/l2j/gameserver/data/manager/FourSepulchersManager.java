@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
@@ -22,6 +21,8 @@ import net.sf.l2j.gameserver.model.zone.type.BossZone;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.scripting.QuestState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,7 +42,7 @@ public class FourSepulchersManager {
         END
     }
 
-    protected static final CLogger LOGGER = new CLogger(FourSepulchersManager.class.getName());
+    protected static final Logger log = LoggerFactory.getLogger(FourSepulchersManager.class.getName());
 
     private static final String QUEST_ID = "Q620_FourGoblets";
 
@@ -312,7 +313,7 @@ public class FourSepulchersManager {
             while (rs.next()) {
                 final NpcTemplate template = NpcData.getInstance().getTemplate(rs.getInt("npc_templateid"));
                 if (template == null) {
-                    LOGGER.warn("Data missing in NPC table for ID: {}.", rs.getInt("npc_templateid"));
+                    log.warn("Data missing in NPC table for ID: {}.", rs.getInt("npc_templateid"));
                     continue;
                 }
 
@@ -325,9 +326,9 @@ public class FourSepulchersManager {
                 _mysteriousBoxSpawns.put(rs.getInt("key_npc_id"), spawn);
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to initialize a spawn.", e);
+            log.error("Failed to initialize a spawn.", e);
         }
-        LOGGER.info("Loaded {} Mysterious-Box.", _mysteriousBoxSpawns.size());
+        log.info("Loaded {} Mysterious-Box.", _mysteriousBoxSpawns.size());
     }
 
     private void initKeyBoxSpawns() {
@@ -335,7 +336,7 @@ public class FourSepulchersManager {
             try {
                 final NpcTemplate template = NpcData.getInstance().getTemplate(keyNpc.getValue());
                 if (template == null) {
-                    LOGGER.warn("Data missing in NPC table for ID: {}.", keyNpc.getValue());
+                    log.warn("Data missing in NPC table for ID: {}.", keyNpc.getValue());
                     continue;
                 }
 
@@ -343,10 +344,10 @@ public class FourSepulchersManager {
                 SpawnTable.getInstance().addSpawn(spawn, false);
                 _keyBoxSpawns.put(keyNpc.getKey(), spawn);
             } catch (Exception e) {
-                LOGGER.error("Failed to initialize a spawn.", e);
+                log.error("Failed to initialize a spawn.", e);
             }
         }
-        LOGGER.info("Loaded {} Key-Box.", _keyBoxNpc.size());
+        log.info("Loaded {} Key-Box.", _keyBoxNpc.size());
     }
 
     private void loadSpawnsByType(int type) {
@@ -375,7 +376,7 @@ public class FourSepulchersManager {
                         while (rs2.next()) {
                             final NpcTemplate template = NpcData.getInstance().getTemplate(rs2.getInt("npc_templateid"));
                             if (template == null) {
-                                LOGGER.warn("Data missing in NPC table for ID: {}.", rs2.getInt("npc_templateid"));
+                                log.warn("Data missing in NPC table for ID: {}.", rs2.getInt("npc_templateid"));
                                 continue;
                             }
 
@@ -403,17 +404,17 @@ public class FourSepulchersManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to initialize a spawn.", e);
+            log.error("Failed to initialize a spawn.", e);
         }
 
         if (type == 1) {
-            LOGGER.info("Loaded {} physical type monsters.", loaded);
+            log.info("Loaded {} physical type monsters.", loaded);
         } else if (type == 2) {
-            LOGGER.info("Loaded {} magical type monsters.", loaded);
+            log.info("Loaded {} magical type monsters.", loaded);
         } else if (type == 5) {
-            LOGGER.info("Loaded {} Duke's Hall Gatekeepers.", loaded);
+            log.info("Loaded {} Duke's Hall Gatekeepers.", loaded);
         } else if (type == 6) {
-            LOGGER.info("Loaded {} Emperor's Grave monsters.", loaded);
+            log.info("Loaded {} Emperor's Grave monsters.", loaded);
         }
     }
 
@@ -431,7 +432,7 @@ public class FourSepulchersManager {
             // Retrieve template.
             final NpcTemplate template = NpcData.getInstance().getTemplate(npcId);
             if (template == null) {
-                LOGGER.warn("Data missing in NPC table for ID: {}.", npcId);
+                log.warn("Data missing in NPC table for ID: {}.", npcId);
                 continue;
             }
 
@@ -446,10 +447,10 @@ public class FourSepulchersManager {
                 // Add the spawn in _shadowSpawns.
                 _shadowSpawns.put(GATEKEEPER_IDS[i], spawn);
             } catch (Exception e) {
-                LOGGER.error("Failed to initialize a spawn.", e);
+                log.error("Failed to initialize a spawn.", e);
             }
         }
-        LOGGER.info("Loaded {} Shadows of Halisha.", _shadowSpawns.size());
+        log.info("Loaded {} Shadows of Halisha.", _shadowSpawns.size());
     }
 
     private void initExecutionerSpawns() {
@@ -457,7 +458,7 @@ public class FourSepulchersManager {
             try {
                 final NpcTemplate template = NpcData.getInstance().getTemplate(victimNpc.getValue());
                 if (template == null) {
-                    LOGGER.warn("Data missing in NPC table for ID: {}.", victimNpc.getValue());
+                    log.warn("Data missing in NPC table for ID: {}.", victimNpc.getValue());
                     continue;
                 }
 
@@ -466,7 +467,7 @@ public class FourSepulchersManager {
                 SpawnTable.getInstance().addSpawn(spawn, false);
                 _executionerSpawns.put(victimNpc.getKey(), spawn);
             } catch (Exception e) {
-                LOGGER.error("Failed to initialize a spawn.", e);
+                log.error("Failed to initialize a spawn.", e);
             }
         }
     }
@@ -506,10 +507,10 @@ public class FourSepulchersManager {
 
                 _managers.add(spawn);
             } catch (Exception e) {
-                LOGGER.error("Failed to spawn managers.", e);
+                log.error("Failed to spawn managers.", e);
             }
         }
-        LOGGER.info("Loaded {} managers.", _managers.size());
+        log.info("Loaded {} managers.", _managers.size());
     }
 
     private void launchCycle() {
@@ -669,7 +670,7 @@ public class FourSepulchersManager {
                 try {
                     NpcTemplate template = NpcData.getInstance().getTemplate(18149);
                     if (template == null) {
-                        LOGGER.warn("Data missing in NPC table for ID: 18149.");
+                        log.warn("Data missing in NPC table for ID: 18149.");
                         continue;
                     }
 
@@ -683,7 +684,7 @@ public class FourSepulchersManager {
                     // Single spawn only.
                     keyBoxMobSpawn.setRespawnState(false);
                 } catch (Exception e) {
-                    LOGGER.error("Failed to initialize a spawn.", e);
+                    log.error("Failed to initialize a spawn.", e);
                 }
 
                 spawnedKeyBoxMob = true;
@@ -1003,7 +1004,7 @@ public class FourSepulchersManager {
                         onEndEvent();
                         break;
                 }
-                LOGGER.info("A new Four Sepulchers event has been announced ({}).", _state);
+                log.info("A new Four Sepulchers event has been announced ({}).", _state);
             }
 
             // Managers shout during ATTACK state, every 5min, if the hall is under use.

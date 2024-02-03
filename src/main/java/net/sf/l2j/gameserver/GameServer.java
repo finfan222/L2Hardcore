@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.mmocore.SelectorConfig;
 import net.sf.l2j.commons.mmocore.SelectorThread;
 import net.sf.l2j.commons.pool.ConnectionPool;
@@ -20,7 +20,6 @@ import net.sf.l2j.gameserver.data.manager.CastleManorManager;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
-import net.sf.l2j.gameserver.data.manager.DayNightManager;
 import net.sf.l2j.gameserver.data.manager.DerbyTrackManager;
 import net.sf.l2j.gameserver.data.manager.DimensionalRiftManager;
 import net.sf.l2j.gameserver.data.manager.FestivalOfDarknessManager;
@@ -83,16 +82,18 @@ import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
 import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.GamePacketHandler;
+import net.sf.l2j.gameserver.taskmanager.AmbushTaskManager;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 import net.sf.l2j.gameserver.taskmanager.BuyListTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
 import net.sf.l2j.gameserver.taskmanager.DecayTaskManager;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 import net.sf.l2j.gameserver.taskmanager.ItemsOnGroundTaskManager;
 import net.sf.l2j.gameserver.taskmanager.PvpFlagTaskManager;
 import net.sf.l2j.gameserver.taskmanager.RandomAnimationTaskManager;
 import net.sf.l2j.gameserver.taskmanager.WaterTaskManager;
 import net.sf.l2j.util.DeadLockDetector;
 import net.sf.l2j.util.IPv4Filter;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -100,9 +101,8 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.logging.LogManager;
 
+@Slf4j
 public class GameServer {
-    private static final CLogger LOGGER = new CLogger(GameServer.class.getName());
-
     private final SelectorThread<GameClient> _selectorThread;
 
     private static GameServer _gameServer;
@@ -112,6 +112,8 @@ public class GameServer {
     }
 
     public GameServer() throws Exception {
+        AnsiConsole.systemInstall();
+
         // Create log folder
         new File("./log").mkdir();
         new File("./log/chat").mkdir();
@@ -198,13 +200,14 @@ public class GameServer {
         StringUtil.printSection("Task Managers");
         AttackStanceTaskManager.getInstance();
         DecayTaskManager.getInstance();
-        GameTimeTaskManager.getInstance();
+        DayNightTaskManager.getInstance();
         ItemsOnGroundTaskManager.getInstance();
         PvpFlagTaskManager.getInstance();
         RandomAnimationTaskManager.getInstance();
         WaterTaskManager.getInstance();
         GraveyardManager.getInstance();
         BuyListTaskManager.getInstance();
+        AmbushTaskManager.getInstance();
 
         StringUtil.printSection("Auto Spawns");
         AutoSpawnTable.getInstance();
@@ -225,7 +228,6 @@ public class GameServer {
         SpawnTable.getInstance();
         RaidBossManager.getInstance();
         GrandBossManager.getInstance();
-        DayNightManager.getInstance().notifyChangeMode();
         DimensionalRiftManager.getInstance();
         NewbieBuffData.getInstance();
         InstantTeleportData.getInstance();
@@ -264,27 +266,27 @@ public class GameServer {
         }
 
         StringUtil.printSection("Handlers");
-        LOGGER.info("Loaded {} admin command handlers.", AdminCommandHandler.getInstance().size());
-        LOGGER.info("Loaded {} chat handlers.", ChatHandler.getInstance().size());
-        LOGGER.info("Loaded {} item handlers.", ItemHandler.getInstance().size());
-        LOGGER.info("Loaded {} target handlers.", TargetHandler.getInstance().size());
-        LOGGER.info("Loaded {} user command handlers.", UserCommandHandler.getInstance().size());
+        log.info("Loaded {} admin command handlers.", AdminCommandHandler.getInstance().size());
+        log.info("Loaded {} chat handlers.", ChatHandler.getInstance().size());
+        log.info("Loaded {} item handlers.", ItemHandler.getInstance().size());
+        log.info("Loaded {} target handlers.", TargetHandler.getInstance().size());
+        log.info("Loaded {} user command handlers.", UserCommandHandler.getInstance().size());
 
         StringUtil.printSection("System");
         Runtime.getRuntime().addShutdownHook(Shutdown.getInstance());
 
         if (Config.DEADLOCK_DETECTOR) {
-            LOGGER.info("Deadlock detector is enabled. Timer: {}s.", Config.DEADLOCK_CHECK_INTERVAL);
+            log.info("Deadlock detector is enabled. Timer: {}s.", Config.DEADLOCK_CHECK_INTERVAL);
 
             final DeadLockDetector deadDetectThread = new DeadLockDetector();
             deadDetectThread.setDaemon(true);
             deadDetectThread.start();
         } else {
-            LOGGER.info("Deadlock detector is disabled.");
+            log.info("Deadlock detector is disabled.");
         }
 
-        LOGGER.info("Gameserver has started, used memory: {} / {} Mo.", SysUtil.getUsedMemory(), SysUtil.getMaxMemory());
-        LOGGER.info("Maximum allowed players: {}.", Config.MAXIMUM_ONLINE_USERS);
+        log.info("Gameserver has started, used memory: {} / {} Mo.", SysUtil.getUsedMemory(), SysUtil.getMaxMemory());
+        log.info("Maximum allowed players: {}.", Config.MAXIMUM_ONLINE_USERS);
 
         StringUtil.printSection("Login");
         LoginServerThread.getInstance().start();
@@ -303,14 +305,14 @@ public class GameServer {
             try {
                 bindAddress = InetAddress.getByName(Config.GAMESERVER_HOSTNAME);
             } catch (Exception e) {
-                LOGGER.error("The GameServer bind address is invalid, using all available IPs.", e);
+                log.error("The GameServer bind address is invalid, using all available IPs.", e);
             }
         }
 
         try {
             _selectorThread.openServerSocket(bindAddress, Config.GAMESERVER_PORT);
         } catch (Exception e) {
-            LOGGER.error("Failed to open server socket.", e);
+            log.error("Failed to open server socket.", e);
             System.exit(1);
         }
         _selectorThread.start();

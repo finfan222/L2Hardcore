@@ -1,11 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.concurrent.ScheduledFuture;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
 import net.sf.l2j.gameserver.data.manager.RaidBossManager;
 import net.sf.l2j.gameserver.data.manager.RaidPointManager;
@@ -18,6 +15,8 @@ import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * This class manages all classic raid bosses.<br>

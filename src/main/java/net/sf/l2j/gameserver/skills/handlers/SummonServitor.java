@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.skills.handlers;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.gameserver.data.SkillTable;
@@ -19,6 +20,7 @@ import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+@Slf4j
 public class SummonServitor extends L2Skill {
     private final int _npcId;
     private final float _expPenalty;
@@ -125,7 +127,7 @@ public class SummonServitor extends L2Skill {
             Servitor summon;
             NpcTemplate summonTemplate = NpcData.getInstance().getTemplate(_npcId);
             if (summonTemplate == null) {
-                LOGGER.warn("Couldn't properly spawn with id {} ; the template is missing.", _npcId);
+                log.warn("Couldn't properly spawn with id {} ; the template is missing.", _npcId);
                 return;
             }
 
