@@ -80,7 +80,7 @@ public class Default extends L2Skill {
     }
 
     protected boolean isEvaded(Creature caster, Creature target) {
-        boolean isEvaded = Formulas.calcPhysicalSkillEvasion(target, this);
+        boolean isEvaded = Formulas.calcHitMiss(caster, target, this) || Formulas.calcPhysicalSkillEvasion(target, this);
         if (isEvaded) {
             if (caster instanceof Player) {
                 caster.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_DODGES_ATTACK).addCharName(target));

@@ -718,7 +718,14 @@ public final class Formulas {
      * @param target : The {@link Creature} target to test.
      * @return True if the hit missed or false if it evaded.
      */
-    public static boolean calcHitMiss(Creature attacker, Creature target) {
+    public static boolean calcHitMiss(Creature attacker, Creature target, L2Skill skill) {
+
+        if (skill != null) {
+            if (!skill.isDamage() && !skill.isProjectile()) {
+                return false; // always hit
+            }
+        }
+
         int diff = attacker.getStatus().getAccuracy() - target.getStatus().getEvasionRate(attacker);
 
         // Get high or low Z bonus.
@@ -741,13 +748,12 @@ public final class Formulas {
             diff += 5;
         }
 
-        int chance = (90 + (2 * (diff))) * 10;
-
-        if (Config.DEVELOPER) {
+        int chance = MathUtil.limit((100 + (2 * (diff))) * 10, skill != null ? 300 : 50, 980);
+        if (attacker.isGM()) {
             log.info("calcHitMiss diff: {}, rate: {}%.", diff, chance / 10);
         }
 
-        return MathUtil.limit(chance, 300, 980) < Rnd.get(1000);
+        return !Rnd.calcChance(chance, 1000);
     }
 
     /**
@@ -1397,7 +1403,7 @@ public final class Formulas {
                 // against monster which level is lower than attacker level
                 armorMod = target.getStatus().getLevel() - attacker.getStatus().getLevel();
                 if (armorMod < -9) {
-                    return  1;
+                    return 1;
                 }
             }
 

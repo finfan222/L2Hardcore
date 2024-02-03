@@ -461,7 +461,7 @@ public class CreatureAttack<T extends Creature> {
         ShieldDefense shld = ShieldDefense.FAILED;
         int damage = 0;
 
-        final boolean miss = Formulas.calcHitMiss(attacker, target);
+        final boolean miss = Formulas.calcHitMiss(attacker, target, null);
         if (!miss) {
             crit = Formulas.calcCrit(attacker, target, null);
             shld = Formulas.calcShldUse(attacker, target, null, crit);
