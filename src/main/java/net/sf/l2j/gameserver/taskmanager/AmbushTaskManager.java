@@ -119,7 +119,7 @@ public class AmbushTaskManager implements Runnable {
         if (DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             start();
         }
-        log.info("Loaded successfully!");
+        log.info("Loaded: interval={} min., EXP bonus=x{}", Config.HARDCORE_AMBUSH_INTERVAL, Config.HARDCORE_AMBUSH_EXP_BONUS);
     }
 
     public void start() {
