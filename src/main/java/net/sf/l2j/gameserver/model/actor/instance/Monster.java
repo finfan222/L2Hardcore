@@ -68,7 +68,7 @@ public class Monster extends Attackable {
     private boolean _isRaid;
     private boolean _isMinion;
     @Getter @Setter
-    private float nightExpSpBonus;
+    private double nightExpSpBonus;
 
     public Monster(int objectId, NpcTemplate template) {
         super(objectId, template);

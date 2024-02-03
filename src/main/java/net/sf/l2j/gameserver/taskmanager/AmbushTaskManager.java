@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.taskmanager;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.GlobalEventListener;
@@ -9,6 +10,7 @@ import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.events.OnDayCycleChange;
+import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Chest;
@@ -17,7 +19,6 @@ import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author finfan
@@ -122,7 +123,7 @@ public class AmbushTaskManager implements Runnable {
     }
 
     public void start() {
-        ambushTask = ThreadPool.scheduleAtFixedRate(this, TimeUnit.MINUTES.toMillis(1), TimeUnit.MINUTES.toMillis(1));
+        ambushTask = ThreadPool.scheduleAtFixedRate(this, Config.HARDCORE_AMBUSH_INTERVAL, Config.HARDCORE_AMBUSH_INTERVAL);
     }
 
     private void stop() {
@@ -135,23 +136,27 @@ public class AmbushTaskManager implements Runnable {
     @Override
     public void run() {
         World.getInstance().getPlayers().stream()
-            .filter(player -> !player.isDead())
+            .filter(player -> !player.isDead() && player.getStatus().getLevel() >= 15)
             .filter(player -> !(player.isInsideZone(ZoneId.PEACE)
                 || player.isInsideZone(ZoneId.TOWN)
                 || player.isInsideZone(ZoneId.PVP)
                 || player.isInsideZone(ZoneId.SIEGE))
-            ).forEach(this::ambushAttack);
+            )
+            .filter(player -> Rnd.nextBoolean())
+            .forEach(this::ambushAttack);
     }
 
     private void ambushAttack(Player player) {
-        List<Monster> list = player.getKnownTypeInRadius(Monster.class, 1500).stream()
-            .filter(monster -> Rnd.calcChance(66, 100))
+        List<Monster> list = player.getKnownTypeInRadius(Monster.class, 1500)
+            .stream()
+            .filter(monster -> Rnd.nextBoolean())
             .filter(monster -> !monster.isRaidBoss() && !monster.isRaidRelated() && !(monster instanceof Chest))
             .filter(monster -> !monster.isDead() && !monster.getAttack().isAttackingNow())
+            .filter(monster -> GeoEngine.getInstance().canSeeTarget(monster, player))
             .toList();
 
         if (!list.isEmpty()) {
-            player.sendMessage("Засада! Вас окружают монстры со всех сторон!");
+            player.sendMessage("[FIX: SYSMSG] Засада! Вас окружают монстры со всех сторон!");
             player.sendPacket(new PlaySound("ItemSound3.sys_siege_start"));
             for (Monster monster : list) {
                 NpcRace race = monster.getTemplate().getRace();
@@ -169,12 +174,10 @@ public class AmbushTaskManager implements Runnable {
                         break;
                 }
 
-                float nightBonus = Rnd.get(1, 100) / 100f + 1f;
-                log.info("{} has night bonus={}", monster.getName(), nightBonus);
-                monster.setNightExpSpBonus(nightBonus);
+                monster.setNightExpSpBonus(Config.HARDCORE_AMBUSH_EXP_BONUS);
                 monster.setWalkOrRun(true);
                 monster.setTarget(player);
-                monster.getAggroList().addDamageHate(player, 0, Rnd.get(999, 9999));
+                monster.getAggroList().addDamageHate(player, 0, Rnd.get(99, 999));
                 monster.getAI().tryToAttack(player);
             }
         }

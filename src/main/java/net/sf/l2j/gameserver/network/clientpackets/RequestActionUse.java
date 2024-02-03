@@ -3,8 +3,8 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
+import net.sf.l2j.gameserver.data.manager.DuelManager;
 import net.sf.l2j.gameserver.enums.SayType;
-import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -15,12 +15,8 @@ import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.NpcSay;
 import net.sf.l2j.gameserver.skills.L2Skill;
-import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
-
-import java.util.Map;
 
 @Slf4j
 public final class RequestActionUse extends L2GameClientPacket {
@@ -454,43 +450,8 @@ public final class RequestActionUse extends L2GameClientPacket {
                 break;
 
             case 1043: // Mortal combat duel
-                if (player.getStatus().getLevel() < 15) {
-                    player.sendMessage("Этот функционал откроется на 15-ом уровне");
-                    player.sendPacket(SystemMessageId.INVALID_TARGET);
-                    return;
-                }
-
-                if (!player.canDuel()) {
-                    player.sendPacket(SystemMessageId.INVALID_TARGET);
-                    return;
-                }
-
                 if (target instanceof Player opponent) {
-                    if (opponent.isDead()
-                        || opponent.isInDuel()
-                        || opponent.isOperating()
-                        || opponent.isInOlympiadMode()
-                        || !opponent.canDuel()) {
-                        player.sendPacket(ActionFailed.STATIC_PACKET);
-                        return;
-                    }
-
-                    if (opponent.getStatus().getLevel() < 15) {
-                        player.sendMessage(String.format("%s не обладает правом участвовать в смертельных битвах.", opponent.getName()));
-                        player.sendPacket(SystemMessageId.INVALID_TARGET);
-                        return;
-                    }
-
-                    if (opponent.getDialog() != null || AttackStanceTaskManager.getInstance().isInAttackStance(opponent)) {
-                        player.sendMessage(String.format("%s сейчас занят и не может принять дуэль до смерти.", opponent));
-                        player.sendPacket(ActionFailed.STATIC_PACKET);
-                        return;
-                    }
-
-                    ConfirmDlg dlg = new ConfirmDlg(SystemMessageId.S1_CALLS_YOU_TO_A_MORTAL_COMBAT)
-                        .addTime(30000)
-                        .addCharName(player);
-                    opponent.setDialog(new Dialog(opponent, dlg, Map.of("requester", player)).send());
+                    DuelManager.getInstance().requestMortalCombat(player, opponent);
                 } else {
                     player.sendPacket(ActionFailed.STATIC_PACKET);
                 }

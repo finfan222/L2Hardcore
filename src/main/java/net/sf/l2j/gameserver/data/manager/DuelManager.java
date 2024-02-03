@@ -1,10 +1,18 @@
 package net.sf.l2j.gameserver.data.manager;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
+import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Duel;
+import net.sf.l2j.gameserver.network.SystemMessageId;
+import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
+import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,14 +20,16 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Loads and stores {@link Duel}s for easier management.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DuelManager {
-    private final Map<Integer, Duel> _duels = new ConcurrentHashMap<>();
 
-    protected DuelManager() {
-    }
+    @Getter(lazy = true)
+    private static final DuelManager instance = new DuelManager();
+
+    private final Map<Integer, Duel> duels = new ConcurrentHashMap<>();
 
     public Duel getDuel(int duelId) {
-        return _duels.get(duelId);
+        return duels.get(duelId);
     }
 
     /**
@@ -38,7 +48,7 @@ public final class DuelManager {
         final int duelId = IdFactory.getInstance().getNextId();
 
         // Feed the Map.
-        _duels.put(duelId, new Duel(playerA, playerB, isPartyDuel, duelId, isMortalCombat));
+        duels.put(duelId, new Duel(playerA, playerB, isPartyDuel, duelId, isMortalCombat));
     }
 
     /**
@@ -51,7 +61,7 @@ public final class DuelManager {
         IdFactory.getInstance().releaseId(duelId);
 
         // Delete from the Map.
-        _duels.remove(duelId);
+        duels.remove(duelId);
     }
 
     /**
@@ -152,11 +162,49 @@ public final class DuelManager {
         }
     }
 
-    public static final DuelManager getInstance() {
-        return SingletonHolder.INSTANCE;
+    /**
+     * Request call to a {@link Player} target for mortal combat duel to the death.
+     *
+     * @param player requester
+     * @param opponent receiver
+     */
+    public void requestMortalCombat(Player player, Player opponent) {
+        if (player.getStatus().getLevel() < 15) {
+            player.sendMessage("Этот функционал откроется на 15-ом уровне");
+            player.sendPacket(SystemMessageId.INVALID_TARGET);
+            return;
+        }
+
+        if (!player.canDuel()) {
+            player.sendPacket(SystemMessageId.INVALID_TARGET);
+            return;
+        }
+
+        if (opponent.isDead()
+            || opponent.isInDuel()
+            || opponent.isOperating()
+            || opponent.isInOlympiadMode()
+            || !opponent.canDuel()) {
+            player.sendPacket(ActionFailed.STATIC_PACKET);
+            return;
+        }
+
+        if (opponent.getStatus().getLevel() < 15) {
+            player.sendMessage(String.format("%s не обладает правом участвовать в смертельных битвах.", opponent.getName()));
+            player.sendPacket(SystemMessageId.INVALID_TARGET);
+            return;
+        }
+
+        if (opponent.getDialog() != null || AttackStanceTaskManager.getInstance().isInAttackStance(opponent)) {
+            player.sendMessage(String.format("%s сейчас занят и не может принять дуэль до смерти.", opponent));
+            player.sendPacket(ActionFailed.STATIC_PACKET);
+            return;
+        }
+
+        ConfirmDlg dlg = new ConfirmDlg(SystemMessageId.S1_CALLS_YOU_TO_A_MORTAL_COMBAT)
+            .addTime(30000)
+            .addCharName(player);
+        opponent.setDialog(new Dialog(opponent, dlg, Map.of("requester", player)).send());
     }
 
-    private static class SingletonHolder {
-        protected static final DuelManager INSTANCE = new DuelManager();
-    }
 }

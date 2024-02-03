@@ -20,9 +20,13 @@ public class Time implements IUserCommandHandler {
         LocalTime time = LocalTime.from(DayNightTaskManager.getInstance().getTime());
         DayCycle currentCycle = DayNightTaskManager.getInstance().getCurrentCycle();
         player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.TIME_S1_S2_IN_S3)
-            .addNumber(time.getHour())
-            .addNumber(time.getMinute())
+            .addString(formatNumber(time.getHour()))
+            .addString(formatNumber(time.getMinute()))
             .addString(currentCycle.getName()));
+    }
+
+    private String formatNumber(int number) {
+        return number > 9 ? String.valueOf(number) : "0" + number;
     }
 
     @Override

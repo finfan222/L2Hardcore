@@ -8,4 +8,10 @@
 @param Integer limit - limit of announces (used only if auto=true, 0 = unlimited) 
 --> 
 <list>
+    <announcement message="Внимание! Воздержитесь от охоты в ночное время. Не покидайте безопасные места ночью! Монстры становятся крайне агрессивными. Спасибо за внимание!"
+                  critical="true"
+                  auto="true"
+                  initial_delay="14400"
+                  delay="14400"
+    />
 </list>
