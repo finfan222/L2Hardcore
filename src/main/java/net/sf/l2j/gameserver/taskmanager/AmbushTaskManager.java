@@ -19,6 +19,7 @@ import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author finfan
@@ -119,7 +120,7 @@ public class AmbushTaskManager implements Runnable {
         if (DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             start();
         }
-        log.info("Loaded: interval={} min., EXP bonus=x{}", Config.HARDCORE_AMBUSH_INTERVAL, Config.HARDCORE_AMBUSH_EXP_BONUS);
+        log.info("Loaded: interval={} min., EXP bonus=x{}", TimeUnit.MILLISECONDS.toMinutes(Config.HARDCORE_AMBUSH_INTERVAL), Config.HARDCORE_AMBUSH_EXP_BONUS);
     }
 
     public void start() {

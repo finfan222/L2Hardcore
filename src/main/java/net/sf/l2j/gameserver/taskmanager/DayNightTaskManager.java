@@ -42,21 +42,20 @@ public class DayNightTaskManager implements Runnable {
         currentCycle = calcCurrentCycle();
         previousCycle = calcPreviousCycle();
         cycleDiff = currentCycle.ordinal() - previousCycle.ordinal();
-        log.info("Loaded successfully!");
-        log.debug("[{} -> {}] Next execution date-time: {}", previousCycle, currentCycle, getNextExecutionDateTime());
+        log.info("Loaded: Current stage={}, next execution={}", currentCycle, getNextExecutionDateTime().toString());
     }
 
     /**
      * @return {@link ZonedDateTime} of next {@code cron} schedule
      * @see DayNightTaskManager#CRON_PATTERN
      */
-    private ZonedDateTime getNextExecutionDateTime() {
+    private LocalDateTime getNextExecutionDateTime() {
         CronDefinition cronDefinition = CronDefinitionBuilder.instanceDefinitionFor(CronType.CRON4J);
         CronParser cronParser = new CronParser(cronDefinition);
         ExecutionTime executionTime = ExecutionTime.forCron(cronParser.parse(CRON_PATTERN));
         Optional<ZonedDateTime> zonedDateTime = executionTime.nextExecution(getTime().atZone(ZoneId.systemDefault()));
         if (zonedDateTime.isPresent()) {
-            return zonedDateTime.get();
+            return zonedDateTime.get().toLocalDateTime();
         }
 
         throw new RuntimeException("NO NEXT EXECUTION DATE FOR DAY CHANGE CYCLE MANAGER");
@@ -152,7 +151,6 @@ public class DayNightTaskManager implements Runnable {
             cycleDiff = difference;
             GlobalEventListener.notify(new OnDayCycleChange(currentCycle, previousCycle));
         }
-        log.debug("[{} -> {}] Next execution date-time: {}", previousCycle, currentCycle, getNextExecutionDateTime().toLocalTime());
         log.debug("Current game day time: {}", getDayTime());
     }
 
