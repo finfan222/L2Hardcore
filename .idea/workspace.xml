@@ -4,209 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="- Переведены частично диалоги Newbie Helper's&#10;- Переведено все обучение&#10;- Переведен первый квест Q001_LettersOfLove">
-      <change afterPath="$PROJECT_DIR$/config/hexid.txt" afterDir="false" />
+    <list default="true" id="285d8db5-8dbb-4b96-a5c8-ada3abab4e8f" name="Changes" comment="-  исправление кривого текста Newbie Helper's&#10;- переведено еще несколько квестов и диалогов NPC">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30008-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30009-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30009-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30009-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30009-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30017-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30019-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30019-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30019-03a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30019-03a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30019-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30019-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30129-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-03a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-03a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30131-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30370-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30400-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30400-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30400-03a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30400-03a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30400-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30400-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30430-03a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30430-03a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30528-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30530-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30530-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30530-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30530-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30573-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-03a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-03a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-05.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30575-05.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30598.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30598.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30599.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30599.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30600.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30600.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30601.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30601.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30602.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/30602.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31076-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31076-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31076.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31076.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31077-1.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31077-1.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31077.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/31077.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie002.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie002.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie003.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie003.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie004.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie004.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie_blessing.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/guide_for_newbie_blessing.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbie_guide_about_travel_token.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbie_guide_about_travel_token.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbie_guide_move_to_loc.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbie_guide_move_to_loc.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbie_guide_no_token.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbie_guide_no_token.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_fig_01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_fig_01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_fig_01a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_fig_01a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_01a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_01a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_02a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/NewbieHelper/newbiehelper_mage_02a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_05.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_05.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_06.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_06.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_09.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_09.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_10.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_10.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_100.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_100.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_101.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_101.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_102.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_102.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_103.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_103.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_104.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_104.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_11.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_11.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_15.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_15.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_18.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_18.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_19.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_19.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21b.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21b.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21c.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21c.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21d.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21d.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21e.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21e.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21f.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21f.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21g.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21g.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21h.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21h.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21z.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_21z.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22aa.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22aa.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ab.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ab.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22b.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22b.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ba.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ba.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22bb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22bb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22c.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22c.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ca.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ca.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22cb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22cb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22cc.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22cc.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22d.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22d.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22da.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22da.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22db.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22db.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22e.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22e.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ea.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ea.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22eb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22eb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22f.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22f.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22fa.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22fa.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22fb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22fb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22g.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22g.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ga.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ga.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22gb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22gb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22h.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22h.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22i.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22i.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22j.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22j.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22k.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22k.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ka.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ka.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22kb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22kb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22l.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22l.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22m.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22m.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22n.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22n.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22na.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22na.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22nb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22nb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22o.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22o.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22oa.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22oa.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ob.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22ob.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22p.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22p.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22pa.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22pa.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22pb.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22pb.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22q.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22q.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22w.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_22w.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_24.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_24.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_27.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_27.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_28.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_28.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_29.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_29.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_30.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_30.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf007.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf007.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf008.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf008.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf009.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf009.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf_fighter001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf_fighter001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf_mage001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_delf_mage001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven009.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven009.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven017.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven017.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven_fighter001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven_fighter001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven_fighter007.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven_fighter007.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven_fighter008.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_dwarven_fighter008.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elf007.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elf007.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elf008.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elf008.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elf009.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elf009.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elven_fighter001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elven_fighter001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elven_mage001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_elven_mage001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_fighter017.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_fighter017.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human009.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human009.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_fighter001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_fighter001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_fighter007.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_fighter007.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_fighter008.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_fighter008.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_mage001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_mage001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_mage007.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_mage007.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_mage008.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_human_mage008.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage017.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage017.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage020.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage020.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage_elf020.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage_elf020.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage_orc020.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_mage_orc020.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002b.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002b.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002c.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002c.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002d.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002d.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002e.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002e.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002f.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002f.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002g.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie002g.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003b.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003b.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003c.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003c.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003d.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003d.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003e.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie003e.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie004a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie004a.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie004b.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_newbie004b.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc007.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc007.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc008.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc008.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc009.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc009.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc_fighter001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc_fighter001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc_fighter017.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc_fighter017.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc_mage001.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/feature/Tutorial/tutorial_orc_mage001.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30006-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30006-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30006-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30006-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30006-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30006-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30033-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30033-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-01.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-02.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-03.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-04.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-05.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-05.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-06.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-06.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-07.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-07.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-08.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-08.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-09.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-09.htm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-10.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q001_LettersOfLove/30048-10.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30559-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30559-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30559-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30559-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30560-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30560-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30560-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30560-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30562-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30562-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30562-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30562-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30566-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30566-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30566-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30566-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-00.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-00.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-03.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-04.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-05.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-05.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-06.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30578-06.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30585-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30585-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30585-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30585-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30587-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30587-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30587-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q004_LongliveThePaagrioLord/30587-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30517-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30517-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30517-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30517-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30518-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30518-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30518-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30518-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30520-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30520-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30520-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30520-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30526-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30526-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30526-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30526-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30526-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30526-03.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-03.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-04.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-05.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-05.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-06.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q005_MinersFavor/30554-06.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-03.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-04.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-05.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-05.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-06.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30006-06.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-03.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-04.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30033-04.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-01.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-01.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-02.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-02.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-03.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-03.htm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-03a.htm" beforeDir="false" afterPath="$PROJECT_DIR$/data/html/script/quest/Q006_StepIntoTheFuture/30311-03a.htm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/console/console_0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log/console/console_0.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/console/console_0.txt.1" beforeDir="false" afterPath="$PROJECT_DIR$/log/console/console_0.txt.1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/error/error_0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log/error/error_0.txt" afterDir="false" />
@@ -247,21 +94,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Attach to process.localhost:5000.executor&quot;: &quot;ProcessAttachDebug&quot;,
-    &quot;Maven.L2Hardcore [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/L2Hardcore/src/main/java/net/sf/l2j/gameserver/model&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Attach to process.localhost:5000.executor": "ProcessAttachDebug",
+    "Maven.L2Hardcore [clean,install].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/L2Hardcore/src/main/java/net/sf/l2j/gameserver/model",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "copyright"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\L2Hardcore\src\main\java\net\sf\l2j\gameserver\model" />
@@ -472,7 +320,23 @@
       <option name="project" value="LOCAL" />
       <updated>1706627995482</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="-  исправление кривого текста(Tutorial)">
+      <option name="closed" value="true" />
+      <created>1706807944080</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1706807944080</updated>
+    </task>
+    <task id="LOCAL-00025" summary="-  исправление кривого текста Newbie Helper's&#10;- переведено еще несколько квестов и диалогов NPC">
+      <option name="closed" value="true" />
+      <created>1706893600615</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1706893600615</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -490,8 +354,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- augment оружие снижает силу поломки на 15%, на монстрах снижение прочности оружия работает как Random от 1 до нанесённый damage" />
-    <MESSAGE value="- с монстров теперь при дропе брони или оружия базовая прочность составляет от 1% (367) до 100% (36767)" />
     <MESSAGE value="- Стрельба из лука больше не снижает МП" />
     <MESSAGE value="bug - слишком большая цена починки...&#10;- добавлено Repair тренерам в гродах (Gludin,Gludio,Dion,Heine,Giran,Aden,&#10;Oren,Goddard,Schuttgard,Rune,Hanter Village)." />
     <MESSAGE value="- Добавлены mana potion&#10;- Убраны из обихода мамона - CP potion&#10;- добавлено условие поломки оружия: если цель (монстр) level &lt; 9 от атакующего игрока, то оружие ломается на 1 ед.&#10;- добавлено условие поломки оружия и щита: если атака сблокирована в PERFECT BLOCK, то зит теряет 1 ед. прочности а оружие рандомно от 3 до 10x раз от базы.&#10;- добавлены скилы для mana potion" />
@@ -515,7 +377,9 @@
     <MESSAGE value="- эвент OnChangeDayCycle&#10;- рефактор нейминга дроп&#10;- выпилены хербы, но оставляем файл хербов с их айдишниками на будущее (донат&#10;- изменены ExScreenCustomMessage, теперь они применяют Builder.Default&#10;- переработан шанс выпадения предметов по новой структуре:&#10;```Шанс выпадения теперь является не может быть меньше 1% исключая карты.&#10;Карты дропаются с монстров с шансом 0.1% (1000).&#10;Логика выпадения предметов:&#10;Adena выпадает всегда с шансом 100%.&#10;Adena выпадает только с монстров расы HUMANOID.&#10;Кол-во выпадающей adena всегда максимально . &#10;Категории дропа выше 0 больше не работоспособны, теперь мы склеиваем весь categorized drop от категорий &gt; 0 и соединяем в 1 Droplist, чтобы при дропе проверять каждый предмет на успех. Последний предмет (с самым большим шансом) выпадает всегда с шансом 100%. &#10;Spoil Drop работает по такому же принципу что обычные предметы. Сортируются и т.д.&#10;Herb выпилены```" />
     <MESSAGE value="- Fear, Root теперь как и Stun снимаются при получении урона&#10;- Confusion теперь работает и на игрока&#10;- Шаблон системы карт введён (нужны доработки)&#10;- fix баг с опытом в группе" />
     <MESSAGE value="- Переведены частично диалоги Newbie Helper's&#10;- Переведено все обучение&#10;- Переведен первый квест Q001_LettersOfLove" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Переведены частично диалоги Newbie Helper's&#10;- Переведено все обучение&#10;- Переведен первый квест Q001_LettersOfLove" />
+    <MESSAGE value="-  исправление кривого текста(Tutorial)" />
+    <MESSAGE value="-  исправление кривого текста Newbie Helper's&#10;- переведено еще несколько квестов и диалогов NPC" />
+    <option name="LAST_COMMIT_MESSAGE" value="-  исправление кривого текста Newbie Helper's&#10;- переведено еще несколько квестов и диалогов NPC" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
