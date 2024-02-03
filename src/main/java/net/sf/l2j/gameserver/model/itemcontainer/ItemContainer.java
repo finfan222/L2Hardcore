@@ -189,13 +189,11 @@ public abstract class ItemContainer {
             int count = item.getCount();
             inventoryItem.changeCount(process, count, actor, reference);
             inventoryItem.setLastChange(ItemState.MODIFIED);
+            ItemDao.updateCount(inventoryItem);
 
             // And destroys the item
             item.destroyMe(process, actor, reference);
-            ItemDao.update(item);
-
-            item = inventoryItem;
-            ItemDao.updateCount(item);
+            ItemDao.remove(item.getObjectId());
         }
         // If item hasn't be found in inventory, create new one
         else {

@@ -9,6 +9,7 @@ import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
+import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.events.OnDayCycleChange;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.model.World;
@@ -175,6 +176,7 @@ public class AmbushTaskManager implements Runnable {
                         break;
                 }
 
+                monster.startAbnormalEffect(AbnormalEffect.GROW);
                 monster.setNightExpSpBonus(Config.HARDCORE_AMBUSH_EXP_BONUS);
                 monster.setWalkOrRun(true);
                 monster.setTarget(player);

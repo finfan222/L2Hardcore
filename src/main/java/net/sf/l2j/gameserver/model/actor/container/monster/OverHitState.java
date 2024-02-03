@@ -61,7 +61,7 @@ public class OverHitState {
         int monsterLevel = monster.getStatus().getLevel();
 
         // Get the percentage based on the total of extra (over-hit) damage done relative to the total (maximum) amount of HP.
-        double overExp = getOverExp(normalExp, ownerLevel, monsterLevel) * Config.HARDCORE_RATE_OVERHIT_EXP;
+        double overExp = getOverExp(normalExp, ownerLevel, monsterLevel);
 
         // Return the rounded amount of exp points to be added to the player's normal exp reward.
         return Math.round(overExp);

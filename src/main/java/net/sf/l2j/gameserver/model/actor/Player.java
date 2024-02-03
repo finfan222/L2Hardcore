@@ -444,7 +444,7 @@ public final class Player extends Playable {
 
     @Getter
     @Setter
-    private Dialog dialog;
+    private volatile Dialog dialog;
 
     @Getter
     private final SpoilState spoilState;
@@ -6306,9 +6306,12 @@ public final class Player extends Playable {
             if (context.getBlock().isSuccess()) {
                 armor = getSecondaryWeaponInstance();
             }
-            DurabilityModule durability = armor.getDurabilityModule();
-            if (durability != null) {
-                durability.fractureArmor(this, skill, context);
+
+            if (armor != null) {
+                DurabilityModule durability = armor.getDurabilityModule();
+                if (durability != null) {
+                    durability.fractureArmor(this, skill, context);
+                }
             }
         } else if (caster == this) {
             ItemInstance wpn = getActiveWeaponInstance();

@@ -82,20 +82,21 @@ public class Quest {
         public int value;
         @Builder.Default
         public boolean isNecessary = true;
-        public boolean isCanBeUnCompleted;
 
         private boolean validateQuest(Player player) {
             QuestState questState = player.getQuestList().getQuestState(id);
-            if (questState == null) {
+
+            // quest not exists at player or quest exist and his state is STARTED
+            // if state is CREATED, this is not means that quest was takened, only START means that
+            if (questState == null || questState.isStarted()) {
                 return false;
             }
 
-            boolean isCondValid = value <= 0 || questState.getCond() == value;
-            if (isCanBeUnCompleted && isCondValid) {
-                return true;
+            if (value > 0) {
+                return questState.getCond() == value;
             }
 
-            return questState.isCompleted() && isCondValid;
+            return questState.isCompleted();
         }
 
         private boolean validateItem(Player player) {
@@ -2446,7 +2447,7 @@ public class Quest {
             ConfirmDlg dlg = new ConfirmDlg(SystemMessageId.S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2)
                 .addTime(30000)
                 .addCharName(player)
-                .addString(getName());
+                .addString(_descr);
             member.setDialog(new Dialog(member, dlg, Map.of(
                 "quest", this,
                 "npc", npc,

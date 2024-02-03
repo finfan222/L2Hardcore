@@ -161,16 +161,14 @@ public class Monster extends Attackable {
                     final int[] expSp = calculateExpAndSp(levelDiff, damage, totalDamage);
 
                     long exp = (long) (expSp[0] * (nightExpSpBonus > 0 ? nightExpSpBonus : 1.));
-                    int sp = 0; // not give SP at all
 
                     exp *= 1. - penalty;
 
                     // Test over-hit.
                     if (_overHitState.isValidOverHit(attacker)) {
                         attacker.sendPacket(SystemMessageId.OVER_HIT);
-                        long overHitExpSp = _overHitState.calcExp(exp);
-                        exp += overHitExpSp;
-                        sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
+                        exp += _overHitState.calcExp(exp);
+                        int sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
                         attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
                         if (sp > 0) {
                             attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
@@ -243,20 +241,13 @@ public class Monster extends Attackable {
                 final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
                 long expReward = expSp[0];
                 long exp = (long) (expReward * partyMul * (nightExpSpBonus > 0 ? nightExpSpBonus : 1.));
-                int sp = 0;
 
                 // Test over-hit.
                 if (_overHitState.isValidOverHit(attacker)) {
                     attacker.sendPacket(SystemMessageId.OVER_HIT);
                     long overHitExpSp = _overHitState.calcExp(expReward);
                     exp += overHitExpSp;
-                    sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP);
-                    attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
-                    if (sp > 0) {
-                        attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
-                    }
-                } else {
-                    sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
+                    int sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP);
                     attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
                     if (sp > 0) {
                         attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));

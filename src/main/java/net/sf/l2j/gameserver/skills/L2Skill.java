@@ -1010,7 +1010,7 @@ public abstract class L2Skill implements IChanceSkillTrigger {
             }
             // display fail message only for effects with icons
             else if (template.showIcon() && effector instanceof Player) {
-                ((Player) effector).sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(effected).addSkillName(this));
+                effector.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_RESISTED_YOUR_S2).addCharName(effected).addSkillName(this));
             }
         }
         return effects;

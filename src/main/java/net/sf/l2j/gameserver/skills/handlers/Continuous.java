@@ -62,11 +62,6 @@ public class Continuous extends Default {
 
             Context context = Context.builder().build();
 
-            context.isReflected = isReflected(caster, target, ShieldDefense.FAILED);
-            if (context.isReflected) {
-                target = caster;
-            }
-
             switch (getSkillType()) {
                 case BUFF:
                     // Target under buff immunity.
@@ -93,6 +88,11 @@ public class Continuous extends Default {
                     }
                     break;
                 case FEAR:
+                    context.isReflected = isReflected(caster, target, ShieldDefense.FAILED);
+                    if (context.isReflected) {
+                        target = caster;
+                    }
+
                     if (target instanceof Playable && ArraysUtil.contains(EffectFear.DOESNT_AFFECT_PLAYABLE, skill.getId())) {
                         continue;
                     }

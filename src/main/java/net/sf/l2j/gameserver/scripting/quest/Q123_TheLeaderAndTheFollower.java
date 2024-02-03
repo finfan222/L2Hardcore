@@ -53,7 +53,7 @@ public class Q123_TheLeaderAndTheFollower extends Quest {
     @Override
     protected void initializeConditions() {
         condition.level = 18;
-        condition.quests = new QuestDetail[]{QuestDetail.builder().id(118).isCanBeUnCompleted(true).build()};
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(118).build()};
     }
 
     @Override

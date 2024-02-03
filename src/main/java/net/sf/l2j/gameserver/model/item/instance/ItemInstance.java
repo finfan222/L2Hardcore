@@ -219,7 +219,11 @@ public final class ItemInstance extends WorldObject implements Comparable<ItemIn
     }
 
     public int getReferencePrice() {
-        return data.get().getReferencePrice();
+        if (durabilityModule != null) {
+            return durabilityModule.getReferencePrice();
+        }
+
+        return getItem().getReferencePrice();
     }
 
     public String getItemName() {

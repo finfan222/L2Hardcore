@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
+
+import java.util.List;
 
 public class SellList extends L2GameServerPacket {
     private final int _money;
@@ -31,7 +31,7 @@ public class SellList extends L2GameServerPacket {
             writeH(item.getEnchantLevel());
             writeH(item.getCustomType2());
             writeH(0x00);
-            writeD(item.getItem().getReferencePrice() / 2);
+            writeD(item.getReferencePrice() / 2);
         }
     }
 }
