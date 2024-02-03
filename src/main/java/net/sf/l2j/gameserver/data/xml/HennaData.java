@@ -26,7 +26,7 @@ public class HennaData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/hennas.xml");
-        LOGGER.info("Loaded {} hennas.", _hennas.size());
+        log.info("Loaded {} hennas.", _hennas.size());
     }
 
     @Override

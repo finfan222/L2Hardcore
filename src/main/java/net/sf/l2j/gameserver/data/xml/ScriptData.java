@@ -31,7 +31,7 @@ public final class ScriptData implements IXmlReader, Runnable {
     @Override
     public void load() {
         parseFile("./data/xml/scripts.xml");
-        LOGGER.info("Loaded {} regular scripts and {} scheduled scripts.", _quests.size(), _scheduled.size());
+        log.info("Loaded {} regular scripts and {} scheduled scripts.", _quests.size(), _scheduled.size());
 
         _scheduledTask = ThreadPool.scheduleAtFixedRate(this, 0, PERIOD);
     }
@@ -43,7 +43,7 @@ public final class ScriptData implements IXmlReader, Runnable {
             final NamedNodeMap params = scriptNode.getAttributes();
             final String path = parseString(params, "path");
             if (path == null) {
-                LOGGER.warn("One of the script path isn't defined.");
+                log.warn("One of the script path isn't defined.");
                 return;
             }
 
@@ -65,7 +65,7 @@ public final class ScriptData implements IXmlReader, Runnable {
                     // Get mandatory start parameter, when not exist, script is not scheduled.
                     final String start = parseString(params, "start");
                     if (start == null) {
-                        LOGGER.warn("Missing 'start' parameter for scheduled script '{}'.", path);
+                        log.warn("Missing 'start' parameter for scheduled script '{}'.", path);
                         return;
                     }
 
@@ -78,7 +78,7 @@ public final class ScriptData implements IXmlReader, Runnable {
                     }
                 }
             } catch (Exception e) {
-                LOGGER.error("Script '{}' is missing.", e, path);
+                log.error("Script '{}' is missing.", e, path);
             }
         }));
     }

@@ -1,15 +1,14 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.FriendAddRequestResult;
 import net.sf.l2j.gameserver.network.serverpackets.L2Friend;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public final class RequestAnswerFriendInvite extends L2GameClientPacket {
     private static final String ADD_FRIEND = "INSERT INTO character_friends (char_id, friend_id) VALUES (?,?), (?,?)";
@@ -56,7 +55,7 @@ public final class RequestAnswerFriendInvite extends L2GameClientPacket {
                 ps.setInt(4, requestor.getObjectId());
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't add friendId {} for {}.", e, player.getObjectId(), requestor.toString());
+                log.error("Couldn't add friendId {} for {}.", e, player.getObjectId(), requestor.toString());
             }
         } else {
             requestor.sendPacket(FriendAddRequestResult.STATIC_FAIL);

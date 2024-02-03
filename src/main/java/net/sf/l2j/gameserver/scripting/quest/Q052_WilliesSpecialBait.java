@@ -36,7 +36,7 @@ public class Q052_WilliesSpecialBait extends Quest {
         }
 
         if (event.equalsIgnoreCase("31574-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31574-07.htm")) {
@@ -51,6 +51,17 @@ public class Q052_WilliesSpecialBait extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 48;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(TARLK_EYE).value(100).build()};
+    }
+
+    @Override
     public String onTalk(Npc npc, Player player) {
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         String htmltext = getNoQuestMsg();
@@ -58,19 +69,11 @@ public class Q052_WilliesSpecialBait extends Quest {
             return htmltext;
         }
 
-        switch (st.getState()) {
-            case CREATED:
-                htmltext = (player.getStatus().getLevel() < 48) ? "31574-02.htm" : "31574-01.htm";
-                break;
-
-            case STARTED:
-                htmltext = (player.getInventory().getItemCount(TARLK_EYE) == 100) ? "31574-04.htm" : "31574-05.htm";
-                break;
-
-            case COMPLETED:
-                htmltext = getAlreadyCompletedMsg();
-                break;
-        }
+        htmltext = switch (st.getState()) {
+            case CREATED -> !condition.validateLevel(player) ? "31574-02.htm" : "31574-01.htm";
+            case STARTED -> condition.validateItems(player) ? "31574-04.htm" : "31574-05.htm";
+            case COMPLETED -> getAlreadyCompletedMsg();
+        };
 
         return htmltext;
     }

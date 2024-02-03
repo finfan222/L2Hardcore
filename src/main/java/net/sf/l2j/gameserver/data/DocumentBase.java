@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.data;
 
 import net.sf.l2j.commons.data.StatSet;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
@@ -597,9 +598,9 @@ abstract class DocumentBase {
         NamedNodeMap attrs = n.getAttributes();
         for (int i = 0; i < attrs.getLength(); i++) {
             Node a = attrs.item(i);
-            if ("night".equalsIgnoreCase(a.getNodeName())) {
-                boolean val = Boolean.valueOf(a.getNodeValue());
-                cond = joinAnd(cond, new ConditionGameTime(val));
+            if ("cycle".equalsIgnoreCase(a.getNodeName())) {
+                DayCycle cycle = DayCycle.valueOf(a.getNodeValue());
+                cond = joinAnd(cond, new ConditionGameTime(cycle));
             }
         }
 

@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.taskmanager;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
@@ -23,8 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * Destroys item on ground after specified time. When server is about to shutdown/restart, saves all dropped items in to
  * SQL. Loads them during server start.
  */
+@Slf4j
 public final class ItemsOnGroundTaskManager implements Runnable {
-    private static final CLogger LOGGER = new CLogger(ItemsOnGroundTaskManager.class.getName());
 
     private static final String LOAD_ITEMS = "SELECT object_id,item_id,count,enchant_level,x,y,z,time FROM items_on_ground";
     private static final String DELETE_ITEMS = "DELETE FROM items_on_ground";
@@ -78,9 +78,9 @@ public final class ItemsOnGroundTaskManager implements Runnable {
             // Delete all items from database.
             st2.execute();
         } catch (Exception e) {
-            LOGGER.error("Error while loading items on ground data.", e);
+            log.error("Error while loading items on ground data.", e);
         }
-        LOGGER.info("Restored {} items on ground.", _items.size());
+        log.info("Restored {} items on ground.", _items.size());
     }
 
     @Override
@@ -165,7 +165,7 @@ public final class ItemsOnGroundTaskManager implements Runnable {
     public final void save() {
         // List is empty, return.
         if (_items.isEmpty()) {
-            LOGGER.info("No items on ground to save.");
+            log.info("No items on ground to save.");
             return;
         }
 
@@ -199,9 +199,9 @@ public final class ItemsOnGroundTaskManager implements Runnable {
             }
             st.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save items on ground.", e);
+            log.error("Couldn't save items on ground.", e);
         }
-        LOGGER.info("Saved {} items on ground.", _items.size());
+        log.info("Saved {} items on ground.", _items.size());
     }
 
     public static final ItemsOnGroundTaskManager getInstance() {

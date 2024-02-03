@@ -1,16 +1,8 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
@@ -20,6 +12,13 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class Q335_SongOfTheHunter extends Quest {
     private static final String QUEST_NAME = "Q335_SongOfTheHunter";
@@ -877,6 +876,16 @@ public class Q335_SongOfTheHunter extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 35;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -887,7 +896,7 @@ public class Q335_SongOfTheHunter extends Quest {
         // Grey
         if (event.equalsIgnoreCase("30744-03.htm")) {
             st.setCond(1);
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             giveItems(player, TEST_INSTRUCTIONS_1, 1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30744-09.htm")) {
@@ -1124,7 +1133,7 @@ public class Q335_SongOfTheHunter extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() >= 35) {
+                if (condition.validateLevel(player)) {
                     htmltext = "30744-02.htm";
                 } else {
                     htmltext = "30744-01.htm";

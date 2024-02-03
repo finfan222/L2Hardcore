@@ -28,7 +28,7 @@ public class PlayerData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/classes");
-        LOGGER.info("Loaded {} player classes templates.", _templates.size());
+        log.info("Loaded {} player classes templates.", _templates.size());
 
         // We add parent skills, if existing.
         for (PlayerTemplate template : _templates.values()) {

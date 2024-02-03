@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q039_RedEyedInvaders extends Quest {
     private static final String QUEST_NAME = "Q039_RedEyedInvaders";
@@ -91,15 +91,19 @@ public class Q039_RedEyedInvaders extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30334-1.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30332-1.htm")) {
@@ -120,7 +124,12 @@ public class Q039_RedEyedInvaders extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 20;
     }
 
     @Override
@@ -133,7 +142,7 @@ public class Q039_RedEyedInvaders extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 20) ? "30334-2.htm" : "30334-0.htm";
+                htmltext = !condition.validateLevel(player) ? "30334-2.htm" : "30334-0.htm";
                 break;
 
             case STARTED:

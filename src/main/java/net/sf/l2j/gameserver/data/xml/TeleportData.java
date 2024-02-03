@@ -30,7 +30,7 @@ public class TeleportData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/teleports.xml");
-        LOGGER.info("Loaded {} teleport positions.", _teleports.size());
+        log.info("Loaded {} teleport positions.", _teleports.size());
     }
 
     @Override

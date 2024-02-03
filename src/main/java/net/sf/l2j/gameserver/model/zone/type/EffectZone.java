@@ -1,12 +1,8 @@
 package net.sf.l2j.gameserver.model.zone.type;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Future;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -15,12 +11,17 @@ import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
+
 /**
  * A zone extending {@link ZoneType}, which fires a task on the first character entrance.<br>
  * <br>
  * This task launches skill effects on all characters within this zone, and can affect specific class types. It can also
  * be activated or desactivated. The zone is considered a danger zone.
  */
+@Slf4j
 public class EffectZone extends ZoneType {
     private final List<IntIntHolder> _skills = new ArrayList<>(5);
 
@@ -52,12 +53,12 @@ public class EffectZone extends ZoneType {
             for (String skill : skills) {
                 final String[] skillSplit = skill.split("-");
                 if (skillSplit.length != 2) {
-                    LOGGER.warn("Invalid skill format {} for {}.", skill, toString());
+                    log.warn("Invalid skill format {} for {}.", skill, toString());
                 } else {
                     try {
                         _skills.add(new IntIntHolder(Integer.parseInt(skillSplit[0]), Integer.parseInt(skillSplit[1])));
                     } catch (NumberFormatException nfe) {
-                        LOGGER.warn("Invalid skill format {} for {}.", skill, toString());
+                        log.warn("Invalid skill format {} for {}.", skill, toString());
                     }
                 }
             }
@@ -75,7 +76,7 @@ public class EffectZone extends ZoneType {
                 return false;
             }
         } catch (ClassNotFoundException e) {
-            LOGGER.error("Error for {} on invalid target type {}.", e, toString(), _target);
+            log.error("Error for {} on invalid target type {}.", this, _target, e);
         }
         return true;
     }

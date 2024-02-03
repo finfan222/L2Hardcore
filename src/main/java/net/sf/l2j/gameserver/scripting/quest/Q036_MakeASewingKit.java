@@ -30,6 +30,11 @@ public class Q036_MakeASewingKit extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -38,7 +43,7 @@ public class Q036_MakeASewingKit extends Quest {
         }
 
         if (event.equalsIgnoreCase("30847-1.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30847-3.htm")) {
@@ -61,6 +66,12 @@ public class Q036_MakeASewingKit extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 60;
+        condition.quests = new QuestDetail[]{QuestDetail.builder().id(37).value(6).build()};
+    }
+
+    @Override
     public String onTalk(Npc npc, Player player) {
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         String htmltext = getNoQuestMsg();
@@ -70,9 +81,8 @@ public class Q036_MakeASewingKit extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getStatus().getLevel() >= 60) {
-                    QuestState fwear = player.getQuestList().getQuestState("Q037_MakeFormalWear");
-                    if (fwear != null && fwear.getCond() == 6) {
+                if (condition.validateLevel(player)) {
+                    if (condition.validateQuests(player)) {
                         htmltext = "30847-0.htm";
                     } else {
                         htmltext = "30847-0a.htm";

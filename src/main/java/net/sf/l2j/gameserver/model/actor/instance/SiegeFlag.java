@@ -1,9 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.concurrent.Future;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -12,6 +9,8 @@ import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.concurrent.Future;
 
 public class SiegeFlag extends Npc {
     private final Clan _clan;

@@ -1,5 +1,8 @@
 package net.sf.l2j.gameserver.communitybbs.model;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.pool.ConnectionPool;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,11 +10,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
+@Slf4j
 public class Topic {
-    private static final CLogger LOGGER = new CLogger(Topic.class.getName());
 
     private static final String INSERT_TOPIC = "INSERT INTO bbs_topic (id,forum_id,name,date,owner_name,owner_id) VALUES (?,?,?,?,?,?)";
     private static final String DELETE_TOPIC = "DELETE FROM bbs_topic WHERE id=? AND forum_id=?";
@@ -61,7 +61,7 @@ public class Topic {
             ps2.setString(7, text);
             ps2.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save new Topic.", e);
+            log.error("Couldn't save new Topic.", e);
         }
     }
 
@@ -115,7 +115,7 @@ public class Topic {
             ps2.setInt(2, _id);
             ps2.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete topic.", e);
+            log.error("Couldn't delete topic.", e);
         }
         _posts.clear();
     }

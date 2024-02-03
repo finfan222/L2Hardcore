@@ -1,11 +1,10 @@
 package net.sf.l2j.gameserver.model.item;
 
-import java.util.Arrays;
-
 import net.sf.l2j.commons.data.StatSet;
-
 import net.sf.l2j.gameserver.enums.CabalType;
 import net.sf.l2j.gameserver.enums.items.TicketType;
+
+import java.util.Arrays;
 
 public final class MercenaryTicket {
     private final int _itemId;

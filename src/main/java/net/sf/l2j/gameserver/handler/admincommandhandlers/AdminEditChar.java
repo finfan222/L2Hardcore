@@ -1,12 +1,7 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
@@ -24,6 +19,10 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.AbstractNpcInfo.NpcInfo;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SkillCoolTime;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.StringTokenizer;
 
 public class AdminEditChar implements IAdminCommandHandler {
     private static final String[] ADMIN_COMMANDS =
@@ -165,7 +164,7 @@ public class AdminEditChar implements IAdminCommandHandler {
                                         player.sendMessage(name + "'s access level is now set to " + lvl + ".");
                                     }
                                 } catch (Exception e) {
-                                    LOGGER.error("Couldn't update access.", e);
+                                    log.error("Couldn't update access.", e);
                                 }
                             }
                         }

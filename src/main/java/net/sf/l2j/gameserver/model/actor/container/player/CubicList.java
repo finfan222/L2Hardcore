@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Cubic;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * An ordered, concurrent queue container holding {@link Cubic}s of a {@link Player}.

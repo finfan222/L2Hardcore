@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.model.pledge;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
@@ -53,8 +53,8 @@ import java.util.stream.Collectors;
  * <br>
  * A clan is made up of a clan leader (commonly known as a lord) and a number of {@link ClanMember}s.
  */
+@Slf4j
 public class Clan {
-    private static final CLogger LOGGER = new CLogger(Clan.class.getName());
 
     private static final String LOAD_MEMBERS = "SELECT char_name,level,classid,obj_Id,title,power_grade,subpledge,apprentice,sponsor,sex,race FROM characters WHERE clanid=?";
     private static final String LOAD_SUBPLEDGES = "SELECT sub_pledge_id,name,leader_id FROM clan_subpledges WHERE clan_id=?";
@@ -250,21 +250,21 @@ public class Clan {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Error while restoring clan.", e);
+            log.error("Error while restoring clan.", e);
         }
 
         if (_crestId != 0 && CrestCache.getInstance().getCrest(CrestType.PLEDGE, _crestId) == null) {
-            LOGGER.warn("Removing non-existent crest for clan {}, crestId: {}.", toString(), _crestId);
+            log.warn("Removing non-existent crest for clan {}, crestId: {}.", toString(), _crestId);
             changeClanCrest(0);
         }
 
         if (_crestLargeId != 0 && CrestCache.getInstance().getCrest(CrestType.PLEDGE_LARGE, _crestLargeId) == null) {
-            LOGGER.warn("Removing non-existent large crest for clan {}, crestLargeId: {}.", toString(), _crestLargeId);
+            log.warn("Removing non-existent large crest for clan {}, crestLargeId: {}.", toString(), _crestLargeId);
             changeLargeCrest(0);
         }
 
         if (_allyCrestId != 0 && CrestCache.getInstance().getCrest(CrestType.ALLY, _allyCrestId) == null) {
-            LOGGER.warn("Removing non-existent ally crest for clan {}, allyCrestId: {}.", toString(), _allyCrestId);
+            log.warn("Removing non-existent ally crest for clan {}, allyCrestId: {}.", toString(), _allyCrestId);
             changeAllyCrest(0, true);
         }
 
@@ -345,7 +345,7 @@ public class Clan {
                 ps.setInt(1, getLeaderId());
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Couldn't update clan privs for old clan leader.", e);
+                log.error("Couldn't update clan privs for old clan leader.", e);
             }
         }
 
@@ -377,7 +377,7 @@ public class Clan {
                 ps.setInt(1, getLeaderId());
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Couldn't update clan privs for new clan leader.", e);
+                log.error("Couldn't update clan privs for new clan leader.", e);
             }
         }
 
@@ -727,7 +727,7 @@ public class Clan {
                     ps.executeUpdate();
                 }
             } catch (Exception e) {
-                LOGGER.error("Error while removing clan member.", e);
+                log.error("Error while removing clan member.", e);
             }
         }
     }
@@ -757,7 +757,7 @@ public class Clan {
         }
 
         if (!_members.containsKey(leaderId)) {
-            LOGGER.warn("SubPledge leader {} is missing from clan: {}.", leaderId, toString());
+            log.warn("SubPledge leader {} is missing from clan: {}.", leaderId, toString());
             return "";
         }
 
@@ -837,7 +837,7 @@ public class Clan {
             ps.setInt(10, _clanId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while updating clan.", e);
+            log.error("Error while updating clan.", e);
         }
     }
 
@@ -860,7 +860,7 @@ public class Clan {
             ps.setInt(11, _allyCrestId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while storing clan.", e);
+            log.error("Error while storing clan.", e);
         }
     }
 
@@ -894,7 +894,7 @@ public class Clan {
                 ps.setInt(3, _clanId);
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Error while storing notice.", e);
+                log.error("Error while storing notice.", e);
             }
         }
     }
@@ -942,7 +942,7 @@ public class Clan {
                 ps.setInt(2, _clanId);
                 ps.executeUpdate();
             } catch (Exception e) {
-                LOGGER.error("Error while storing introduction.", e);
+                log.error("Error while storing introduction.", e);
             }
         }
     }
@@ -982,7 +982,7 @@ public class Clan {
             ps.setInt(3, skill.getLevel());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while storing a clan skill.", e);
+            log.error("Error while storing a clan skill.", e);
             return false;
         }
 
@@ -1024,7 +1024,7 @@ public class Clan {
             ps.setInt(2, id);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while removing a clan skill.", e);
+            log.error("Error while removing a clan skill.", e);
             return false;
         }
 
@@ -1064,7 +1064,7 @@ public class Clan {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Error while adding all clan skills.", e);
+            log.error("Error while adding all clan skills.", e);
             return false;
         }
 
@@ -1103,7 +1103,7 @@ public class Clan {
             ps.setInt(1, _clanId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while removing all clan skills.", e);
+            log.error("Error while removing all clan skills.", e);
             return false;
         }
 
@@ -1330,7 +1330,7 @@ public class Clan {
             ps.setInt(4, (pledgeType != SUBUNIT_ACADEMY) ? leaderId : 0);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error creating subpledge.", e);
+            log.error("Error creating subpledge.", e);
             return null;
         }
 
@@ -1393,7 +1393,7 @@ public class Clan {
             ps.setInt(4, pledge.getId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error updating subpledge.", e);
+            log.error("Error updating subpledge.", e);
         }
     }
 
@@ -1436,7 +1436,7 @@ public class Clan {
             ps.setInt(3, privs);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while storing ranking.", e);
+            log.error("Error while storing ranking.", e);
         }
     }
 
@@ -1543,7 +1543,7 @@ public class Clan {
             ps.setInt(2, _clanId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while updating clan reputation points.", e);
+            log.error("Error while updating clan reputation points.", e);
         }
         return needRefresh;
     }
@@ -1569,7 +1569,7 @@ public class Clan {
             ps.setInt(2, _clanId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while updating clan auction.", e);
+            log.error("Error while updating clan auction.", e);
         }
     }
 
@@ -1921,7 +1921,7 @@ public class Clan {
             ps.setInt(2, _clanId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while updating clan level.", e);
+            log.error("Error while updating clan level.", e);
         }
 
         setLevel(level);
@@ -1961,7 +1961,7 @@ public class Clan {
             ps.setInt(2, _clanId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while updating clan crest.", e);
+            log.error("Error while updating clan crest.", e);
         }
 
         for (Player member : getOnlineMembers()) {
@@ -1994,7 +1994,7 @@ public class Clan {
             ps.setInt(2, allyId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while updating ally crest.", e);
+            log.error("Error while updating ally crest.", e);
         }
 
         if (onlyThisClan) {
@@ -2033,7 +2033,7 @@ public class Clan {
             ps.setInt(2, _clanId);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while updating large crest.", e);
+            log.error("Error while updating large crest.", e);
         }
 
         for (Player member : getOnlineMembers()) {

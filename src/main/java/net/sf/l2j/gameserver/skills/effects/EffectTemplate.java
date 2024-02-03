@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.skills.effects;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -15,8 +15,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class EffectTemplate {
-    private static final CLogger LOGGER = new CLogger(EffectTemplate.class.getName());
 
     private final Class<?> _func;
     private final Constructor<?> _constructor;
@@ -135,14 +135,11 @@ public class EffectTemplate {
 
         try {
             return (AbstractEffect) _constructor.newInstance(this, skill, target, caster);
-        } catch (IllegalAccessException e) {
-            LOGGER.error("", e);
-            return null;
-        } catch (InstantiationException e) {
-            LOGGER.error("", e);
+        } catch (IllegalAccessException | InstantiationException e) {
+            log.error("", e);
             return null;
         } catch (InvocationTargetException e) {
-            LOGGER.error("Error creating new instance of {}.", e, _func);
+            log.error("Error creating new instance of {}.", _func, e);
             return null;
         }
     }

@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.sql;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Bookmark;
@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
  * This class loads and handles {@link Bookmark} into a List.<br> To retrieve a Bookmark, you need its name and the
  * player objectId.
  */
+@Slf4j
 public class BookmarkTable {
-    private static final CLogger LOGGER = new CLogger(BookmarkTable.class.getName());
 
     private final List<Bookmark> _bks = new ArrayList<>();
 
@@ -29,9 +29,9 @@ public class BookmarkTable {
                 _bks.add(new Bookmark(rs.getString("name"), rs.getInt("obj_Id"), rs.getInt("x"), rs.getInt("y"), rs.getInt("z")));
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore bookmarks.", e);
+            log.error("Couldn't restore bookmarks.", e);
         }
-        LOGGER.info("Loaded {} bookmarks.", _bks.size());
+        log.info("Loaded {} bookmarks.", _bks.size());
     }
 
     /**
@@ -92,7 +92,7 @@ public class BookmarkTable {
             ps.setInt(5, z);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save bookmark.", e);
+            log.error("Couldn't save bookmark.", e);
         }
     }
 
@@ -113,7 +113,7 @@ public class BookmarkTable {
                 ps.setInt(2, objId);
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't delete bookmark.", e);
+                log.error("Couldn't delete bookmark.", e);
             }
         }
     }

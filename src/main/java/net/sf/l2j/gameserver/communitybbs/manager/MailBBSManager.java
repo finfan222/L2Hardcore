@@ -1,19 +1,7 @@
 package net.sf.l2j.gameserver.communitybbs.manager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.communitybbs.model.Mail;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
@@ -24,6 +12,17 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ExMailArrived;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MailBBSManager extends BaseBBSManager {
     private static final String SELECT_MAILS = "SELECT * FROM bbs_mail ORDER BY id ASC";
@@ -51,7 +50,7 @@ public class MailBBSManager extends BaseBBSManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load mails.", e);
+            log.error("Couldn't load mails.", e);
         }
     }
 
@@ -427,7 +426,7 @@ public class MailBBSManager extends BaseBBSManager {
                 player.sendPacket(SystemMessageId.SENT_MAIL);
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't send mail for {}.", e, player.getName());
+            log.error("Couldn't send mail for {}.", e, player.getName());
         }
     }
 
@@ -469,7 +468,7 @@ public class MailBBSManager extends BaseBBSManager {
             ps.setInt(1, mailId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete mail #{}.", e, mailId);
+            log.error("Couldn't delete mail #{}.", e, mailId);
         }
     }
 
@@ -484,7 +483,7 @@ public class MailBBSManager extends BaseBBSManager {
             ps.setInt(1, mailId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set read status for mail #{}.", e, mailId);
+            log.error("Couldn't set read status for mail #{}.", e, mailId);
         }
     }
 
@@ -500,7 +499,7 @@ public class MailBBSManager extends BaseBBSManager {
             ps.setInt(2, mailId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set mail #{} location.", e, mailId);
+            log.error("Couldn't set mail #{} location.", e, mailId);
         }
     }
 

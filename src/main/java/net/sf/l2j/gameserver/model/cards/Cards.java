@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.cards;
 
 import lombok.Setter;
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.events.OnSubclassChange;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
@@ -14,9 +14,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 public class Cards {
-
-    private static final CLogger LOGGER = new CLogger(Cards.class.getSimpleName());
 
     public static final int MAX_CARDS = 3;
     public static final int PRICE_INSERT = 25_000;
@@ -163,7 +162,7 @@ public class Cards {
             player.addSkill(skill, false);
         }
 
-        LOGGER.info("[CARDS]: Recalculating stats and skills by card.");
+        log.info("[CARDS]: Recalculating stats and skills by card.");
     }
 
     public List<CardEntity> getEquippedCards() {

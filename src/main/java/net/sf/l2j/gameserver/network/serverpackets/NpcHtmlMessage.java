@@ -79,7 +79,7 @@ public final class NpcHtmlMessage extends L2GameServerPacket {
     public void setHtml(String text) {
         if (text.length() > 8192) {
             _html = "<html><body>Html was too long.</body></html>";
-            LOGGER.warn("An html content was too long.");
+            log.warn("An html content was too long.");
             return;
         }
         _html = text;

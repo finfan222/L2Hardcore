@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.CastleManorManager;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -15,6 +13,8 @@ import net.sf.l2j.gameserver.network.serverpackets.ExShowProcureCropDetail;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowSeedInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ExShowSellCropList;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.StringTokenizer;
 
 public class ManorManagerNpc extends Merchant {
     public ManorManagerNpc(int objectId, NpcTemplate template) {

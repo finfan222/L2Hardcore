@@ -27,21 +27,30 @@ public class Q155_FindSirWindawood extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 3;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30042-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, OFFICIAL_LETTER, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -54,7 +63,7 @@ public class Q155_FindSirWindawood extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 3) ? "30042-01a.htm" : "30042-01.htm";
+                htmltext = !condition.validateLevel(player) ? "30042-01a.htm" : "30042-01.htm";
                 break;
 
             case STARTED:

@@ -1,11 +1,13 @@
 package net.sf.l2j.gameserver.model.entity;
 
+import lombok.Getter;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.DuelManager;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
+import net.sf.l2j.gameserver.model.graveyard.DieReason;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ExDuelEnd;
@@ -51,6 +53,8 @@ public class Duel {
     private final Player _playerA;
     private final Player _playerB;
     private final List<PlayerCondition> _playerConditions = new CopyOnWriteArrayList<>();
+    @Getter
+    private boolean isMortalCombat;
 
     private int _surrenderRequest;
 
@@ -66,6 +70,10 @@ public class Duel {
 
         _duelEndTime = Calendar.getInstance();
         _duelEndTime.add(Calendar.SECOND, 120);
+
+        if (isMortalCombat) {
+            _countdown = 60;
+        }
 
         if (_isPartyDuel) {
             _countdown = 35;
@@ -95,6 +103,11 @@ public class Duel {
 
         // Check task, used to verify if duel is disturbed.
         _checkTask = ThreadPool.scheduleAtFixedRate(new CheckTask(), 1000, 1000);
+    }
+
+    public Duel(Player playerA, Player playerB, boolean isPartyDuel, int duelId, boolean isMortalCombat) {
+        this(playerA, playerB, isPartyDuel, duelId);
+        this.isMortalCombat = isMortalCombat;
     }
 
     /**
@@ -189,8 +202,17 @@ public class Duel {
             }
 
             switch (_countdown) {
+                case 60:
+                    if (isMortalCombat) {
+                        _playerA.sendPacket(new SocialAction(_playerA, 4));
+                        _playerB.sendPacket(new SocialAction(_playerB, 4));
+                    }
+                    break;
+
                 case 33:
-                    teleportPlayers(-83760, -238825, -3331);
+                    if (!isMortalCombat) {
+                        teleportPlayers(-83760, -238825, -3331);
+                    }
                     break;
 
                 case 30:
@@ -427,7 +449,7 @@ public class Duel {
         }
 
         // Restore player conditions, but only for party duel (no matter the end) && 1vs1 which ends normally.
-        if ((!_isPartyDuel && !abnormalEnd) || _isPartyDuel) {
+        if (_isPartyDuel || !abnormalEnd) {
             for (PlayerCondition cond : _playerConditions) {
                 cond.restoreCondition(abnormalEnd);
             }
@@ -546,7 +568,10 @@ public class Duel {
                         partyPlayer.broadcastPacket(new SocialAction(partyPlayer, 7));
                     }
                 } else {
-                    _playerA.broadcastPacket(new SocialAction(_playerA, 7));
+                    if (!isMortalCombat) {
+                        _playerA.broadcastPacket(new SocialAction(_playerA, 7));
+                    }
+                    // if defeated player was in mortal combat, we don't need to send social action
                 }
             }
         }
@@ -816,6 +841,11 @@ public class Duel {
                 _playerB.setDuelState(DuelState.WINNER);
             } else {
                 _playerA.setDuelState(DuelState.WINNER);
+            }
+
+            if (isMortalCombat) {
+                player.setDieReason(DieReason.MORTAL_COMBAT);
+                player.doDie(player == _playerA ? _playerB : _playerA);
             }
         }
     }

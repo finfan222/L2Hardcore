@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.xml.AugmentationData;
 import net.sf.l2j.gameserver.data.xml.AugmentationData.AugStat;
@@ -11,6 +9,8 @@ import net.sf.l2j.gameserver.model.holder.Timestamp;
 import net.sf.l2j.gameserver.network.serverpackets.SkillCoolTime;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.basefuncs.FuncAdd;
+
+import java.util.List;
 
 /**
  * A container used to store an Augmentation.<br>

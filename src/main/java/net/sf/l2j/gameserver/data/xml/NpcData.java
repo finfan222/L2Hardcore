@@ -36,7 +36,7 @@ public class NpcData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/npcs");
-        LOGGER.info("Loaded {} NPC templates.", _npcs.size());
+        log.info("Loaded {} NPC templates.", _npcs.size());
     }
 
     @Override
@@ -91,7 +91,7 @@ public class NpcData implements IXmlReader {
                         final DropData data = new DropData(parseInteger(dropAttrs, "itemid"), parseInteger(dropAttrs, "min"), parseInteger(dropAttrs, "max"), parseInteger(dropAttrs, "chance"));
 
                         if (ItemData.getInstance().getTemplate(data.getItemId()) == null) {
-                            LOGGER.warn("Droplist data for undefined itemId: {}.", data.getItemId());
+                            log.warn("Droplist data for undefined itemId: {}.", data.getItemId());
                             return;
                         }
                         category.add(data, isRaid);

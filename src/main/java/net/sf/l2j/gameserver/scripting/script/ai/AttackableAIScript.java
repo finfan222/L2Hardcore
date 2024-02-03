@@ -1,13 +1,10 @@
 package net.sf.l2j.gameserver.scripting.script.ai;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
@@ -21,6 +18,10 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
 public class AttackableAIScript extends Quest {
     private static final String ACTOR_INSTANCE_PACKAGE = "net.sf.l2j.gameserver.model.actor.instance.";
 
@@ -64,7 +65,7 @@ public class AttackableAIScript extends Quest {
                     template.addQuestEvent(ScriptEventType.ON_AGGRO, this);
                 }
             } catch (final ClassNotFoundException e) {
-                LOGGER.error("An unknown template type {} has been found on {}.", e, template.getType(), toString());
+                log.error("An unknown template type {} has been found on {}.", template.getType(), this, e);
             }
         }
     }

@@ -1,7 +1,7 @@
 package net.sf.l2j;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.config.ExProperties;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.gameserver.enums.GeoType;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
  * This class contains global server configuration.<br> It has static final fields initialized from configuration
  * files.
  */
+@Slf4j
 public final class Config {
-    private static final CLogger LOGGER = new CLogger(Config.class.getName());
 
     public static final String CLANS_FILE = "./config/clans.properties";
     public static final String EVENTS_FILE = "./config/events.properties";
@@ -335,6 +335,7 @@ public final class Config {
     public static int HARDCORE_START_SP;
     public static double HARDCORE_RATE_OVERHIT_SP;
     public static double HARDCORE_RATE_OVERHIT_EXP;
+    public static double HARDCORE_INVENTORY_DROP_RATE;
 
     /** Misc */
     public static boolean EFFECT_CANCELING;
@@ -641,7 +642,7 @@ public final class Config {
         try {
             result.load(new File(filename));
         } catch (Exception e) {
-            LOGGER.error("An error occured loading '{}' config.", e, filename);
+            log.error("An error occured loading '{}' config.", e, filename);
         }
 
         return result;
@@ -871,7 +872,7 @@ public final class Config {
                 hexSetting.store(out, "the hexID to auth into login");
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to save hex ID to '{}' file.", e, filename);
+            log.error("Failed to save hex ID to '{}' file.", e, filename);
         }
     }
 
@@ -953,14 +954,15 @@ public final class Config {
      * Loads player settings.<br> Such as stats, inventory/warehouse, enchant, augmentation, karma, party, admin,
      * petition, skill learn.
      */
-    private static final void loadPlayers() {
+    private static void loadPlayers() {
         final ExProperties players = initProperties(PLAYERS_FILE);
 
         HARDCORE_DELAY_AFTER_DEATH = TimeUnit.MINUTES.toMillis(players.getProperty("HARDCORE_DELAY_AFTER_DEATH", 240));
         HARDCORE_TOMBSTONE_LIFETIME = TimeUnit.MINUTES.toMillis(players.getProperty("HARDCORE_TOMBSTONE_LIFETIME", 40320));
         HARDCORE_START_SP = players.getProperty("HARDCORE_START_SP", 150);
         HARDCORE_RATE_OVERHIT_SP = players.getProperty("HARDCORE_RATE_OVERHIT_SP", 5.0);
-        HARDCORE_RATE_OVERHIT_EXP = players.getProperty("HARDCORE_RATE_OVERHIT_EXP", 5.0);
+        HARDCORE_RATE_OVERHIT_EXP = players.getProperty("HARDCORE_RATE_OVERHIT_EXP", 3.0);
+        HARDCORE_INVENTORY_DROP_RATE = players.getProperty("HARDCORE_INVENTORY_DROP_RATE", 25);
 
         EFFECT_CANCELING = players.getProperty("CancelLesserEffect", true);
         HP_REGEN_MULTIPLIER = players.getProperty("HpRegenMultiplier", 1.);
@@ -1262,7 +1264,7 @@ public final class Config {
     }
 
     public static final void loadGameServer() {
-        LOGGER.info("Loading gameserver configuration files.");
+        log.info("Loading gameserver configuration files.");
 
         // clans settings
         loadClans();
@@ -1289,22 +1291,22 @@ public final class Config {
         loadServer();
     }
 
-    public static final void loadLoginServer() {
-        LOGGER.info("Loading loginserver configuration files.");
+    public static void loadLoginServer() {
+        log.info("Loading loginserver configuration files.");
 
         // login settings
         loadLogin();
     }
 
-    public static final void loadAccountManager() {
-        LOGGER.info("Loading account manager configuration files.");
+    public static void loadAccountManager() {
+        log.info("Loading account manager configuration files.");
 
         // login settings
         loadLogin();
     }
 
-    public static final void loadGameServerRegistration() {
-        LOGGER.info("Loading gameserver registration configuration files.");
+    public static void loadGameServerRegistration() {
+        log.info("Loading gameserver registration configuration files.");
 
         // login settings
         loadLogin();

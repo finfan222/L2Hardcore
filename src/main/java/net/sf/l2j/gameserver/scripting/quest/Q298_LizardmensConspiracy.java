@@ -31,6 +31,16 @@ public class Q298_LizardmensConspiracy extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 25;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -39,7 +49,7 @@ public class Q298_LizardmensConspiracy extends Quest {
         }
 
         if (event.equalsIgnoreCase("30333-1.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, PATROL_REPORT, 1);
@@ -71,7 +81,7 @@ public class Q298_LizardmensConspiracy extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 25) ? "30333-0b.htm" : "30333-0a.htm";
+                htmltext = !condition.validateLevel(player) ? "30333-0b.htm" : "30333-0a.htm";
                 break;
 
             case STARTED:

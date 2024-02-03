@@ -26,7 +26,7 @@ public class NewbieBuffData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/newbieBuffs.xml");
-        LOGGER.info("Loaded {} newbie buffs.", _buffs.size());
+        log.info("Loaded {} newbie buffs.", _buffs.size());
     }
 
     @Override

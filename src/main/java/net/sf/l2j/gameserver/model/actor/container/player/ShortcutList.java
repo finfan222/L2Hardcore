@@ -1,14 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.function.Predicate;
-
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.enums.ShortcutType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.model.Macro;
@@ -20,10 +13,15 @@ import net.sf.l2j.gameserver.network.serverpackets.ShortCutDelete;
 import net.sf.l2j.gameserver.network.serverpackets.ShortCutRegister;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.function.Predicate;
+
+@Slf4j
 public class ShortcutList extends ConcurrentSkipListMap<Integer, Shortcut> {
     private static final long serialVersionUID = 1L;
-
-    private static final CLogger LOGGER = new CLogger(ShortcutList.class.getName());
 
     private static final String INSERT_SHORTCUT = "REPLACE INTO character_shortcuts (char_obj_id,slot,page,type,id,level,class_index) values(?,?,?,?,?,?,?)";
     private static final String DELETE_SHORTCUT = "DELETE FROM character_shortcuts WHERE char_obj_id=? AND slot=? AND page=? AND class_index=?";
@@ -112,7 +110,7 @@ public class ShortcutList extends ConcurrentSkipListMap<Integer, Shortcut> {
             ps.setInt(7, _owner.getClassIndex());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't store shortcut.", e);
+            log.error("Couldn't store shortcut.", e);
         }
     }
 
@@ -157,7 +155,7 @@ public class ShortcutList extends ConcurrentSkipListMap<Integer, Shortcut> {
             ps.setInt(4, _owner.getClassIndex());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete shortcut.", e);
+            log.error("Couldn't delete shortcut.", e);
         }
     }
 
@@ -193,7 +191,7 @@ public class ShortcutList extends ConcurrentSkipListMap<Integer, Shortcut> {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore shortcuts.", e);
+            log.error("Couldn't restore shortcuts.", e);
         }
     }
 

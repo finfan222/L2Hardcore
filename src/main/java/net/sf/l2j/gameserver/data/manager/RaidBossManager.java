@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.sql.SpawnTable;
@@ -22,8 +22,8 @@ import java.util.Map.Entry;
 /**
  * Loads and store {@link RaidBoss}es informations, using {@link BossSpawn} holder.
  */
+@Slf4j
 public class RaidBossManager {
-    protected static final CLogger LOGGER = new CLogger(RaidBossManager.class.getName());
 
     private static final String LOAD_RAIDBOSSES = "SELECT * from raidboss_spawnlist ORDER BY boss_id";
     private static final String INSERT_RAIDBOSS = "INSERT INTO raidboss_spawnlist (boss_id,loc_x,loc_y,loc_z,heading,respawn_time,currentHp,currentMp) values(?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE respawn_time=VALUES(respawn_time),currentHp=VALUES(currentHp),currentMp=VALUES(currentMp)";
@@ -42,7 +42,7 @@ public class RaidBossManager {
             while (rs.next()) {
                 final NpcTemplate template = NpcData.getInstance().getTemplate(rs.getInt("boss_id"));
                 if (template == null || !template.isType("RaidBoss")) {
-                    LOGGER.warn("Couldn't load raidboss #{}.", rs.getInt("boss_id"));
+                    log.warn("Couldn't load raidboss #{}.", rs.getInt("boss_id"));
                     continue;
                 }
 
@@ -55,9 +55,9 @@ public class RaidBossManager {
                 addNewSpawn(spawn, rs.getLong("respawn_time"), rs.getDouble("currentHP"), rs.getDouble("currentMP"), false);
             }
         } catch (Exception e) {
-            LOGGER.error("Error restoring raid bosses.", e);
+            log.error("Error restoring raid bosses.", e);
         }
-        LOGGER.info("Loaded {} raid bosses.", _spawns.size());
+        log.info("Loaded {} raid bosses.", _spawns.size());
     }
 
     public void reload() {
@@ -164,7 +164,7 @@ public class RaidBossManager {
                     ps.setDouble(8, currentMP);
                     ps.executeUpdate();
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't store raid boss #{}.", e, id);
+                    log.error("Couldn't store raid boss #{}.", id, e);
                 }
             }
         }
@@ -237,7 +237,7 @@ public class RaidBossManager {
                 }
                 ps.executeBatch();
             } catch (Exception e) {
-                LOGGER.error("Couldn't save raid bosses.", e);
+                log.error("Couldn't save raid bosses.", e);
             }
         }
 

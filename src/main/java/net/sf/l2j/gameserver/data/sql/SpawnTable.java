@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.data.sql;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.data.manager.DayNightManager;
 import net.sf.l2j.gameserver.data.xml.NpcData;
@@ -14,8 +14,8 @@ import java.sql.ResultSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class SpawnTable {
-    private static final CLogger LOGGER = new CLogger(SpawnTable.class.getName());
 
     private static final String LOAD_SPAWNS = "SELECT * FROM spawnlist";
     private static final String ADD_SPAWN = "INSERT INTO spawnlist (npc_templateid,locx,locy,locz,heading,respawn_delay) values(?,?,?,?,?,?)";
@@ -36,7 +36,7 @@ public class SpawnTable {
             while (rs.next()) {
                 final NpcTemplate template = NpcData.getInstance().getTemplate(rs.getInt("npc_templateid"));
                 if (template == null) {
-                    LOGGER.warn("Invalid template {} found on spawn load.", rs.getInt("npc_templateid"));
+                    log.warn("Invalid template {} found on spawn load.", rs.getInt("npc_templateid"));
                     continue;
                 }
 
@@ -44,7 +44,7 @@ public class SpawnTable {
                     // Don't spawn guards, they're spawned during castle sieges.
                 } else if (template.isType("RaidBoss")) {
                     // Don't spawn raidbosses ; raidbosses are supposed to be loaded in another table !
-                    LOGGER.warn("RB template {} is in regular spawnlist, move it in raidboss_spawnlist.", template.getIdTemplate());
+                    log.warn("RB template {} is in regular spawnlist, move it in raidboss_spawnlist.", template.getIdTemplate());
                 } else if (!Config.ALLOW_CLASS_MASTERS && template.isType("ClassMaster")) {
                     // Dont' spawn class masters (if config is setuped to false).
                 } else if (!Config.WYVERN_ALLOW_UPGRADER && template.isType("WyvernManagerNpc")) {
@@ -74,10 +74,10 @@ public class SpawnTable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load spawns.", e);
+            log.error("Couldn't load spawns.", e);
         }
 
-        LOGGER.info("Loaded {} spawns.", _spawns.size());
+        log.info("Loaded {} spawns.", _spawns.size());
     }
 
     public void reload() {
@@ -104,7 +104,7 @@ public class SpawnTable {
                 ps.setInt(6, spawn.getRespawnDelay());
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't add spawn.", e);
+                log.error("Couldn't add spawn.", e);
             }
         }
     }
@@ -124,7 +124,7 @@ public class SpawnTable {
                 ps.setInt(5, spawn.getHeading());
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't delete spawn.", e);
+                log.error("Couldn't delete spawn.", e);
             }
         }
     }

@@ -1,16 +1,15 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q377_ExplorationOfTheGiantsCave_Part2 extends Quest {
     private static final String QUEST_NAME = "Q377_ExplorationOfTheGiantsCave_Part2";
@@ -76,6 +75,17 @@ public class Q377_ExplorationOfTheGiantsCave_Part2 extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 57;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(ANCIENT_DICTIONARY_INTERMEDIATE_LEVEL).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -84,7 +94,7 @@ public class Q377_ExplorationOfTheGiantsCave_Part2 extends Quest {
         }
 
         if (event.equalsIgnoreCase("31147-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31147-04.htm")) {
@@ -105,15 +115,11 @@ public class Q377_ExplorationOfTheGiantsCave_Part2 extends Quest {
             return htmltext;
         }
 
-        switch (st.getState()) {
-            case CREATED:
-                htmltext = (player.getStatus().getLevel() < 57 || !player.getInventory().hasItems(ANCIENT_DICTIONARY_INTERMEDIATE_LEVEL)) ? "31147-01.htm" : "31147-02.htm";
-                break;
-
-            case STARTED:
-                htmltext = checkItems(player);
-                break;
-        }
+        htmltext = switch (st.getState()) {
+            case CREATED -> (!condition.validateLevel(player) || !condition.validateItems(player)) ? "31147-01.htm" : "31147-02.htm";
+            case STARTED -> checkItems(player);
+            default -> htmltext;
+        };
 
         return htmltext;
     }

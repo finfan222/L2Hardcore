@@ -1,11 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.ai.type;
 
-import java.util.List;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.actors.NpcAiType;
@@ -19,6 +16,8 @@ import net.sf.l2j.gameserver.model.actor.container.npc.AggroInfo;
 import net.sf.l2j.gameserver.model.actor.instance.SiegeGuard;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.List;
 
 public class SiegeGuardAI extends AttackableAI {
     public SiegeGuardAI(SiegeGuard guard) {

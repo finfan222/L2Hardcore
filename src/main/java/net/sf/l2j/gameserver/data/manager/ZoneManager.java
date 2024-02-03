@@ -49,7 +49,7 @@ public class ZoneManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/zones");
-        LOGGER.info("Loaded {} zones classes and total {} zones.", _zones.size(), _zones.values().stream().mapToInt(Map::size).sum());
+        log.info("Loaded {} zones classes and total {} zones.", _zones.size(), _zones.values().stream().mapToInt(Map::size).sum());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ZoneManager implements IXmlReader {
         try {
             zoneConstructor = Class.forName("net.sf.l2j.gameserver.model.zone.type." + zoneType).getConstructor(int.class);
         } catch (Exception e) {
-            LOGGER.error("The zone type {} doesn't exist. Abort zones loading for {}.", e, zoneType, path.toFile().getName());
+            log.error("The zone type {} doesn't exist. Abort zones loading for {}.", e, zoneType, path.toFile().getName());
             return;
         }
 
@@ -76,7 +76,7 @@ public class ZoneManager implements IXmlReader {
             try {
                 temp = (ZoneType) zoneConstructor.newInstance(zoneId);
             } catch (Exception e) {
-                LOGGER.error("The zone id {} couldn't be instantiated.", e, zoneId);
+                log.error("The zone id {} couldn't be instantiated.", e, zoneId);
                 return;
             }
 
@@ -91,7 +91,7 @@ public class ZoneManager implements IXmlReader {
                 nodes.add(new IntIntHolder(parseInteger(nodeAttrs, "x"), parseInteger(nodeAttrs, "y")));
             });
             if (nodes.isEmpty()) {
-                LOGGER.warn("Missing nodes for zone {} in file {}.", zoneId, zoneType);
+                log.warn("Missing nodes for zone {} in file {}.", zoneId, zoneType);
                 return;
             }
 
@@ -115,7 +115,7 @@ public class ZoneManager implements IXmlReader {
                     if (coords.length == 2) {
                         temp.setZone(new ZoneCuboid(coords[0].getId(), coords[1].getId(), coords[0].getValue(), coords[1].getValue(), minZ, maxZ));
                     } else {
-                        LOGGER.warn("Missing cuboid nodes for zone {} in file {}.", zoneId, zoneType);
+                        log.warn("Missing cuboid nodes for zone {} in file {}.", zoneId, zoneType);
                         return;
                     }
                     break;
@@ -129,7 +129,7 @@ public class ZoneManager implements IXmlReader {
                         }
                         temp.setZone(new ZoneNPoly(aX, aY, minZ, maxZ));
                     } else {
-                        LOGGER.warn("Missing NPoly nodes for zone {} in file {}.", zoneId, zoneType);
+                        log.warn("Missing NPoly nodes for zone {} in file {}.", zoneId, zoneType);
                         return;
                     }
                     break;
@@ -138,12 +138,12 @@ public class ZoneManager implements IXmlReader {
                     if (coords.length == 1 && zoneRad > 0) {
                         temp.setZone(new ZoneCylinder(coords[0].getId(), coords[0].getValue(), minZ, maxZ, zoneRad));
                     } else {
-                        LOGGER.warn("Missing Cylinder nodes for zone {} in file {}.", zoneId, zoneType);
+                        log.warn("Missing Cylinder nodes for zone {} in file {}.", zoneId, zoneType);
                         return;
                     }
                     break;
                 default:
-                    LOGGER.warn("Unknown {} shape in file {}.", zoneShape, zoneType);
+                    log.warn("Unknown {} shape in file {}.", zoneShape, zoneType);
                     return;
             }
 
@@ -224,9 +224,9 @@ public class ZoneManager implements IXmlReader {
                 ps.executeBatch();
             }
         } catch (Exception e) {
-            LOGGER.error("Error storing boss zones.", e);
+            log.error("Error storing boss zones.", e);
         }
-        LOGGER.info("Saved boss zones data.");
+        log.info("Saved boss zones data.");
     }
 
     /**

@@ -1,5 +1,13 @@
 package net.sf.l2j.loginserver.data.manager;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.data.StatSet;
+import net.sf.l2j.commons.data.xml.IXmlReader;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.commons.random.Rnd;
+import net.sf.l2j.loginserver.model.GameServerInfo;
+import org.w3c.dom.Document;
+
 import java.math.BigInteger;
 import java.nio.file.Path;
 import java.security.KeyPair;
@@ -12,18 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.data.xml.IXmlReader;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.loginserver.model.GameServerInfo;
-
-import org.w3c.dom.Document;
-
+@Slf4j
 public class GameServerManager implements IXmlReader {
-    private static final CLogger LOGGER = new CLogger(GameServerManager.class.getName());
 
     private static final int KEYS_SIZE = 10;
 
@@ -42,13 +40,13 @@ public class GameServerManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("serverNames.xml");
-        LOGGER.info("Loaded {} server names.", _serverNames.size());
+        log.info("Loaded {} server names.", _serverNames.size());
 
         loadRegisteredGameServers();
-        LOGGER.info("Loaded {} registered gameserver(s).", _registeredServers.size());
+        log.info("Loaded {} registered gameserver(s).", _registeredServers.size());
 
         initRSAKeys();
-        LOGGER.info("Cached {} RSA keys for gameserver communication.", _keyPairs.length);
+        log.info("Cached {} RSA keys for gameserver communication.", _keyPairs.length);
     }
 
     @Override
@@ -73,7 +71,7 @@ public class GameServerManager implements IXmlReader {
                 _keyPairs[i] = keyGen.genKeyPair();
             }
         } catch (Exception e) {
-            LOGGER.error("Error loading RSA keys for Game Server communication.", e);
+            log.error("Error loading RSA keys for Game Server communication.", e);
         }
     }
 
@@ -86,7 +84,7 @@ public class GameServerManager implements IXmlReader {
                 _registeredServers.put(id, new GameServerInfo(id, stringToHex(rs.getString("hexid"))));
             }
         } catch (Exception e) {
-            LOGGER.error("Error loading registered gameservers.", e);
+            log.error("Error loading registered gameservers.", e);
         }
     }
 
@@ -126,7 +124,7 @@ public class GameServerManager implements IXmlReader {
             ps.setString(3, hostName);
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Error while saving gameserver data.", e);
+            log.error("Error while saving gameserver data.", e);
         }
     }
 

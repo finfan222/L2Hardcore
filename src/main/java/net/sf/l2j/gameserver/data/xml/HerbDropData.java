@@ -31,7 +31,7 @@ public class HerbDropData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/herbDrops.xml");
-        LOGGER.info("Loaded {} herbs groups.", groups.size());
+        log.info("Loaded {} herbs groups.", groups.size());
     }
 
     @Override

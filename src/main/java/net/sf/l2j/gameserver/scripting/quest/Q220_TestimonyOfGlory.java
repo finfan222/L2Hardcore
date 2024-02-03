@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -13,6 +10,9 @@ import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Q220_TestimonyOfGlory extends SecondClassQuest {
     private static final String QUEST_NAME = "Q220_TestimonyOfGlory";

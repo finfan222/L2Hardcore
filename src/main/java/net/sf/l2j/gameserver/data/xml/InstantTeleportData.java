@@ -24,7 +24,7 @@ public class InstantTeleportData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/instantTeleports.xml");
-        LOGGER.info("Loaded {} instant teleport positions.", _teleports.size());
+        log.info("Loaded {} instant teleport positions.", _teleports.size());
     }
 
     @Override

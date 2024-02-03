@@ -1,15 +1,13 @@
 package net.sf.l2j.gameserver.model.rift;
 
-import java.awt.Polygon;
-import java.awt.Shape;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * One cell of Dimensional Rift system.<br>

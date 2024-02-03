@@ -1,5 +1,7 @@
 package net.sf.l2j.loginserver.data.manager;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.net.InetAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,20 +10,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import net.sf.l2j.commons.logging.CLogger;
-
+@Slf4j
 public class IpBanManager {
-    private static final CLogger LOGGER = new CLogger(GameServerManager.class.getName());
 
     private final Map<InetAddress, Long> _bannedIps = new ConcurrentHashMap<>();
 
     protected IpBanManager() {
         // Load file.
         final Path file = Paths.get("config", "banned_ips.properties");
-        if (file == null) {
-            LOGGER.warn("banned_ips.properties is missing. Ban listing is skipped.");
-            return;
-        }
 
         // Load each line, dropping the ones containing #.
         try (Stream<String> stream = Files.lines(file)) {
@@ -30,13 +26,13 @@ public class IpBanManager {
                 try {
                     _bannedIps.putIfAbsent(InetAddress.getByName(l), 0L);
                 } catch (Exception e) {
-                    LOGGER.error("Invalid ban address ({}).", l);
+                    log.error("Invalid ban address ({}).", l);
                 }
             });
         } catch (Exception e) {
-            LOGGER.error("Error while reading banned_ips.properties.", e);
+            log.error("Error while reading banned_ips.properties.", e);
         }
-        LOGGER.info("Loaded {} banned IP(s).", _bannedIps.size());
+        log.info("Loaded {} banned IP(s).", _bannedIps.size());
     }
 
     public Map<InetAddress, Long> getBannedIps() {
@@ -75,7 +71,7 @@ public class IpBanManager {
                 // Remove the ban from memory.
                 _bannedIps.remove(address);
 
-                LOGGER.info("Removed expired ip address ban {}.", address.getHostAddress());
+                log.info("Removed expired ip address ban {}.", address.getHostAddress());
                 return false;
             }
             return true;

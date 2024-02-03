@@ -46,20 +46,30 @@ public class Q106_ForgottenTruth extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 10;
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
-        String htmltext = event;
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30358-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ONYX_TALISMAN_1, 1);
         }
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -72,9 +82,9 @@ public class Q106_ForgottenTruth extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.DARK_ELF) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30358-00.htm";
-                } else if (player.getStatus().getLevel() < 10) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30358-02.htm";
                 } else {
                     htmltext = "30358-03.htm";

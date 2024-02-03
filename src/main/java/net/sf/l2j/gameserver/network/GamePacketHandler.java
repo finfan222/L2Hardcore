@@ -1,18 +1,220 @@
 package net.sf.l2j.gameserver.network;
 
-import java.nio.ByteBuffer;
-
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.HexUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.mmocore.IClientFactory;
 import net.sf.l2j.commons.mmocore.IMMOExecutor;
 import net.sf.l2j.commons.mmocore.IPacketHandler;
 import net.sf.l2j.commons.mmocore.MMOConnection;
 import net.sf.l2j.commons.mmocore.ReceivablePacket;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.network.GameClient.GameClientState;
-import net.sf.l2j.gameserver.network.clientpackets.*;
+import net.sf.l2j.gameserver.network.clientpackets.Action;
+import net.sf.l2j.gameserver.network.clientpackets.AddTradeItem;
+import net.sf.l2j.gameserver.network.clientpackets.AllyDismiss;
+import net.sf.l2j.gameserver.network.clientpackets.AllyLeave;
+import net.sf.l2j.gameserver.network.clientpackets.AnswerJoinPartyRoom;
+import net.sf.l2j.gameserver.network.clientpackets.AnswerTradeRequest;
+import net.sf.l2j.gameserver.network.clientpackets.Appearing;
+import net.sf.l2j.gameserver.network.clientpackets.AttackRequest;
+import net.sf.l2j.gameserver.network.clientpackets.AuthLogin;
+import net.sf.l2j.gameserver.network.clientpackets.CannotMoveAnymore;
+import net.sf.l2j.gameserver.network.clientpackets.CannotMoveAnymoreInVehicle;
+import net.sf.l2j.gameserver.network.clientpackets.CharacterRestore;
+import net.sf.l2j.gameserver.network.clientpackets.DlgAnswer;
+import net.sf.l2j.gameserver.network.clientpackets.DummyPacket;
+import net.sf.l2j.gameserver.network.clientpackets.EnterWorld;
+import net.sf.l2j.gameserver.network.clientpackets.FinishRotating;
+import net.sf.l2j.gameserver.network.clientpackets.GameGuardReply;
+import net.sf.l2j.gameserver.network.clientpackets.Logout;
+import net.sf.l2j.gameserver.network.clientpackets.MoveBackwardToLocation;
+import net.sf.l2j.gameserver.network.clientpackets.MultiSellChoose;
+import net.sf.l2j.gameserver.network.clientpackets.ObserverReturn;
+import net.sf.l2j.gameserver.network.clientpackets.PetitionVote;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAcquireSkill;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAcquireSkillInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestActionUse;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAllyCrest;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAllyInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAnswerFriendInvite;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAnswerJoinAlly;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAnswerJoinParty;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAnswerJoinPledge;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAskJoinPartyRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestAutoSoulShot;
+import net.sf.l2j.gameserver.network.clientpackets.RequestBBSwrite;
+import net.sf.l2j.gameserver.network.clientpackets.RequestBlock;
+import net.sf.l2j.gameserver.network.clientpackets.RequestBuyItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestBuyProcure;
+import net.sf.l2j.gameserver.network.clientpackets.RequestBuySeed;
+import net.sf.l2j.gameserver.network.clientpackets.RequestBypassToServer;
+import net.sf.l2j.gameserver.network.clientpackets.RequestChangeMoveType;
+import net.sf.l2j.gameserver.network.clientpackets.RequestChangePartyLeader;
+import net.sf.l2j.gameserver.network.clientpackets.RequestChangePetName;
+import net.sf.l2j.gameserver.network.clientpackets.RequestChangeWaitType;
+import net.sf.l2j.gameserver.network.clientpackets.RequestCharacterCreate;
+import net.sf.l2j.gameserver.network.clientpackets.RequestCharacterDelete;
+import net.sf.l2j.gameserver.network.clientpackets.RequestConfirmCancelItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestConfirmGemStone;
+import net.sf.l2j.gameserver.network.clientpackets.RequestConfirmRefinerItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestConfirmSiegeWaitingList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestConfirmTargetItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestCrystallizeItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestCursedWeaponList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestCursedWeaponLocation;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDeleteMacro;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDestroyItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDismissAlly;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDismissPartyRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDropItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDuelAnswerStart;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDuelStart;
+import net.sf.l2j.gameserver.network.clientpackets.RequestDuelSurrender;
+import net.sf.l2j.gameserver.network.clientpackets.RequestEnchantItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestEvaluate;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExAcceptJoinMPCC;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExAskJoinMPCC;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExEnchantSkill;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExEnchantSkillInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExFishRanking;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExMPCCShowPartyMembersInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExMagicSkillUseGround;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExOustFromMPCC;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExPledgeCrestLarge;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExSetPledgeCrestLarge;
+import net.sf.l2j.gameserver.network.clientpackets.RequestExitPartyMatchingWaitingRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestFriendDel;
+import net.sf.l2j.gameserver.network.clientpackets.RequestFriendInvite;
+import net.sf.l2j.gameserver.network.clientpackets.RequestFriendList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGMCommand;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGameStart;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGetBossRecord;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGetItemFromPet;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGetOffVehicle;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGetOnVehicle;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGiveItemToPet;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGiveNickName;
+import net.sf.l2j.gameserver.network.clientpackets.RequestGmList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestHennaEquip;
+import net.sf.l2j.gameserver.network.clientpackets.RequestHennaItemInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestHennaItemList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestHennaUnequip;
+import net.sf.l2j.gameserver.network.clientpackets.RequestHennaUnequipInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestHennaUnequipList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestItemList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestJoinAlly;
+import net.sf.l2j.gameserver.network.clientpackets.RequestJoinParty;
+import net.sf.l2j.gameserver.network.clientpackets.RequestJoinPartyRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestJoinPledge;
+import net.sf.l2j.gameserver.network.clientpackets.RequestJoinSiege;
+import net.sf.l2j.gameserver.network.clientpackets.RequestLinkHtml;
+import net.sf.l2j.gameserver.network.clientpackets.RequestListPartyMatchingWaitingRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestListPartyWaiting;
+import net.sf.l2j.gameserver.network.clientpackets.RequestMagicSkillUse;
+import net.sf.l2j.gameserver.network.clientpackets.RequestMakeMacro;
+import net.sf.l2j.gameserver.network.clientpackets.RequestManagePartyRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestManorList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestMoveToLocationInVehicle;
+import net.sf.l2j.gameserver.network.clientpackets.RequestNewCharacter;
+import net.sf.l2j.gameserver.network.clientpackets.RequestOlympiadMatchList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestOlympiadObserverEnd;
+import net.sf.l2j.gameserver.network.clientpackets.RequestOustFromPartyRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestOustPartyMember;
+import net.sf.l2j.gameserver.network.clientpackets.RequestOustPledgeMember;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPCCafeCouponUse;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPackageSend;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPackageSendableItemList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPetGetItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPetUseItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPetition;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPetitionCancel;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeCrest;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeMemberInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeMemberList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeMemberPowerInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgePower;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgePowerGradeList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeReorganizeMember;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeSetAcademyMaster;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeSetMemberPowerGrade;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPledgeWarList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPreviewItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPrivateStoreBuy;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPrivateStoreManageBuy;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPrivateStoreManageSell;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPrivateStoreQuitBuy;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPrivateStoreQuitSell;
+import net.sf.l2j.gameserver.network.clientpackets.RequestPrivateStoreSell;
+import net.sf.l2j.gameserver.network.clientpackets.RequestProcureCropList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestQuestAbort;
+import net.sf.l2j.gameserver.network.clientpackets.RequestQuestList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeBookDestroy;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeBookOpen;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeItemMakeInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeItemMakeSelf;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeShopListSet;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeShopMakeInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeShopMakeItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeShopManagePrev;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeShopManageQuit;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecipeShopMessageSet;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRecordInfo;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRefine;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRefineCancel;
+import net.sf.l2j.gameserver.network.clientpackets.RequestReplyStartPledgeWar;
+import net.sf.l2j.gameserver.network.clientpackets.RequestReplyStopPledgeWar;
+import net.sf.l2j.gameserver.network.clientpackets.RequestReplySurrenderPledgeWar;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRestart;
+import net.sf.l2j.gameserver.network.clientpackets.RequestRestartPoint;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSSQStatus;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSellItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSendL2FriendSay;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSetAllyCrest;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSetCrop;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSetPledgeCrest;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSetSeed;
+import net.sf.l2j.gameserver.network.clientpackets.RequestShortCutDel;
+import net.sf.l2j.gameserver.network.clientpackets.RequestShortCutReg;
+import net.sf.l2j.gameserver.network.clientpackets.RequestShowBoard;
+import net.sf.l2j.gameserver.network.clientpackets.RequestShowMiniMap;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSiegeAttackerList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSiegeDefenderList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSkillList;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSocialAction;
+import net.sf.l2j.gameserver.network.clientpackets.RequestStartPledgeWar;
+import net.sf.l2j.gameserver.network.clientpackets.RequestStopPledgeWar;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSurrenderPersonally;
+import net.sf.l2j.gameserver.network.clientpackets.RequestSurrenderPledgeWar;
+import net.sf.l2j.gameserver.network.clientpackets.RequestTargetCancel;
+import net.sf.l2j.gameserver.network.clientpackets.RequestTutorialClientEvent;
+import net.sf.l2j.gameserver.network.clientpackets.RequestTutorialLinkHtml;
+import net.sf.l2j.gameserver.network.clientpackets.RequestTutorialPassCmdToServer;
+import net.sf.l2j.gameserver.network.clientpackets.RequestTutorialQuestionMark;
+import net.sf.l2j.gameserver.network.clientpackets.RequestUnEquipItem;
+import net.sf.l2j.gameserver.network.clientpackets.RequestUserCommand;
+import net.sf.l2j.gameserver.network.clientpackets.RequestWithdrawParty;
+import net.sf.l2j.gameserver.network.clientpackets.RequestWithdrawPartyRoom;
+import net.sf.l2j.gameserver.network.clientpackets.RequestWithdrawPledge;
+import net.sf.l2j.gameserver.network.clientpackets.RequestWriteHeroWords;
+import net.sf.l2j.gameserver.network.clientpackets.Say2;
+import net.sf.l2j.gameserver.network.clientpackets.SendBypassBuildCmd;
+import net.sf.l2j.gameserver.network.clientpackets.SendProtocolVersion;
+import net.sf.l2j.gameserver.network.clientpackets.SendTimeCheck;
+import net.sf.l2j.gameserver.network.clientpackets.SendWarehouseDepositList;
+import net.sf.l2j.gameserver.network.clientpackets.SendWarehouseWithdrawList;
+import net.sf.l2j.gameserver.network.clientpackets.SetPrivateStoreListBuy;
+import net.sf.l2j.gameserver.network.clientpackets.SetPrivateStoreListSell;
+import net.sf.l2j.gameserver.network.clientpackets.SetPrivateStoreMsgBuy;
+import net.sf.l2j.gameserver.network.clientpackets.SetPrivateStoreMsgSell;
+import net.sf.l2j.gameserver.network.clientpackets.SnoopQuit;
+import net.sf.l2j.gameserver.network.clientpackets.StartRotating;
+import net.sf.l2j.gameserver.network.clientpackets.TradeDone;
+import net.sf.l2j.gameserver.network.clientpackets.TradeRequest;
+import net.sf.l2j.gameserver.network.clientpackets.UseItem;
+import net.sf.l2j.gameserver.network.clientpackets.ValidatePosition;
+
+import java.nio.ByteBuffer;
 
 /**
  * The Stateful approach prevents the server from handling inconsistent packets.<BR>
@@ -20,8 +222,8 @@ import net.sf.l2j.gameserver.network.clientpackets.*;
  * Note : If for a given exception a packet needs to be handled on more then one state, then it should be added to all
  * these states.
  */
+@Slf4j
 public final class GamePacketHandler implements IPacketHandler<GameClient>, IClientFactory<GameClient>, IMMOExecutor<GameClient> {
-    private static final CLogger LOGGER = new CLogger(GamePacketHandler.class.getName());
 
     @Override
     public ReceivablePacket<GameClient> handlePacket(ByteBuffer buf, GameClient client) {
@@ -89,7 +291,7 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
                         if (buf.remaining() >= 2) {
                             id2 = buf.getShort() & 0xffff;
                         } else {
-                            LOGGER.warn("{} sent a 0xd0 without the second opcode.", client.toString());
+                            log.warn("{} sent a 0xd0 without the second opcode.", client.toString());
                             break;
                         }
 
@@ -660,7 +862,7 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
                         if (buf.remaining() >= 2) {
                             id2 = buf.getShort() & 0xffff;
                         } else {
-                            LOGGER.warn("{} sent a 0xd0 without the second opcode.", client.toString());
+                            log.warn("{} sent a 0xd0 without the second opcode.", client.toString());
                             break;
                         }
 
@@ -836,13 +1038,13 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
             return;
         }
 
-        LOGGER.warn("{} sent unknown packet 0x{} on state {}.", client.toString(), Integer.toHexString(opcode), state.name());
+        log.warn("{} sent unknown packet 0x{} on state {}.", client.toString(), Integer.toHexString(opcode), state.name());
 
         final int size = buf.remaining();
         final byte[] array = new byte[size];
         buf.get(array);
 
-        LOGGER.warn(HexUtil.printData(array, size));
+        log.warn(HexUtil.printData(array, size));
     }
 
     private static void printDebugDoubleOpcode(int opcode, int id2, ByteBuffer buf, GameClientState state, GameClient client) {
@@ -852,12 +1054,12 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
             return;
         }
 
-        LOGGER.warn("{} sent unknown packet 0x{}:{} on state {}.", client.toString(), Integer.toHexString(opcode), Integer.toHexString(id2), state.name());
+        log.warn("{} sent unknown packet 0x{}:{} on state {}.", client.toString(), Integer.toHexString(opcode), Integer.toHexString(id2), state.name());
 
         final int size = buf.remaining();
         final byte[] array = new byte[size];
         buf.get(array);
 
-        LOGGER.warn(HexUtil.printData(array, size));
+        log.warn(HexUtil.printData(array, size));
     }
 }

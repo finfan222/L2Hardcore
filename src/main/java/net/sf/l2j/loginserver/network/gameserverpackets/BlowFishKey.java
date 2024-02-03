@@ -1,16 +1,14 @@
 package net.sf.l2j.loginserver.network.gameserverpackets;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.loginserver.network.clientpackets.ClientBasePacket;
+
+import javax.crypto.Cipher;
 import java.security.GeneralSecurityException;
 import java.security.interfaces.RSAPrivateKey;
 
-import javax.crypto.Cipher;
-
-import net.sf.l2j.commons.logging.CLogger;
-
-import net.sf.l2j.loginserver.network.clientpackets.ClientBasePacket;
-
+@Slf4j
 public class BlowFishKey extends ClientBasePacket {
-    private static final CLogger LOGGER = new CLogger(BlowFishKey.class.getName());
 
     byte[] _key;
 
@@ -37,7 +35,7 @@ public class BlowFishKey extends ClientBasePacket {
             _key = new byte[len - i];
             System.arraycopy(tempDecryptKey, i, _key, 0, len - i);
         } catch (GeneralSecurityException e) {
-            LOGGER.error("Couldn't decrypt blowfish key (RSA)", e);
+            log.error("Couldn't decrypt blowfish key (RSA)", e);
         }
     }
 

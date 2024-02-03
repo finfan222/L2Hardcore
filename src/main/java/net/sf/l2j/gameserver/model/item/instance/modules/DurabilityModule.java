@@ -3,11 +3,16 @@ package net.sf.l2j.gameserver.model.item.instance.modules;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.items.CrystalType;
+import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemDao;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
+import net.sf.l2j.gameserver.network.serverpackets.ItemList;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
+import net.sf.l2j.gameserver.skills.Formulas;
+import net.sf.l2j.gameserver.skills.L2Skill;
+import net.sf.l2j.gameserver.skills.handlers.Default;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,8 +34,8 @@ public class DurabilityModule implements ItemModule {
         this.timestamp = System.currentTimeMillis();
     }
 
-    public void fracture(Player player, int value) {
-        durability -= (int) Math.sqrt(value);
+    private void fracture(Player player, int value) {
+        durability -= value;
         if (isTimeToUpdate()) {
             update(player);
         }
@@ -52,6 +57,7 @@ public class DurabilityModule implements ItemModule {
             player.sendPacket(new PlaySound("ItemSound.trash_basket"));
             player.sendMessage(String.format("[FIX: SYSMSG] Предмет %s был сломан!", instance.getName()));
             player.destroyItem("DurabilityBrokeItem", instance, 1, player, true);
+            player.sendPacket(new ItemList(player, false));
         }
     }
 
@@ -86,4 +92,23 @@ public class DurabilityModule implements ItemModule {
         return (int) Math.pow(currentDurability, gradeModifier);
     }
 
+    public void fractureWeapon(Player player, Creature target, L2Skill skill, Default.Context context) {
+        final int value = Formulas.calcWeaponFractureValue(player, target, skill, context);
+        if (value > 0) {
+            if (player.isGM()) {
+                player.sendMessage("Потеряно прочности у " + instance.getItemName() + "=" + value);
+            }
+            fracture(player, value);
+        }
+    }
+
+    public void fractureArmor(Player player, L2Skill skill, Default.Context context) {
+        final int value = Formulas.calcArmorFractureValue(instance.getArmorItem(), skill, context);
+        if (value > 0) {
+            if (player.isGM()) {
+                player.sendMessage("Потеряно прочности у " + instance.getItemName() + "=" + value);
+            }
+            fracture(player, value);
+        }
+    }
 }

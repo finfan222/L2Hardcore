@@ -1,17 +1,16 @@
 package net.sf.l2j.gameserver.model.actor.ai.type;
 
-import java.util.List;
-import java.util.concurrent.Future;
-
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.TamedBeast;
 import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.List;
+import java.util.concurrent.Future;
 
 public class TamedBeastAI extends AttackableAI {
     private static final int MAX_DISTANCE_FROM_HOME = 13000;

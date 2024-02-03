@@ -1606,7 +1606,7 @@
 		<set name="operateType" val="PASSIVE" />
 		<for>
 			<add stat="accCombat" val="3">
-				<game night="true" />
+				<game cycle="NIGHT" />
 			</add>
 		</for>
 	</skill>

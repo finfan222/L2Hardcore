@@ -1,15 +1,8 @@
 package net.sf.l2j.gameserver.communitybbs;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.communitybbs.manager.BaseBBSManager;
 import net.sf.l2j.gameserver.communitybbs.manager.ClanBBSManager;
 import net.sf.l2j.gameserver.communitybbs.manager.FavoriteBBSManager;
@@ -28,8 +21,14 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Slf4j
 public class CommunityBoard {
-    private static final CLogger LOGGER = new CLogger(CommunityBoard.class.getName());
 
     private static final String SELECT_FORUMS = "SELECT * FROM bbs_forum";
     private static final String SELECT_TOPICS = "SELECT * FROM bbs_topic ORDER BY id DESC";
@@ -81,9 +80,9 @@ public class CommunityBoard {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load forums.", e);
+            log.error("Couldn't load forums.", e);
         }
-        LOGGER.info("Loaded {} forums.", _forums.size());
+        log.info("Loaded {} forums.", _forums.size());
     }
 
     public void handleCommands(GameClient client, String command) {

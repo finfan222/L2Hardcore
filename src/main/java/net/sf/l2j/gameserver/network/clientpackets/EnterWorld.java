@@ -13,6 +13,7 @@ import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.AnnouncementData;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.CabalType;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.SealType;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.enums.ZoneId;
@@ -30,6 +31,7 @@ import net.sf.l2j.gameserver.model.pledge.SubPledge;
 import net.sf.l2j.gameserver.network.GameClient.GameClientState;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
+import net.sf.l2j.gameserver.network.serverpackets.ClientSetTime;
 import net.sf.l2j.gameserver.network.serverpackets.Die;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.ExMailArrived;
@@ -50,7 +52,7 @@ import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 import net.sf.l2j.gameserver.skills.L2Skill;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
 
 import java.util.Map.Entry;
 
@@ -210,7 +212,7 @@ public class EnterWorld extends L2GameClientPacket {
 
         // If the Player is a Dark Elf, check for Shadow Sense at night.
         if (player.getRace() == ClassRace.DARK_ELF && player.hasSkill(L2Skill.SKILL_SHADOW_SENSE)) {
-            player.sendPacket(SystemMessage.getSystemMessage((GameTimeTaskManager.getInstance().isNight()) ? SystemMessageId.NIGHT_S1_EFFECT_APPLIES : SystemMessageId.DAY_S1_EFFECT_DISAPPEARS).addSkillName(L2Skill.SKILL_SHADOW_SENSE));
+            player.sendPacket(SystemMessage.getSystemMessage((DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) ? SystemMessageId.NIGHT_S1_EFFECT_APPLIES : SystemMessageId.DAY_S1_EFFECT_DISAPPEARS).addSkillName(L2Skill.SKILL_SHADOW_SENSE));
         }
 
         // Notify quest for enterworld event, if quest allows it.
@@ -278,6 +280,7 @@ public class EnterWorld extends L2GameClientPacket {
             qs.getQuest().notifyEvent("UC", null, player);
         }
 
+        player.sendPacket(new ClientSetTime());
         player.sendPacket(ActionFailed.STATIC_PACKET);
     }
 

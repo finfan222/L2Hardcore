@@ -1,8 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.Map.Entry;
-import java.util.StringTokenizer;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.enums.CabalType;
@@ -16,6 +14,10 @@ import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
+import java.util.Map.Entry;
+import java.util.StringTokenizer;
+
+@Slf4j
 public class SignsPriest extends Folk {
     public SignsPriest(int objectId, NpcTemplate template) {
         super(objectId, template);
@@ -377,7 +379,7 @@ public class SignsPriest extends Folk {
 
                         player.teleportTo(x, y, z, 0);
                     } catch (Exception e) {
-                        LOGGER.error("An error occurred while teleporting a player.", e);
+                        log.error("An error occurred while teleporting a player.", e);
                     }
                     break;
 

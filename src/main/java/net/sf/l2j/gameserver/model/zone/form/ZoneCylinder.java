@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.model.zone.form;
 
-import java.awt.Color;
-
 import net.sf.l2j.gameserver.model.zone.ZoneForm;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
+
+import java.awt.*;
 
 public class ZoneCylinder extends ZoneForm {
     protected static final int STEP = 50;

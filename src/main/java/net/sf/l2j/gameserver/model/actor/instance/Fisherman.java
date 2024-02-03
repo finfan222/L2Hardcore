@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.FishingChampionshipManager;
 import net.sf.l2j.gameserver.data.xml.SkillTreeData;
@@ -15,6 +13,8 @@ import net.sf.l2j.gameserver.network.serverpackets.AcquireSkillList;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.List;
 
 /**
  * An instance type extending {@link Merchant}, used for fishing event.

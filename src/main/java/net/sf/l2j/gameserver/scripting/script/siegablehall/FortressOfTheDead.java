@@ -1,12 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.siegablehall;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.data.sql.ClanTable;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -14,7 +10,12 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.entity.ClanHallSiege;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.skills.L2Skill;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
+import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The Fortress of the Dead is located southeast of the Rune Township and is a contested hideout similar to the siege
@@ -127,11 +128,10 @@ public final class FortressOfTheDead extends ClanHallSiege {
     @Override
     public void startSiege() {
         // Siege must start at night
-        final int hoursLeft = (GameTimeTaskManager.getInstance().getGameTime() / 60) % 24;
-        if (hoursLeft < 0 || hoursLeft > 6) {
+        if (!DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             cancelSiegeTask();
-
-            long scheduleTime = (24 - hoursLeft) * 600000L;
+            final int hoursLeft = DayNightTaskManager.getInstance().getTime().getHour();
+            long scheduleTime = TimeUnit.HOURS.toMillis(24 - hoursLeft);
             _siegeTask = ThreadPool.schedule(this::startSiege, scheduleTime);
         } else {
             super.startSiege();

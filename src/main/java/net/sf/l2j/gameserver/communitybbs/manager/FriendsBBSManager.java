@@ -1,14 +1,7 @@
 package net.sf.l2j.gameserver.communitybbs.manager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
-
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.model.World;
@@ -17,6 +10,12 @@ import net.sf.l2j.gameserver.model.actor.container.player.BlockList;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.FriendList;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class FriendsBBSManager extends BaseBBSManager {
     private static final String FRIENDLIST_DELETE_BUTTON = "<br>\n<table><tr><td width=10></td><td>Are you sure you want to delete all friends from your Friends List?</td><td width=20></td><td><button value=\"OK\" action=\"bypass _friend;delall\" back=\"l2ui_ch3.smallbutton2_down\" width=65 height=20 fore=\"l2ui_ch3.smallbutton2\"></td></tr></table>";
@@ -52,7 +51,7 @@ public class FriendsBBSManager extends BaseBBSManager {
                     ps.setInt(2, player.getObjectId());
                     ps.execute();
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't delete friends.", e);
+                    log.error("Couldn't delete friends.", e);
                 }
 
                 for (int friendId : player.getFriendList()) {
@@ -98,7 +97,7 @@ public class FriendsBBSManager extends BaseBBSManager {
                     }
                     ps.executeBatch();
                 } catch (Exception e) {
-                    LOGGER.error("Couldn't delete friend.", e);
+                    log.error("Couldn't delete friend.", e);
                 }
 
                 player.getSelectedFriendList().clear();

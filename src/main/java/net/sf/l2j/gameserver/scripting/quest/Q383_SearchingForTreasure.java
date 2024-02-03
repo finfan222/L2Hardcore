@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -27,6 +26,17 @@ public class Q383_SearchingForTreasure extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 42;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(PIRATE_TREASURE_MAP).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -45,7 +55,7 @@ public class Q383_SearchingForTreasure extends Quest {
         } else if (event.equalsIgnoreCase("30890-07.htm")) {
             // Listen the story.
             if (player.getInventory().hasItems(PIRATE_TREASURE_MAP)) {
-                st.setState(QuestStatus.STARTED);
+                st.setState(QuestStatus.STARTED, player, npc, event);
                 st.setCond(1);
                 playSound(player, SOUND_ACCEPT);
             } else {
@@ -163,7 +173,7 @@ public class Q383_SearchingForTreasure extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 42 || !player.getInventory().hasItems(PIRATE_TREASURE_MAP)) ? "30890-01.htm" : "30890-02.htm";
+                htmltext = (!condition.validateLevel(player) || !condition.validateItems(player)) ? "30890-01.htm" : "30890-02.htm";
                 break;
 
             case STARTED:

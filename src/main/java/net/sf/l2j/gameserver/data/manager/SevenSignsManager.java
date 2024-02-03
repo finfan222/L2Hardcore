@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.data.manager;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.SkillTable;
@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+@Slf4j
 public class SevenSignsManager {
-    private static final CLogger LOGGER = new CLogger(SevenSignsManager.class.getName());
 
     // SQL queries
     private static final String LOAD_DATA = "SELECT char_obj_id, cabal, seal, red_stones, green_stones, blue_stones, ancient_adena_amount, contribution_score FROM seven_signs";
@@ -104,25 +104,25 @@ public class SevenSignsManager {
     protected SevenSignsManager() {
         restoreSevenSignsData();
 
-        LOGGER.info("Currently on {} period.", _activePeriod.getName());
+        log.info("Currently on {} period.", _activePeriod.getName());
         initializeSeals();
 
         final CabalType winningCabal = getWinningCabal();
         if (isSealValidationPeriod()) {
             if (winningCabal == CabalType.NORMAL) {
-                LOGGER.info("The Seven Signs competition ended with a tie last week.");
+                log.info("The Seven Signs competition ended with a tie last week.");
             } else {
-                LOGGER.info("{} were victorious on Seven Signs competition last week.", winningCabal.getFullName());
+                log.info("{} were victorious on Seven Signs competition last week.", winningCabal.getFullName());
             }
         } else if (winningCabal == CabalType.NORMAL) {
-            LOGGER.info("The Seven Signs competition will end in a tie this week.");
+            log.info("The Seven Signs competition will end in a tie this week.");
         } else {
-            LOGGER.info("{} are leading on Seven Signs competition this week.", winningCabal.getFullName());
+            log.info("{} are leading on Seven Signs competition this week.", winningCabal.getFullName());
         }
 
         long milliToChange = 0;
         if (isNextPeriodChangeInPast()) {
-            LOGGER.info("Next Seven Signs period is already computed.");
+            log.info("Next Seven Signs period is already computed.");
         } else {
             setCalendarForNextPeriodChange();
             milliToChange = getMilliToPeriodChange();
@@ -138,7 +138,7 @@ public class SevenSignsManager {
         int numHours = (int) Math.floor(countDown % 24);
         int numDays = (int) Math.floor((countDown - numHours) / 24);
 
-        LOGGER.info("Next Seven Signs period begins in {} days, {} hours and {} mins.", numDays, numHours, numMins);
+        log.info("Next Seven Signs period begins in {} days, {} hours and {} mins.", numDays, numHours, numMins);
     }
 
     private boolean isNextPeriodChangeInPast() {
@@ -388,7 +388,7 @@ public class SevenSignsManager {
                 _nextPeriodChange.add(Calendar.MILLISECOND, PERIOD_MINOR_LENGTH);
                 break;
         }
-        LOGGER.info("Next Seven Signs period change set to {}.", _nextPeriodChange.getTime());
+        log.info("Next Seven Signs period change set to {}.", _nextPeriodChange.getTime());
     }
 
     public final boolean isRecruitingPeriod() {
@@ -600,7 +600,7 @@ public class SevenSignsManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load Seven Signs data.", e);
+            log.error("Couldn't load Seven Signs data.", e);
         }
     }
 
@@ -623,7 +623,7 @@ public class SevenSignsManager {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save Seven Signs player data.", e);
+            log.error("Couldn't save Seven Signs player data.", e);
         }
     }
 
@@ -656,7 +656,7 @@ public class SevenSignsManager {
             ps.setLong(18 + FestivalOfDarknessManager.FESTIVAL_COUNT, _lastSave.getTimeInMillis());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save Seven Signs status data.", e);
+            log.error("Couldn't save Seven Signs status data.", e);
         }
     }
 
@@ -707,7 +707,7 @@ public class SevenSignsManager {
                 ps.setString(3, seal.toString());
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't save Seven Signs player info data.", e);
+                log.error("Couldn't save Seven Signs player info data.", e);
             }
         }
 
@@ -813,12 +813,12 @@ public class SevenSignsManager {
 
             if (sealOwner != CabalType.NORMAL) {
                 if (isSealValidationPeriod()) {
-                    LOGGER.info("The {} have won {}.", sealOwner.getFullName(), currentSeal.getFullName());
+                    log.info("The {} have won {}.", sealOwner.getFullName(), currentSeal.getFullName());
                 } else {
-                    LOGGER.info("The {} is currently owned by {}.", currentSeal.getFullName(), sealOwner.getFullName());
+                    log.info("The {} is currently owned by {}.", currentSeal.getFullName(), sealOwner.getFullName());
                 }
             } else {
-                LOGGER.info("The {} remains unclaimed.", currentSeal.getFullName());
+                log.info("The {} remains unclaimed.", currentSeal.getFullName());
             }
         }
     }
@@ -1053,7 +1053,7 @@ public class SevenSignsManager {
                     // Send message that Seal Validation has begun.
                     World.toAllOnlinePlayers(SystemMessage.getSystemMessage(SystemMessageId.SEAL_VALIDATION_PERIOD_BEGUN));
 
-                    LOGGER.info("The {} have won the competition with {} points.", _previousWinner.getFullName(), getCurrentScore(_previousWinner));
+                    log.info("The {} have won the competition with {} points.", _previousWinner.getFullName(), getCurrentScore(_previousWinner));
                     break;
 
                 case SEAL_VALIDATION: // Reset for New Cycle
@@ -1097,7 +1097,7 @@ public class SevenSignsManager {
             World.toAllOnlinePlayers(SSQInfo.sendSky());
             spawnSevenSignsNPC();
 
-            LOGGER.info("The {} period of Seven Signs has begun.", _activePeriod.getName());
+            log.info("The {} period of Seven Signs has begun.", _activePeriod.getName());
 
             setCalendarForNextPeriodChange();
 

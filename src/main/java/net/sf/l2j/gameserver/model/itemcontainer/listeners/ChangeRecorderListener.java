@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.model.itemcontainer.listeners;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.itemcontainer.Inventory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Recorder of alterations in a given {@link Inventory}.

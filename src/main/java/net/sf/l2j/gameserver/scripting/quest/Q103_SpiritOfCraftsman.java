@@ -50,21 +50,31 @@ public class Q103_SpiritOfCraftsman extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 11;
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30307-05.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, KARROD_LETTER, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -77,9 +87,9 @@ public class Q103_SpiritOfCraftsman extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() != ClassRace.DARK_ELF) {
+                if (!condition.validateRace(player)) {
                     htmltext = "30307-00.htm";
-                } else if (player.getStatus().getLevel() < 11) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30307-02.htm";
                 } else {
                     htmltext = "30307-03.htm";

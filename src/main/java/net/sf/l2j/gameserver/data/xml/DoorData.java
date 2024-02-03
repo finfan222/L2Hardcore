@@ -40,7 +40,7 @@ public class DoorData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/doors.xml");
-        LOGGER.info("Loaded {} doors templates.", _doors.size());
+        log.info("Loaded {} doors templates.", _doors.size());
     }
 
     @Override
@@ -78,7 +78,7 @@ public class DoorData implements IXmlReader {
             }
 
             if (World.isOutOfWorld(minX, maxX, minY, maxY)) {
-                LOGGER.error("Door id {} coords are outside of world.", id);
+                log.error("Door id {} coords are outside of world.", id);
                 return;
             }
 

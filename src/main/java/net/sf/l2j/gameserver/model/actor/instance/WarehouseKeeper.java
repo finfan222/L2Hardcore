@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.Map;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
@@ -13,6 +11,8 @@ import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
 import net.sf.l2j.gameserver.network.serverpackets.PackageToList;
 import net.sf.l2j.gameserver.network.serverpackets.WarehouseDepositList;
 import net.sf.l2j.gameserver.network.serverpackets.WarehouseWithdrawList;
+
+import java.util.Map;
 
 /**
  * An instance type extending {@link Folk}, used by warehouse keepers.<br>

@@ -1,14 +1,13 @@
 package net.sf.l2j.gameserver.model.zone.type.subtype;
 
+import net.sf.l2j.commons.random.Rnd;
+import net.sf.l2j.gameserver.enums.SpawnType;
+import net.sf.l2j.gameserver.model.location.Location;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.gameserver.enums.SpawnType;
-import net.sf.l2j.gameserver.model.location.Location;
 
 /**
  * An abstract zone with spawn {@link Location}s, inheriting {@link ZoneType} behavior.

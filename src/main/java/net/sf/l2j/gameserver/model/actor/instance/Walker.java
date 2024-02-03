@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.xml.WalkerRouteData;
 import net.sf.l2j.gameserver.model.actor.ai.type.CreatureAI;
 import net.sf.l2j.gameserver.model.actor.ai.type.WalkerAI;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.location.WalkerLocation;
+
+import java.util.List;
 
 /**
  * A Walker is a {@link Folk} which continuously walks, following a defined route. It got no other Intention than

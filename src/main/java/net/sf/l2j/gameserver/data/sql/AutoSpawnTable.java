@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.data.sql;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -44,8 +44,8 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Tempy
  */
+@Slf4j
 public class AutoSpawnTable {
-    private static final CLogger LOGGER = new CLogger(AutoSpawnTable.class.getName());
 
     private static final int DEFAULT_INITIAL_SPAWN = 30000; // 30 seconds after registration
     private static final int DEFAULT_RESPAWN = 3600000; // 1 hour in millisecs
@@ -78,9 +78,9 @@ public class AutoSpawnTable {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore auto spawn data.", e);
+            log.error("Couldn't restore auto spawn data.", e);
         }
-        LOGGER.info("Loaded {} auto spawns.", _registeredSpawns.size());
+        log.info("Loaded {} auto spawns.", _registeredSpawns.size());
     }
 
     /**
@@ -163,7 +163,7 @@ public class AutoSpawnTable {
             ScheduledFuture<?> respawnTask = _runningSpawns.remove(spawnInst.getObjectId());
             respawnTask.cancel(false);
         } catch (Exception e) {
-            LOGGER.error("Couldn't auto spawn NPC {} (Object ID = {}).", e, spawnInst.getNpcId(), spawnInst.getObjectId());
+            log.error("Couldn't auto spawn NPC {} (Object ID = {}).", spawnInst.getNpcId(), spawnInst.getObjectId(), e);
             return false;
         }
 
@@ -308,7 +308,7 @@ public class AutoSpawnTable {
 
                 // If there are no set co-ordinates, cancel the spawn task.
                 if (locationList.length == 0) {
-                    LOGGER.warn("No coords specified for spawn instance (Object ID = {}).", _objectId);
+                    log.warn("No coords specified for spawn instance (Object ID = {}).", _objectId);
                     return;
                 }
 
@@ -336,7 +336,7 @@ public class AutoSpawnTable {
                 // Fetch the template for this NPC ID and create a new spawn.
                 final NpcTemplate template = NpcData.getInstance().getTemplate(spawnInst.getNpcId());
                 if (template == null) {
-                    LOGGER.warn("Couldn't find npc template for id: {}.", spawnInst.getNpcId());
+                    log.warn("Couldn't find npc template for id: {}.", spawnInst.getNpcId());
                     return;
                 }
 
@@ -378,7 +378,7 @@ public class AutoSpawnTable {
                     ThreadPool.schedule(new AutoDespawner(_objectId), spawnInst.getDespawnDelay() - 1000);
                 }
             } catch (Exception e) {
-                LOGGER.error("Couldn't spawn (Object ID = {}).", e, _objectId);
+                log.error("Couldn't spawn (Object ID = {}).", _objectId, e);
             }
         }
     }
@@ -398,7 +398,7 @@ public class AutoSpawnTable {
             try {
                 AutoSpawn spawnInst = _registeredSpawns.get(_objectId);
                 if (spawnInst == null) {
-                    LOGGER.info("No spawn registered for object ID = {}.", _objectId);
+                    log.info("No spawn registered for object ID = {}.", _objectId);
                     return;
                 }
 
@@ -412,7 +412,7 @@ public class AutoSpawnTable {
                     spawnInst.removeNpcInstance(npcInst);
                 }
             } catch (Exception e) {
-                LOGGER.error("Couldn't despawn (Object ID = {}).", e, _objectId);
+                log.error("Couldn't despawn (Object ID = {}).", _objectId, e);
             }
         }
     }

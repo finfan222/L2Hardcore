@@ -38,7 +38,7 @@ public class DimensionalRiftManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/dimensionalRift.xml");
-        LOGGER.info("Loaded Dimensional Rift rooms.");
+        log.info("Loaded Dimensional Rift rooms.");
     }
 
     @Override
@@ -72,7 +72,7 @@ public class DimensionalRiftManager implements IXmlReader {
 
                     final NpcTemplate template = NpcData.getInstance().getTemplate(mobId);
                     if (template == null) {
-                        LOGGER.warn("Template " + mobId + " not found!");
+                        log.warn("Template " + mobId + " not found!");
                         return;
                     }
 
@@ -86,7 +86,7 @@ public class DimensionalRiftManager implements IXmlReader {
                             riftRoom.getSpawns().add(spawnDat);
                         }
                     } catch (Exception e) {
-                        LOGGER.error("Failed to initialize a spawn.", e);
+                        log.error("Failed to initialize a spawn.", e);
                     }
                 });
             });

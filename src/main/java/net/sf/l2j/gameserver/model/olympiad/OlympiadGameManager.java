@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.olympiad;
 
-import net.sf.l2j.commons.logging.CLogger;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -10,8 +10,8 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
 public class OlympiadGameManager implements Runnable {
-    private static final CLogger LOGGER = new CLogger(OlympiadGameManager.class.getName());
 
     private volatile boolean _battleStarted = false;
     private final OlympiadGameTask[] _tasks;
@@ -28,7 +28,7 @@ public class OlympiadGameManager implements Runnable {
             _tasks[i++] = new OlympiadGameTask(zone);
         }
 
-        LOGGER.info("Loaded {} stadiums.", _tasks.length);
+        log.info("Loaded {} stadiums.", _tasks.length);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class OlympiadGameManager implements Runnable {
 
                 _battleStarted = false;
 
-                LOGGER.info("All current Olympiad games finished.");
+                log.info("All current Olympiad games finished.");
             }
         }
     }

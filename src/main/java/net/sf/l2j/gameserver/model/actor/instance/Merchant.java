@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.List;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.BuyListManager;
@@ -16,6 +13,9 @@ import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SellList;
 import net.sf.l2j.gameserver.network.serverpackets.ShopPreviewList;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * An instance type extending {@link Folk}, used for merchant (regular and multisell). It got buy/sell methods.<br>

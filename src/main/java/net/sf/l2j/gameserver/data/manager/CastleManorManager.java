@@ -63,7 +63,7 @@ public class CastleManorManager implements IXmlReader {
     protected CastleManorManager() {
         if (!Config.ALLOW_MANOR) {
             _mode = ManorStatus.DISABLED;
-            LOGGER.info("Manor system is deactivated.");
+            log.info("Manor system is deactivated.");
             return;
         }
 
@@ -118,7 +118,7 @@ public class CastleManorManager implements IXmlReader {
                 _procureNext.put(castleId, next);
             }
         } catch (Exception e) {
-            LOGGER.error("Error restoring manor data.", e);
+            log.error("Error restoring manor data.", e);
         }
 
         // Set mode and start timer
@@ -139,13 +139,13 @@ public class CastleManorManager implements IXmlReader {
         // Schedule autosave
         ThreadPool.scheduleAtFixedRate(this::storeMe, Config.MANOR_SAVE_PERIOD_RATE, Config.MANOR_SAVE_PERIOD_RATE);
 
-        LOGGER.debug("Current Manor mode is: {}.", _mode.toString());
+        log.debug("Current Manor mode is: {}.", _mode.toString());
     }
 
     @Override
     public void load() {
         parseFile("./data/xml/seeds.xml");
-        LOGGER.info("Loaded {} seeds.", _seeds.size());
+        log.info("Loaded {} seeds.", _seeds.size());
     }
 
     @Override
@@ -308,7 +308,7 @@ public class CastleManorManager implements IXmlReader {
         }
         scheduleModeChange();
 
-        LOGGER.debug("Manor mode changed to: {}.", _mode.toString());
+        log.debug("Manor mode changed to: {}.", _mode.toString());
     }
 
     public final void setNextSeedProduction(List<SeedProduction> list, int castleId) {
@@ -330,7 +330,7 @@ public class CastleManorManager implements IXmlReader {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Unable to store manor data.", e);
+            log.error("Unable to store manor data.", e);
         }
     }
 
@@ -345,7 +345,7 @@ public class CastleManorManager implements IXmlReader {
             }
             ps.executeBatch();
         } catch (Exception e) {
-            LOGGER.error("Unable to store manor data.", e);
+            log.error("Unable to store manor data.", e);
         }
     }
 
@@ -464,7 +464,7 @@ public class CastleManorManager implements IXmlReader {
 
             return true;
         } catch (Exception e) {
-            LOGGER.error("Unable to store manor data.", e);
+            log.error("Unable to store manor data.", e);
             return false;
         }
     }

@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -12,6 +8,9 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q171_ActsOfEvil extends Quest {
     private static final String QUEST_NAME = "Q171_ActsOfEvil";
@@ -61,15 +60,24 @@ public class Q171_ActsOfEvil extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 27;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30381-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30207-02.htm")) {
@@ -95,7 +103,7 @@ public class Q171_ActsOfEvil extends Quest {
             takeItems(player, CERTIFICATE, 1);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -108,7 +116,7 @@ public class Q171_ActsOfEvil extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 27) ? "30381-01a.htm" : "30381-01.htm";
+                htmltext = !condition.validateLevel(player) ? "30381-01a.htm" : "30381-01.htm";
                 break;
 
             case STARTED:

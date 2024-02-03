@@ -32,9 +32,9 @@ public class SkillTreeData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/skillstrees");
-        LOGGER.info("Loaded {} fishing skills.", _fishingSkills.size());
-        LOGGER.info("Loaded {} clan skills.", _clanSkills.size());
-        LOGGER.info("Loaded {} enchant skills.", _enchantSkills.size());
+        log.info("Loaded {} fishing skills.", _fishingSkills.size());
+        log.info("Loaded {} clan skills.", _clanSkills.size());
+        log.info("Loaded {} enchant skills.", _enchantSkills.size());
     }
 
     @Override

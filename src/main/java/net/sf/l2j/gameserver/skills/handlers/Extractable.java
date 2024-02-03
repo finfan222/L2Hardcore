@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.skills.handlers;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -11,6 +12,7 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.extractable.ExtractableProductItem;
 import net.sf.l2j.gameserver.skills.extractable.ExtractableSkill;
 
+@Slf4j
 public class Extractable extends L2Skill {
 
     public Extractable(StatSet set) {
@@ -25,7 +27,7 @@ public class Extractable extends L2Skill {
 
         final ExtractableSkill exItem = getExtractableSkill();
         if (exItem == null || exItem.getProductItems().isEmpty()) {
-            LOGGER.warn("Missing informations for extractable skill id: {}.", getId());
+            log.warn("Missing informations for extractable skill id: {}.", getId());
             return;
         }
 

@@ -26,15 +26,24 @@ public class Q110_ToThePrimevalIsle extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 75;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("31338-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ANCIENT_BOOK, 1);
@@ -45,7 +54,7 @@ public class Q110_ToThePrimevalIsle extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -58,19 +67,15 @@ public class Q110_ToThePrimevalIsle extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 75) ? "31338-00.htm" : "31338-01.htm";
+                htmltext = !condition.validateLevel(player) ? "31338-00.htm" : "31338-01.htm";
                 break;
 
             case STARTED:
-                switch (npc.getNpcId()) {
-                    case ANTON:
-                        htmltext = "31338-01c.htm";
-                        break;
-
-                    case MARQUEZ:
-                        htmltext = "32113-01.htm";
-                        break;
-                }
+                htmltext = switch (npc.getNpcId()) {
+                    case ANTON -> "31338-01c.htm";
+                    case MARQUEZ -> "32113-01.htm";
+                    default -> htmltext;
+                };
                 break;
 
             case COMPLETED:

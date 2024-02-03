@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -10,6 +7,9 @@ import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q162_CurseOfTheUndergroundFortress extends Quest {
     private static final String QUEST_NAME = "Q162_CurseOfTheUndergroundFortress";
@@ -53,20 +53,30 @@ public class Q162_CurseOfTheUndergroundFortress extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 12;
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         if (event.equalsIgnoreCase("30147-04.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -79,9 +89,9 @@ public class Q162_CurseOfTheUndergroundFortress extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getRace() == ClassRace.DARK_ELF) {
+                if (condition.validateRace(player)) {
                     htmltext = "30147-00.htm";
-                } else if (player.getStatus().getLevel() < 12) {
+                } else if (!condition.validateLevel(player)) {
                     htmltext = "30147-01.htm";
                 } else {
                     htmltext = "30147-02.htm";

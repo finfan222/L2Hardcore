@@ -246,7 +246,7 @@ public class CharSelectInfo extends L2GameServerPacket {
 
             return list.toArray(new CharSelectSlot[list.size()]);
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore player slots for account {}.", e, loginName);
+            log.error("Couldn't restore player slots for account {}.", e, loginName);
         }
 
         return new CharSelectSlot[0];

@@ -28,6 +28,17 @@ public class Q053_LinnaeusSpecialBait extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 60;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(CRIMSON_DRAKE_HEART).value(100).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -36,7 +47,7 @@ public class Q053_LinnaeusSpecialBait extends Quest {
         }
 
         if (event.equalsIgnoreCase("31577-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("31577-07.htm")) {
@@ -58,19 +69,11 @@ public class Q053_LinnaeusSpecialBait extends Quest {
             return htmltext;
         }
 
-        switch (st.getState()) {
-            case CREATED:
-                htmltext = (player.getStatus().getLevel() < 60) ? "31577-02.htm" : "31577-01.htm";
-                break;
-
-            case STARTED:
-                htmltext = (player.getInventory().getItemCount(CRIMSON_DRAKE_HEART) == 100) ? "31577-04.htm" : "31577-05.htm";
-                break;
-
-            case COMPLETED:
-                htmltext = getAlreadyCompletedMsg();
-                break;
-        }
+        htmltext = switch (st.getState()) {
+            case CREATED -> !condition.validateLevel(player) ? "31577-02.htm" : "31577-01.htm";
+            case STARTED -> condition.validateItems(player) ? "31577-04.htm" : "31577-05.htm";
+            case COMPLETED -> getAlreadyCompletedMsg();
+        };
 
         return htmltext;
     }

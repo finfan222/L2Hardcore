@@ -2,12 +2,14 @@ package net.sf.l2j.gameserver.model.actor;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.LoginServerThread;
 import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
 import net.sf.l2j.gameserver.communitybbs.model.Forum;
@@ -30,6 +32,7 @@ import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.enums.AiEventType;
 import net.sf.l2j.gameserver.enums.CabalType;
+import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.GaugeColor;
 import net.sf.l2j.gameserver.enums.LootRule;
 import net.sf.l2j.gameserver.enums.MessageType;
@@ -51,7 +54,6 @@ import net.sf.l2j.gameserver.enums.actors.WeightPenalty;
 import net.sf.l2j.gameserver.enums.bbs.ForumAccess;
 import net.sf.l2j.gameserver.enums.bbs.ForumType;
 import net.sf.l2j.gameserver.enums.items.ActionType;
-import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.EtcItemType;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
@@ -59,12 +61,13 @@ import net.sf.l2j.gameserver.enums.items.ShotType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
-import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
 import net.sf.l2j.gameserver.enums.skills.Stats;
+import net.sf.l2j.gameserver.events.OnDayCycleChange;
+import net.sf.l2j.gameserver.events.OnDie;
 import net.sf.l2j.gameserver.events.OnHit;
-import net.sf.l2j.gameserver.events.OnHitBy;
+import net.sf.l2j.gameserver.events.OnQuestAccept;
+import net.sf.l2j.gameserver.events.OnRevalidateZone;
 import net.sf.l2j.gameserver.events.OnSkillHit;
-import net.sf.l2j.gameserver.events.OnSkillHitBy;
 import net.sf.l2j.gameserver.events.OnValidatePosition;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.handler.IItemHandler;
@@ -96,7 +99,6 @@ import net.sf.l2j.gameserver.model.actor.container.player.ShortcutList;
 import net.sf.l2j.gameserver.model.actor.container.player.SubClass;
 import net.sf.l2j.gameserver.model.actor.instance.FestivalMonster;
 import net.sf.l2j.gameserver.model.actor.instance.Folk;
-import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.actor.instance.StaticObject;
@@ -142,10 +144,10 @@ import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.AbstractNpcInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.Attack;
 import net.sf.l2j.gameserver.network.serverpackets.ChairSit;
 import net.sf.l2j.gameserver.network.serverpackets.ChangeWaitType;
 import net.sf.l2j.gameserver.network.serverpackets.CharInfo;
+import net.sf.l2j.gameserver.network.serverpackets.ClientSetTime;
 import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.DeleteObject;
 import net.sf.l2j.gameserver.network.serverpackets.EtcStatusUpdate;
@@ -207,8 +209,8 @@ import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.funcs.FuncHenna;
 import net.sf.l2j.gameserver.skills.funcs.FuncMaxCpMul;
 import net.sf.l2j.gameserver.skills.funcs.FuncRegenCpMul;
+import net.sf.l2j.gameserver.skills.handlers.Default;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
-import net.sf.l2j.gameserver.taskmanager.GameTimeTaskManager;
 import net.sf.l2j.gameserver.taskmanager.PvpFlagTaskManager;
 import net.sf.l2j.gameserver.taskmanager.WaterTaskManager;
 
@@ -236,6 +238,7 @@ import java.util.stream.Collectors;
  * This class represents a player in the world.<br> There is always a client-thread connected to this (except if a
  * player-store is activated upon logout).
  */
+@Slf4j
 public final class Player extends Playable {
 
     public static final int REQUEST_TIMEOUT = 15;
@@ -480,11 +483,10 @@ public final class Player extends Playable {
         getWarehouse();
         getFreight();
 
-        eventListener.subscribe().cast(OnHit.class).forEach(this::onHit);
-        eventListener.subscribe().cast(OnHitBy.class).forEach(this::onHitBy);
-        eventListener.subscribe().cast(OnSkillHitBy.class).forEach(this::onSkillHitBy);
-        eventListener.subscribe().cast(OnSkillHit.class).forEach(this::onSkillHit);
+        GlobalEventListener.register(OnDayCycleChange.class).forEach(this::onDayCycleChange);
+
         eventListener.subscribe().cast(OnValidatePosition.class).forEach(this::onValidatePosition);
+        eventListener.subscribe().cast(OnQuestAccept.class).forEach(this::onQuestAccept);
     }
 
     /**
@@ -795,53 +797,49 @@ public final class Player extends Playable {
     public void revalidateZone(boolean force) {
         super.revalidateZone(force);
 
-        if (Config.ALLOW_WATER) {
-            if (isInWater()) {
-                WaterTaskManager.getInstance().add(this);
+        try {
+            if (isInsideZone(ZoneId.SIEGE)) {
+                if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.SIEGEWARZONE2;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SIEGEWARZONE2));
+            } else if (isInsideZone(ZoneId.PVP)) {
+                if (_lastCompassZone == ExSetCompassZoneCode.PVPZONE) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.PVPZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PVPZONE));
+            } else if (isIn7sDungeon()) {
+                if (_lastCompassZone == ExSetCompassZoneCode.SEVENSIGNSZONE) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.SEVENSIGNSZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SEVENSIGNSZONE));
+            } else if (isInsideZone(ZoneId.PEACE)) {
+                if (_lastCompassZone == ExSetCompassZoneCode.PEACEZONE) {
+                    return;
+                }
+
+                _lastCompassZone = ExSetCompassZoneCode.PEACEZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PEACEZONE));
             } else {
-                WaterTaskManager.getInstance().remove(this);
-            }
-        }
+                if (_lastCompassZone == ExSetCompassZoneCode.GENERALZONE) {
+                    return;
+                }
 
-        if (isInsideZone(ZoneId.SIEGE)) {
-            if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
-                return;
-            }
+                if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
+                    updatePvPStatus();
+                }
 
-            _lastCompassZone = ExSetCompassZoneCode.SIEGEWARZONE2;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SIEGEWARZONE2));
-        } else if (isInsideZone(ZoneId.PVP)) {
-            if (_lastCompassZone == ExSetCompassZoneCode.PVPZONE) {
-                return;
+                _lastCompassZone = ExSetCompassZoneCode.GENERALZONE;
+                sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.GENERALZONE));
             }
-
-            _lastCompassZone = ExSetCompassZoneCode.PVPZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PVPZONE));
-        } else if (isIn7sDungeon()) {
-            if (_lastCompassZone == ExSetCompassZoneCode.SEVENSIGNSZONE) {
-                return;
-            }
-
-            _lastCompassZone = ExSetCompassZoneCode.SEVENSIGNSZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.SEVENSIGNSZONE));
-        } else if (isInsideZone(ZoneId.PEACE)) {
-            if (_lastCompassZone == ExSetCompassZoneCode.PEACEZONE) {
-                return;
-            }
-
-            _lastCompassZone = ExSetCompassZoneCode.PEACEZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.PEACEZONE));
-        } else {
-            if (_lastCompassZone == ExSetCompassZoneCode.GENERALZONE) {
-                return;
-            }
-
-            if (_lastCompassZone == ExSetCompassZoneCode.SIEGEWARZONE2) {
-                updatePvPStatus();
-            }
-
-            _lastCompassZone = ExSetCompassZoneCode.GENERALZONE;
-            sendPacket(new ExSetCompassZoneCode(ExSetCompassZoneCode.GENERALZONE));
+        } finally {
+            GlobalEventListener.notify(new OnRevalidateZone(this, _lastCompassZone));
         }
     }
 
@@ -2620,8 +2618,6 @@ public final class Player extends Playable {
         // calculate death penalty buff
         calculateDeathPenaltyBuffLevel(killer);
 
-        WaterTaskManager.getInstance().remove(this);
-
         if (isPhoenixBlessed()) {
             reviveRequest(this, null, false);
         }
@@ -3682,7 +3678,7 @@ public final class Player extends Playable {
 
                 _controlItemId = 0;
             } catch (final Exception e) {
-                LOGGER.error("Couldn't store pet food data for {}.", e, _controlItemId);
+                log.error("Couldn't store pet food data for {}.", e, _controlItemId);
             }
         }
     }
@@ -3859,7 +3855,7 @@ public final class Player extends Playable {
         // Retrieve the AccessLevel. Even if not existing, it returns user level.
         AccessLevel accessLevel = AdminData.getInstance().getAccessLevel(level);
         if (accessLevel == null) {
-            LOGGER.warn("An invalid access level {} has been granted for {}, therefore it has been reset.", level, toString());
+            log.warn("An invalid access level {} has been granted for {}, therefore it has been reset.", level, toString());
             accessLevel = AdminData.getInstance().getAccessLevel(0);
         }
 
@@ -3871,7 +3867,7 @@ public final class Player extends Playable {
 
             // We log master access.
             if (level == AdminData.getInstance().getMasterAccessLevel()) {
-                LOGGER.info("{} has logged in with Master access level.", getName());
+                log.info("{} has logged in with Master access level.", getName());
             }
         }
 
@@ -3981,7 +3977,7 @@ public final class Player extends Playable {
             ps.setInt(3, getObjectId());
             ps.execute();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't set player online status.", e);
+            log.error("Couldn't set player online status.", e);
         }
     }
 
@@ -5114,9 +5110,6 @@ public final class Player extends Playable {
             CursedWeaponManager.getInstance().getCursedWeapon(getCursedWeaponEquippedId()).cursedOnLogin();
         }
 
-        // Add to the GameTimeTask to keep inform about activity time.
-        GameTimeTaskManager.getInstance().add(this);
-
         // Teleport player if the Seven Signs period isn't the good one, or if the player isn't in a cabal.
         if (isIn7sDungeon() && !isGM()) {
             if (SevenSignsManager.getInstance().isSealValidationPeriod() || SevenSignsManager.getInstance().isCompResultsPeriod()) {
@@ -5241,6 +5234,10 @@ public final class Player extends Playable {
 
     public void addSp(int addToSp) {
         getStatus().addSp(addToSp);
+    }
+
+    public void addExp(long addToExp, Map<Creature, RewardInfo> rewards) {
+        getStatus().addExp(addToExp, rewards);
     }
 
     @Override
@@ -5431,7 +5428,6 @@ public final class Player extends Playable {
             WaterTaskManager.getInstance().remove(this);
             AttackStanceTaskManager.getInstance().remove(this);
             PvpFlagTaskManager.getInstance().remove(this, false);
-            GameTimeTaskManager.getInstance().remove(this);
 
             // Cancel the cast of eventual fusion skill users on this target.
             for (final Creature creature : getKnownType(Creature.class)) {
@@ -5528,7 +5524,7 @@ public final class Player extends Playable {
             notifyFriends(false);
             getBlockList().playerLogout();
         } catch (final Exception e) {
-            LOGGER.error("Couldn't disconnect correctly the player.", e);
+            log.error("Couldn't disconnect correctly the player.", e);
         }
     }
 
@@ -5963,7 +5959,7 @@ public final class Player extends Playable {
         return _selectedFriendList;
     }
 
-    protected void restoreFriendList() {
+    void restoreFriendList() {
         _friendList.clear();
 
         try (Connection con = ConnectionPool.getConnection();
@@ -5981,7 +5977,7 @@ public final class Player extends Playable {
                 }
             }
         } catch (final Exception e) {
-            LOGGER.error("Couldn't restore {}'s friendlist.", e, getName());
+            log.error("Couldn't restore {}'s friendlist.", getName(), e);
         }
     }
 
@@ -6005,9 +6001,7 @@ public final class Player extends Playable {
     }
 
     public void deselectBlock(Integer friendId) {
-        if (_selectedBlocksList.contains(friendId)) {
-            _selectedBlocksList.remove(friendId);
-        }
+        _selectedBlocksList.remove(friendId);
     }
 
     public List<Integer> getSelectedBlocksList() {
@@ -6259,125 +6253,74 @@ public final class Player extends Playable {
             || hasDialog(SystemMessageId.DO_YOU_WANT_TO_BE_RESTORED);
     }
 
-    private void onHit(OnHit event) {
-        final ItemInstance weapon = getActiveWeaponInstance();
-        if (weapon == null || weapon.getItemType() == WeaponType.FIST) {
-            return;
-        }
+    @Override
+    protected void onHit(OnHit event) {
+        super.onHit(event);
 
+        Creature attacker = event.getAttacker();
         Creature target = event.getTarget();
-        WeaponType weaponType = weapon.getWeaponItem().getItemType();
         CreatureAttack.HitHolder hit = event.getHit();
-        ItemInstance armor = event.getTarget() instanceof Player player ?
-            player.getInventory().getRandomEquippedItem(0)
-            : null;
-        Optional.ofNullable(weapon.getModule(DurabilityModule.class)).ifPresent(module -> {
-            double augmentedMod = weapon.isAugmented() ? 0.85 : 1.;
-            if (weaponType == WeaponType.BOW) {
-                module.fracture(this, (int) (4 * augmentedMod));
-            } else {
-                if (!hit.isMissed) {
-                    int value = (int) (hit.damage * augmentedMod);
-                    if (target instanceof Player) {
-                        if (armor != null) {
-                            ArmorType armorType = (ArmorType) armor.getItemType();
-                            value = (int) Math.max(value * armorType.getDamageToWeaponDurability(), 1);
-                        }
 
-                        if ((hit.flags & Attack.HITFLAG_CRIT) != 0) {
-                            value *= 2;
-                        }
+        if (target == this) {
 
-                        module.fracture(this, Math.max(value, 1));
-                    } else {
-                        int levelDiff = target.getStatus().getLevel() - getStatus().getLevel();
-                        if (levelDiff < -5) {
-                            module.fracture(this, 1);
-                            return;
-                        }
-
-                        module.fracture(this, Rnd.get(0, value)); // durability can be not decreased
-                    }
-                }
+            ItemInstance armor = getInventory().getRandomEquippedItem(0);
+            if (hit.block.isSuccess()) {
+                armor = getSecondaryWeaponInstance();
             }
-        });
-    }
-
-    private void onHitBy(OnHitBy event) {
-        CreatureAttack.HitHolder hit = event.getHit();
-        if (!hit.isMissed) {
-            // when attack was blocked by shield
-            if (hit.block != ShieldDefense.FAILED) {
-                // we need shield only
-                ItemInstance shield = getSecondaryWeaponInstance();
-                if (shield == null || shield.getItemType() != ArmorType.SHIELD) {
-                    return;
-                }
-
-                int value = hit.block == ShieldDefense.PERFECT
-                    ? 1 :
-                    (int) Math.max(hit.damage * ArmorType.SHIELD.getDurabilityAbsorb(), 1);
-
-                Optional.ofNullable(shield.getModule(DurabilityModule.class))
-                    .ifPresent(module -> module.fracture(this, value));
-            } else {
-                // when attack was NON blocked by item
-                ItemInstance armor = getInventory().getRandomEquippedItem(0);
-                if (armor == null) {
-                    return;
-                }
-
-                ArmorType type = (ArmorType) armor.getItemType();
-                // if we hit into perfect shield block, we loose more random durability
-                int value = (int) (Math.max(hit.damage * type.getDurabilityAbsorb(), 1) * (hit.block == ShieldDefense.PERFECT
-                    ? Rnd.get(3, 10) : 1));
-
-                Optional.ofNullable(armor.getModule(DurabilityModule.class))
-                    .ifPresent(module -> module.fracture(this, value));
+            DurabilityModule durability = armor.getModule(DurabilityModule.class);
+            if (durability != null) {
+                durability.fractureArmor(this, null, Default.Context.builder()
+                    .block(hit.block)
+                    .isCritical(hit.isCritical)
+                    .value(hit.damage)
+                    .isMissed(hit.isMissed)
+                    .build());
             }
-        }
-    }
-
-    private void onSkillHitBy(OnSkillHitBy event) {
-        L2Skill skill = event.getSkill();
-
-        // durability for accessories
-        if (skill.isMagic()) {
-            if (skill.isDamage()) {
-                Number number = event.getContextValue("damage");
-                if (number != null) {
-                    ItemInstance accessory = getInventory().getRandomEquippedItem(1);
-                    if (accessory != null) {
-                        int value = (int) Math.max(Math.sqrt(number.intValue()), 1);
-                        Optional.ofNullable(accessory.getModule(DurabilityModule.class))
-                            .ifPresent(module -> module.fracture(this, value));
-                    }
+        } else if (attacker == this) {
+            ItemInstance wpn = getActiveWeaponInstance();
+            if (wpn != null) {
+                DurabilityModule durability = wpn.getModule(DurabilityModule.class);
+                if (durability != null) {
+                    durability.fractureWeapon(this, target, null, Default.Context.builder()
+                        .block(hit.block)
+                        .isCritical(hit.isCritical)
+                        .value(hit.damage)
+                        .isMissed(hit.isMissed)
+                        .build());
                 }
             }
         }
     }
 
-    private void onSkillHit(OnSkillHit event) {
+    @Override
+    protected void onSkillHit(OnSkillHit event) {
+        super.onSkillHit(event);
+
         L2Skill skill = event.getSkill();
+        Creature caster = event.getCaster();
         Creature target = event.getTarget();
-        if (target instanceof Monster monster) {
-            if (monster.isDead()) {
-                return;
+        Default.Context context = event.getContext();
+
+        if (target == this) {
+            ItemInstance armor = getInventory().getRandomEquippedItem(skill.isMagic() ? 1 : 0);
+            if (context.getBlock().isSuccess()) {
+                armor = getSecondaryWeaponInstance();
+            }
+            DurabilityModule durability = armor.getModule(DurabilityModule.class);
+            if (durability != null) {
+                durability.fractureArmor(this, skill, context);
+            }
+        } else if (caster == this) {
+            ItemInstance wpn = getActiveWeaponInstance();
+            if (wpn != null) {
+                DurabilityModule durability = wpn.getModule(DurabilityModule.class);
+                if (durability != null) {
+                    durability.fractureWeapon(this, target, skill, context);
+                }
             }
 
-            int spReward = monster.getSpReward();
-            if (spReward > 0) {
-                if (skill.isDamage()) {
-                    int diff = getStatus().getLevel() - target.getStatus().getLevel() - 5;
-                    double pow = Math.pow(0.8333, diff);
-                    Number damage = event.getContextValue("damage");
-                    double coefficient = Math.min(damage.doubleValue() / target.getStatus().getMaxHp(), 1.0);
-                    int sp = (int) (coefficient * (spReward * pow));
-                    addSp(sp);
-                    sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
-                } else if (skill.isDebuff()) {
-
-                }
+            if (!target.isDead()) {
+                skill.getSkillType().rewardSp(this, target, skill, context.getValue());
             }
         }
     }
@@ -6385,4 +6328,36 @@ public final class Player extends Playable {
     private void onValidatePosition(OnValidatePosition event) {
     }
 
+    private void onQuestAccept(OnQuestAccept event) {
+    }
+
+    @Override
+    protected void onDie(OnDie event) {
+        _inventory.hardcoreDropItems(event.getReason() == DieReason.MORTAL_COMBAT);
+    }
+
+    private void onDayCycleChange(OnDayCycleChange event) {
+        DayCycle current = event.getCurrent();
+        DayCycle previous = event.getPrevious();
+        L2Skill skill = SkillTable.getInstance().getInfo(L2Skill.SKILL_SHADOW_SENSE, 1);
+        boolean hasSkill = skill != null && hasSkill(L2Skill.SKILL_SHADOW_SENSE);
+        if (current == DayCycle.NIGHT) {
+            // Shadow Sense skill is set and player has Shadow Sense skill, activate/deactivate its effect.
+            if (hasSkill) {
+                // Remove and add Shadow Sense to activate/deactivate effect.
+                removeSkill(L2Skill.SKILL_SHADOW_SENSE, false);
+                addSkill(skill, false);
+                sendPacket(SystemMessage.getSystemMessage(SystemMessageId.NIGHT_S1_EFFECT_APPLIES).addSkillName(L2Skill.SKILL_SHADOW_SENSE));
+            }
+        } else if (previous == DayCycle.NIGHT) {
+            if (hasSkill) {
+                sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DAY_S1_EFFECT_DISAPPEARS).addSkillName(L2Skill.SKILL_SHADOW_SENSE));
+            }
+        }
+
+        sendPacket(SystemMessageId.PLAYING_FOR_LONG_TIME);
+
+        // synchronize for all players current game time
+        sendPacket(new ClientSetTime());
+    }
 }

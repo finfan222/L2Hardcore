@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.data.manager;
 
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
@@ -9,6 +8,8 @@ import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ import java.util.Calendar;
  * Handles the Lottery event, where player can buy tickets to gamble money.
  */
 public class LotteryManager {
-    protected static final CLogger LOGGER = new CLogger(LotteryManager.class.getName());
+    protected static final Logger log = LoggerFactory.getLogger(LotteryManager.class.getName());
 
     public static final long SECOND = 1000;
     public static final long MINUTE = 60000;
@@ -79,7 +80,7 @@ public class LotteryManager {
             ps.setInt(3, getId());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't increase current lottery prize.", e);
+            log.error("Couldn't increase current lottery prize.", e);
         }
     }
 
@@ -181,7 +182,7 @@ public class LotteryManager {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't check lottery ticket #{}.", e, id);
+            log.error("Couldn't check lottery ticket #{}.", id, e);
         }
 
         return res;
@@ -224,7 +225,7 @@ public class LotteryManager {
                     }
                 }
             } catch (Exception e) {
-                LOGGER.error("Couldn't restore lottery data.", e);
+                log.error("Couldn't restore lottery data.", e);
             }
 
             _isSellingTickets = true;
@@ -259,7 +260,7 @@ public class LotteryManager {
                 ps.setInt(5, getPrize());
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't store new lottery data.", e);
+                log.error("Couldn't store new lottery data.", e);
             }
         }
     }
@@ -362,7 +363,7 @@ public class LotteryManager {
                     }
                 }
             } catch (Exception e) {
-                LOGGER.error("Couldn't restore lottery data.", e);
+                log.error("Couldn't restore lottery data.", e);
             }
 
             int prize4 = count4 * Config.LOTTERY_2_AND_1_NUMBER_PRIZE;
@@ -406,7 +407,7 @@ public class LotteryManager {
                 ps.setInt(8, getId());
                 ps.execute();
             } catch (Exception e) {
-                LOGGER.error("Couldn't store finished lottery data.", e);
+                log.error("Couldn't store finished lottery data.", e);
             }
 
             ThreadPool.schedule(new StartLottery(), MINUTE);

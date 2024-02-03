@@ -24,7 +24,7 @@ public class StaticObjectData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/staticObjects.xml");
-        LOGGER.info("Loaded {} static objects.", _objects.size());
+        log.info("Loaded {} static objects.", _objects.size());
     }
 
     @Override

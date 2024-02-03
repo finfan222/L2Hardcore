@@ -1,5 +1,14 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.lang.StringUtil;
+import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.gameserver.enums.ShortcutType;
+import net.sf.l2j.gameserver.model.Macro;
+import net.sf.l2j.gameserver.model.Macro.MacroCmd;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.network.serverpackets.SendMacroList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,23 +17,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.gameserver.enums.ShortcutType;
-import net.sf.l2j.gameserver.model.Macro;
-import net.sf.l2j.gameserver.model.Macro.MacroCmd;
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.network.serverpackets.SendMacroList;
-
 /**
  * An ordered container holding {@link Macro}s of a {@link Player}.
  */
+@Slf4j
 public class MacroList extends LinkedHashMap<Integer, Macro> {
     private static final long serialVersionUID = 1L;
-
-    private static final CLogger LOGGER = new CLogger(MacroList.class.getName());
 
     private static final String INSERT_MACRO = "REPLACE INTO character_macroses (char_obj_id,id,icon,name,descr,acronym,commands) values(?,?,?,?,?,?,?)";
     private static final String DELETE_MACRO = "DELETE FROM character_macroses WHERE char_obj_id=? AND id=?";
@@ -139,7 +137,7 @@ public class MacroList extends LinkedHashMap<Integer, Macro> {
             ps.setString(7, sb.toString());
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't store macro.", e);
+            log.error("Couldn't store macro.", e);
         }
     }
 
@@ -155,7 +153,7 @@ public class MacroList extends LinkedHashMap<Integer, Macro> {
             ps.setInt(2, macro.id);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete macro.", e);
+            log.error("Couldn't delete macro.", e);
         }
     }
 
@@ -204,7 +202,7 @@ public class MacroList extends LinkedHashMap<Integer, Macro> {
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load macros.", e);
+            log.error("Couldn't load macros.", e);
         }
     }
 }

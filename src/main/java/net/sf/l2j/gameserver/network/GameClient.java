@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.network;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.mmocore.MMOClient;
 import net.sf.l2j.commons.mmocore.MMOConnection;
 import net.sf.l2j.commons.mmocore.ReceivablePacket;
@@ -35,8 +35,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * <br>
  * It is linked to a {@link Player} and hold account informations (flood protectors, connection time, etc).
  */
+@Slf4j
 public final class GameClient extends MMOClient<MMOConnection<GameClient>> implements Runnable {
-    private static final CLogger LOGGER = new CLogger(GameClient.class.getName());
 
     private static final String SELECT_CLAN = "SELECT clanId FROM characters WHERE obj_id=?";
     private static final String UPDATE_DELETE_TIME = "UPDATE characters SET deletetime=? WHERE obj_id=?";
@@ -133,7 +133,7 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
                 try {
                     packet.run();
                 } catch (Exception e) {
-                    LOGGER.error("Execution failed on {} for {}.", e, packet.getClass().getSimpleName(), toString());
+                    log.error("Execution failed on {} for {}.", e, packet.getClass().getSimpleName(), toString());
                 }
 
                 count++;
@@ -200,7 +200,7 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
 
     @Override
     protected void onForcedDisconnection() {
-        LOGGER.debug("{} disconnected abnormally.", toString());
+        log.debug("{} disconnected abnormally.", toString());
     }
 
     public byte[] enableCrypt() {
@@ -333,7 +333,7 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
                 }
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't mark as delete a player.", e);
+            log.error("Couldn't mark as delete a player.", e);
             return -1;
         }
         return answer;
@@ -351,7 +351,7 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
             ps.setInt(2, objectId);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore player.", e);
+            log.error("Couldn't restore player.", e);
         }
     }
 
@@ -444,7 +444,7 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
                 ps.execute();
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't delete player.", e);
+            log.error("Couldn't delete player.", e);
         }
     }
 
@@ -586,12 +586,12 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
     public void onBufferUnderflow() {
         if (_state == GameClientState.CONNECTED) {
             if (Config.PACKET_HANDLER_DEBUG) {
-                LOGGER.warn("{} has been disconnected: too many buffer underflows in non-authed state.", toString());
+                log.warn("{} has been disconnected: too many buffer underflows in non-authed state.", toString());
             }
 
             closeNow();
         } else if (getStats().countUnderflowException()) {
-            LOGGER.warn("{} has been disconnected: too many buffer underflows.", toString());
+            log.warn("{} has been disconnected: too many buffer underflows.", toString());
             closeNow();
         }
     }
@@ -602,12 +602,12 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
     public void onUnknownPacket() {
         if (_state == GameClientState.CONNECTED) {
             if (Config.PACKET_HANDLER_DEBUG) {
-                LOGGER.warn("{} has been disconnected: too many unknown packets in non-authed state.", toString());
+                log.warn("{} has been disconnected: too many unknown packets in non-authed state.", toString());
             }
 
             closeNow();
         } else if (getStats().countUnknownPacket()) {
-            LOGGER.warn("{} has been disconnected: too many unknown packets.", toString());
+            log.warn("{} has been disconnected: too many unknown packets.", toString());
             closeNow();
         }
     }
@@ -619,14 +619,14 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
      */
     public void execute(ReceivablePacket<GameClient> packet) {
         if (getStats().countFloods()) {
-            LOGGER.warn("{} has been disconnected: too many floods ({} long and {} short).", toString(), getStats().longFloods, getStats().shortFloods);
+            log.warn("{} has been disconnected: too many floods ({} long and {} short).", toString(), getStats().longFloods, getStats().shortFloods);
             closeNow();
             return;
         }
 
         if (!_packetQueue.offer(packet)) {
             if (getStats().countQueueOverflow()) {
-                LOGGER.warn("{} has been disconnected: too many queue overflows.", toString());
+                log.warn("{} has been disconnected: too many queue overflows.", toString());
                 closeNow();
             } else {
                 sendPacket(ActionFailed.STATIC_PACKET);
@@ -643,7 +643,7 @@ public final class GameClient extends MMOClient<MMOConnection<GameClient>> imple
         try {
             if (_state == GameClientState.CONNECTED && getStats().processedPackets > 3) {
                 if (Config.PACKET_HANDLER_DEBUG) {
-                    LOGGER.warn("{} has been disconnected: too many packets in non-authed state.", toString());
+                    log.warn("{} has been disconnected: too many packets in non-authed state.", toString());
                 }
 
                 closeNow();

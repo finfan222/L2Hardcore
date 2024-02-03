@@ -1,12 +1,11 @@
 package net.sf.l2j.gameserver;
 
+import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.network.ServerType;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.BufferManager;
 import net.sf.l2j.gameserver.data.manager.CastleManorManager;
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
@@ -32,8 +31,8 @@ import net.sf.l2j.gameserver.taskmanager.ItemsOnGroundTaskManager;
  * This class provides functions for shutting down and restarting the server. It closes all client connections and saves
  * data.
  */
+@Slf4j
 public class Shutdown extends Thread {
-    private static final CLogger LOGGER = new CLogger(Shutdown.class.getName());
 
     private static Shutdown _counterInstance = null;
 
@@ -81,7 +80,7 @@ public class Shutdown extends Thread {
             // disconnect players
             try {
                 disconnectAllPlayers();
-                LOGGER.info("All players have been disconnected.");
+                log.info("All players have been disconnected.");
             } catch (Exception e) {
                 // Silent catch.
             }
@@ -103,47 +102,47 @@ public class Shutdown extends Thread {
             // Save Seven Signs data && status.
             SevenSignsManager.getInstance().saveSevenSignsData();
             SevenSignsManager.getInstance().saveSevenSignsStatus();
-            LOGGER.info("Seven Signs Festival, general data && status have been saved.");
+            log.info("Seven Signs Festival, general data && status have been saved.");
 
             // Save zones (grandbosses status)
             ZoneManager.getInstance().save();
 
             // Save raidbosses status
             RaidBossManager.getInstance().cleanUp(true);
-            LOGGER.info("Raid Bosses data has been saved.");
+            log.info("Raid Bosses data has been saved.");
 
             // Save grandbosses status
             GrandBossManager.getInstance().cleanUp();
-            LOGGER.info("World Bosses data has been saved.");
+            log.info("World Bosses data has been saved.");
 
             // Save olympiads
             Olympiad.getInstance().saveOlympiadStatus();
-            LOGGER.info("Olympiad data has been saved.");
+            log.info("Olympiad data has been saved.");
 
             // Save Hero data
             HeroManager.getInstance().shutdown();
-            LOGGER.info("Hero data has been saved.");
+            log.info("Hero data has been saved.");
 
             // Save all manor data
             CastleManorManager.getInstance().storeMe();
-            LOGGER.info("Manors data has been saved.");
+            log.info("Manors data has been saved.");
 
             // Save Fishing tournament data
             FishingChampionshipManager.getInstance().shutdown();
-            LOGGER.info("Fishing Championship data has been saved.");
+            log.info("Fishing Championship data has been saved.");
 
             // Schemes save.
             BufferManager.getInstance().saveSchemes();
-            LOGGER.info("BufferTable data has been saved.");
+            log.info("BufferTable data has been saved.");
 
             // Petitions save.
             PetitionManager.getInstance().store();
-            LOGGER.info("Petitions data has been saved.");
+            log.info("Petitions data has been saved.");
 
             // Couples save.
             if (Config.ALLOW_WEDDING) {
                 CoupleManager.getInstance().save();
-                LOGGER.info("CoupleManager data has been saved.");
+                log.info("CoupleManager data has been saved.");
             }
 
             // Save items on ground before closing
@@ -199,9 +198,9 @@ public class Shutdown extends Thread {
         _shutdownMode = (restart) ? GM_RESTART : GM_SHUTDOWN;
 
         if (player != null) {
-            LOGGER.info("GM: {} issued {} process in {} seconds.", player.toString(), MODE_TEXT[_shutdownMode], seconds);
+            log.info("GM: {} issued {} process in {} seconds.", player.toString(), MODE_TEXT[_shutdownMode], seconds);
         } else if (!ghostEntity.isEmpty()) {
-            LOGGER.info("Entity: {} issued {} process in {} seconds.", ghostEntity, MODE_TEXT[_shutdownMode], seconds);
+            log.info("Entity: {} issued {} process in {} seconds.", ghostEntity, MODE_TEXT[_shutdownMode], seconds);
         }
 
         if (_shutdownMode > 0) {
@@ -244,7 +243,7 @@ public class Shutdown extends Thread {
      */
     public void abort(Player player) {
         if (_counterInstance != null) {
-            LOGGER.info("GM: {} aborted {} process.", player.toString(), MODE_TEXT[_shutdownMode]);
+            log.info("GM: {} aborted {} process.", player.toString(), MODE_TEXT[_shutdownMode]);
             _counterInstance.setMode(ABORT);
 
             World.announceToOnlinePlayers("Server aborted " + MODE_TEXT[_shutdownMode] + " process and continues normal operation.");

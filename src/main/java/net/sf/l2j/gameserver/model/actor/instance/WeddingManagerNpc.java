@@ -1,12 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
 import net.sf.l2j.gameserver.model.Dialog;
@@ -16,6 +11,9 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+
+import java.util.Collections;
+import java.util.StringTokenizer;
 
 public class WeddingManagerNpc extends Folk {
     public WeddingManagerNpc(int objectId, NpcTemplate template) {

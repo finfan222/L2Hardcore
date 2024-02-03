@@ -28,7 +28,7 @@ public class SoulCrystalData implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/soulCrystals.xml");
-        LOGGER.info("Loaded {} Soul Crystals data and {} NPCs data.", _soulCrystals.size(), _levelingInfos.size());
+        log.info("Loaded {} Soul Crystals data and {} NPCs data.", _soulCrystals.size(), _levelingInfos.size());
     }
 
     @Override

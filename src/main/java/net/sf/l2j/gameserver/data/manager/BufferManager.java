@@ -43,7 +43,7 @@ public class BufferManager implements IXmlReader {
     @Override
     public void load() {
         parseFile("./data/xml/bufferSkills.xml");
-        LOGGER.info("Loaded {} available buffs.", _availableBuffs.size());
+        log.info("Loaded {} available buffs.", _availableBuffs.size());
 
         try (Connection con = ConnectionPool.getConnection();
              PreparedStatement ps = con.prepareStatement(LOAD_SCHEMES);
@@ -69,7 +69,7 @@ public class BufferManager implements IXmlReader {
                 setScheme(rs.getInt("object_id"), rs.getString("scheme_name"), schemeList);
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to load schemes data.", e);
+            log.error("Failed to load schemes data.", e);
         }
     }
 
@@ -122,7 +122,7 @@ public class BufferManager implements IXmlReader {
                 ps.executeBatch();
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to save schemes data.", e);
+            log.error("Failed to save schemes data.", e);
         }
     }
 

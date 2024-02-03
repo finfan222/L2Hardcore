@@ -47,6 +47,18 @@ public class Q242_PossessorOfAPreciousSoul extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 60;
+        condition.checkSubclass = true;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(VIRGIL_LETTER).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -145,12 +157,12 @@ public class Q242_PossessorOfAPreciousSoul extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getInventory().hasItems(VIRGIL_LETTER)) {
-                    if (!player.isSubClassActive() || player.getStatus().getLevel() < 60) {
+                if (condition.validateItems(player)) {
+                    if (!condition.validateSubclass(player) || !condition.validateLevel(player)) {
                         htmltext = "31742-02.htm";
                     } else {
                         htmltext = "31742-03.htm";
-                        st.setState(QuestStatus.STARTED);
+                        st.setState(QuestStatus.STARTED, player, npc, null);
                         st.setCond(1);
                         playSound(player, SOUND_ACCEPT);
                         takeItems(player, VIRGIL_LETTER, 1);

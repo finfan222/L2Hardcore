@@ -67,6 +67,16 @@ public class Q374_WhisperOfDreams_Part1 extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 56;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -76,7 +86,7 @@ public class Q374_WhisperOfDreams_Part1 extends Quest {
 
         // Manakia
         if (event.equalsIgnoreCase("30515-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             st.set("condStone", 1);
             playSound(player, SOUND_ACCEPT);
@@ -123,7 +133,7 @@ public class Q374_WhisperOfDreams_Part1 extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 56) ? "30515-01.htm" : "30515-02.htm";
+                htmltext = !condition.validateLevel(player) ? "30515-01.htm" : "30515-02.htm";
                 break;
 
             case STARTED:

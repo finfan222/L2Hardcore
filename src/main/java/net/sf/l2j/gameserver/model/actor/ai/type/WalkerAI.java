@@ -1,13 +1,14 @@
 package net.sf.l2j.gameserver.model.actor.ai.type;
 
-import java.util.List;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.data.xml.WalkerRouteData;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.instance.Walker;
 import net.sf.l2j.gameserver.model.location.WalkerLocation;
 import net.sf.l2j.gameserver.taskmanager.WalkerTaskManager;
+
+import java.util.List;
 
 /**
  * This AI is used by {@link Walker}s.<br>
@@ -18,8 +19,10 @@ import net.sf.l2j.gameserver.taskmanager.WalkerTaskManager;
  * <br>
  * It is associated to a global task named {@link WalkerTaskManager} to handle individual WalkerLocation delays.
  */
+@Slf4j
 public class WalkerAI extends CreatureAI {
-    private int _index = 1;
+
+    private int routeIndex;
 
     public WalkerAI(Creature creature) {
         super(creature);
@@ -39,7 +42,7 @@ public class WalkerAI extends CreatureAI {
         }
 
         // Retrieve current node.
-        final WalkerLocation node = route.get(_index);
+        final WalkerLocation node = route.get(routeIndex);
 
         if (node.getChat() != null) {
             getActor().broadcastNpcSay(node.getChat());
@@ -64,14 +67,20 @@ public class WalkerAI extends CreatureAI {
         }
 
         // Set the next node value.
-        if (_index < route.size() - 1) {
-            _index++;
+        if (routeIndex < route.size() - 1) {
+            routeIndex++;
         } else {
-            _index = 0;
+            routeIndex = 0;
         }
 
         // Retrieve next node.
-        final WalkerLocation node = route.get(_index);
+        final WalkerLocation node;
+        try {
+            node = route.get(routeIndex);
+        } catch (Exception e) {
+            log.error("Bug occurred in walker routes. NpcId={}, maxRoutes={}, currentIndex={}", getActor().getNpcId(), route.size() - 1, routeIndex, e);
+            throw new RuntimeException(e);
+        }
 
         // Running state.
         if (node.mustRun()) {

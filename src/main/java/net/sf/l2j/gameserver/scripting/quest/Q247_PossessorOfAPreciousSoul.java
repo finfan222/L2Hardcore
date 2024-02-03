@@ -26,16 +26,27 @@ public class Q247_PossessorOfAPreciousSoul extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 75;
+        condition.checkSubclass = true;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(CARADINE_LETTER).build()};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
         // Caradine
         if (event.equalsIgnoreCase("31740-03.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             takeItems(player, CARADINE_LETTER, 1);
@@ -53,7 +64,7 @@ public class Q247_PossessorOfAPreciousSoul extends Quest {
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -66,8 +77,8 @@ public class Q247_PossessorOfAPreciousSoul extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (player.getInventory().hasItems(CARADINE_LETTER)) {
-                    htmltext = (!player.isSubClassActive() || player.getStatus().getLevel() < 75) ? "31740-02.htm" : "31740-01.htm";
+                if (condition.validateItems(player)) {
+                    htmltext = (!condition.validateSubclass(player) || !condition.validateLevel(player)) ? "31740-02.htm" : "31740-01.htm";
                 }
                 break;
 

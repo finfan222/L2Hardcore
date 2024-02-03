@@ -32,6 +32,16 @@ public class Q299_GatherIngredientsForPie extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 34;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -40,7 +50,7 @@ public class Q299_GatherIngredientsForPie extends Quest {
         }
 
         if (event.equalsIgnoreCase("30620-1.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30620-3.htm")) {
@@ -84,7 +94,7 @@ public class Q299_GatherIngredientsForPie extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 34) ? "30620-0a.htm" : "30620-0.htm";
+                htmltext = !condition.validateLevel(player) ? "30620-0a.htm" : "30620-0.htm";
                 break;
 
             case STARTED:

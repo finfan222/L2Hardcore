@@ -1,10 +1,9 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
-import java.util.concurrent.ScheduledFuture;
-
 import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
+
+import java.util.concurrent.ScheduledFuture;
 
 public class TownPet extends Folk {
     private ScheduledFuture<?> _aiTask;

@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.entity;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.util.ArraysUtil;
@@ -37,8 +37,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class Siege implements Siegable {
-    protected static final CLogger LOGGER = new CLogger(Siege.class.getName());
 
     private static final String LOAD_SIEGE_CLAN = "SELECT clan_id,type FROM siege_clans WHERE castle_id=?";
     private static final String CLEAR_SIEGE_CLANS = "DELETE FROM siege_clans WHERE castle_id=?";
@@ -90,7 +90,7 @@ public class Siege implements Siegable {
 
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't load siege registered clans.", e);
+            log.error("Couldn't load siege registered clans.", e);
         }
 
         startAutoTask();
@@ -477,7 +477,7 @@ public class Siege implements Siegable {
             ps.setInt(1, _castle.getCastleId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't clear siege registered clans.", e);
+            log.error("Couldn't clear siege registered clans.", e);
         }
 
         _registeredClans.clear();
@@ -498,7 +498,7 @@ public class Siege implements Siegable {
             ps.setInt(1, _castle.getCastleId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't clear siege pending clans.", e);
+            log.error("Couldn't clear siege pending clans.", e);
         }
 
         _registeredClans.entrySet().removeIf(e -> e.getValue() == SiegeSide.PENDING);
@@ -616,7 +616,7 @@ public class Siege implements Siegable {
             ps.setInt(2, clan.getClanId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't unregister clan on siege.", e);
+            log.error("Couldn't unregister clan on siege.", e);
         }
     }
 
@@ -728,7 +728,7 @@ public class Siege implements Siegable {
             startAutoTask();
         }
 
-        LOGGER.info("New date for {} siege: {}.", _castle.getName(), _castle.getSiegeDate().getTime());
+        log.info("New date for {} siege: {}.", _castle.getName(), _castle.getSiegeDate().getTime());
     }
 
     /**
@@ -747,7 +747,7 @@ public class Siege implements Siegable {
             ps.setInt(3, _castle.getCastleId());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't save siege date.", e);
+            log.error("Couldn't save siege date.", e);
         }
     }
 
@@ -785,7 +785,7 @@ public class Siege implements Siegable {
             ps.setString(3, type.toString());
             ps.executeUpdate();
         } catch (Exception e) {
-            LOGGER.error("Couldn't register clan on siege.", e);
+            log.error("Couldn't register clan on siege.", e);
         }
 
         _registeredClans.put(clan, type);
@@ -841,7 +841,7 @@ public class Siege implements Siegable {
 
                 _controlTowers.add(tower);
             } catch (Exception e) {
-                LOGGER.error("Couldn't spawn control tower.", e);
+                log.error("Couldn't spawn control tower.", e);
             }
         }
     }
@@ -862,7 +862,7 @@ public class Siege implements Siegable {
 
                 _flameTowers.add(tower);
             } catch (Exception e) {
-                LOGGER.error("Couldn't spawn flame tower.", e);
+                log.error("Couldn't spawn flame tower.", e);
             }
         }
     }

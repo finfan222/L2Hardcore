@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Arrays;
-
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
@@ -10,6 +8,8 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Arrays;
 
 public final class SystemMessage extends L2GameServerPacket {
     private static final SMParam[] EMPTY_PARAM_ARRAY = new SMParam[0];
@@ -70,7 +70,7 @@ public final class SystemMessage extends L2GameServerPacket {
             _params = Arrays.copyOf(_params, _paramIndex + 1);
             _smId.setParamCount(_paramIndex + 1);
 
-            LOGGER.warn("Wrong parameter count '{}' for {}.", _paramIndex + 1, _smId);
+            log.warn("Wrong parameter count '{}' for {}.", _paramIndex + 1, _smId);
         }
 
         _params[_paramIndex++] = param;

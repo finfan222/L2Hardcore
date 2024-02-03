@@ -1,10 +1,14 @@
 package net.sf.l2j.gameserver.taskmanager;
 
 import lombok.Getter;
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
+import net.sf.l2j.gameserver.GlobalEventListener;
 import net.sf.l2j.gameserver.enums.GaugeColor;
 import net.sf.l2j.gameserver.enums.skills.Stats;
+import net.sf.l2j.gameserver.events.OnDie;
+import net.sf.l2j.gameserver.events.OnRevalidateZone;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.status.PlayerStatus;
 import net.sf.l2j.gameserver.model.graveyard.DieReason;
@@ -13,6 +17,7 @@ import net.sf.l2j.gameserver.network.serverpackets.SetupGauge;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,72 +25,109 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class WaterTaskManager implements Runnable {
 
-    @Getter(lazy = true)
-    private static final WaterTaskManager instance = new WaterTaskManager();
-    private final Map<Player, Long> players = new ConcurrentHashMap<>();
+    static class Swimmer implements Comparable<Swimmer> {
 
-    private WaterTaskManager() {
-        // Run task each second.
-        ThreadPool.scheduleAtFixedRate(this, 2000, 2000);
-    }
+        private static final int MIN_DAMAGE = 1;
+        private static final int MAX_DAMAGE = 10;
 
-    @Override
-    public void run() {
-        // List is empty, skip.
-        if (players.isEmpty()) {
-            return;
+        public Player player;
+        public long timestamp;
+
+        public Swimmer(Player player) {
+            this.player = player;
+            int time = (int) player.getStatus().calcStat(Stats.BREATH, player.getRace().getBreath(), player, null);
+            timestamp = System.currentTimeMillis() + time;
+            player.sendPacket(new SetupGauge(GaugeColor.CYAN, time));
         }
 
-        // Get current time.
-        long time = System.currentTimeMillis();
+        public boolean cantBreath() {
+            return System.currentTimeMillis() > timestamp;
+        }
 
-        // Loop all players.
-        for (Map.Entry<Player, Long> entry : players.entrySet()) {
-            // Time has not passed yet, skip.
-            if (time < entry.getValue()) {
-                continue;
-            }
-
-            // Get player.
-            Player player = entry.getKey();
-
-            // Reduce 1% of HP per second.
+        public void drown() {
+            // Reduce 3~6% of HP per 2 second.
             PlayerStatus status = player.getStatus();
             double current = status.getHp();
             double max = status.getMaxHp();
-            double damage = max / 100.0 * Rnd.get(5, 10);
+            double damage = max / 100.0 * Rnd.get(MIN_DAMAGE, MAX_DAMAGE);
             if (current - damage < 0.5) {
                 player.setDieReason(DieReason.DROWN);
             }
             player.reduceCurrentHp(damage, player, false, false, null);
             player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.DROWN_DAMAGE_S1).addNumber((int) damage));
         }
-    }
 
-    /**
-     * Adds {@link Player} to the WaterTask.
-     *
-     * @param player : {@link Player} to be added and checked.
-     */
-    public void add(Player player) {
-        if (!player.isDead() && !players.containsKey(player)) {
-            int time = (int) player.getStatus().calcStat(Stats.BREATH, player.getRace().getBreath(), player, null);
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Swimmer swimmer = (Swimmer) o;
+            return Objects.equals(player, swimmer.player);
+        }
 
-            players.put(player, System.currentTimeMillis() + time);
+        @Override
+        public int hashCode() {
+            return Objects.hash(player);
+        }
 
-            player.sendPacket(new SetupGauge(GaugeColor.CYAN, time));
+        @Override
+        public int compareTo(Swimmer o) {
+            return Long.compare(timestamp, o.timestamp);
         }
     }
 
-    /**
-     * Removes {@link Player} from the WaterTask.
-     *
-     * @param player : Player to be removed.
-     */
+    @Getter(lazy = true)
+    private static final WaterTaskManager instance = new WaterTaskManager();
+    private static final Map<Integer, Swimmer> swimmers = new ConcurrentHashMap<>();
+
+    private WaterTaskManager() {
+        GlobalEventListener.register(OnDie.class).forEach(this::onDie);
+        GlobalEventListener.register(OnRevalidateZone.class).forEach(this::onRevalidateZone);
+        ThreadPool.scheduleAtFixedRate(this, 1000, 1000);
+    }
+
+    @Override
+    public void run() {
+        if (swimmers.isEmpty()) {
+            return;
+        }
+
+        swimmers.values().stream()
+            .filter(swimmer -> !swimmer.player.isDead())
+            .filter(Swimmer::cantBreath)
+            .forEach(Swimmer::drown);
+    }
+
     public void remove(Player player) {
-        if (players.remove(player) != null) {
-            player.sendPacket(new SetupGauge(GaugeColor.CYAN, 0));
-        }
+        swimmers.remove(player.getObjectId());
     }
 
+    ///////////////////
+    // Event Handlers
+    ///////////////////
+
+    private void onDie(OnDie event) {
+        swimmers.remove(event.getVictim().getObjectId());
+    }
+
+    private void onRevalidateZone(OnRevalidateZone event) {
+        Player player = event.getPlayer();
+        if (Config.ALLOW_WATER) {
+            if (player.isInWater()) {
+                if (player.isDead()) {
+                    return;
+                }
+
+                if (!swimmers.containsKey(player.getObjectId())) {
+                    swimmers.put(player.getObjectId(), new Swimmer(player));
+                }
+            } else {
+                swimmers.remove(player.getObjectId());
+            }
+        }
+    }
 }

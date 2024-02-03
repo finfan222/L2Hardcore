@@ -1,6 +1,12 @@
 package net.sf.l2j.gameserver.enums.skills;
 
 import net.sf.l2j.commons.data.StatSet;
+import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.actor.Playable;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.actor.instance.Monster;
+import net.sf.l2j.gameserver.network.SystemMessageId;
+import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
 import net.sf.l2j.gameserver.skills.handlers.Appearance;
 import net.sf.l2j.gameserver.skills.handlers.BalanceLife;
@@ -52,17 +58,65 @@ import java.lang.reflect.Constructor;
 
 public enum SkillType {
     // Damage
-    PDAM(Pdam.class),
-    FATAL(Pdam.class),
-    MDAM(Mdam.class),
+    PDAM(Pdam.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            if (!(target instanceof Monster monster)) {
+                return;
+            }
+
+            int spReward = monster.getSpReward();
+            if (spReward > 0) {
+                int diff = caster.getStatus().getLevel() - monster.getStatus().getLevel() - 5;
+                double pow = Math.pow(0.8333, diff);
+                if (skill != null) {
+                    double coefficient = Math.min(value / monster.getStatus().getMaxHp(), 1.0);
+                    int sp = (int) (coefficient * (spReward * pow));
+                    caster.getActingPlayer().addSp(sp);
+                    caster.getActingPlayer().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                }
+            }
+        }
+    },
+    FATAL(Pdam.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            PDAM.rewardSp(caster, target, skill, value);
+        }
+    },
+    MDAM(Mdam.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            PDAM.rewardSp(caster, target, skill, value);
+        }
+    },
     CPDAMPERCENT(CpDamPercent.class),
     MANADAM(Manadam.class),
     DOT(Continuous.class),
     MDOT(Continuous.class),
     DRAIN_SOUL(DrainSoul.class),
-    DRAIN(Drain.class),
-    DEATHLINK(Mdam.class),
-    BLOW(Blow.class),
+    DRAIN(Drain.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            if (target.isDead()) {
+                return;
+            }
+
+            PDAM.rewardSp(caster, target, skill, value);
+        }
+    },
+    DEATHLINK(Mdam.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            PDAM.rewardSp(caster, target, skill, value);
+        }
+    },
+    BLOW(Blow.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            PDAM.rewardSp(caster, target, skill, value);
+        }
+    },
     SIGNET(Signet.class),
     SIGNET_CASTTIME(SignetCasttime.class),
     SEED(Seed.class),
@@ -70,34 +124,133 @@ public enum SkillType {
     // Disablers
     BLEED(Continuous.class),
     POISON(Continuous.class),
-    STUN(Disablers.class),
-    ROOT(Disablers.class),
-    CONFUSION(Disablers.class),
+    STUN(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            if (!(target instanceof Monster monster)) {
+                return;
+            }
+
+            if (monster.isDead()) {
+                return;
+            }
+
+            int spReward = monster.getSpReward();
+            if (spReward > 0) {
+                int diff = caster.getStatus().getLevel() - monster.getStatus().getLevel() - 5;
+                double pow = Math.pow(0.8333, diff);
+                int coefficient = skill.getMagicLevel() > 0 ? skill.getMagicLevel() * 10 : caster.getStatus().getLevel() * 10;
+                int sp = (int) (coefficient * (spReward * pow));
+                caster.getActingPlayer().addSp(sp);
+                caster.getActingPlayer().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+            }
+        }
+    },
+    ROOT(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    CONFUSION(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
     FEAR(Continuous.class),
-    SLEEP(Disablers.class),
-    MUTE(Disablers.class),
-    PARALYZE(Disablers.class),
+    SLEEP(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    MUTE(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    PARALYZE(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
     WEAKNESS(Continuous.class),
 
     // hp, mp, cp
-    HEAL(Heal.class),
-    MANAHEAL(ManaHeal.class),
+    HEAL(Heal.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            if (target instanceof Playable playable) {
+                if (playable.isAttackingByMonsters() && value > 0) {
+                    //(MAGIC LEVEL ÷ MONSTER LEVEL) × (HEAL AMOUNT⁣ ÷ 9999) × SP REWARD
+                    int magicLevel = skill.getMagicLevel() > 0 ? skill.getMagicLevel() : target.getStatus().getLevel();
+                    double monsterLevel = target.getStatus().getLevel();
+                    double healAmount = value / 9999.;
+                    int sp = (int) ((magicLevel / monsterLevel) * (healAmount / 9999.) * playable.getFirstMonsterAttacker().getSpReward());
+                    Player healer = caster.getActingPlayer();
+                    if (!healer.isDead()) {
+                        caster.getActingPlayer().addSp(sp);
+                        caster.getActingPlayer().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                    }
+                }
+            }
+        }
+    },
+    MANAHEAL(ManaHeal.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            HEAL.rewardSp(caster, target, skill, value);
+        }
+    },
     COMBATPOINTHEAL(CombatPointHeal.class),
     HOT(Continuous.class),
     MPHOT(Continuous.class),
     BALANCE_LIFE(BalanceLife.class),
     HEAL_STATIC(Heal.class),
     MANARECHARGE(ManaHeal.class),
-    HEAL_PERCENT(HealPercent.class),
-    MANAHEAL_PERCENT(HealPercent.class),
+    HEAL_PERCENT(HealPercent.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            HEAL.rewardSp(caster, target, skill, value);
+        }
+    },
+    MANAHEAL_PERCENT(HealPercent.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            HEAL.rewardSp(caster, target, skill, value);
+        }
+    },
 
     GIVE_SP(GiveSp.class),
 
     // Aggro
-    AGGDAMAGE(Disablers.class),
-    AGGREDUCE(Disablers.class),
-    AGGREMOVE(Disablers.class),
-    AGGREDUCE_CHAR(Disablers.class),
+    AGGDAMAGE(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    AGGREDUCE(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    AGGREMOVE(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    AGGREDUCE_CHAR(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
     AGGDEBUFF(Continuous.class),
 
     // Fishing
@@ -132,8 +285,18 @@ public enum SkillType {
     SUMMON(SummonServitor.class),
     FEED_PET,
     STRIDER_SIEGE_ASSAULT(StriderSiegeAssault.class),
-    ERASE(Disablers.class),
-    BETRAY(Disablers.class),
+    ERASE(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    BETRAY(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
     SPAWN(Spawn.class),
 
     // Cancel
@@ -141,15 +304,32 @@ public enum SkillType {
     MAGE_BANE(Cancel.class),
     WARRIOR_BANE(Cancel.class),
 
-    NEGATE(Disablers.class),
-    CANCEL_DEBUFF(Disablers.class),
+    NEGATE(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
+    CANCEL_DEBUFF(Disablers.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            STUN.rewardSp(caster, target, skill, value);
+        }
+    },
 
     BUFF(Continuous.class),
     DEBUFF(Continuous.class),
     PASSIVE,
     CONT(Continuous.class),
 
-    RESURRECT(Resurrect.class),
+    RESURRECT(Resurrect.class) {
+        @Override
+        public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+            int sp = (int) (Math.pow(skill.getLevel(), 3) * 100.);
+            caster.getActingPlayer().addSp(sp);
+            caster.getActingPlayer().sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+        }
+    },
     CHARGEDAM(ChargeDmg.class),
     LUCK,
     RECALL(Teleport.class),
@@ -184,11 +364,17 @@ public enum SkillType {
         }
     }
 
-    private SkillType() {
+    SkillType() {
         _class = Default.class;
     }
 
-    private SkillType(Class<? extends L2Skill> classType) {
+    SkillType(Class<? extends L2Skill> classType) {
         _class = classType;
+    }
+
+    public void rewardSp(Playable caster, Creature target, L2Skill skill, double value) {
+    }
+
+    public void fractureArmor(Player target, L2Skill skill, boolean isMissed, ShieldDefense block, double damage) {
     }
 }

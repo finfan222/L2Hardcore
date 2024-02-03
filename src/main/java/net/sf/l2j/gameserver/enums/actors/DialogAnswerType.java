@@ -1,8 +1,11 @@
 package net.sf.l2j.gameserver.enums.actors;
 
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
+import net.sf.l2j.gameserver.events.OnQuestAccept;
+import net.sf.l2j.gameserver.data.manager.DuelManager;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.World;
+import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.WeddingManagerNpc;
@@ -11,7 +14,9 @@ import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
+import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.handlers.SummonFriend;
 
 import java.util.List;
@@ -201,7 +206,78 @@ public enum DialogAnswerType {
             }
         }
     },
-    ;
+    QUEST_SHARE {
+        @Override
+        public void onAnswer(Player player, int answer) {
+            if (answer == 1) {
+                Dialog dialog = player.getDialog();
+                if (dialog == null) {
+                    return;
+                }
+
+                // Check player being overweight.
+                if (player.getWeightPenalty().ordinal() > 2 || player.getStatus().isOverburden()) {
+                    player.sendPacket(SystemMessageId.INVENTORY_LESS_THAN_80_PERCENT);
+                    return;
+                }
+
+                Quest quest = dialog.findAndGet("quest");
+                String event = dialog.findAndGet("event");
+                Npc npc = dialog.findAndGet("npc");
+                if (player.getQuestList().getQuestState(quest.getName()) == null) {
+                    // Check available quest slot.
+                    if (player.getQuestList().getAllQuests(false).size() >= 25) {
+                        final NpcHtmlMessage html = new NpcHtmlMessage(0);
+                        html.setHtml(Quest.getTooMuchQuestsMsg());
+                        player.sendPacket(html);
+                        player.sendPacket(ActionFailed.STATIC_PACKET);
+                        return;
+                    }
+
+                    // Create new state.
+                    quest.newQuestState(player);
+                    quest.onAdvEvent(event, npc, player);
+                    player.getEventListener().notify(new OnQuestAccept(player, npc, quest, event));
+                }
+            } else {
+                player.sendPacket(ActionFailed.STATIC_PACKET);
+            }
+        }
+    },
+    MORTAL_COMBAT {
+        @Override
+        public void onAnswer(Player player, int answer) {
+            if (answer == 1) {
+                Dialog dialog = player.getDialog();
+                Player requester = dialog.findAndGet("requester");
+                if (requester == null
+                    || !requester.isOnline()
+                    || requester.isDead()
+                    || requester.isOperating()
+                    || requester.isInOlympiadMode()
+                    || requester.isCrafting()
+                    || requester.isInDuel()) {
+                    player.sendPacket(ActionFailed.STATIC_PACKET);
+                    return;
+                }
+
+                if (!requester.canDuel()) {
+                    player.sendPacket(requester.getNoDuelReason());
+                    return;
+                }
+
+                if (!player.canDuel()) {
+                    requester.sendPacket(player.getNoDuelReason());
+                    return;
+                }
+
+                player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.YOU_HAVE_ACCEPTED_S1_CHALLENGE_TO_A_DUEL_THE_DUEL_WILL_BEGIN_IN_A_FEW_MOMENTS).addCharName(requester));
+                requester.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_HAS_ACCEPTED_YOUR_CHALLENGE_TO_A_DUEL_THE_DUEL_WILL_BEGIN_IN_A_FEW_MOMENTS).addCharName(player));
+
+                DuelManager.getInstance().addDuel(requester, player, false, true);
+            }
+        }
+    };
 
     public abstract void onAnswer(Player player, int answer);
 }

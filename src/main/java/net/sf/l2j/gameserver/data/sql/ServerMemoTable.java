@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.data.sql;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.MemoSet;
-import net.sf.l2j.commons.logging.CLogger;
 import net.sf.l2j.commons.pool.ConnectionPool;
 
 import java.sql.Connection;
@@ -12,10 +12,9 @@ import java.sql.ResultSet;
  * A global, server-size, container for variables of any type, which can be then saved/restored upon server restart. It
  * extends {@link MemoSet}.
  */
+@Slf4j
 public class ServerMemoTable extends MemoSet {
     private static final long serialVersionUID = 1L;
-
-    private static final CLogger LOGGER = new CLogger(ServerMemoTable.class.getName());
 
     private static final String SELECT_MEMOS = "SELECT * FROM server_memo";
     private static final String DELETE_MEMO = "DELETE FROM server_memo WHERE var = ?";
@@ -30,9 +29,9 @@ public class ServerMemoTable extends MemoSet {
                 put(rs.getString("var"), rs.getString("value"));
             }
         } catch (Exception e) {
-            LOGGER.error("Couldn't restore server variables.", e);
+            log.error("Couldn't restore server variables.", e);
         }
-        LOGGER.info("Loaded {} server variables.", size());
+        log.info("Loaded {} server variables.", size());
     }
 
     @Override
@@ -44,7 +43,7 @@ public class ServerMemoTable extends MemoSet {
             ps.setString(2, value);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't set {} server memo.", e, key);
+            log.error("Couldn't set {} server memo.", key, e);
         }
     }
 
@@ -56,7 +55,7 @@ public class ServerMemoTable extends MemoSet {
             ps.setString(1, key);
             ps.execute();
         } catch (Exception e) {
-            LOGGER.error("Couldn't unset {} server memo.", e, key);
+            log.error("Couldn't unset {} server memo.", key, e);
         }
     }
 

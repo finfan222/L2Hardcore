@@ -1,11 +1,8 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
-import java.util.concurrent.Future;
-
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.manager.FishingChampionshipManager;
 import net.sf.l2j.gameserver.data.xml.FishData;
 import net.sf.l2j.gameserver.data.xml.NpcData;
@@ -25,6 +22,8 @@ import net.sf.l2j.gameserver.network.serverpackets.ExFishingStartCombat;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
+
+import java.util.concurrent.Future;
 
 /**
  * This class handles all fishing aspects and variables.<br>

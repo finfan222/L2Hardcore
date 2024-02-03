@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.model.actor.container.player;
 
 import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 

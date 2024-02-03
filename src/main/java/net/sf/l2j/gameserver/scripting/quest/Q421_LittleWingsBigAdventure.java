@@ -76,6 +76,16 @@ public class Q421_LittleWingsBigAdventure extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 58;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -90,7 +100,7 @@ public class Q421_LittleWingsBigAdventure extends Quest {
                 for (int i = DRAGONFLUTE_OF_WIND; i <= DRAGONFLUTE_OF_TWILIGHT; i++) {
                     final ItemInstance item = player.getInventory().getItemByItemId(i);
                     if (item != null && item.getEnchantLevel() >= 55) {
-                        st.setState(QuestStatus.STARTED);
+                        st.setState(QuestStatus.STARTED, player, npc, event);
                         st.setCond(1);
                         st.set("iCond", 1);
                         st.set("summonOid", item.getObjectId());
@@ -132,7 +142,7 @@ public class Q421_LittleWingsBigAdventure extends Quest {
         switch (st.getState()) {
             case CREATED:
                 // Wrong level.
-                if (player.getStatus().getLevel() < 45) {
+                if (!condition.validateLevel(player)) {
                     htmltext = "30610-01.htm";
                 }
                 // Got more than one flute, or none.

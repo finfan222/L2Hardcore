@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.data.cache;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.io.UnicodeReader;
-import net.sf.l2j.commons.logging.CLogger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,8 +15,8 @@ import java.util.Map;
  * <br>
  * HTMs are loaded lazily, on request, then their {@link String} content can be retrieved using path hashcode.
  */
+@Slf4j
 public class HtmCache {
-    private static final CLogger LOGGER = new CLogger(HtmCache.class.getName());
 
     private final Map<Integer, String> _htmCache = new HashMap<>();
     private final FileFilter _htmFilter = new HtmFilter();
@@ -28,7 +28,7 @@ public class HtmCache {
      * Cleans the HTM cache.
      */
     public void reload() {
-        LOGGER.info("HtmCache has been cleared ({} entries).", _htmCache.size());
+        log.info("HtmCache has been cleared ({} entries).", _htmCache.size());
 
         _htmCache.clear();
     }
@@ -55,7 +55,7 @@ public class HtmCache {
             _htmCache.put(file.getPath().replace("\\", "/").hashCode(), content);
             return content;
         } catch (Exception e) {
-            LOGGER.error("Error caching HTM file.", e);
+            log.error("Error caching HTM file.", e);
             return null;
         }
     }
@@ -107,13 +107,13 @@ public class HtmCache {
         String content = getHtm(path);
         if (content == null) {
             content = "<html><body>My html is missing:<br>" + path + "</body></html>";
-            LOGGER.warn("Following HTM {} is missing.", path);
+            log.warn("Following HTM {} is missing.", path);
         }
 
         return content;
     }
 
-    protected class HtmFilter implements FileFilter {
+    protected static class HtmFilter implements FileFilter {
         @Override
         public boolean accept(File file) {
             return file.isFile() && (file.getName().endsWith(".htm") || file.getName().endsWith(".html"));

@@ -1,5 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
@@ -66,9 +68,18 @@ public class Monster extends Attackable {
 
     private boolean _isRaid;
     private boolean _isMinion;
+    @Getter @Setter
+    private float nightExpSpBonus;
 
     public Monster(int objectId, NpcTemplate template) {
         super(objectId, template);
+    }
+
+    @Override
+    public boolean returnHome() {
+        // clear bonus after anti-aggro
+        nightExpSpBonus = 0;
+        return super.returnHome();
     }
 
     @Override
@@ -150,10 +161,10 @@ public class Monster extends Attackable {
                     final float penalty = (attacker.hasServitor()) ? ((Servitor) attacker.getSummon()).getExpPenalty() : 0;
                     final int[] expSp = calculateExpAndSp(levelDiff, damage, totalDamage);
 
-                    long exp = expSp[0];
+                    long exp = (long) (expSp[0] * (nightExpSpBonus > 0 ? nightExpSpBonus : 1.));
                     int sp = 0; // not give SP at all
 
-                    exp *= 1 - penalty;
+                    exp *= 1. - penalty;
 
                     // Test over-hit.
                     if (_overHitState.isValidOverHit(attacker)) {
@@ -161,13 +172,17 @@ public class Monster extends Attackable {
                         long overHitExpSp = _overHitState.calcExp(exp);
                         exp += overHitExpSp;
                         sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
+                        attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
+                        if (sp > 0) {
+                            attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                        }
                     }
 
                     // Set new karma.
                     attacker.updateKarmaLoss(exp);
 
                     // Distribute the Exp and SP.
-                    attacker.addExpAndSp(exp, sp, rewards);
+                    attacker.addExp(exp, rewards);
                 }
             }
             // Share with party members.
@@ -228,14 +243,21 @@ public class Monster extends Attackable {
                 // Calculate Exp and SP rewards.
                 final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
                 long expReward = expSp[0];
-                long exp = (long) (expReward * partyMul);
+                long exp = (long) (expReward * partyMul * (nightExpSpBonus > 0 ? nightExpSpBonus : 1.));
+                int sp = 0;
 
                 // Test over-hit.
                 if (_overHitState.isValidOverHit(attacker)) {
                     attacker.sendPacket(SystemMessageId.OVER_HIT);
                     long overHitExpSp = _overHitState.calcExp(expReward);
                     exp += overHitExpSp;
-                    int sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP);
+                    sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP);
+                    attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
+                    if (sp > 0) {
+                        attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));
+                    }
+                } else {
+                    sp = (int) (expSp[1] * Config.HARDCORE_RATE_OVERHIT_SP); // give SP only when over hit the enemy
                     attacker.addSp(sp); // overhit reward for player-attacker which is deal overHit
                     if (sp > 0) {
                         attacker.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.ACQUIRED_S1_SP).addNumber(sp));

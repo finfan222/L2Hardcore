@@ -29,7 +29,7 @@ public final class DuelManager {
      * @param playerB : The second player to use.
      * @param isPartyDuel : True if the duel is a party duel.
      */
-    public void addDuel(Player playerA, Player playerB, boolean isPartyDuel) {
+    public void addDuel(Player playerA, Player playerB, boolean isPartyDuel, boolean isMortalCombat) {
         if (playerA == null || playerB == null) {
             return;
         }
@@ -38,7 +38,7 @@ public final class DuelManager {
         final int duelId = IdFactory.getInstance().getNextId();
 
         // Feed the Map.
-        _duels.put(duelId, new Duel(playerA, playerB, isPartyDuel, duelId));
+        _duels.put(duelId, new Duel(playerA, playerB, isPartyDuel, duelId, isMortalCombat));
     }
 
     /**
@@ -66,7 +66,11 @@ public final class DuelManager {
 
         final Duel duel = getDuel(player.getDuelId());
         if (duel != null) {
-            duel.doSurrender(player);
+            if (!duel.isMortalCombat()) {
+                duel.doSurrender(player);
+            } else {
+                player.sendMessage("Правила смертельной битвы запрещают сдачу.");
+            }
         }
     }
 

@@ -33,6 +33,17 @@ public class Q116_BeyondTheHillsOfWinter extends Quest {
     }
 
     @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 30;
+        condition.races = new ClassRace[]{ClassRace.DWARF};
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -41,7 +52,7 @@ public class Q116_BeyondTheHillsOfWinter extends Quest {
         }
 
         if (event.equalsIgnoreCase("30535-02.htm")) {
-            st.setState(QuestStatus.STARTED);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
         } else if (event.equalsIgnoreCase("30535-05.htm")) {
@@ -75,7 +86,7 @@ public class Q116_BeyondTheHillsOfWinter extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 30 || player.getRace() != ClassRace.DWARF) ? "30535-00.htm" : "30535-01.htm";
+                htmltext = !condition.validateLevel(player) || !condition.validateRace(player) ? "30535-00.htm" : "30535-01.htm";
                 break;
 
             case STARTED:
