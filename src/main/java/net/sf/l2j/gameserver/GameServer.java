@@ -82,6 +82,7 @@ import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
 import net.sf.l2j.gameserver.network.GameClient;
 import net.sf.l2j.gameserver.network.GamePacketHandler;
+import net.sf.l2j.gameserver.taskmanager.AmbushTaskManager;
 import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 import net.sf.l2j.gameserver.taskmanager.BuyListTaskManager;
 import net.sf.l2j.gameserver.taskmanager.DayNightTaskManager;
@@ -206,6 +207,7 @@ public class GameServer {
         WaterTaskManager.getInstance();
         GraveyardManager.getInstance();
         BuyListTaskManager.getInstance();
+        AmbushTaskManager.getInstance();
 
         StringUtil.printSection("Auto Spawns");
         AutoSpawnTable.getInstance();

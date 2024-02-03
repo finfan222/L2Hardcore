@@ -1,5 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.pool.ThreadPool;
@@ -66,9 +68,18 @@ public class Monster extends Attackable {
 
     private boolean _isRaid;
     private boolean _isMinion;
+    @Getter @Setter
+    private float nightExpSpBonus;
 
     public Monster(int objectId, NpcTemplate template) {
         super(objectId, template);
+    }
+
+    @Override
+    public boolean returnHome() {
+        // clear bonus after anti-aggro
+        nightExpSpBonus = 0;
+        return super.returnHome();
     }
 
     @Override
@@ -150,7 +161,7 @@ public class Monster extends Attackable {
                     final float penalty = (attacker.hasServitor()) ? ((Servitor) attacker.getSummon()).getExpPenalty() : 0;
                     final int[] expSp = calculateExpAndSp(levelDiff, damage, totalDamage);
 
-                    long exp = expSp[0];
+                    long exp = (long) (expSp[0] * (nightExpSpBonus > 0 ? nightExpSpBonus : 1.));
                     int sp = 0; // not give SP at all
 
                     exp *= 1. - penalty;
@@ -232,7 +243,7 @@ public class Monster extends Attackable {
                 // Calculate Exp and SP rewards.
                 final int[] expSp = calculateExpAndSp(levelDiff, partyDmg, totalDamage);
                 long expReward = expSp[0];
-                long exp = (long) (expReward * partyMul);
+                long exp = (long) (expReward * partyMul * (nightExpSpBonus > 0 ? nightExpSpBonus : 1.));
                 int sp = 0;
 
                 // Test over-hit.
