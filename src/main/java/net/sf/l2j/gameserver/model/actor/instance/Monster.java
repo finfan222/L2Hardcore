@@ -30,7 +30,6 @@ import net.sf.l2j.gameserver.model.item.DropCategory;
 import net.sf.l2j.gameserver.model.item.DropData;
 import net.sf.l2j.gameserver.model.item.instance.ItemFactory;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.SystemMessageId;
@@ -938,8 +937,7 @@ public class Monster extends Attackable {
             // Create the ItemInstance and add it in the world as a visible object.
             ItemInstance item = ItemFactory.create(holder.getId(), holder.getValue(), player, this);
             if (item.isArmor() || item.isWeapon()) {
-                Optional.ofNullable(item.getModule(DurabilityModule.class))
-                    .ifPresent(e -> e.setDurability(Rnd.get(327, Short.MAX_VALUE)));
+                Optional.ofNullable(item.getDurabilityModule()).ifPresent(e -> e.setDurability(Rnd.get(327, Short.MAX_VALUE)));
             }
 
             item.dropMe(this, 70);

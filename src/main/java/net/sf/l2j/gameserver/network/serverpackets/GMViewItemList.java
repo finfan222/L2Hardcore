@@ -3,7 +3,6 @@ package net.sf.l2j.gameserver.network.serverpackets;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 
 import java.util.Optional;
@@ -48,8 +47,7 @@ public class GMViewItemList extends L2GameServerPacket {
             writeH(temp.getEnchantLevel());
             writeH(temp.getCustomType2());
             writeD((temp.isAugmented()) ? temp.getAugmentation().getId() : 0x00);
-            Optional.ofNullable(temp.getModule(DurabilityModule.class))
-                .ifPresentOrElse(e -> writeD(e.getDurability()), () -> writeD(-1));
+            Optional.ofNullable(temp.getDurabilityModule()).ifPresentOrElse(e -> writeD(e.getDurability()), () -> writeD(-1));
         }
     }
 }

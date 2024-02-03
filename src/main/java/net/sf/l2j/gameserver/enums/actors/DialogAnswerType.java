@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.enums.actors;
 
 import net.sf.l2j.gameserver.data.manager.CoupleManager;
-import net.sf.l2j.gameserver.events.OnQuestAccept;
 import net.sf.l2j.gameserver.data.manager.DuelManager;
+import net.sf.l2j.gameserver.events.OnQuestAccept;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -10,7 +10,6 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.WeddingManagerNpc;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
@@ -163,7 +162,7 @@ public enum DialogAnswerType {
                     if (!player.reduceAdena("RepairAll", totalPrice, null, true)) {
                         player.sendPacket(ActionFailed.STATIC_PACKET);
                     } else {
-                        items.forEach(item -> item.getModule(DurabilityModule.class).repair(player));
+                        items.forEach(item -> item.getDurabilityModule().repair(player));
                         player.sendPacket(SystemMessageId.ITEMS_WAS_REPAIRED);
                     }
                 }
@@ -191,7 +190,7 @@ public enum DialogAnswerType {
 
                 synchronized (item) {
                     if (player.reduceAdena("RepairSingleItem", price, null, true)) {
-                        item.getModule(DurabilityModule.class).repair(player);
+                        item.getDurabilityModule().repair(player);
                         player.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_ITEM_REPAIRED).addItemName(item));
                     } else {
                         player.sendPacket(SystemMessageId.YOU_NOT_ENOUGH_ADENA);

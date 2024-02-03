@@ -114,6 +114,7 @@ public abstract class Item {
     private final CrystalType _crystalType;
     @Getter
     protected int durability = -1;
+    protected boolean isRepairable = true;
     private final int _bodyPart;
     private final int _referencePrice;
     private final int _crystalCount;
@@ -503,5 +504,9 @@ public abstract class Item {
 
     public List<Quest> getQuestEvents() {
         return _questEvents;
+    }
+
+    public final boolean isRepairable() {
+        return durability > 0 && isRepairable;
     }
 }
