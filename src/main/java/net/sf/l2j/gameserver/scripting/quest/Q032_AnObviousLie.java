@@ -44,6 +44,11 @@ public class Q032_AnObviousLie extends Quest {
     }
 
     @Override
+    protected void initializeConditions() {
+        condition.level = 45;
+    }
+
+    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
         String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
@@ -131,7 +136,7 @@ public class Q032_AnObviousLie extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 45) ? "30120-0a.htm" : "30120-0.htm";
+                htmltext = !condition.validateLevel(player) ? "30120-0a.htm" : "30120-0.htm";
                 break;
 
             case STARTED:
