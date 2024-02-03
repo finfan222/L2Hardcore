@@ -42,7 +42,8 @@ public class DayNightTaskManager implements Runnable {
         currentCycle = calcCurrentCycle();
         previousCycle = calcPreviousCycle();
         cycleDiff = currentCycle.ordinal() - previousCycle.ordinal();
-        log.info("[{} -> {}] Next execution date-time: {}", previousCycle, currentCycle, getNextExecutionDateTime());
+        log.info("Loaded successfully!");
+        log.debug("[{} -> {}] Next execution date-time: {}", previousCycle, currentCycle, getNextExecutionDateTime());
     }
 
     /**
@@ -151,8 +152,8 @@ public class DayNightTaskManager implements Runnable {
             cycleDiff = difference;
             GlobalEventListener.notify(new OnDayCycleChange(currentCycle, previousCycle));
         }
-        log.info("[{} -> {}] Next execution date-time: {}", previousCycle, currentCycle, getNextExecutionDateTime().toLocalTime());
-        log.info("Current game day time: {}", getDayTime());
+        log.debug("[{} -> {}] Next execution date-time: {}", previousCycle, currentCycle, getNextExecutionDateTime().toLocalTime());
+        log.debug("Current game day time: {}", getDayTime());
     }
 
     public String getGameTimeFormatted() {
