@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
@@ -7,39 +7,34 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q008_AnAdventureBegins extends Quest {
-    private static final String QUEST_NAME = "Q008_AnAdventureBegins";
+public class Q009_IntoTheCityOfHumans extends Quest {
+    private static final String QUEST_NAME = "Q009_IntoTheCityOfHumans";
 
     // NPCs
-    private static final int JASMINE = 30134;
-    private static final int ROSELYN = 30355;
-    private static final int HARNE = 30144;
-
-    // Items
-    private static final int ROSELYN_NOTE = 7573;
+    private static final int PETUKAI = 30583;
+    private static final int TANAPI = 30571;
+    private static final int TAMIL = 30576;
 
     // Rewards
     private static final int SOE_GIRAN = 7559;
-    private static final int MARK_TRAVELER = 7570;
+    private static final int MARK_OF_TRAVELER = 7570;
 
-    public Q008_AnAdventureBegins() {
-        super(8, "An Adventure Begins");
+    public Q009_IntoTheCityOfHumans() {
+        super(9, "Into the City of Humans");
 
-        setItemsIds(ROSELYN_NOTE);
-
-        addStartNpc(JASMINE);
-        addTalkId(JASMINE, ROSELYN, HARNE);
-    }
-
-    @Override
-    protected void initializeConditions() {
-        condition.level = 3;
-        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
+        addStartNpc(PETUKAI);
+        addTalkId(PETUKAI, TANAPI, TAMIL);
     }
 
     @Override
     public boolean isSharable() {
         return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 3;
+        condition.races = new ClassRace[]{ClassRace.ORC};
     }
 
     @Override
@@ -49,20 +44,15 @@ public class Q008_AnAdventureBegins extends Quest {
             return event;
         }
 
-        if (event.equalsIgnoreCase("30134-03.htm")) {
+        if (event.equalsIgnoreCase("30583-01.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("30355-02.htm")) {
+        } else if (event.equalsIgnoreCase("30571-01.htm")) {
             st.setCond(2);
             playSound(player, SOUND_MIDDLE);
-            giveItems(player, ROSELYN_NOTE, 1);
-        } else if (event.equalsIgnoreCase("30144-02.htm")) {
-            st.setCond(3);
-            playSound(player, SOUND_MIDDLE);
-            takeItems(player, ROSELYN_NOTE, 1);
-        } else if (event.equalsIgnoreCase("30134-06.htm")) {
-            giveItems(player, MARK_TRAVELER, 1);
+        } else if (event.equalsIgnoreCase("30576-01.htm")) {
+            giveItems(player, MARK_OF_TRAVELER, 1);
             rewardItems(player, SOE_GIRAN, 1);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
@@ -82,36 +72,32 @@ public class Q008_AnAdventureBegins extends Quest {
         switch (st.getState()) {
             case CREATED:
                 if (condition.validateLevel(player) && condition.validateRace(player)) {
-                    htmltext = "30134-02.htm";
+                    htmltext = "30583-00.htm";
                 } else {
-                    htmltext = "30134-01.htm";
+                    htmltext = "30583-00a.htm";
                 }
                 break;
 
             case STARTED:
                 int cond = st.getCond();
                 switch (npc.getNpcId()) {
-                    case JASMINE:
-                        if (cond == 1 || cond == 2) {
-                            htmltext = "30134-04.htm";
-                        } else if (cond == 3) {
-                            htmltext = "30134-05.htm";
-                        }
-                        break;
-
-                    case ROSELYN:
+                    case PETUKAI:
                         if (cond == 1) {
-                            htmltext = "30355-01.htm";
-                        } else if (cond == 2) {
-                            htmltext = "30355-03.htm";
+                            htmltext = "30583-01a.htm";
                         }
                         break;
 
-                    case HARNE:
+                    case TANAPI:
+                        if (cond == 1) {
+                            htmltext = "30571-00.htm";
+                        } else if (cond == 2) {
+                            htmltext = "30571-01a.htm";
+                        }
+                        break;
+
+                    case TAMIL:
                         if (cond == 2) {
-                            htmltext = "30144-01.htm";
-                        } else if (cond == 3) {
-                            htmltext = "30144-03.htm";
+                            htmltext = "30576-00.htm";
                         }
                         break;
                 }

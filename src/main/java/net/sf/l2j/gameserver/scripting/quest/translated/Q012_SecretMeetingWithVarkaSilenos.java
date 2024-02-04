@@ -1,29 +1,29 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
-import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q009_IntoTheCityOfHumans extends Quest {
-    private static final String QUEST_NAME = "Q009_IntoTheCityOfHumans";
+public class Q012_SecretMeetingWithVarkaSilenos extends Quest {
+    private static final String QUEST_NAME = "Q012_SecretMeetingWithVarkaSilenos";
 
     // NPCs
-    private static final int PETUKAI = 30583;
-    private static final int TANAPI = 30571;
-    private static final int TAMIL = 30576;
+    private static final int CADMON = 31296;
+    private static final int HELMUT = 31258;
+    private static final int NARAN_ASHANUK = 31378;
 
-    // Rewards
-    private static final int SOE_GIRAN = 7559;
-    private static final int MARK_OF_TRAVELER = 7570;
+    // Items
+    private static final int MUNITIONS_BOX = 7232;
 
-    public Q009_IntoTheCityOfHumans() {
-        super(9, "Into the City of Humans");
+    public Q012_SecretMeetingWithVarkaSilenos() {
+        super(12, "Secret Meeting With Varka Silenos");
 
-        addStartNpc(PETUKAI);
-        addTalkId(PETUKAI, TANAPI, TAMIL);
+        setItemsIds(MUNITIONS_BOX);
+
+        addStartNpc(CADMON);
+        addTalkId(CADMON, HELMUT, NARAN_ASHANUK);
     }
 
     @Override
@@ -33,8 +33,7 @@ public class Q009_IntoTheCityOfHumans extends Quest {
 
     @Override
     protected void initializeConditions() {
-        condition.level = 3;
-        condition.races = new ClassRace[]{ClassRace.ORC};
+        condition.level = 74;
     }
 
     @Override
@@ -44,16 +43,17 @@ public class Q009_IntoTheCityOfHumans extends Quest {
             return event;
         }
 
-        if (event.equalsIgnoreCase("30583-01.htm")) {
+        if (event.equalsIgnoreCase("31296-03.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("30571-01.htm")) {
+        } else if (event.equalsIgnoreCase("31258-02.htm")) {
+            giveItems(player, MUNITIONS_BOX, 1);
             st.setCond(2);
             playSound(player, SOUND_MIDDLE);
-        } else if (event.equalsIgnoreCase("30576-01.htm")) {
-            giveItems(player, MARK_OF_TRAVELER, 1);
-            rewardItems(player, SOE_GIRAN, 1);
+        } else if (event.equalsIgnoreCase("31378-02.htm")) {
+            takeItems(player, MUNITIONS_BOX, 1);
+            rewardExpAndSp(player, 79761, 0);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
         }
@@ -71,33 +71,29 @@ public class Q009_IntoTheCityOfHumans extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (condition.validateLevel(player) && condition.validateRace(player)) {
-                    htmltext = "30583-00.htm";
-                } else {
-                    htmltext = "30583-00a.htm";
-                }
+                htmltext = !condition.validateLevel(player) ? "31296-02.htm" : "31296-01.htm";
                 break;
 
             case STARTED:
                 int cond = st.getCond();
                 switch (npc.getNpcId()) {
-                    case PETUKAI:
+                    case CADMON:
                         if (cond == 1) {
-                            htmltext = "30583-01a.htm";
+                            htmltext = "31296-04.htm";
                         }
                         break;
 
-                    case TANAPI:
+                    case HELMUT:
                         if (cond == 1) {
-                            htmltext = "30571-00.htm";
+                            htmltext = "31258-01.htm";
                         } else if (cond == 2) {
-                            htmltext = "30571-01a.htm";
+                            htmltext = "31258-03.htm";
                         }
                         break;
 
-                    case TAMIL:
+                    case NARAN_ASHANUK:
                         if (cond == 2) {
-                            htmltext = "30576-00.htm";
+                            htmltext = "31378-01.htm";
                         }
                         break;
                 }

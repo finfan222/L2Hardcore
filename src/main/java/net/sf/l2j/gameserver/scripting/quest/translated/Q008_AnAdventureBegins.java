@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
@@ -7,28 +7,34 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q006_StepIntoTheFuture extends Quest {
-    private static final String QUEST_NAME = "Q006_StepIntoTheFuture";
+public class Q008_AnAdventureBegins extends Quest {
+    private static final String QUEST_NAME = "Q008_AnAdventureBegins";
 
     // NPCs
-    private static final int ROXXY = 30006;
-    private static final int BAULRO = 30033;
-    private static final int SIR_COLLIN = 30311;
+    private static final int JASMINE = 30134;
+    private static final int ROSELYN = 30355;
+    private static final int HARNE = 30144;
 
     // Items
-    private static final int BAULRO_LETTER = 7571;
+    private static final int ROSELYN_NOTE = 7573;
 
     // Rewards
     private static final int SOE_GIRAN = 7559;
     private static final int MARK_TRAVELER = 7570;
 
-    public Q006_StepIntoTheFuture() {
-        super(6, "Step into the Future");
+    public Q008_AnAdventureBegins() {
+        super(8, "An Adventure Begins");
 
-        setItemsIds(BAULRO_LETTER);
+        setItemsIds(ROSELYN_NOTE);
 
-        addStartNpc(ROXXY);
-        addTalkId(ROXXY, BAULRO, SIR_COLLIN);
+        addStartNpc(JASMINE);
+        addTalkId(JASMINE, ROSELYN, HARNE);
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 3;
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
     }
 
     @Override
@@ -37,43 +43,32 @@ public class Q006_StepIntoTheFuture extends Quest {
     }
 
     @Override
-    protected void initializeConditions() {
-        condition.level = 3;
-        condition.races = new ClassRace[]{ClassRace.HUMAN};
-    }
-
-    @Override
     public String onAdvEvent(String event, Npc npc, Player player) {
-        String htmltext = event;
         QuestState st = player.getQuestList().getQuestState(QUEST_NAME);
         if (st == null) {
-            return htmltext;
+            return event;
         }
 
-        if (event.equalsIgnoreCase("30006-03.htm")) {
+        if (event.equalsIgnoreCase("30134-03.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("30033-02.htm")) {
+        } else if (event.equalsIgnoreCase("30355-02.htm")) {
             st.setCond(2);
             playSound(player, SOUND_MIDDLE);
-            giveItems(player, BAULRO_LETTER, 1);
-        } else if (event.equalsIgnoreCase("30311-02.htm")) {
-            if (player.getInventory().hasItems(BAULRO_LETTER)) {
-                st.setCond(3);
-                playSound(player, SOUND_MIDDLE);
-                takeItems(player, BAULRO_LETTER, 1);
-            } else {
-                htmltext = "30311-03.htm";
-            }
-        } else if (event.equalsIgnoreCase("30006-06.htm")) {
+            giveItems(player, ROSELYN_NOTE, 1);
+        } else if (event.equalsIgnoreCase("30144-02.htm")) {
+            st.setCond(3);
+            playSound(player, SOUND_MIDDLE);
+            takeItems(player, ROSELYN_NOTE, 1);
+        } else if (event.equalsIgnoreCase("30134-06.htm")) {
             giveItems(player, MARK_TRAVELER, 1);
             rewardItems(player, SOE_GIRAN, 1);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
         }
 
-        return htmltext;
+        return event;
     }
 
     @Override
@@ -86,39 +81,37 @@ public class Q006_StepIntoTheFuture extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                if (!condition.validateRace(player) || !condition.validateLevel(player)) {
-                    htmltext = "30006-01.htm";
+                if (condition.validateLevel(player) && condition.validateRace(player)) {
+                    htmltext = "30134-02.htm";
                 } else {
-                    htmltext = "30006-02.htm";
+                    htmltext = "30134-01.htm";
                 }
                 break;
 
             case STARTED:
                 int cond = st.getCond();
                 switch (npc.getNpcId()) {
-                    case ROXXY:
+                    case JASMINE:
                         if (cond == 1 || cond == 2) {
-                            htmltext = "30006-04.htm";
+                            htmltext = "30134-04.htm";
                         } else if (cond == 3) {
-                            htmltext = "30006-05.htm";
+                            htmltext = "30134-05.htm";
                         }
                         break;
 
-                    case BAULRO:
+                    case ROSELYN:
                         if (cond == 1) {
-                            htmltext = "30033-01.htm";
+                            htmltext = "30355-01.htm";
                         } else if (cond == 2) {
-                            htmltext = "30033-03.htm";
-                        } else {
-                            htmltext = "30033-04.htm";
+                            htmltext = "30355-03.htm";
                         }
                         break;
 
-                    case SIR_COLLIN:
+                    case HARNE:
                         if (cond == 2) {
-                            htmltext = "30311-01.htm";
+                            htmltext = "30144-01.htm";
                         } else if (cond == 3) {
-                            htmltext = "30311-03a.htm";
+                            htmltext = "30144-03.htm";
                         }
                         break;
                 }

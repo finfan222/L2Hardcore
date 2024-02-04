@@ -4,19 +4,19 @@
 	<!-- Quests Section -->
 
 	<script path="quest.translated.Q001_LettersOfLove"/>
-	<script path="quest.Q002_WhatWomenWant"/>
-	<script path="quest.Q003_WillTheSealBeBroken"/>
-	<script path="quest.Q004_LongliveThePaagrioLord"/>
-	<script path="quest.Q005_MinersFavor"/>
-	<script path="quest.Q006_StepIntoTheFuture"/>
-	<script path="quest.Q007_ATripBegins"/>
-	<script path="quest.Q008_AnAdventureBegins"/>
-	<script path="quest.Q009_IntoTheCityOfHumans"/>
-	<script path="quest.Q010_IntoTheWorld"/>
-	<script path="quest.Q011_SecretMeetingWithKetraOrcs"/>
-	<script path="quest.Q012_SecretMeetingWithVarkaSilenos"/>
-	<script path="quest.Q013_ParcelDelivery"/>
-	<script path="quest.Q014_WhereaboutsOfTheArchaeologist"/>
+	<script path="quest.translated.Q002_WhatWomenWant"/>
+	<script path="quest.translated.Q003_WillTheSealBeBroken"/>
+	<script path="quest.translated.Q004_LongliveThePaagrioLord"/>
+	<script path="quest.translated.Q005_MinersFavor"/>
+	<script path="quest.translated.Q006_StepIntoTheFuture"/>
+	<script path="quest.translated.Q007_ATripBegins"/>
+	<script path="quest.translated.Q008_AnAdventureBegins"/>
+	<script path="quest.translated.Q009_IntoTheCityOfHumans"/>
+	<script path="quest.translated.Q010_IntoTheWorld"/>
+	<script path="quest.translated.Q011_SecretMeetingWithKetraOrcs"/>
+	<script path="quest.translated.Q012_SecretMeetingWithVarkaSilenos"/>
+	<script path="quest.translated.Q013_ParcelDelivery"/>
+	<script path="quest.translated.Q014_WhereaboutsOfTheArchaeologist"/>
 	<script path="quest.Q015_SweetWhispers"/>
 	<script path="quest.Q016_TheComingDarkness"/>
 	<script path="quest.Q017_LightAndDarkness"/>
@@ -28,8 +28,8 @@
 	<script path="quest.Q023_LidiasHeart"/>
 	<script path="quest.Q024_InhabitantsOfTheForestOfTheDead"/>
 	<script path="quest.Q025_HidingBehindTheTruth"/>
-	<script path="quest.Q027_ChestCaughtWithABaitOfWind"/>
-	<script path="quest.Q028_ChestCaughtWithABaitOfIcyAir"/>
+	<script path="quest.translated.Q027_ChestCaughtWithABaitOfWind"/>
+	<script path="quest.translated.Q028_ChestCaughtWithABaitOfIcyAir"/>
 	<script path="quest.Q029_ChestCaughtWithABaitOfEarth"/>
 	<script path="quest.Q030_ChestCaughtWithABaitOfFire"/>
 	<script path="quest.Q031_SecretBuriedInTheSwamp"/>

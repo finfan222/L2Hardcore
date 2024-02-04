@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -6,24 +6,24 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q012_SecretMeetingWithVarkaSilenos extends Quest {
-    private static final String QUEST_NAME = "Q012_SecretMeetingWithVarkaSilenos";
+public class Q011_SecretMeetingWithKetraOrcs extends Quest {
+    private static final String QUEST_NAME = "Q011_SecretMeetingWithKetraOrcs";
 
-    // NPCs
+    // Npcs
     private static final int CADMON = 31296;
-    private static final int HELMUT = 31258;
-    private static final int NARAN_ASHANUK = 31378;
+    private static final int LEON = 31256;
+    private static final int WAHKAN = 31371;
 
     // Items
-    private static final int MUNITIONS_BOX = 7232;
+    private static final int MUNITIONS_BOX = 7231;
 
-    public Q012_SecretMeetingWithVarkaSilenos() {
-        super(12, "Secret Meeting With Varka Silenos");
+    public Q011_SecretMeetingWithKetraOrcs() {
+        super(11, "Secret Meeting With Ketra Orcs");
 
         setItemsIds(MUNITIONS_BOX);
 
         addStartNpc(CADMON);
-        addTalkId(CADMON, HELMUT, NARAN_ASHANUK);
+        addTalkId(CADMON, LEON, WAHKAN);
     }
 
     @Override
@@ -47,13 +47,13 @@ public class Q012_SecretMeetingWithVarkaSilenos extends Quest {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("31258-02.htm")) {
+        } else if (event.equalsIgnoreCase("31256-02.htm")) {
             giveItems(player, MUNITIONS_BOX, 1);
             st.setCond(2);
             playSound(player, SOUND_MIDDLE);
-        } else if (event.equalsIgnoreCase("31378-02.htm")) {
+        } else if (event.equalsIgnoreCase("31371-02.htm")) {
             takeItems(player, MUNITIONS_BOX, 1);
-            rewardExpAndSp(player, 79761, 0);
+            rewardExpAndSp(player, 79787, 0);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
         }
@@ -83,17 +83,17 @@ public class Q012_SecretMeetingWithVarkaSilenos extends Quest {
                         }
                         break;
 
-                    case HELMUT:
+                    case LEON:
                         if (cond == 1) {
-                            htmltext = "31258-01.htm";
+                            htmltext = "31256-01.htm";
                         } else if (cond == 2) {
-                            htmltext = "31258-03.htm";
+                            htmltext = "31256-03.htm";
                         }
                         break;
 
-                    case NARAN_ASHANUK:
+                    case WAHKAN:
                         if (cond == 2) {
-                            htmltext = "31378-01.htm";
+                            htmltext = "31371-01.htm";
                         }
                         break;
                 }
