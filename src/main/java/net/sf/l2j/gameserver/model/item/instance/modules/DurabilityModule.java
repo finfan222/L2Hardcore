@@ -3,6 +3,7 @@ package net.sf.l2j.gameserver.model.item.instance.modules;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.items.CrystalType;
+import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemDao;
@@ -92,6 +93,10 @@ public class DurabilityModule implements ItemModule {
     }
 
     public void fractureWeapon(Player player, Creature target, L2Skill skill, Default.Context context) {
+        if (context.isMissed() && player.getAttackType() != WeaponType.BOW) {
+            return;
+        }
+
         final int value = Formulas.calcWeaponFractureValue(player, target, skill, context);
         if (value > 0) {
             if (player.isGM()) {
@@ -102,6 +107,10 @@ public class DurabilityModule implements ItemModule {
     }
 
     public void fractureArmor(Player player, L2Skill skill, Default.Context context) {
+        if (context.isMissed()) {
+            return;
+        }
+
         final int value = Formulas.calcArmorFractureValue(instance.getArmorItem(), skill, context);
         if (value > 0) {
             if (player.isGM()) {

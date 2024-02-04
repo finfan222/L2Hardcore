@@ -404,7 +404,7 @@ public final class Player extends Playable {
 
     private ItemInstance _activeEnchantItem;
 
-    protected boolean _inventoryDisable;
+    private boolean _inventoryDisable;
 
     private final Set<Integer> _activeSoulShots = ConcurrentHashMap.newKeySet(1);
 
@@ -566,19 +566,19 @@ public final class Player extends Playable {
         _status = new PlayerStatus(this);
     }
 
-    public final Appearance getAppearance() {
+    public Appearance getAppearance() {
         return _appearance;
     }
 
     /**
      * @return the {@link PlayerTemplate} linked to this {@link Player} base class.
      */
-    public final PlayerTemplate getBaseTemplate() {
+    public PlayerTemplate getBaseTemplate() {
         return PlayerData.getInstance().getTemplate(_baseClass);
     }
 
     @Override
-    public final PlayerTemplate getTemplate() {
+    public PlayerTemplate getTemplate() {
         return (PlayerTemplate) super.getTemplate();
     }
 
@@ -2119,7 +2119,7 @@ public final class Player extends Playable {
      * Set protection from agro mobs when getting up from fake death, according settings.
      */
     public void setRecentFakeDeath() {
-        _recentFakeDeathEndTime = System.currentTimeMillis() + Config.PLAYER_FAKEDEATH_UP_PROTECTION * 1000;
+        _recentFakeDeathEndTime = System.currentTimeMillis() + Config.PLAYER_FAKEDEATH_UP_PROTECTION * 1000L;
     }
 
     public void clearRecentFakeDeath() {
@@ -2131,12 +2131,12 @@ public final class Player extends Playable {
     }
 
     @Override
-    public final boolean isFakeDeath() {
+    public boolean isFakeDeath() {
         return _isFakeDeath;
     }
 
     @Override
-    public final boolean isAlikeDead() {
+    public boolean isAlikeDead() {
         if (super.isAlikeDead()) {
             return true;
         }
@@ -2229,7 +2229,7 @@ public final class Player extends Playable {
      * <li>Send a CharInfo packet (public data only) to Player's knownlist.</li>
      * </ul>
      */
-    public final void broadcastUserInfo() {
+    public void broadcastUserInfo() {
         sendPacket(new UserInfo(this));
 
         if (getPolymorphTemplate() != null) {
@@ -2239,7 +2239,7 @@ public final class Player extends Playable {
         }
     }
 
-    public final void broadcastCharInfo() {
+    public void broadcastCharInfo() {
         for (final Player player : getKnownType(Player.class)) {
             player.sendPacket(new CharInfo(this));
 
@@ -2257,7 +2257,7 @@ public final class Player extends Playable {
     /**
      * Broadcast player title information.
      */
-    public final void broadcastTitleInfo() {
+    public void broadcastTitleInfo() {
         sendPacket(new UserInfo(this));
         broadcastPacket(new TitleUpdate(this));
     }
@@ -2414,11 +2414,11 @@ public final class Player extends Playable {
         }
     }
 
-    public final PreparedListContainer getMultiSell() {
+    public PreparedListContainer getMultiSell() {
         return _currentMultiSell;
     }
 
-    public final void setMultiSell(PreparedListContainer list) {
+    public void setMultiSell(PreparedListContainer list) {
         _currentMultiSell = list;
     }
 
@@ -2463,8 +2463,7 @@ public final class Player extends Playable {
             sendPacket(new StaticObjectInfo((StaticObject) newTarget));
         }
         // Add the Player to the _statusListener of the new target if it's a Creature
-        else if (newTarget instanceof Creature) {
-            final Creature target = (Creature) newTarget;
+        else if (newTarget instanceof Creature target) {
 
             // Validate location of the new target.
             if (newTarget.getObjectId() != getObjectId()) {
@@ -3729,7 +3728,7 @@ public final class Player extends Playable {
         }
     }
 
-    protected synchronized void startFeed(int npcId) {
+    private synchronized void startFeed(int npcId) {
         _canFeed = npcId > 0;
         if (!isMounted()) {
             return;
@@ -3751,7 +3750,7 @@ public final class Player extends Playable {
         }
     }
 
-    protected synchronized void stopFeed() {
+    private synchronized void stopFeed() {
         if (_mountFeedTask != null) {
             _mountFeedTask.cancel(false);
             _mountFeedTask = null;
@@ -3770,7 +3769,7 @@ public final class Player extends Playable {
         return _curFeed;
     }
 
-    protected int getFeedConsume() {
+    private int getFeedConsume() {
         return (isInCombat()) ? _petData.getMountMealInBattle() : _petData.getMountMealInNormal();
     }
 
@@ -3858,7 +3857,7 @@ public final class Player extends Playable {
         // Retrieve the AccessLevel. Even if not existing, it returns user level.
         AccessLevel accessLevel = AdminData.getInstance().getAccessLevel(level);
         if (accessLevel == null) {
-            log.warn("An invalid access level {} has been granted for {}, therefore it has been reset.", level, toString());
+            log.warn("An invalid access level {} has been granted for {}, therefore it has been reset.", level, this);
             accessLevel = AdminData.getInstance().getAccessLevel(0);
         }
 
@@ -3902,15 +3901,15 @@ public final class Player extends Playable {
         return _accessLevel;
     }
 
-    public final void setEnterWorldLoc(int x, int y, int z) {
+    public void setEnterWorldLoc(int x, int y, int z) {
         _enterWorld = new Location(x, y, z);
     }
 
-    public final ExServerPrimitive getDebugPacket(String name) {
+    public ExServerPrimitive getDebugPacket(String name) {
         return _debug.computeIfAbsent(name, p -> new ExServerPrimitive(name, _enterWorld));
     }
 
-    public final void clearDebugPackets() {
+    public void clearDebugPackets() {
         _debug.values().stream().peek(ExServerPrimitive::reset).forEach(esp -> esp.sendTo(this));
     }
 
@@ -4348,13 +4347,13 @@ public final class Player extends Playable {
     }
 
     @Override
-    public final void stopAllEffects() {
+    public void stopAllEffects() {
         super.stopAllEffects();
         updateAndBroadcastStatus(2);
     }
 
     @Override
-    public final void stopAllEffectsExceptThoseThatLastThroughDeath() {
+    public void stopAllEffectsExceptThoseThatLastThroughDeath() {
         super.stopAllEffectsExceptThoseThatLastThroughDeath();
         updateAndBroadcastStatus(2);
     }
@@ -4362,7 +4361,7 @@ public final class Player extends Playable {
     /**
      * Stop all toggle-type effects
      */
-    public final void stopAllToggles() {
+    public void stopAllToggles() {
         _effects.stopAllToggles();
     }
 
@@ -5730,7 +5729,7 @@ public final class Player extends Playable {
     }
 
     @Override
-    public final void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
+    public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
         // Check if hit is missed
         if (miss) {
             sendPacket(SystemMessageId.MISSED_TARGET);
@@ -5918,7 +5917,7 @@ public final class Player extends Playable {
     /**
      * Set falling timestamp
      */
-    public final void setFalling() {
+    public void setFalling() {
         _fallingTimestamp = System.currentTimeMillis() + FALLING_VALIDATION_DELAY;
     }
 
@@ -5935,11 +5934,7 @@ public final class Player extends Playable {
             return false;
         }
 
-        if (isInBoat()) {
-            return false;
-        }
-
-        return true;
+        return !isInBoat();
     }
 
     public List<Integer> getFriendList() {
@@ -5953,9 +5948,7 @@ public final class Player extends Playable {
     }
 
     public void deselectFriend(Integer friendId) {
-        if (_selectedFriendList.contains(friendId)) {
-            _selectedFriendList.remove(friendId);
-        }
+        _selectedFriendList.remove(friendId);
     }
 
     public List<Integer> getSelectedFriendList() {
@@ -6117,7 +6110,7 @@ public final class Player extends Playable {
         sendPacket(new DeleteObject(object, (object instanceof Player) && ((Player) object).isSeated()));
     }
 
-    public final void refreshInfos() {
+    public void refreshInfos() {
         for (final WorldObject object : getKnownType(WorldObject.class)) {
             if (object instanceof Player && ((Player) object).isInObserverMode()) {
                 continue;
@@ -6132,12 +6125,12 @@ public final class Player extends Playable {
      *
      * @param loc : The Location to teleport.
      */
-    public final void teleToLocation(Location loc) {
+    public void teleToLocation(Location loc) {
         super.teleportTo(loc, 0);
     }
 
     @Override
-    public final void teleportTo(Location loc, int randomOffset) {
+    public void teleportTo(Location loc, int randomOffset) {
         if (DimensionalRiftManager.getInstance().checkIfInRiftZone(getX(), getY(), getZ(), true)) {
             sendMessage("You have been sent to the waiting room.");
 
@@ -6150,13 +6143,12 @@ public final class Player extends Playable {
         super.teleportTo(loc, randomOffset);
     }
 
-    private final void sendInfoFrom(WorldObject object) {
+    private void sendInfoFrom(WorldObject object) {
         // Send object info to player.
         object.sendInfo(this);
 
-        if (object instanceof Creature) {
+        if (object instanceof Creature obj) {
             // Send the state of the Creature to the Player.
-            final Creature obj = (Creature) object;
             if (obj.hasAI()) {
                 obj.getAI().describeStateToPlayer(this);
             }
@@ -6171,7 +6163,7 @@ public final class Player extends Playable {
         return formal != null && formal.getItem().getBodyPart() == Item.SLOT_ALLDRESS;
     }
 
-    public final void startFakeDeath() {
+    public void startFakeDeath() {
         _isFakeDeath = true;
         _isSittingNow = true;
         _isStanding = false;
@@ -6188,7 +6180,7 @@ public final class Player extends Playable {
         broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_START_FAKEDEATH));
     }
 
-    public final void stopFakeDeath(boolean removeEffects) {
+    public void stopFakeDeath(boolean removeEffects) {
         if (removeEffects) {
             stopEffects(EffectType.FAKE_DEATH);
         }
@@ -6265,7 +6257,6 @@ public final class Player extends Playable {
         CreatureAttack.HitHolder hit = event.getHit();
 
         if (target == this) {
-
             ItemInstance armor = getInventory().getRandomEquippedItem(0);
             if (hit.block.isSuccess()) {
                 armor = getSecondaryWeaponInstance();

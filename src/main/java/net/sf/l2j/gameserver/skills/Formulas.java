@@ -1379,12 +1379,9 @@ public final class Formulas {
             double typeModifier = skill.isDebuff() ? 0.156 : 0.64;
             return (int) Math.max(mpConsume * (gradeModifier * typeModifier), 1);
         } else {
+            // bow always reduce durability by 4
             if (weaponType == WeaponType.BOW) {
                 return 4;
-            }
-
-            if (context.isMissed()) {
-                return 0;
             }
 
             double damage = context.getValue();
