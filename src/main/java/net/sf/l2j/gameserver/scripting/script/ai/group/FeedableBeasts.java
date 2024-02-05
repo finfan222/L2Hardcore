@@ -19,7 +19,7 @@ import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.scripting.QuestState;
-import net.sf.l2j.gameserver.scripting.quest.Q020_BringUpWithLove;
+import net.sf.l2j.gameserver.scripting.quest.translated.Q020_BringUpWithLove;
 import net.sf.l2j.gameserver.scripting.quest.Q655_AGrandPlanForTamingWildBeasts;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;

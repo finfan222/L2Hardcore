@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -6,25 +6,25 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q030_ChestCaughtWithABaitOfFire extends Quest {
-    private static final String QUEST_NAME = "Q030_ChestCaughtWithABaitOfFire";
+public class Q029_ChestCaughtWithABaitOfEarth extends Quest {
+    private static final String QUEST_NAME = "Q029_ChestCaughtWithABaitOfEarth";
 
     // NPCs
-    private static final int LINNAEUS = 31577;
-    private static final int RUKAL = 30629;
+    private static final int WILLIE = 31574;
+    private static final int ANABEL = 30909;
 
     // Items
-    private static final int RED_TREASURE_BOX = 6511;
-    private static final int MUSICAL_SCORE = 7628;
-    private static final int NECKLACE_OF_PROTECTION = 916;
+    private static final int SMALL_PURPLE_TREASURE_CHEST = 6507;
+    private static final int SMALL_GLASS_BOX = 7627;
+    private static final int PLATED_LEATHER_GLOVES = 2455;
 
-    public Q030_ChestCaughtWithABaitOfFire() {
-        super(30, "Chest caught with a bait of fire");
+    public Q029_ChestCaughtWithABaitOfEarth() {
+        super(29, "Chest caught with a bait of earth");
 
-        setItemsIds(MUSICAL_SCORE);
+        setItemsIds(SMALL_GLASS_BOX);
 
-        addStartNpc(LINNAEUS);
-        addTalkId(LINNAEUS, RUKAL);
+        addStartNpc(WILLIE);
+        addTalkId(WILLIE, ANABEL);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest {
 
     @Override
     protected void initializeConditions() {
-        condition.level = 60;
+        condition.level = 48;
     }
 
     @Override
@@ -45,27 +45,27 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest {
             return htmltext;
         }
 
-        if (event.equalsIgnoreCase("31577-04.htm")) {
+        if (event.equalsIgnoreCase("31574-04.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("31577-07.htm")) {
-            if (player.getInventory().hasItems(RED_TREASURE_BOX)) {
+        } else if (event.equalsIgnoreCase("31574-07.htm")) {
+            if (player.getInventory().hasItems(SMALL_PURPLE_TREASURE_CHEST)) {
                 st.setCond(2);
-                takeItems(player, RED_TREASURE_BOX, 1);
-                giveItems(player, MUSICAL_SCORE, 1);
+                takeItems(player, SMALL_PURPLE_TREASURE_CHEST, 1);
+                giveItems(player, SMALL_GLASS_BOX, 1);
             } else {
-                htmltext = "31577-08.htm";
+                htmltext = "31574-08.htm";
             }
-        } else if (event.equalsIgnoreCase("30629-02.htm")) {
-            if (player.getInventory().hasItems(MUSICAL_SCORE)) {
-                htmltext = "30629-02.htm";
-                takeItems(player, MUSICAL_SCORE, 1);
-                giveItems(player, NECKLACE_OF_PROTECTION, 1);
+        } else if (event.equalsIgnoreCase("30909-02.htm")) {
+            if (player.getInventory().hasItems(SMALL_GLASS_BOX)) {
+                htmltext = "30909-02.htm";
+                takeItems(player, SMALL_GLASS_BOX, 1);
+                giveItems(player, PLATED_LEATHER_GLOVES, 1);
                 playSound(player, SOUND_FINISH);
                 st.exitQuest(false);
             } else {
-                htmltext = "30629-03.htm";
+                htmltext = "30909-03.htm";
             }
         }
 
@@ -83,13 +83,13 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest {
         switch (st.getState()) {
             case CREATED:
                 if (!condition.validateLevel(player)) {
-                    htmltext = "31577-02.htm";
+                    htmltext = "31574-02.htm";
                 } else {
-                    QuestState st2 = player.getQuestList().getQuestState("Q053_LinnaeusSpecialBait");
+                    QuestState st2 = player.getQuestList().getQuestState("Q052_WilliesSpecialBait");
                     if (st2 != null && st2.isCompleted()) {
-                        htmltext = "31577-01.htm";
+                        htmltext = "31574-01.htm";
                     } else {
-                        htmltext = "31577-03.htm";
+                        htmltext = "31574-03.htm";
                     }
                 }
                 break;
@@ -97,17 +97,17 @@ public class Q030_ChestCaughtWithABaitOfFire extends Quest {
             case STARTED:
                 int cond = st.getCond();
                 switch (npc.getNpcId()) {
-                    case LINNAEUS:
+                    case WILLIE:
                         if (cond == 1) {
-                            htmltext = (!player.getInventory().hasItems(RED_TREASURE_BOX)) ? "31577-06.htm" : "31577-05.htm";
+                            htmltext = (!player.getInventory().hasItems(SMALL_PURPLE_TREASURE_CHEST)) ? "31574-06.htm" : "31574-05.htm";
                         } else if (cond == 2) {
-                            htmltext = "31577-09.htm";
+                            htmltext = "31574-09.htm";
                         }
                         break;
 
-                    case RUKAL:
+                    case ANABEL:
                         if (cond == 2) {
-                            htmltext = "30629-01.htm";
+                            htmltext = "30909-01.htm";
                         }
                         break;
                 }

@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Attackable;
