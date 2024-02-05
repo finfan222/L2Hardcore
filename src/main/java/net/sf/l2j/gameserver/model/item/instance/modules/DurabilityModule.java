@@ -24,13 +24,13 @@ import java.util.concurrent.TimeUnit;
 @Data
 public class DurabilityModule implements ItemModule {
 
-    private final ItemInstance instance;
+    private final ItemInstance item;
 
     private int durability;
     private long timestamp;
 
-    public DurabilityModule(ItemInstance instance) {
-        this.instance = instance;
+    public DurabilityModule(ItemInstance item) {
+        this.item = item;
         this.durability = Short.MAX_VALUE;
         this.timestamp = System.currentTimeMillis();
     }
@@ -54,16 +54,16 @@ public class DurabilityModule implements ItemModule {
             return; // unbreakable
         }
 
-        synchronized (instance) {
+        synchronized (item) {
             player.sendPacket(new PlaySound("ItemSound.trash_basket"));
-            player.sendMessage(String.format("[FIX: SYSMSG] Предмет %s был сломан!", instance.getName()));
-            player.destroyItem("DurabilityBrokeItem", instance, 1, player, true);
+            player.sendMessage(String.format("[FIX: SYSMSG] Предмет %s был сломан!", item.getName()));
+            player.destroyItem("DurabilityBrokeItem", item, 1, player, true);
             player.sendPacket(new ItemList(player, false));
         }
     }
 
     public int getReferencePrice() {
-        return (int) (instance.getItem().getReferencePrice() * breakMod());
+        return (int) (item.getItem().getReferencePrice() * breakMod());
     }
 
     private double breakMod() {
@@ -76,9 +76,9 @@ public class DurabilityModule implements ItemModule {
 
     private void update(Player player) {
         timestamp = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1);
-        ItemDao.updateDurability(instance);
+        ItemDao.updateDurability(item);
         final InventoryUpdate iu = new InventoryUpdate();
-        iu.addModifiedItem(instance);
+        iu.addModifiedItem(item);
         player.sendPacket(iu);
     }
 
@@ -87,20 +87,21 @@ public class DurabilityModule implements ItemModule {
     }
 
     public int getRepairPrice() {
-        CrystalType grade = instance.getItem().getCrystalType();
+        CrystalType grade = item.getItem().getCrystalType();
         double gradeModifier = (grade.getId() * 1. / grade.getRepairModifier()) + 1;
         return (int) Math.pow(getReferencePrice(), gradeModifier);
     }
 
     public void fractureWeapon(Player player, Creature target, L2Skill skill, Default.Context context) {
+        // on missed we reduce durability if attack was from BOW
         if (context.isMissed() && player.getAttackType() != WeaponType.BOW) {
             return;
         }
 
-        final int value = Formulas.calcWeaponFractureValue(player, target, skill, context);
+        final int value = Formulas.calcWeaponFractureValue(player, target, skill, context, item);
         if (value > 0) {
             if (player.isGM()) {
-                player.sendMessage("Потеряно прочности у " + instance.getItemName() + "=" + value);
+                player.sendMessage("Потеряно прочности у " + item.getItemName() + "=" + value);
             }
             fracture(player, value);
         }
@@ -111,10 +112,10 @@ public class DurabilityModule implements ItemModule {
             return;
         }
 
-        final int value = Formulas.calcArmorFractureValue(instance.getArmorItem(), skill, context);
+        final int value = Formulas.calcArmorFractureValue(skill, context, item.getArmorItem());
         if (value > 0) {
             if (player.isGM()) {
-                player.sendMessage("Потеряно прочности у " + instance.getItemName() + "=" + value);
+                player.sendMessage("Потеряно прочности у " + item.getItemName() + "=" + value);
             }
             fracture(player, value);
         }

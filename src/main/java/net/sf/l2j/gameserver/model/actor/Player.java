@@ -119,7 +119,6 @@ import net.sf.l2j.gameserver.model.holder.Timestamp;
 import net.sf.l2j.gameserver.model.holder.skillnode.GeneralSkillNode;
 import net.sf.l2j.gameserver.model.item.instance.ItemDao;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.model.itemcontainer.Inventory;
@@ -6261,27 +6260,24 @@ public final class Player extends Playable {
             if (hit.block.isSuccess()) {
                 armor = getSecondaryWeaponInstance();
             }
-            DurabilityModule durability = armor.getDurabilityModule();
-            if (durability != null) {
-                durability.fractureArmor(this, null, Default.Context.builder()
+
+            if (armor != null) {
+                Optional.ofNullable(armor.getDurabilityModule()).ifPresent(e -> e.fractureArmor(this, null, Default.Context.builder()
                     .block(hit.block)
                     .isCritical(hit.isCritical)
                     .value(hit.damage)
                     .isMissed(hit.isMissed)
-                    .build());
+                    .build()));
             }
         } else if (attacker == this) {
             ItemInstance wpn = getActiveWeaponInstance();
             if (wpn != null) {
-                DurabilityModule durability = wpn.getDurabilityModule();
-                if (durability != null) {
-                    durability.fractureWeapon(this, target, null, Default.Context.builder()
-                        .block(hit.block)
-                        .isCritical(hit.isCritical)
-                        .value(hit.damage)
-                        .isMissed(hit.isMissed)
-                        .build());
-                }
+                Optional.ofNullable(wpn.getDurabilityModule()).ifPresent(e -> e.fractureWeapon(this, target, null, Default.Context.builder()
+                    .block(hit.block)
+                    .isCritical(hit.isCritical)
+                    .value(hit.damage)
+                    .isMissed(hit.isMissed)
+                    .build()));
             }
         }
     }
@@ -6302,18 +6298,12 @@ public final class Player extends Playable {
             }
 
             if (armor != null) {
-                DurabilityModule durability = armor.getDurabilityModule();
-                if (durability != null) {
-                    durability.fractureArmor(this, skill, context);
-                }
+                Optional.ofNullable(armor.getDurabilityModule()).ifPresent(e -> e.fractureArmor(this, skill, context));
             }
         } else if (caster == this) {
             ItemInstance wpn = getActiveWeaponInstance();
             if (wpn != null) {
-                DurabilityModule durability = wpn.getDurabilityModule();
-                if (durability != null) {
-                    durability.fractureWeapon(this, target, skill, context);
-                }
+                Optional.ofNullable(wpn.getDurabilityModule()).ifPresent(e -> e.fractureWeapon(this, target, skill, context));
             }
 
             if (!target.isDead()) {

@@ -9,7 +9,6 @@ import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
-import net.sf.l2j.gameserver.enums.items.CrystalType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.ElementType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
@@ -1362,22 +1361,22 @@ public final class Formulas {
         return (int) ((attacker.distance2D(target.getPosition()) * 0.3333333333) + (baseFlyTime * 0.7777777777) + 200);
     }
 
-    public static int calcWeaponFractureValue(Player attacker, Creature target, L2Skill skill, Default.Context context) {
+    public static int calcWeaponFractureValue(Player attacker, Creature target, L2Skill skill, Default.Context context, ItemInstance weapon) {
         ItemInstance activeWeaponInstance = attacker.getActiveWeaponInstance();
+
+        // null & FIST weapon nul reduce durability, drop calculation
         if (activeWeaponInstance == null || attacker.getAttackType() == WeaponType.FIST) {
             return 0;
         }
 
-        Weapon weapon = activeWeaponInstance.getWeaponItem();
         WeaponType weaponType = attacker.getAttackType();
 
         // calc for weapon if use magic
         if (skill != null && skill.isMagic()) {
-            CrystalType crystalType = weapon.getCrystalType();
-            double gradeModifier = (crystalType.getId() + 1.) / 10.;
+            // magic reduce durability by MP consuming value & weapon grade
+            int gradeModifier = weapon.getItem().getCrystalType().getId() + 1;
             double mpConsume = skill.getMpConsume() + skill.getMpInitialConsume();
-            double typeModifier = skill.isDebuff() ? 0.156 : 0.64;
-            return (int) Math.max(mpConsume * (gradeModifier * typeModifier), 1);
+            return (int) Math.max(Math.sqrt(mpConsume) + gradeModifier, 1);
         } else {
             // bow always reduce durability by 4
             if (weaponType == WeaponType.BOW) {
@@ -1386,15 +1385,15 @@ public final class Formulas {
 
             double damage = context.getValue();
             double augmentedMod = activeWeaponInstance.isAugmented() ? 0.85 : 1.;
-            double blockMod = context.getBlock() == ShieldDefense.PERFECT ? Rnd.get(3, 10) : context.getBlock() == ShieldDefense.SUCCESS ? 2. : 1.;
-            double armorMod;
+            double blockMod = context.getBlock() == ShieldDefense.PERFECT ? Rnd.get(3, 10) : context.getBlock() == ShieldDefense.SUCCESS ? 2 : 1;
+            double armorMod = 1;
+
+            // if target is player and he's equipped by armor
             if (target instanceof Player player) {
                 // against armor modifier for target=player
                 ItemInstance armor = player.getInventory().getRandomEquippedItem(0);
                 if (armor != null) {
                     armorMod = ((ArmorType) armor.getItemType()).getDamageToWeaponDurability();
-                } else {
-                    armorMod = 1.;
                 }
             } else {
                 // against monster which level is lower than attacker level
@@ -1410,7 +1409,7 @@ public final class Formulas {
         }
     }
 
-    public static int calcArmorFractureValue(Armor armor, L2Skill skill, Default.Context context) {
+    public static int calcArmorFractureValue(L2Skill skill, Default.Context context, Armor armor) {
         // if doesnt have equipped armor
         if (armor == null) {
             return 0;
