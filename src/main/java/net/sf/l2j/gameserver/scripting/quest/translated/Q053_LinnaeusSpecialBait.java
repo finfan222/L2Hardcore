@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -7,24 +7,24 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q050_LanoscosSpecialBait extends Quest {
-    private static final String QUEST_NAME = "Q050_LanoscosSpecialBait";
+public class Q053_LinnaeusSpecialBait extends Quest {
+    private static final String QUEST_NAME = "Q053_LinnaeusSpecialBait";
 
     // Item
-    private static final int ESSENCE_OF_WIND = 7621;
+    private static final int CRIMSON_DRAKE_HEART = 7624;
 
     // Reward
-    private static final int WIND_FISHING_LURE = 7610;
+    private static final int FLAMING_FISHING_LURE = 7613;
 
-    public Q050_LanoscosSpecialBait() {
-        super(50, "Lanosco's Special Bait");
+    public Q053_LinnaeusSpecialBait() {
+        super(53, "Linnaues' Special Bait");
 
-        setItemsIds(ESSENCE_OF_WIND);
+        setItemsIds(CRIMSON_DRAKE_HEART);
 
-        addStartNpc(31570); // Lanosco
-        addTalkId(31570);
+        addStartNpc(31577); // Linnaeus
+        addTalkId(31577);
 
-        addKillId(21026); // Singing wind
+        addKillId(20670); // Crimson Drake
     }
 
     @Override
@@ -34,8 +34,8 @@ public class Q050_LanoscosSpecialBait extends Quest {
 
     @Override
     protected void initializeConditions() {
-        condition.level = 27;
-        condition.items = new QuestDetail[]{QuestDetail.builder().id(ESSENCE_OF_WIND).value(100).build()};
+        condition.level = 60;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(CRIMSON_DRAKE_HEART).value(100).build()};
     }
 
     @Override
@@ -46,14 +46,14 @@ public class Q050_LanoscosSpecialBait extends Quest {
             return htmltext;
         }
 
-        if (event.equalsIgnoreCase("31570-03.htm")) {
+        if (event.equalsIgnoreCase("31577-03.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("31570-07.htm")) {
-            htmltext = "31570-06.htm";
-            takeItems(player, ESSENCE_OF_WIND, -1);
-            rewardItems(player, WIND_FISHING_LURE, 4);
+        } else if (event.equalsIgnoreCase("31577-07.htm")) {
+            htmltext = "31577-06.htm";
+            takeItems(player, CRIMSON_DRAKE_HEART, -1);
+            rewardItems(player, FLAMING_FISHING_LURE, 4);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
         }
@@ -70,8 +70,8 @@ public class Q050_LanoscosSpecialBait extends Quest {
         }
 
         htmltext = switch (st.getState()) {
-            case CREATED -> !condition.validateLevel(player) ? "31570-02.htm" : "31570-01.htm";
-            case STARTED -> condition.validateItems(player) ? "31570-04.htm" : "31570-05.htm";
+            case CREATED -> !condition.validateLevel(player) ? "31577-02.htm" : "31577-01.htm";
+            case STARTED -> condition.validateItems(player) ? "31577-04.htm" : "31577-05.htm";
             case COMPLETED -> getAlreadyCompletedMsg();
         };
 
@@ -87,7 +87,7 @@ public class Q050_LanoscosSpecialBait extends Quest {
             return null;
         }
 
-        if (dropItems(player, ESSENCE_OF_WIND, 1, 100, 500000)) {
+        if (dropItems(player, CRIMSON_DRAKE_HEART, 1, 100, 500000)) {
             st.setCond(2);
         }
 

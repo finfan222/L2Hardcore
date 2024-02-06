@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
@@ -7,10 +7,10 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q045_ToTalkingIsland extends Quest {
-    private static final String QUEST_NAME = "Q045_ToTalkingIsland";
+public class Q046_OnceMoreInTheArmsOfTheMotherTree extends Quest {
+    private static final String QUEST_NAME = "Q046_OnceMoreInTheArmsOfTheMotherTree";
 
-    // Npcs
+    // NPCs
     private static final int GALLADUCCI = 30097;
     private static final int GENTLER = 30094;
     private static final int SANDRA = 30090;
@@ -24,10 +24,10 @@ public class Q045_ToTalkingIsland extends Quest {
     private static final int GEMSTONE_POWDER = 7567;
     private static final int PURIFIED_MAGIC_NECKLACE = 7566;
     private static final int MARK_OF_TRAVELER = 7570;
-    private static final int SCROLL_OF_ESCAPE_SPECIAL = 7554;
+    private static final int SCROLL_OF_ESCAPE_SPECIAL = 7555;
 
-    public Q045_ToTalkingIsland() {
-        super(45, "To Talking Island");
+    public Q046_OnceMoreInTheArmsOfTheMotherTree() {
+        super(46, "Once More In the Arms of the Mother Tree");
 
         setItemsIds(ORDER_DOCUMENT_1, ORDER_DOCUMENT_2, ORDER_DOCUMENT_3, MAGIC_SWORD_HILT, GEMSTONE_POWDER, PURIFIED_MAGIC_NECKLACE);
 
@@ -43,7 +43,7 @@ public class Q045_ToTalkingIsland extends Quest {
     @Override
     protected void initializeConditions() {
         condition.level = 3;
-        condition.races = new ClassRace[]{ClassRace.HUMAN};
+        condition.races = new ClassRace[]{ClassRace.ELF};
         condition.items = new QuestDetail[]{QuestDetail.builder().id(MARK_OF_TRAVELER).build()};
     }
 

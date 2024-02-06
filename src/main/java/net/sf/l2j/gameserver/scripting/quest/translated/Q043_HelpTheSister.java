@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -7,32 +7,32 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q042_HelpTheUncle extends Quest {
-    private static final String QUEST_NAME = "Q042_HelpTheUncle";
+public class Q043_HelpTheSister extends Quest {
+    private static final String QUEST_NAME = "Q043_HelpTheSister";
 
     // NPCs
-    private static final int WATERS = 30828;
-    private static final int SOPHYA = 30735;
+    private static final int COOPER = 30829;
+    private static final int GALLADUCCI = 30097;
 
     // Items
-    private static final int TRIDENT = 291;
-    private static final int MAP_PIECE = 7548;
-    private static final int MAP = 7549;
-    private static final int PET_TICKET = 7583;
+    private static final int CRAFTED_DAGGER = 220;
+    private static final int MAP_PIECE = 7550;
+    private static final int MAP = 7551;
+    private static final int PET_TICKET = 7584;
 
     // Monsters
-    private static final int MONSTER_EYE_DESTROYER = 20068;
-    private static final int MONSTER_EYE_GAZER = 20266;
+    private static final int SPECTER = 20171;
+    private static final int SORROW_MAIDEN = 20197;
 
-    public Q042_HelpTheUncle() {
-        super(42, "Help the Uncle!");
+    public Q043_HelpTheSister() {
+        super(43, "Help the Sister!");
 
         setItemsIds(MAP_PIECE, MAP);
 
-        addStartNpc(WATERS);
-        addTalkId(WATERS, SOPHYA);
+        addStartNpc(COOPER);
+        addTalkId(COOPER, GALLADUCCI);
 
-        addKillId(MONSTER_EYE_DESTROYER, MONSTER_EYE_GAZER);
+        addKillId(SPECTER, SORROW_MAIDEN);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Q042_HelpTheUncle extends Quest {
 
     @Override
     protected void initializeConditions() {
-        condition.level = 25;
+        condition.level = 26;
     }
 
     @Override
@@ -52,24 +52,24 @@ public class Q042_HelpTheUncle extends Quest {
             return event;
         }
 
-        if (event.equalsIgnoreCase("30828-01.htm")) {
+        if (event.equalsIgnoreCase("30829-01.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("30828-03.htm") && player.getInventory().hasItems(TRIDENT)) {
+        } else if (event.equalsIgnoreCase("30829-03.htm") && player.getInventory().hasItems(CRAFTED_DAGGER)) {
             st.setCond(2);
             playSound(player, SOUND_MIDDLE);
-            takeItems(player, TRIDENT, 1);
-        } else if (event.equalsIgnoreCase("30828-05.htm")) {
+            takeItems(player, CRAFTED_DAGGER, 1);
+        } else if (event.equalsIgnoreCase("30829-05.htm")) {
             st.setCond(4);
             playSound(player, SOUND_MIDDLE);
             takeItems(player, MAP_PIECE, 30);
             giveItems(player, MAP, 1);
-        } else if (event.equalsIgnoreCase("30735-06.htm")) {
+        } else if (event.equalsIgnoreCase("30097-06.htm")) {
             st.setCond(5);
             playSound(player, SOUND_MIDDLE);
             takeItems(player, MAP, 1);
-        } else if (event.equalsIgnoreCase("30828-07.htm")) {
+        } else if (event.equalsIgnoreCase("30829-07.htm")) {
             giveItems(player, PET_TICKET, 1);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
@@ -88,31 +88,31 @@ public class Q042_HelpTheUncle extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = !condition.validateLevel(player) ? "30828-00a.htm" : "30828-00.htm";
+                htmltext = !condition.validateLevel(player) ? "30829-00a.htm" : "30829-00.htm";
                 break;
 
             case STARTED:
                 int cond = st.getCond();
                 switch (npc.getNpcId()) {
-                    case WATERS:
+                    case COOPER:
                         if (cond == 1) {
-                            htmltext = (!player.getInventory().hasItems(TRIDENT)) ? "30828-01a.htm" : "30828-02.htm";
+                            htmltext = (!player.getInventory().hasItems(CRAFTED_DAGGER)) ? "30829-01a.htm" : "30829-02.htm";
                         } else if (cond == 2) {
-                            htmltext = "30828-03a.htm";
+                            htmltext = "30829-03a.htm";
                         } else if (cond == 3) {
-                            htmltext = "30828-04.htm";
+                            htmltext = "30829-04.htm";
                         } else if (cond == 4) {
-                            htmltext = "30828-05a.htm";
+                            htmltext = "30829-05a.htm";
                         } else if (cond == 5) {
-                            htmltext = "30828-06.htm";
+                            htmltext = "30829-06.htm";
                         }
                         break;
 
-                    case SOPHYA:
+                    case GALLADUCCI:
                         if (cond == 4) {
-                            htmltext = "30735-05.htm";
+                            htmltext = "30097-05.htm";
                         } else if (cond == 5) {
-                            htmltext = "30735-06a.htm";
+                            htmltext = "30097-06a.htm";
                         }
                         break;
                 }

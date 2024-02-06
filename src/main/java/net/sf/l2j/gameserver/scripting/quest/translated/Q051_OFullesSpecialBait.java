@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -7,35 +7,24 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q053_LinnaeusSpecialBait extends Quest {
-    private static final String QUEST_NAME = "Q053_LinnaeusSpecialBait";
+public class Q051_OFullesSpecialBait extends Quest {
+    private static final String QUEST_NAME = "Q051_OFullesSpecialBait";
 
     // Item
-    private static final int CRIMSON_DRAKE_HEART = 7624;
+    private static final int LOST_BAIT = 7622;
 
     // Reward
-    private static final int FLAMING_FISHING_LURE = 7613;
+    private static final int ICY_AIR_LURE = 7611;
 
-    public Q053_LinnaeusSpecialBait() {
-        super(53, "Linnaues' Special Bait");
+    public Q051_OFullesSpecialBait() {
+        super(51, "O'Fulle's Special Bait");
 
-        setItemsIds(CRIMSON_DRAKE_HEART);
+        setItemsIds(LOST_BAIT);
 
-        addStartNpc(31577); // Linnaeus
-        addTalkId(31577);
+        addStartNpc(31572); // O'Fulle
+        addTalkId(31572);
 
-        addKillId(20670); // Crimson Drake
-    }
-
-    @Override
-    public boolean isSharable() {
-        return true;
-    }
-
-    @Override
-    protected void initializeConditions() {
-        condition.level = 60;
-        condition.items = new QuestDetail[]{QuestDetail.builder().id(CRIMSON_DRAKE_HEART).value(100).build()};
+        addKillId(20552); // Fettered Soul
     }
 
     @Override
@@ -46,19 +35,30 @@ public class Q053_LinnaeusSpecialBait extends Quest {
             return htmltext;
         }
 
-        if (event.equalsIgnoreCase("31577-03.htm")) {
+        if (event.equalsIgnoreCase("31572-03.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("31577-07.htm")) {
-            htmltext = "31577-06.htm";
-            takeItems(player, CRIMSON_DRAKE_HEART, -1);
-            rewardItems(player, FLAMING_FISHING_LURE, 4);
+        } else if (event.equalsIgnoreCase("31572-07.htm")) {
+            htmltext = "31572-06.htm";
+            takeItems(player, LOST_BAIT, -1);
+            rewardItems(player, ICY_AIR_LURE, 4);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
         }
 
         return htmltext;
+    }
+
+    @Override
+    public boolean isSharable() {
+        return true;
+    }
+
+    @Override
+    protected void initializeConditions() {
+        condition.level = 36;
+        condition.items = new QuestDetail[]{QuestDetail.builder().id(LOST_BAIT).value(100).build()};
     }
 
     @Override
@@ -70,8 +70,8 @@ public class Q053_LinnaeusSpecialBait extends Quest {
         }
 
         htmltext = switch (st.getState()) {
-            case CREATED -> !condition.validateLevel(player) ? "31577-02.htm" : "31577-01.htm";
-            case STARTED -> condition.validateItems(player) ? "31577-04.htm" : "31577-05.htm";
+            case CREATED -> !condition.validateLevel(player) ? "31572-02.htm" : "31572-01.htm";
+            case STARTED -> condition.validateItems(player) ? "31572-04.htm" : "31572-05.htm";
             case COMPLETED -> getAlreadyCompletedMsg();
         };
 
@@ -87,7 +87,7 @@ public class Q053_LinnaeusSpecialBait extends Quest {
             return null;
         }
 
-        if (dropItems(player, CRIMSON_DRAKE_HEART, 1, 100, 500000)) {
+        if (dropItemsAlways(player, LOST_BAIT, 1, 100)) {
             st.setCond(2);
         }
 

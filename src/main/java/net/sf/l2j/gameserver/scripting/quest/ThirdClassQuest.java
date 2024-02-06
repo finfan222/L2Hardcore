@@ -14,6 +14,7 @@ import net.sf.l2j.gameserver.network.NpcStringId;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+import net.sf.l2j.gameserver.scripting.quest.translated.Q070_SagaOfThePhoenixKnight;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 import java.util.ArrayList;

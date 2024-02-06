@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -7,33 +7,32 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q044_HelpTheSon extends Quest {
-    private static final String QUEST_NAME = "Q044_HelpTheSon";
+public class Q042_HelpTheUncle extends Quest {
+    private static final String QUEST_NAME = "Q042_HelpTheUncle";
 
-    // Npcs
-    private static final int LUNDY = 30827;
-    private static final int DRIKUS = 30505;
+    // NPCs
+    private static final int WATERS = 30828;
+    private static final int SOPHYA = 30735;
 
     // Items
-    private static final int WORK_HAMMER = 168;
-    private static final int GEMSTONE_FRAGMENT = 7552;
-    private static final int GEMSTONE = 7553;
-    private static final int PET_TICKET = 7585;
+    private static final int TRIDENT = 291;
+    private static final int MAP_PIECE = 7548;
+    private static final int MAP = 7549;
+    private static final int PET_TICKET = 7583;
 
     // Monsters
-    private static final int MAILLE = 20919;
-    private static final int MAILLE_SCOUT = 20920;
-    private static final int MAILLE_GUARD = 20921;
+    private static final int MONSTER_EYE_DESTROYER = 20068;
+    private static final int MONSTER_EYE_GAZER = 20266;
 
-    public Q044_HelpTheSon() {
-        super(44, "Help the Son!");
+    public Q042_HelpTheUncle() {
+        super(42, "Help the Uncle!");
 
-        setItemsIds(GEMSTONE_FRAGMENT, GEMSTONE);
+        setItemsIds(MAP_PIECE, MAP);
 
-        addStartNpc(LUNDY);
-        addTalkId(LUNDY, DRIKUS);
+        addStartNpc(WATERS);
+        addTalkId(WATERS, SOPHYA);
 
-        addKillId(MAILLE, MAILLE_SCOUT, MAILLE_GUARD);
+        addKillId(MONSTER_EYE_DESTROYER, MONSTER_EYE_GAZER);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class Q044_HelpTheSon extends Quest {
 
     @Override
     protected void initializeConditions() {
-        condition.level = 24;
+        condition.level = 25;
     }
 
     @Override
@@ -53,24 +52,24 @@ public class Q044_HelpTheSon extends Quest {
             return event;
         }
 
-        if (event.equalsIgnoreCase("30827-01.htm")) {
+        if (event.equalsIgnoreCase("30828-01.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("30827-03.htm") && player.getInventory().hasItems(WORK_HAMMER)) {
+        } else if (event.equalsIgnoreCase("30828-03.htm") && player.getInventory().hasItems(TRIDENT)) {
             st.setCond(2);
             playSound(player, SOUND_MIDDLE);
-            takeItems(player, WORK_HAMMER, 1);
-        } else if (event.equalsIgnoreCase("30827-05.htm")) {
+            takeItems(player, TRIDENT, 1);
+        } else if (event.equalsIgnoreCase("30828-05.htm")) {
             st.setCond(4);
             playSound(player, SOUND_MIDDLE);
-            takeItems(player, GEMSTONE_FRAGMENT, 30);
-            giveItems(player, GEMSTONE, 1);
-        } else if (event.equalsIgnoreCase("30505-06.htm")) {
+            takeItems(player, MAP_PIECE, 30);
+            giveItems(player, MAP, 1);
+        } else if (event.equalsIgnoreCase("30735-06.htm")) {
             st.setCond(5);
             playSound(player, SOUND_MIDDLE);
-            takeItems(player, GEMSTONE, 1);
-        } else if (event.equalsIgnoreCase("30827-07.htm")) {
+            takeItems(player, MAP, 1);
+        } else if (event.equalsIgnoreCase("30828-07.htm")) {
             giveItems(player, PET_TICKET, 1);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
@@ -89,31 +88,31 @@ public class Q044_HelpTheSon extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = (player.getStatus().getLevel() < 24) ? "30827-00a.htm" : "30827-00.htm";
+                htmltext = !condition.validateLevel(player) ? "30828-00a.htm" : "30828-00.htm";
                 break;
 
             case STARTED:
                 int cond = st.getCond();
                 switch (npc.getNpcId()) {
-                    case LUNDY:
+                    case WATERS:
                         if (cond == 1) {
-                            htmltext = (!player.getInventory().hasItems(WORK_HAMMER)) ? "30827-01a.htm" : "30827-02.htm";
+                            htmltext = (!player.getInventory().hasItems(TRIDENT)) ? "30828-01a.htm" : "30828-02.htm";
                         } else if (cond == 2) {
-                            htmltext = "30827-03a.htm";
+                            htmltext = "30828-03a.htm";
                         } else if (cond == 3) {
-                            htmltext = "30827-04.htm";
+                            htmltext = "30828-04.htm";
                         } else if (cond == 4) {
-                            htmltext = "30827-05a.htm";
+                            htmltext = "30828-05a.htm";
                         } else if (cond == 5) {
-                            htmltext = "30827-06.htm";
+                            htmltext = "30828-06.htm";
                         }
                         break;
 
-                    case DRIKUS:
+                    case SOPHYA:
                         if (cond == 4) {
-                            htmltext = "30505-05.htm";
+                            htmltext = "30735-05.htm";
                         } else if (cond == 5) {
-                            htmltext = "30505-06a.htm";
+                            htmltext = "30735-06a.htm";
                         }
                         break;
                 }
@@ -136,7 +135,7 @@ public class Q044_HelpTheSon extends Quest {
             return null;
         }
 
-        if (dropItemsAlways(player, GEMSTONE_FRAGMENT, 1, 30)) {
+        if (dropItemsAlways(player, MAP_PIECE, 1, 30)) {
             st.setCond(3);
         }
 

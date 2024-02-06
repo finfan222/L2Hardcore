@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -7,32 +7,33 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q043_HelpTheSister extends Quest {
-    private static final String QUEST_NAME = "Q043_HelpTheSister";
+public class Q044_HelpTheSon extends Quest {
+    private static final String QUEST_NAME = "Q044_HelpTheSon";
 
-    // NPCs
-    private static final int COOPER = 30829;
-    private static final int GALLADUCCI = 30097;
+    // Npcs
+    private static final int LUNDY = 30827;
+    private static final int DRIKUS = 30505;
 
     // Items
-    private static final int CRAFTED_DAGGER = 220;
-    private static final int MAP_PIECE = 7550;
-    private static final int MAP = 7551;
-    private static final int PET_TICKET = 7584;
+    private static final int WORK_HAMMER = 168;
+    private static final int GEMSTONE_FRAGMENT = 7552;
+    private static final int GEMSTONE = 7553;
+    private static final int PET_TICKET = 7585;
 
     // Monsters
-    private static final int SPECTER = 20171;
-    private static final int SORROW_MAIDEN = 20197;
+    private static final int MAILLE = 20919;
+    private static final int MAILLE_SCOUT = 20920;
+    private static final int MAILLE_GUARD = 20921;
 
-    public Q043_HelpTheSister() {
-        super(43, "Help the Sister!");
+    public Q044_HelpTheSon() {
+        super(44, "Help the Son!");
 
-        setItemsIds(MAP_PIECE, MAP);
+        setItemsIds(GEMSTONE_FRAGMENT, GEMSTONE);
 
-        addStartNpc(COOPER);
-        addTalkId(COOPER, GALLADUCCI);
+        addStartNpc(LUNDY);
+        addTalkId(LUNDY, DRIKUS);
 
-        addKillId(SPECTER, SORROW_MAIDEN);
+        addKillId(MAILLE, MAILLE_SCOUT, MAILLE_GUARD);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class Q043_HelpTheSister extends Quest {
 
     @Override
     protected void initializeConditions() {
-        condition.level = 26;
+        condition.level = 24;
     }
 
     @Override
@@ -52,24 +53,24 @@ public class Q043_HelpTheSister extends Quest {
             return event;
         }
 
-        if (event.equalsIgnoreCase("30829-01.htm")) {
+        if (event.equalsIgnoreCase("30827-01.htm")) {
             st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
-        } else if (event.equalsIgnoreCase("30829-03.htm") && player.getInventory().hasItems(CRAFTED_DAGGER)) {
+        } else if (event.equalsIgnoreCase("30827-03.htm") && player.getInventory().hasItems(WORK_HAMMER)) {
             st.setCond(2);
             playSound(player, SOUND_MIDDLE);
-            takeItems(player, CRAFTED_DAGGER, 1);
-        } else if (event.equalsIgnoreCase("30829-05.htm")) {
+            takeItems(player, WORK_HAMMER, 1);
+        } else if (event.equalsIgnoreCase("30827-05.htm")) {
             st.setCond(4);
             playSound(player, SOUND_MIDDLE);
-            takeItems(player, MAP_PIECE, 30);
-            giveItems(player, MAP, 1);
-        } else if (event.equalsIgnoreCase("30097-06.htm")) {
+            takeItems(player, GEMSTONE_FRAGMENT, 30);
+            giveItems(player, GEMSTONE, 1);
+        } else if (event.equalsIgnoreCase("30505-06.htm")) {
             st.setCond(5);
             playSound(player, SOUND_MIDDLE);
-            takeItems(player, MAP, 1);
-        } else if (event.equalsIgnoreCase("30829-07.htm")) {
+            takeItems(player, GEMSTONE, 1);
+        } else if (event.equalsIgnoreCase("30827-07.htm")) {
             giveItems(player, PET_TICKET, 1);
             playSound(player, SOUND_FINISH);
             st.exitQuest(false);
@@ -88,31 +89,31 @@ public class Q043_HelpTheSister extends Quest {
 
         switch (st.getState()) {
             case CREATED:
-                htmltext = !condition.validateLevel(player) ? "30829-00a.htm" : "30829-00.htm";
+                htmltext = (player.getStatus().getLevel() < 24) ? "30827-00a.htm" : "30827-00.htm";
                 break;
 
             case STARTED:
                 int cond = st.getCond();
                 switch (npc.getNpcId()) {
-                    case COOPER:
+                    case LUNDY:
                         if (cond == 1) {
-                            htmltext = (!player.getInventory().hasItems(CRAFTED_DAGGER)) ? "30829-01a.htm" : "30829-02.htm";
+                            htmltext = (!player.getInventory().hasItems(WORK_HAMMER)) ? "30827-01a.htm" : "30827-02.htm";
                         } else if (cond == 2) {
-                            htmltext = "30829-03a.htm";
+                            htmltext = "30827-03a.htm";
                         } else if (cond == 3) {
-                            htmltext = "30829-04.htm";
+                            htmltext = "30827-04.htm";
                         } else if (cond == 4) {
-                            htmltext = "30829-05a.htm";
+                            htmltext = "30827-05a.htm";
                         } else if (cond == 5) {
-                            htmltext = "30829-06.htm";
+                            htmltext = "30827-06.htm";
                         }
                         break;
 
-                    case GALLADUCCI:
+                    case DRIKUS:
                         if (cond == 4) {
-                            htmltext = "30097-05.htm";
+                            htmltext = "30505-05.htm";
                         } else if (cond == 5) {
-                            htmltext = "30097-06a.htm";
+                            htmltext = "30505-06a.htm";
                         }
                         break;
                 }
@@ -135,7 +136,7 @@ public class Q043_HelpTheSister extends Quest {
             return null;
         }
 
-        if (dropItemsAlways(player, MAP_PIECE, 1, 30)) {
+        if (dropItemsAlways(player, GEMSTONE_FRAGMENT, 1, 30)) {
             st.setCond(3);
         }
 

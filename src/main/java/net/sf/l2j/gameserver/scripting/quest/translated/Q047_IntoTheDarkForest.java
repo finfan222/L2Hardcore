@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
@@ -7,8 +7,8 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q049_TheRoadHome extends Quest {
-    private static final String QUEST_NAME = "Q049_TheRoadHome";
+public class Q047_IntoTheDarkForest extends Quest {
+    private static final String QUEST_NAME = "Q047_IntoTheDarkForest";
 
     // NPCs
     private static final int GALLADUCCI = 30097;
@@ -24,15 +24,15 @@ public class Q049_TheRoadHome extends Quest {
     private static final int GEMSTONE_POWDER = 7567;
     private static final int PURIFIED_MAGIC_NECKLACE = 7566;
     private static final int MARK_OF_TRAVELER = 7570;
-    private static final int SCROLL_OF_ESCAPE_SPECIAL = 7558;
+    private static final int SCROLL_OF_ESCAPE_SPECIAL = 7556;
 
-    public Q049_TheRoadHome() {
-        super(49, "The Road Home");
+    public Q047_IntoTheDarkForest() {
+        super(47, "Into the Dark Forest");
 
         setItemsIds(ORDER_DOCUMENT_1, ORDER_DOCUMENT_2, ORDER_DOCUMENT_3, MAGIC_SWORD_HILT, GEMSTONE_POWDER, PURIFIED_MAGIC_NECKLACE);
 
         addStartNpc(GALLADUCCI);
-        addTalkId(GALLADUCCI, GENTLER, SANDRA, DUSTIN);
+        addTalkId(GALLADUCCI, SANDRA, DUSTIN, GENTLER);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Q049_TheRoadHome extends Quest {
     @Override
     protected void initializeConditions() {
         condition.level = 3;
-        condition.races = new ClassRace[]{ClassRace.DWARF};
+        condition.races = new ClassRace[]{ClassRace.DARK_ELF};
         condition.items = new QuestDetail[]{QuestDetail.builder().id(MARK_OF_TRAVELER).build()};
     }
 

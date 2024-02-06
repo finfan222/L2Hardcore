@@ -1,8 +1,9 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.network.NpcStringId;
+import net.sf.l2j.gameserver.scripting.quest.ThirdClassQuest;
 
 public class Q070_SagaOfThePhoenixKnight extends ThirdClassQuest {
     public Q070_SagaOfThePhoenixKnight() {

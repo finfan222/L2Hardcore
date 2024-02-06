@@ -1,4 +1,4 @@
-package net.sf.l2j.gameserver.scripting.quest;
+package net.sf.l2j.gameserver.scripting.quest.translated;
 
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
@@ -7,10 +7,10 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
 
-public class Q048_ToTheImmortalPlateau extends Quest {
-    private static final String QUEST_NAME = "Q048_ToTheImmortalPlateau";
+public class Q045_ToTalkingIsland extends Quest {
+    private static final String QUEST_NAME = "Q045_ToTalkingIsland";
 
-    // NPCs
+    // Npcs
     private static final int GALLADUCCI = 30097;
     private static final int GENTLER = 30094;
     private static final int SANDRA = 30090;
@@ -24,15 +24,15 @@ public class Q048_ToTheImmortalPlateau extends Quest {
     private static final int GEMSTONE_POWDER = 7567;
     private static final int PURIFIED_MAGIC_NECKLACE = 7566;
     private static final int MARK_OF_TRAVELER = 7570;
-    private static final int SCROLL_OF_ESCAPE_SPECIAL = 7557;
+    private static final int SCROLL_OF_ESCAPE_SPECIAL = 7554;
 
-    public Q048_ToTheImmortalPlateau() {
-        super(48, "To the Immortal Plateau");
+    public Q045_ToTalkingIsland() {
+        super(45, "To Talking Island");
 
         setItemsIds(ORDER_DOCUMENT_1, ORDER_DOCUMENT_2, ORDER_DOCUMENT_3, MAGIC_SWORD_HILT, GEMSTONE_POWDER, PURIFIED_MAGIC_NECKLACE);
 
         addStartNpc(GALLADUCCI);
-        addTalkId(GALLADUCCI, SANDRA, DUSTIN, GENTLER);
+        addTalkId(GALLADUCCI, GENTLER, SANDRA, DUSTIN);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class Q048_ToTheImmortalPlateau extends Quest {
     @Override
     protected void initializeConditions() {
         condition.level = 3;
-        condition.races = new ClassRace[]{ClassRace.ORC};
+        condition.races = new ClassRace[]{ClassRace.HUMAN};
         condition.items = new QuestDetail[]{QuestDetail.builder().id(MARK_OF_TRAVELER).build()};
     }
 
@@ -55,7 +55,7 @@ public class Q048_ToTheImmortalPlateau extends Quest {
         }
 
         if (event.equalsIgnoreCase("30097-03.htm")) {
-            st.setState(QuestStatus.STARTED,player, npc, event);
+            st.setState(QuestStatus.STARTED, player, npc, event);
             st.setCond(1);
             playSound(player, SOUND_ACCEPT);
             giveItems(player, ORDER_DOCUMENT_1, 1);
