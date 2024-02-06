@@ -1,14 +1,14 @@
-package net.sf.l2j.gameserver.network.clientpackets;
+package net.sf.l2j.gameserver.network.clientpackets.ship;
 
 import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.Point2D;
+import net.sf.l2j.gameserver.network.clientpackets.L2GameClientPacket;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.GetOffVehicle;
 import net.sf.l2j.gameserver.network.serverpackets.MoveToLocation;
-import net.sf.l2j.gameserver.network.serverpackets.StopMoveInVehicle;
+import net.sf.l2j.gameserver.network.serverpackets.ship.GetOffVehicle;
+import net.sf.l2j.gameserver.network.serverpackets.ship.StopMoveInVehicle;
 
 public final class RequestGetOffVehicle extends L2GameClientPacket {
     private int _boatId;

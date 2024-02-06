@@ -20,7 +20,7 @@ import net.sf.l2j.gameserver.model.location.Point2D;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
-import net.sf.l2j.gameserver.network.serverpackets.VehicleInfo;
+import net.sf.l2j.gameserver.network.serverpackets.ship.VehicleInfo;
 
 import java.util.ArrayList;
 import java.util.List;

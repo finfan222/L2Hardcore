@@ -1,11 +1,12 @@
-package net.sf.l2j.gameserver.network.clientpackets;
+package net.sf.l2j.gameserver.network.clientpackets.ship;
 
 import net.sf.l2j.gameserver.data.manager.BoatManager;
 import net.sf.l2j.gameserver.model.actor.Boat;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+import net.sf.l2j.gameserver.network.clientpackets.L2GameClientPacket;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
-import net.sf.l2j.gameserver.network.serverpackets.GetOnVehicle;
+import net.sf.l2j.gameserver.network.serverpackets.ship.GetOnVehicle;
 
 public final class RequestGetOnVehicle extends L2GameClientPacket {
     private int _boatId;

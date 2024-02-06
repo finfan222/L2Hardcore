@@ -7,8 +7,8 @@ import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldRegion;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
-import net.sf.l2j.gameserver.network.serverpackets.GetOnVehicle;
 import net.sf.l2j.gameserver.network.serverpackets.ValidateLocation;
+import net.sf.l2j.gameserver.network.serverpackets.ship.GetOnVehicle;
 
 import java.awt.*;
 

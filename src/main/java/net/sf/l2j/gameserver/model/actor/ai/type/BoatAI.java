@@ -3,7 +3,7 @@ package net.sf.l2j.gameserver.model.actor.ai.type;
 import net.sf.l2j.gameserver.model.actor.Boat;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.network.serverpackets.VehicleDeparture;
+import net.sf.l2j.gameserver.network.serverpackets.ship.VehicleDeparture;
 
 public class BoatAI extends CreatureAI {
     public BoatAI(Boat boat) {

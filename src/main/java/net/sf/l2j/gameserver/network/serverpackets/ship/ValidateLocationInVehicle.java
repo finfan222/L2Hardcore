@@ -1,7 +1,8 @@
-package net.sf.l2j.gameserver.network.serverpackets;
+package net.sf.l2j.gameserver.network.serverpackets.ship;
 
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
+import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 
 public class ValidateLocationInVehicle extends L2GameServerPacket {
     private final int _objectId;

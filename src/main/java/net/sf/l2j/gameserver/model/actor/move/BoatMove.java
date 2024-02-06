@@ -4,9 +4,9 @@ import net.sf.l2j.gameserver.enums.actors.MoveType;
 import net.sf.l2j.gameserver.model.actor.Boat;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.BoatLocation;
-import net.sf.l2j.gameserver.network.serverpackets.VehicleDeparture;
-import net.sf.l2j.gameserver.network.serverpackets.VehicleInfo;
-import net.sf.l2j.gameserver.network.serverpackets.VehicleStarted;
+import net.sf.l2j.gameserver.network.serverpackets.ship.VehicleDeparture;
+import net.sf.l2j.gameserver.network.serverpackets.ship.VehicleInfo;
+import net.sf.l2j.gameserver.network.serverpackets.ship.VehicleStarted;
 
 public class BoatMove extends CreatureMove<Boat> {
     private BoatLocation[] _currentPath;

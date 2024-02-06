@@ -1,6 +1,7 @@
-package net.sf.l2j.gameserver.network.serverpackets;
+package net.sf.l2j.gameserver.network.serverpackets.ship;
 
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
+import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
 
 public class GetOnVehicle extends L2GameServerPacket {
     private final int _objectId;

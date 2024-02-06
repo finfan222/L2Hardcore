@@ -19,7 +19,6 @@ import net.sf.l2j.gameserver.network.clientpackets.Appearing;
 import net.sf.l2j.gameserver.network.clientpackets.AttackRequest;
 import net.sf.l2j.gameserver.network.clientpackets.AuthLogin;
 import net.sf.l2j.gameserver.network.clientpackets.CannotMoveAnymore;
-import net.sf.l2j.gameserver.network.clientpackets.CannotMoveAnymoreInVehicle;
 import net.sf.l2j.gameserver.network.clientpackets.CharacterRestore;
 import net.sf.l2j.gameserver.network.clientpackets.DlgAnswer;
 import net.sf.l2j.gameserver.network.clientpackets.DummyPacket;
@@ -90,8 +89,6 @@ import net.sf.l2j.gameserver.network.clientpackets.RequestGMCommand;
 import net.sf.l2j.gameserver.network.clientpackets.RequestGameStart;
 import net.sf.l2j.gameserver.network.clientpackets.RequestGetBossRecord;
 import net.sf.l2j.gameserver.network.clientpackets.RequestGetItemFromPet;
-import net.sf.l2j.gameserver.network.clientpackets.RequestGetOffVehicle;
-import net.sf.l2j.gameserver.network.clientpackets.RequestGetOnVehicle;
 import net.sf.l2j.gameserver.network.clientpackets.RequestGiveItemToPet;
 import net.sf.l2j.gameserver.network.clientpackets.RequestGiveNickName;
 import net.sf.l2j.gameserver.network.clientpackets.RequestGmList;
@@ -114,7 +111,6 @@ import net.sf.l2j.gameserver.network.clientpackets.RequestMagicSkillUse;
 import net.sf.l2j.gameserver.network.clientpackets.RequestMakeMacro;
 import net.sf.l2j.gameserver.network.clientpackets.RequestManagePartyRoom;
 import net.sf.l2j.gameserver.network.clientpackets.RequestManorList;
-import net.sf.l2j.gameserver.network.clientpackets.RequestMoveToLocationInVehicle;
 import net.sf.l2j.gameserver.network.clientpackets.RequestNewCharacter;
 import net.sf.l2j.gameserver.network.clientpackets.RequestOlympiadMatchList;
 import net.sf.l2j.gameserver.network.clientpackets.RequestOlympiadObserverEnd;
@@ -213,6 +209,10 @@ import net.sf.l2j.gameserver.network.clientpackets.TradeDone;
 import net.sf.l2j.gameserver.network.clientpackets.TradeRequest;
 import net.sf.l2j.gameserver.network.clientpackets.UseItem;
 import net.sf.l2j.gameserver.network.clientpackets.ValidatePosition;
+import net.sf.l2j.gameserver.network.clientpackets.ship.CannotMoveAnymoreInVehicle;
+import net.sf.l2j.gameserver.network.clientpackets.ship.RequestGetOffVehicle;
+import net.sf.l2j.gameserver.network.clientpackets.ship.RequestGetOnVehicle;
+import net.sf.l2j.gameserver.network.clientpackets.ship.RequestMoveToLocationInVehicle;
 
 import java.nio.ByteBuffer;
 
@@ -291,7 +291,7 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
                         if (buf.remaining() >= 2) {
                             id2 = buf.getShort() & 0xffff;
                         } else {
-                            log.warn("{} sent a 0xd0 without the second opcode.", client.toString());
+                            log.warn("{} sent a 0xd0 without the second opcode.", client);
                             break;
                         }
 
@@ -862,7 +862,7 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
                         if (buf.remaining() >= 2) {
                             id2 = buf.getShort() & 0xffff;
                         } else {
-                            log.warn("{} sent a 0xd0 without the second opcode.", client.toString());
+                            log.warn("{} sent a 0xd0 without the second opcode.", client);
                             break;
                         }
 
@@ -1038,7 +1038,7 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
             return;
         }
 
-        log.warn("{} sent unknown packet 0x{} on state {}.", client.toString(), Integer.toHexString(opcode), state.name());
+        log.warn("{} sent unknown packet 0x{} on state {}.", client, Integer.toHexString(opcode), state.name());
 
         final int size = buf.remaining();
         final byte[] array = new byte[size];
@@ -1054,7 +1054,7 @@ public final class GamePacketHandler implements IPacketHandler<GameClient>, ICli
             return;
         }
 
-        log.warn("{} sent unknown packet 0x{}:{} on state {}.", client.toString(), Integer.toHexString(opcode), Integer.toHexString(id2), state.name());
+        log.warn("{} sent unknown packet 0x{}:{} on state {}.", client, Integer.toHexString(opcode), Integer.toHexString(id2), state.name());
 
         final int size = buf.remaining();
         final byte[] array = new byte[size];
