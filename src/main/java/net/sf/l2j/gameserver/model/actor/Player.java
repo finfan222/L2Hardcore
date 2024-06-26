@@ -130,6 +130,7 @@ import net.sf.l2j.gameserver.model.itemcontainer.PetInventory;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.ItemPassiveSkillsListener;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.location.SpawnLocation;
+import net.sf.l2j.gameserver.model.mastery.Mastery;
 import net.sf.l2j.gameserver.model.memo.PlayerMemo;
 import net.sf.l2j.gameserver.model.multisell.PreparedListContainer;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
@@ -450,6 +451,9 @@ public final class Player extends Playable {
     @Getter
     private final Cards cards;
 
+    @Getter
+    private final Mastery mastery;
+
     /**
      * Constructor of Player (use Creature constructor).
      * <ul>
@@ -475,6 +479,7 @@ public final class Player extends Playable {
         _ai = new PlayerAI(this);
         cards = new Cards(this);
         spoilState = new SpoilState();
+        mastery = new Mastery(this);
 
         // Retrieve from the database all items of this Player and add them to _inventory
         getInventory().restore();
@@ -5184,7 +5189,8 @@ public final class Player extends Playable {
             dialog = new Dialog(this, confirmDlg, Map.of(
                 "revivePower", revivePower,
                 "isRevivingPet", isPet,
-                "reviver", reviver
+                "reviver", reviver,
+                "isFullRestore", skill.getId() == 1016 && skill.getLevel() == 10
             )).send();
         }
     }

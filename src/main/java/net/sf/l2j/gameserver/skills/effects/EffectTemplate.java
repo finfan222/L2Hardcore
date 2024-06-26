@@ -1,6 +1,9 @@
 package net.sf.l2j.gameserver.skills.effects;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -41,6 +44,10 @@ public class EffectTemplate {
     private final int _triggeredId;
     private final int _triggeredLevel;
     private final ChanceCondition _chanceCondition;
+
+    @Getter
+    @Setter
+    private StatSet params;
 
     public EffectTemplate(Condition attachCond, String funcName, double value, int counter, int period, AbnormalEffect abnormalEffect, String stackType, float stackOrder, boolean showIcon, double effectPower, SkillType effectType, int triggeredId, int triggeredLevel, ChanceCondition chanceCondition) {
         _attachCond = attachCond;

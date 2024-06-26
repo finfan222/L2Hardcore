@@ -237,7 +237,8 @@
         <set name="castRange" val="40" />
         <set name="effectRange" val="200" />
         <for>
-			<effect name="Stun" time="9" val="0" effectPower="15" effectType="STUN" stackOrder="1" stackType="stun" />
+            <!-- Время действия снижено до 7 сек., вероятность прохождения увеличена до 80% -->
+			<effect name="Stun" time="7" val="0" effectPower="80" effectType="STUN" stackOrder="1" stackType="stun" />
         </for>
 	</skill>
 	<skill id="4711" levels="12" name="Wild Defense">

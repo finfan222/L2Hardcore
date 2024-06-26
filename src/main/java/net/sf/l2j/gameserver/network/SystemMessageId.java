@@ -10115,6 +10115,11 @@ public final class SystemMessageId {
     public static final SystemMessageId S1_CALLS_YOU_TO_A_MORTAL_COMBAT;
 
     /**
+     * ID: 2063<br> Message: Are you sure you want to learn the $s1 mastery?
+     */
+    public static final SystemMessageId ARE_YOU_SURE_YOU_WANT_TO_LEARN_THE_S1_MASTERY;
+
+    /**
      * Array containing all SystemMessageIds<br> Important: Always initialize with a length of the highest
      * SystemMessageId + 1!!!
      */
@@ -12112,6 +12117,7 @@ public final class SystemMessageId {
         YOU_DIED_IF_YOU_WILL_NOT_RESURRECT_UNTIL_S1_YOU_DIE_FOREVER = new SystemMessageId(2060);
         S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2 = new SystemMessageId(2061);
         S1_CALLS_YOU_TO_A_MORTAL_COMBAT = new SystemMessageId(2062);
+        ARE_YOU_SURE_YOU_WANT_TO_LEARN_THE_S1_MASTERY = new SystemMessageId(2063);
 
         buildFastLookupTable();
     }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+	<skill id="3700" levels="1" name="Faith Cure">
+		<set name="target" val="SELF"/>
+		<set name="skillType" val="CONT"/>
+		<set name="isMagic" val="true"/>
+		<set name="operateType" val="ACTIVE"/>
+		<for>
+			<effect name="HealOverTime" time="1" count="5" val="3">
+				<param name="maxPercentHeal" value="true"/>
+			</effect>
+		</for>
+	</skill>
+</list>

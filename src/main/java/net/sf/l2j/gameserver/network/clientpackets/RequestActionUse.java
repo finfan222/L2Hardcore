@@ -13,6 +13,7 @@ import net.sf.l2j.gameserver.model.actor.ai.type.SummonAI;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
+import net.sf.l2j.gameserver.model.mastery.MasteryManager;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcSay;
@@ -139,7 +140,7 @@ public final class RequestActionUse extends L2GameClientPacket {
                 }
 
                 // You can't order anymore your pet to stop if distance is superior to 2000.
-                if (((SummonAI) summon.getAI()).getFollowStatus() && !player.isIn3DRadius(summon, 2000)) {
+                if (summon.getAI().getFollowStatus() && !player.isIn3DRadius(summon, 2000)) {
                     return;
                 }
 
@@ -179,8 +180,7 @@ public final class RequestActionUse extends L2GameClientPacket {
 
                 summon.setTarget(target);
 
-                if (target instanceof Creature) {
-                    final Creature creature = (Creature) target;
+                if (target instanceof Creature creature) {
                     if (creature.isAttackableWithoutForceBy(player) || (_isCtrlPressed && creature.isAttackableBy(player))) {
                         summon.getAI().tryToAttack(creature, _isCtrlPressed, _isShiftPressed);
                     } else {
@@ -447,6 +447,10 @@ public final class RequestActionUse extends L2GameClientPacket {
                 }
 
                 useSkill(5111, target);
+                break;
+
+            case 1042:
+                MasteryManager.getInstance().showMasteryList(player);
                 break;
 
             case 1043: // Mortal combat duel

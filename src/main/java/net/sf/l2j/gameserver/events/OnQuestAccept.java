@@ -15,7 +15,7 @@ import net.sf.l2j.gameserver.scripting.Quest;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OnQuestAccept {
+public class OnQuestAccept implements EventSituation {
 
     private Player player;
     private Npc npc;

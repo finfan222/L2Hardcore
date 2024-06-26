@@ -21,11 +21,15 @@ public class ArraysUtil {
      * @return {@code true} if the array contains the object, {@code false} otherwise.
      */
     public static <T> boolean contains(T[] array, T obj) {
-        if (array == null || array.length == 0) {
+        if (array == null) {
             return false;
         }
 
         for (T element : array) {
+            if (element == null) {
+                continue;
+            }
+
             if (element.equals(obj)) {
                 return true;
             }
@@ -65,7 +69,7 @@ public class ArraysUtil {
      * @return {@code true} if the array contains the integer, {@code false} otherwise.
      */
     public static boolean contains(int[] array, int obj) {
-        if (array == null || array.length == 0) {
+        if (array == null) {
             return false;
         }
 

@@ -1,5 +1,7 @@
 package net.sf.l2j.commons.eventbus;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -12,6 +14,8 @@ import java.util.function.Predicate;
 public abstract class AbstractEventSubscription<T> {
 
     protected final List<IEventPipe> pipe = new ArrayList<>();
+    @Getter
+    private Object group;
 
     public AbstractEventSubscription<T> filter(Predicate<T> predicate) {
         pipe.add(new PipeFilter<>(predicate));
@@ -41,5 +45,10 @@ public abstract class AbstractEventSubscription<T> {
     }
 
     abstract void execute(T object);
+
+    public AbstractEventSubscription<T> group(Object object) {
+        group = object;
+        return this;
+    }
 
 }

@@ -78,6 +78,7 @@ import net.sf.l2j.gameserver.model.boat.BoatInnadrilTour;
 import net.sf.l2j.gameserver.model.boat.BoatRunePrimeval;
 import net.sf.l2j.gameserver.model.boat.BoatTalkingGludin;
 import net.sf.l2j.gameserver.model.graveyard.GraveyardManager;
+import net.sf.l2j.gameserver.model.mastery.MasteryManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadGameManager;
 import net.sf.l2j.gameserver.network.GameClient;
@@ -218,6 +219,9 @@ public class GameServer {
 
         StringUtil.printSection("Manor Manager");
         CastleManorManager.getInstance();
+
+        StringUtil.printSection("Mastery Manager");
+        MasteryManager.getInstance();
 
         StringUtil.printSection("NPCs");
         BufferManager.getInstance();

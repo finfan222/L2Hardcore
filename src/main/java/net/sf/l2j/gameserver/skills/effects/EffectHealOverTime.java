@@ -10,8 +10,12 @@ import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class EffectHealOverTime extends AbstractEffect {
+
+    private final boolean maxPercentHeal;
+
     public EffectHealOverTime(EffectTemplate template, L2Skill skill, Creature effected, Creature effector) {
         super(template, skill, effected, effector);
+        maxPercentHeal = template.getParams().getBool("maxPercentHeal");
     }
 
     @Override
@@ -35,11 +39,19 @@ public class EffectHealOverTime extends AbstractEffect {
             return false;
         }
 
-        double value = getTemplate().getValue();
+        double value;
+        if (maxPercentHeal) {
+            value = getEffected().getStatus().getMaxHp() * getTemplate().getValue();
+        } else {
+            value = getTemplate().getValue();
+        }
+
         if (getEffected().isAffected(EffectFlag.POISON)) {
             value *= 1 - Rnd.get(0, 30) / 100.;
         }
+
         getEffected().getStatus().addHp(value);
         return true;
     }
+
 }

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.scripting.Quest;
 
 /**
  * @author finfan
@@ -14,9 +13,10 @@ import net.sf.l2j.gameserver.scripting.Quest;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OnQuestCancel implements EventSituation {
+public class OnLevelChange implements EventSituation {
 
     private Player player;
-    private Quest quest;
+    private int newLevel;
+    private int oldLevel;
 
 }

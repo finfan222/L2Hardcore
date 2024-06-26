@@ -1256,4 +1256,57 @@
 			<player Charges="#numCharges" /> <!-- Level 2 3 Focused Force charge required. -->
 		</cond>
 	</skill>
+	<skill id="462" levels="1" name="Protectorate">
+		<set name="aggroPoints" val="634"/>
+		<set name="mpInitialConsume" val="8"/>
+		<set name="mpConsume" val="92"/>
+		<set name="target" val="PARTY"/>
+		<set name="skillRadius" val="600"/>
+		<set name="reuseDelay" val="180000"/>
+		<set name="staticReuse" val="true"/>
+		<set name="hitTime" val="4000"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="isMagic" val="true"/>
+		<set name="operateType" val="ACTIVE"/>
+		<for>
+			<effect name="Guard" time="60" count="3" val="0" stackOrder="1" stackType="guard"/>
+		</for>
+	</skill>
+	<skill id="463" levels="40" name="Crusaderism">
+		<table name="#weightLimit">200 400 600 800 1000 1200 1400 1600 1800 2000 2200 2400 2600 2800 3000 3200 3400 3600 3800 4000 4200 4400 4600 4800 5000 5200 5400 5600 5800 6000 6200 6400 6600 6800 7000 7200 7400 7600 7800 8000</table>
+		<table name="#pAtk">1.2 1.3 1.5 1.6 1.8 1.9 2.1 2.3 2.6 2.8 3.1 3.4 3.8 4.1 4.6 5.0 5.5 6.1 6.7 7.3 8.1 8.9 9.8 10.7 11.8 13.0 14.3 15.7 17.3 19.0 20.9 23.0 25.3 27.9 30.7 33.7 37.1 40.8 44.9 49.4</table>
+		<table name="#pDef">1.8 2.0 2.2 2.4 2.6 2.9 3.2 3.5 3.9 4.2 4.7 5.1 5.6 6.2 6.8 7.5 8.3 9.1 10.0 11.0 12.1 13.3 14.7 16.1 17.7 19.5 21.5 23.6 26.0 28.6 31.4 34.5 38.0 41.8 46.0 50.6 55.6 61.2 67.3 74.1</table>
+		<table name="#mAtk">1.2 1.3 1.5 1.6 1.8 1.9 2.1 2.3 2.6 2.8 3.1 3.4 3.8 4.1 4.6 5.0 5.5 6.1 6.7 7.3 8.1 8.9 9.8 10.7 11.8 13.0 14.3 15.7 17.3 19.0 20.9 23.0 25.3 27.9 30.7 33.7 37.1 40.8 44.9 49.4</table>
+		<table name="#mDef">1.8 2.0 2.2 2.4 2.6 2.9 3.2 3.5 3.9 4.2 4.7 5.1 5.6 6.2 6.8 7.5 8.3 9.1 10.0 11.0 12.1 13.3 14.7 16.1 17.7 19.5 21.5 23.6 26.0 28.6 31.4 34.5 38.0 41.8 46.0 50.6 55.6 61.2 67.3 74.1</table>
+		<table name="#blockRate">1.0 1.1 1.1 1.2 1.2 1.3 1.4 1.4 1.5 1.6 1.6 1.7 1.8 1.9 2.0 2.1 2.2 2.3 2.4 2.6 2.7 2.8 3.0 3.1 3.3 3.4 3.6 3.8 4.0 4.2 4.4 4.6 4.8 5.1 5.3 5.6 5.8 6.1 6.4 6.8</table>
+		<table name="#shldDef">1.0 1.1 1.2 1.3 1.3 1.4 1.5 1.6 1.8 1.9 2.0 2.2 2.3 2.5 2.6 2.8 3.0 3.2 3.5 3.7 4.0 4.2 4.5 4.9 5.2 5.6 6.0 6.4 6.8 7.3 7.8 8.3 8.9 9.6 10.2 10.9 11.7 12.5 13.4 14.3</table>
+		<set name="target" val="SELF"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="PASSIVE"/>
+		<for>
+			<add stat="weightLimit" val="#weightLimit"/>
+			<add stat="pAtk" val="#weightLimit"/>
+			<add stat="pDef" val="#weightLimit"/>
+			<add stat="mAtk" val="#weightLimit"/>
+			<add stat="mDef" val="#weightLimit"/>
+			<mul stat="rShld" val="#blockRate"/>
+			<mul stat="sDef" val="#shldDef"/>
+			<add stat="pBlock" val="3"/>
+		</for>
+	</skill>
+	<skill id="464" levels="1" name="Barricade">
+		<set name="aggroPoints" val="297"/>
+		<set name="mpConsume" val="33"/>
+		<set name="target" val="SELF"/>
+		<set name="reuseDelay" val="72000"/>
+		<set name="skillType" val="BUFF"/>
+		<set name="operateType" val="ACTIVE"/>
+		<for>
+			<effect name="Buff" time="10" val="0" stackOrder="1" stackType="block">
+				<set stat="pBlock" val="100">
+					<using kind="SHIELD"/>
+				</set>
+			</effect>
+		</for>
+	</skill>
 </list>

@@ -15,6 +15,7 @@ import net.sf.l2j.gameserver.enums.actors.WeightPenalty;
 import net.sf.l2j.gameserver.enums.skills.EffectFlag;
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.enums.skills.Stats;
+import net.sf.l2j.gameserver.events.OnLevelChange;
 import net.sf.l2j.gameserver.model.PlayerLevel;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -642,6 +643,8 @@ public class PlayerStatus extends PlayableStatus<Player> {
         _actor.refreshExpertisePenalty();
         // Send UserInfo to the player
         _actor.sendPacket(new UserInfo(_actor));
+        // Send listener info
+        _actor.getEventListener().notify(OnLevelChange.builder().player(_actor).newLevel(getLevel() + value).oldLevel(getLevel()).build());
 
         return levelIncreased;
     }

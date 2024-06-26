@@ -8,6 +8,7 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemDao;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
+import net.sf.l2j.gameserver.model.mastery.MasteryUtil;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.ItemList;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
@@ -112,7 +113,7 @@ public class DurabilityModule implements ItemModule {
             return;
         }
 
-        final int value = Formulas.calcArmorFractureValue(skill, context, item.getArmorItem());
+        final int value = MasteryUtil.VeteranMastery_invoke(player, item) ? 1 : Formulas.calcArmorFractureValue(skill, context, item.getArmorItem());
         if (value > 0) {
             if (player.isGM()) {
                 player.sendMessage("Потеряно прочности у " + item.getItemName() + "=" + value);

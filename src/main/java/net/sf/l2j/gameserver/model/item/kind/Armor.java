@@ -29,7 +29,7 @@ public final class Armor extends Item {
     }
 
     public boolean isAccessory() {
-        return _type2 == Item.TYPE2_ACCESSORY;
+        return _type1 == Item.TYPE1_WEAPON_RING_EARRING_NECKLACE && _type2 == Item.TYPE2_ACCESSORY;
     }
 
     @Override

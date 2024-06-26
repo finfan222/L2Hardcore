@@ -19,6 +19,7 @@ import net.sf.l2j.gameserver.data.xml.ItemData;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
+import net.sf.l2j.gameserver.enums.SocialType;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
@@ -52,6 +53,7 @@ import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.MagicSkillUse;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
+import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.network.serverpackets.TutorialCloseHtml;
@@ -116,6 +118,11 @@ public class Quest {
         public QuestDetail[] items;
         public boolean checkSubclass;
         public ClassType classType;
+        public ClassId classId;
+
+        public boolean validateClass(Player player) {
+            return classId != null && player.getClassId() == classId;
+        }
 
         /**
          * @param player player to check
@@ -211,7 +218,8 @@ public class Quest {
                 && validateQuests(player)
                 && validateItems(player)
                 && validateSubclass(player)
-                && validateClassType(player);
+                && validateClassType(player)
+                && validateClass(player);
         }
 
     }
@@ -266,8 +274,7 @@ public class Quest {
             return true;
         }
 
-        if (o instanceof Quest) {
-            Quest q = (Quest) o;
+        if (o instanceof Quest q) {
             if (_id > 0 && _id == q._id) {
                 return getName().equals(q.getName());
             }
@@ -427,7 +434,7 @@ public class Quest {
 
         // Check variable and its value.
         final String toCheck = st.get(variable);
-        if (toCheck == null || !value.equalsIgnoreCase(toCheck)) {
+        if (!value.equalsIgnoreCase(toCheck)) {
             return null;
         }
 
@@ -482,7 +489,7 @@ public class Quest {
 
         // Check variable and its value.
         final String toCheck = leaderQs.get(variable);
-        if (toCheck == null || !value.equalsIgnoreCase(toCheck)) {
+        if (!value.equalsIgnoreCase(toCheck)) {
             return null;
         }
 
@@ -532,7 +539,7 @@ public class Quest {
         final Party party = player.getParty();
         if (party == null) {
             final QuestState st = checkPlayerCondition(player, npc, cond);
-            return (st != null) ? Arrays.asList(st) : Collections.emptyList();
+            return (st != null) ? List.of(st) : Collections.emptyList();
         }
 
         final List<QuestState> list = new ArrayList<>();
@@ -566,7 +573,7 @@ public class Quest {
         final Party party = player.getParty();
         if (party == null) {
             final QuestState st = checkPlayerVariable(player, npc, var, value);
-            return (st != null) ? Arrays.asList(st) : Collections.emptyList();
+            return (st != null) ? List.of(st) : Collections.emptyList();
         }
 
         final List<QuestState> list = new ArrayList<>();
@@ -677,7 +684,7 @@ public class Quest {
         final Party party = player.getParty();
         if (party == null) {
             final QuestState st = checkPlayerState(player, npc, state);
-            return (st != null) ? Arrays.asList(st) : Collections.emptyList();
+            return (st != null) ? List.of(st) : Collections.emptyList();
         }
 
         final List<QuestState> list = new ArrayList<>();
@@ -779,9 +786,7 @@ public class Quest {
         if (member != null && member.isOnline()) {
             // The sponsor is online, retrieve player instance and check distance.
             final Player sponsor = member.getPlayerInstance();
-            if (sponsor != null && player.isIn3DRadius(sponsor, 1500)) {
-                return true;
-            }
+            return sponsor != null && player.isIn3DRadius(sponsor, 1500);
         }
 
         return false;
@@ -862,7 +867,7 @@ public class Quest {
     public final boolean startQuestTimerAtFixedRate(String name, Npc npc, Player player, long initial, long period) {
         // Name must exist.
         if (name == null) {
-            log.warn("Script {} adding timer without name.", toString());
+            log.warn("Script {} adding timer without name.", this);
             return false;
         }
 
@@ -1068,7 +1073,7 @@ public class Quest {
 
             return npc;
         } catch (Exception e) {
-            log.error("Couldn't spawn npcId {} for {}.", npcId, toString());
+            log.error("Couldn't spawn npcId {} for {}.", npcId, this);
             return null;
         }
     }
@@ -1461,6 +1466,10 @@ public class Quest {
      */
     public static void playSound(Player player, String sound) {
         player.sendPacket(new PlaySound(sound));
+    }
+
+    public static void playSocialAction(Player player, SocialType type) {
+        player.broadcastPacket(new SocialAction(player, type));
     }
 
     public static void showQuestionMark(Player player, int number) {
@@ -2460,4 +2469,5 @@ public class Quest {
             player.sendMessage("Вы делитесь заданием с " + member.getName());
         }
     }
+
 }

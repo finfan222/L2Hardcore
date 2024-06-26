@@ -26,6 +26,7 @@ import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
+import net.sf.l2j.gameserver.model.mastery.MasteryUtil;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
@@ -334,9 +335,10 @@ public final class Formulas {
         }
 
         double defence = target.getStatus().getPDef(attacker);
+        double attackPower = attacker.getStatus().getPAtk(target);
         switch (sDef) {
             case SUCCESS:
-                defence += target.getStatus().getShldDef();
+                attackPower = Math.max(attackPower - target.getStatus().getShldDef(), attackPower * 0.5);
                 break;
 
             case PERFECT:
@@ -345,7 +347,10 @@ public final class Formulas {
 
         final boolean isPvP = attacker instanceof Playable && target instanceof Playable;
 
-        final double attackPower = attacker.getStatus().getPAtk(target);
+
+        if (MasteryUtil.CitadelMastery_invoke(target, attacker)) {
+            attackPower /= Rnd.get(2, target.getStatus().getCON());
+        }
 
         double addCritPower = 0.;
 
@@ -435,10 +440,11 @@ public final class Formulas {
             return 0.;
         }
 
+        double attackPower = attacker.getStatus().getPAtk(target);
         double defence = target.getStatus().getPDef(attacker);
         switch (sDef) {
             case SUCCESS:
-                defence += target.getStatus().getShldDef();
+                attackPower = Math.max(attackPower - target.getStatus().getShldDef(), attackPower * 0.5);
                 break;
 
             case PERFECT:
@@ -447,7 +453,6 @@ public final class Formulas {
 
         final boolean isPvP = attacker instanceof Playable && target instanceof Playable;
 
-        final double attackPower = attacker.getStatus().getPAtk(target);
 
         double skillPower = skill.getPower(attacker);
 
@@ -519,17 +524,16 @@ public final class Formulas {
             return 0.;
         }
 
+        double mAtk = attacker.getStatus().getMAtk(target, skill);
         double mDef = target.getStatus().getMDef(attacker, skill);
         switch (sDef) {
             case SUCCESS:
-                mDef += target.getStatus().getShldDef();
+                mAtk = Math.max(mAtk - target.getStatus().getShldDef(), mAtk * 0.5);
                 break;
 
             case PERFECT:
                 return 1.;
         }
-
-        double mAtk = attacker.getStatus().getMAtk(target, skill);
 
         if (bss) {
             mAtk *= 4;
@@ -805,7 +809,7 @@ public final class Formulas {
 
         // Calculate the ShieldDefense.
         ShieldDefense sDef;
-        if (chance < Config.PERFECT_SHIELD_BLOCK_RATE) {
+        if (chance < target.getStatus().calcStat(Stats.PERFECT_BLOCK, Config.PERFECT_SHIELD_BLOCK_RATE, attacker, null)) {
             sDef = ShieldDefense.PERFECT;
         } else if (chance < shieldRate) {
             sDef = ShieldDefense.SUCCESS;
@@ -1025,6 +1029,10 @@ public final class Formulas {
         int lvlDifference = target.getStatus().getLevel() - ((skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getStatus().getLevel()) + skill.getLevelDepend());
         double rate = 100;
 
+        if (MasteryUtil.ResistanceMastery_invoke(target)) {
+            return false;
+        }
+
         if (lvlDifference > 0) {
             rate = (Math.pow(1.166, lvlDifference)) * 100;
         }
@@ -1050,6 +1058,10 @@ public final class Formulas {
     }
 
     public static double calculateSkillResurrectRestorePercent(double baseRestorePercent, Creature caster) {
+        if (MasteryUtil.HolyResurrectMastery_invoke(caster)) {
+            return 100.0;
+        }
+
         if (baseRestorePercent == 0 || baseRestorePercent == 100) {
             return baseRestorePercent;
         }

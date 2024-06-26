@@ -117,7 +117,7 @@ public abstract class AbstractEffect {
      * @param newTime : new time value in seconds.
      */
     public void setTime(int newTime) {
-        _periodStartTime = System.currentTimeMillis() - Math.min(newTime, _period) * 1000;
+        _periodStartTime = System.currentTimeMillis() - Math.min(newTime, _period) * 1000L;
     }
 
     public int getTime() {

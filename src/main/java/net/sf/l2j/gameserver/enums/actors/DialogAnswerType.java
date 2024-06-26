@@ -10,6 +10,7 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.WeddingManagerNpc;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
+import net.sf.l2j.gameserver.model.mastery.MasteryType;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
@@ -31,6 +32,7 @@ public enum DialogAnswerType {
             Dialog dialog = target.getDialog();
             double revivePower = dialog.findAndGet("revivePower");
             boolean isRevivingPet = dialog.findAndGet("isRevivingPet");
+            boolean isFullRestore = dialog.findAndGet("isFullRestore");
 
             if (target.isReviveRequest()
                 || (!target.isDead() && !isRevivingPet)
@@ -55,6 +57,9 @@ public enum DialogAnswerType {
                     } else {
                         target.getSummon().doRevive();
                     }
+                }
+                if (isFullRestore) {
+                    target.getStatus().setMaxCpHpMp();
                 }
             }
         }
@@ -274,8 +279,31 @@ public enum DialogAnswerType {
                 requester.sendPacket(SystemMessage.getSystemMessage(SystemMessageId.S1_HAS_ACCEPTED_YOUR_CHALLENGE_TO_A_DUEL_THE_DUEL_WILL_BEGIN_IN_A_FEW_MOMENTS).addCharName(player));
 
                 DuelManager.getInstance().addDuel(requester, player, false, true);
+            } else {
+                player.sendPacket(ActionFailed.STATIC_PACKET);
             }
         }
+    },
+    LEARN_MASTERY {
+
+        @Override
+        public void onAnswer(Player player, int answer) {
+            if (answer == 1) {
+                Dialog dialog = player.getDialog();
+                MasteryType masteryType = dialog.findAndGet("masteryType");
+                if (masteryType == null) {
+                    player.sendPacket(ActionFailed.STATIC_PACKET);
+                    return;
+                }
+
+                player.getMastery().add(masteryType, true);
+                player.sendMessage(String.format("Вы изучили мастерство '%s'!", masteryType.getCapitalizedName()));
+                player.sendMessage(String.format("%s", masteryType.getDescription()));
+            } else {
+                player.sendPacket(ActionFailed.STATIC_PACKET);
+            }
+        }
+
     };
 
     public abstract void onAnswer(Player player, int answer);

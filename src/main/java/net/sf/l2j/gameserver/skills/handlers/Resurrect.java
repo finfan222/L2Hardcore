@@ -21,9 +21,9 @@ public class Resurrect extends Default {
             final Creature target = (Creature) cha;
             Context context = Context.builder().build();
             if (caster instanceof Player player) {
-                if (cha instanceof Player playerTarget) {
+                if (target instanceof Player playerTarget) {
                     playerTarget.reviveRequest(player, this, false);
-                } else if (cha instanceof Pet pet) {
+                } else if (target instanceof Pet pet) {
                     if (pet.getOwner() == caster) {
                         context.value = Formulas.calculateSkillResurrectRestorePercent(getPower(), caster);
                         target.doRevive(context.value);
@@ -45,4 +45,5 @@ public class Resurrect extends Default {
         caster.setChargedShot(caster.isChargedShot(ShotType.BLESSED_SPIRITSHOT) ? ShotType.BLESSED_SPIRITSHOT : ShotType.SPIRITSHOT, isStaticReuse());
 
     }
+
 }

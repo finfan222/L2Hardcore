@@ -27,9 +27,15 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <cron4j.version>2.2.5</cron4j.version>
         <slf4j.version>2.0.11</slf4j.version>
+        <commons3.version>3.14.0</commons3.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons3.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>

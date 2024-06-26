@@ -1,5 +1,6 @@
 package net.sf.l2j.commons.eventbus;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,6 +31,10 @@ public class EventBus {
 
     public <T> void unsubscribe(AbstractEventSubscription<T> subscription) {
         subscriptions.remove(subscription);
+    }
+
+    public <T> void unsubscribe(Object object) {
+        subscriptions.removeIf(e -> Objects.equals(e.getGroup(), object));
     }
 
     public <T> AbstractEventSubscription<T> subscribe(AbstractEventSubscription<T> subscription) {

@@ -96,6 +96,7 @@
     <maven-shade-plugin.version>3.5.1</maven-shade-plugin.version>
     <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <commons3.version>3.14.0</commons3.version>
     <lombok.version>1.18.24</lombok.version>
     <maven.compiler.target>17</maven.compiler.target>
     <cron4j.version>2.2.5</cron4j.version>

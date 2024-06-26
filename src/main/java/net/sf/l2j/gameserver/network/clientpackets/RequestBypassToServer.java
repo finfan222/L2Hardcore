@@ -12,6 +12,8 @@ import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.OlympiadManagerNpc;
+import net.sf.l2j.gameserver.model.mastery.MasteryManager;
+import net.sf.l2j.gameserver.model.mastery.MasteryType;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -72,7 +74,7 @@ public final class RequestBypassToServer extends L2GameClientPacket {
             ach.useAdminCommand(_command, player);
         } else if (_command.startsWith("player_help ")) {
             final String path = _command.substring(12);
-            if (path.indexOf("..") != -1) {
+            if (path.contains("..")) {
                 return;
             }
 
@@ -115,7 +117,7 @@ public final class RequestBypassToServer extends L2GameClientPacket {
                 }
 
                 player.sendPacket(ActionFailed.STATIC_PACKET);
-            } catch (NumberFormatException nfe) {
+            } catch (NumberFormatException ignored) {
             }
         }
         // Navigate throught Manor windows
@@ -173,6 +175,10 @@ public final class RequestBypassToServer extends L2GameClientPacket {
 
             final int arenaId = Integer.parseInt(_command.substring(12).trim());
             player.enterOlympiadObserverMode(arenaId);
+        } else if(_command.startsWith("mastery_learn")) {
+            String[] split = _command.split(" ");
+            MasteryType masteryType = MasteryType.valueOf(split[1].toUpperCase());
+            MasteryManager.getInstance().requestLearn(player, masteryType);
         }
     }
 }

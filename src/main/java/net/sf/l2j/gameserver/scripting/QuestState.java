@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.MemoSet;
 import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.gameserver.enums.QuestStatus;
+import net.sf.l2j.gameserver.enums.skills.AbnormalEffect;
 import net.sf.l2j.gameserver.events.OnQuestAccept;
 import net.sf.l2j.gameserver.events.OnQuestCancel;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -15,7 +16,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * A container holding one {@link Player}'s {@link Quest} progress. It extends {@link MemoSet}.<br>
@@ -42,6 +46,7 @@ public final class QuestState extends MemoSet {
 
     private final Player _player;
     private final Quest _quest;
+    private final Map<String, ScheduledFuture<?>> tasks = new ConcurrentHashMap<>();
 
     /**
      * Constructor of the new {@link Player}'s {@link QuestState} with {@link QuestStatus} CREATED.
@@ -109,7 +114,7 @@ public final class QuestState extends MemoSet {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof QuestState)) {
+        if (!(o instanceof QuestState qs)) {
             return false;
         }
 
@@ -117,7 +122,6 @@ public final class QuestState extends MemoSet {
             return false;
         }
 
-        final QuestState qs = (QuestState) o;
         if (_player != qs._player) {
             return false;
         }
@@ -366,4 +370,23 @@ public final class QuestState extends MemoSet {
 
         _player.getEventListener().notify(new OnQuestCancel(_player, _quest));
     }
+
+    public void addTask(String name, ScheduledFuture<?> future) {
+        _player.setUncontrollable(true);
+        tasks.put(name, future);
+    }
+
+    public void removeTask(String name, AbnormalEffect... effects) {
+        tasks.get(name).cancel(false);
+        _player.setUncontrollable(false);
+        for (AbnormalEffect next : effects) {
+            _player.stopAbnormalEffect(next);
+        }
+        tasks.remove(name);
+    }
+
+    public boolean isHasTask(String name) {
+        return tasks.containsKey(name);
+    }
+
 }

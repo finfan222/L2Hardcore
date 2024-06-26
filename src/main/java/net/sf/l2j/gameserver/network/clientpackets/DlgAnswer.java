@@ -46,6 +46,8 @@ public final class DlgAnswer extends L2GameClientPacket {
                 DialogAnswerType.QUEST_SHARE.onAnswer(player, answer);
             } else if (messageId == SystemMessageId.S1_CALLS_YOU_TO_A_MORTAL_COMBAT.getId()) {
                 DialogAnswerType.MORTAL_COMBAT.onAnswer(player, answer);
+            } else if (messageId == SystemMessageId.ARE_YOU_SURE_YOU_WANT_TO_LEARN_THE_S1_MASTERY.getId()) {
+                DialogAnswerType.LEARN_MASTERY.onAnswer(player, answer);
             }
         } finally {
             player.setDialog(null);

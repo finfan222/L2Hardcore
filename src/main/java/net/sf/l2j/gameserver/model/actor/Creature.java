@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.model.actor;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.eventbus.EventBus;
 import net.sf.l2j.commons.lang.StringUtil;
@@ -40,6 +41,7 @@ import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.model.itemcontainer.Inventory;
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.model.mastery.Mastery;
 import net.sf.l2j.gameserver.model.zone.type.WaterZone;
 import net.sf.l2j.gameserver.network.serverpackets.AbstractNpcInfo.NpcInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ChangeMoveType;
@@ -102,6 +104,9 @@ public abstract class Creature extends WorldObject {
     private boolean _isRunning;
     private boolean _isTeleporting;
     private boolean _showSummonAnimation;
+    @Getter
+    @Setter
+    private boolean isUncontrollable;
 
     private boolean _isInvul;
     private boolean _isMortal = true;
@@ -563,7 +568,7 @@ public abstract class Creature extends WorldObject {
     public void setAI(CreatureAI newAI) {
         final CreatureAI oldAI = getAI();
         if (oldAI != null && oldAI != newAI && oldAI instanceof AttackableAI) {
-            ((AttackableAI) oldAI).stopAITask();
+            oldAI.stopAITask();
         }
 
         _ai = newAI;
@@ -668,7 +673,7 @@ public abstract class Creature extends WorldObject {
      */
     public boolean isOutOfControl() {
         return isAffected(EffectFlag.STUNNED, EffectFlag.SLEEP, EffectFlag.PARALYZED, EffectFlag.CONFUSED, EffectFlag.FEAR)
-            || isImmobileUntilAttacked() || isTeleporting() || isDead();
+            || isImmobileUntilAttacked() || isTeleporting() || isDead() || isUncontrollable;
     }
 
     public final Calculator[] getCalculators() {
@@ -1054,8 +1059,8 @@ public abstract class Creature extends WorldObject {
      * @param type : The {@link EffectType} to test.
      * @return The first {@link AbstractEffect} corresponding to the {@link EffectType} set as parameter.
      */
-    public final AbstractEffect getFirstEffect(EffectType type) {
-        return _effects.getFirstEffect(type);
+    public final <T extends AbstractEffect> T getFirstEffect(EffectType type) {
+        return (T) _effects.getFirstEffect(type);
     }
 
     /**
@@ -1665,7 +1670,7 @@ public abstract class Creature extends WorldObject {
             random = 5 + (int) Math.sqrt(getStatus().getLevel());
         }
 
-        return (1 + ((double) Rnd.get(0 - random, random) / 100));
+        return (1 + ((double) Rnd.get(-random, random) / 100));
     }
 
     /**
@@ -1868,4 +1873,7 @@ public abstract class Creature extends WorldObject {
         return _attack.isAttackingNow() || _cast.isCastingNow();
     }
 
+    public Mastery getMastery() {
+        return null;
+    }
 }

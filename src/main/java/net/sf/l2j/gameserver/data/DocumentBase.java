@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.data;
 
 import net.sf.l2j.commons.data.StatSet;
+import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.enums.DayCycle;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
@@ -55,6 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,6 +148,8 @@ abstract class DocumentBase {
                 attachFunc(n, template, "Enchant", condition);
             } else if ("baseadd".equalsIgnoreCase(n.getNodeName())) {
                 attachFunc(n, template, "BaseAdd", condition);
+            } else if ("param".equalsIgnoreCase(n.getNodeName())) {
+                attachParam(n, template);
             } else if ("effect".equalsIgnoreCase(n.getNodeName())) {
                 if (template instanceof EffectTemplate) {
                     throw new RuntimeException("Nested effects");
@@ -252,7 +256,7 @@ abstract class DocumentBase {
 
         EffectTemplate lt;
 
-        final boolean isChanceSkillTrigger = (name == EffectChanceSkillTrigger.class.getName());
+        final boolean isChanceSkillTrigger = Objects.equals(name, EffectChanceSkillTrigger.class.getName());
         int trigId = 0;
         if (attrs.getNamedItem("triggeredId") != null) {
             trigId = Integer.parseInt(getValue(attrs.getNamedItem("triggeredId").getNodeValue(), template));
@@ -292,6 +296,61 @@ abstract class DocumentBase {
             } else {
                 ((L2Skill) template).attach(lt);
             }
+        }
+    }
+
+    protected void attachParam(Node n, Object template) {
+        if (!(template instanceof EffectTemplate effectTemplate)) {
+            return;
+        }
+
+        if (effectTemplate.getParams() == null) {
+            effectTemplate.setParams(new StatSet());
+        }
+
+        NamedNodeMap attrs = n.getAttributes();
+        String name = attrs.getNamedItem("name").getNodeValue();
+        String valueStr = attrs.getNamedItem("value").getNodeValue();
+        if (valueStr.matches("^\\d+(\\.\\d+)+$")) {
+            double value;
+            if (valueStr.charAt(0) == '#') {
+                value = Double.parseDouble(getTableValue(valueStr));
+            } else {
+                value = Double.parseDouble(valueStr);
+            }
+            effectTemplate.getParams().set(name, value);
+        } else if (StringUtil.isDigit(valueStr)) {
+            int value;
+            if (valueStr.charAt(0) == '#') {
+                value = Integer.parseInt(getTableValue(valueStr));
+            } else {
+                value = Integer.parseInt(valueStr);
+            }
+            effectTemplate.getParams().set(name, value);
+        } else if (Boolean.parseBoolean(valueStr)) {
+            boolean value;
+            if (valueStr.charAt(0) == '#') {
+                value = Boolean.parseBoolean(getTableValue(valueStr));
+            } else {
+                value = Boolean.parseBoolean(valueStr);
+            }
+            effectTemplate.getParams().set(name, value);
+        } else if (valueStr.startsWith("net.sf.l2j")) {
+            Class<?> classType;
+            try {
+                classType = Class.forName(valueStr);
+            } catch (ClassNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (classType.isEnum()) {
+                String[] split = valueStr.split("\\.");
+                effectTemplate.getParams().set(name, Enum.valueOf((Class<Enum>) classType, split[split.length - 1]));
+            } else {
+                effectTemplate.getParams().set(name, classType);
+            }
+        } else {
+            effectTemplate.getParams().set(name, valueStr);
         }
     }
 
@@ -632,7 +691,7 @@ abstract class DocumentBase {
     protected void parseBeanSet(Node n, StatSet set, Integer level) {
         String name = n.getAttributes().getNamedItem("name").getNodeValue().trim();
         String value = n.getAttributes().getNamedItem("val").getNodeValue().trim();
-        char ch = value.length() == 0 ? ' ' : value.charAt(0);
+        char ch = value.isEmpty() ? ' ' : value.charAt(0);
 
         if (ch == '#' || ch == '-' || Character.isDigit(ch)) {
             set.set(name, String.valueOf(getValue(value, level)));

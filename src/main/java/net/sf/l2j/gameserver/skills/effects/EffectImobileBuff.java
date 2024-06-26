@@ -2,10 +2,12 @@ package net.sf.l2j.gameserver.skills.effects;
 
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.model.actor.Creature;
+import net.sf.l2j.gameserver.model.mastery.MasteryUtil;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
 public class EffectImobileBuff extends AbstractEffect {
+
     public EffectImobileBuff(EffectTemplate template, L2Skill skill, Creature effected, Creature effector) {
         super(template, skill, effected, effector);
     }
@@ -17,6 +19,10 @@ public class EffectImobileBuff extends AbstractEffect {
 
     @Override
     public boolean onStart() {
+        if (MasteryUtil.LivingArmour_invoke(getEffected(), getSkill())) {
+            return true;
+        }
+
         getEffector().setIsImmobilized(true);
         return true;
     }

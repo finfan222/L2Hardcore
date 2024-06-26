@@ -6,6 +6,7 @@ public enum EffectType {
 
     BUFF,
     DEBUFF,
+    GUARD,
 
     CANCEL,
 

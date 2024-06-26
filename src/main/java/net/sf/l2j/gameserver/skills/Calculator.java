@@ -1,5 +1,6 @@
 package net.sf.l2j.gameserver.skills;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.skills.basefuncs.Func;
@@ -15,6 +16,7 @@ import java.util.List;
  * When the calc() method is launched, each mathematic function is called according to its order. Lowest priority order
  * is executed first and {@link Func}s with the same order are executed in unspecified order.
  */
+@Slf4j
 public final class Calculator {
     private static final Func[] EMPTY_FUNCS = new Func[0];
 
@@ -127,6 +129,15 @@ public final class Calculator {
             }
         }
 
+        return value;
+    }
+
+    public double calc() {
+        double value = 0;
+        for (Func f : _functions) {
+            value = f.getValue();
+        }
+        log.info("VALUE = {}", value);
         return value;
     }
 }
