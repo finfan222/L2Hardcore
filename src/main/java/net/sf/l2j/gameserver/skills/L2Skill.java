@@ -11,6 +11,7 @@ import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.enums.skills.ElementType;
 import net.sf.l2j.gameserver.enums.skills.FlyType;
 import net.sf.l2j.gameserver.enums.skills.ShieldDefense;
+import net.sf.l2j.gameserver.enums.skills.SkillCategory;
 import net.sf.l2j.gameserver.enums.skills.SkillOpType;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.enums.skills.SkillType;
@@ -62,7 +63,7 @@ public abstract class L2Skill implements IChanceSkillTrigger {
     private final String _name;
     private final SkillOpType _operateType;
 
-    private final boolean _isMagic;
+    private final SkillCategory _skillCategory;
 
     private final int _mpConsume;
     private final int _mpInitialConsume;
@@ -193,7 +194,7 @@ public abstract class L2Skill implements IChanceSkillTrigger {
         _name = set.getString("name");
         _operateType = set.getEnum("operateType", SkillOpType.class);
 
-        _isMagic = set.getBool("isMagic", false);
+        _skillCategory = set.getEnum("category", SkillCategory.class, SkillCategory.PHYSIC);
         _isPotion = set.getBool("isPotion", false);
 
         _mpConsume = set.getInteger("mpConsume", 0);
@@ -625,7 +626,11 @@ public abstract class L2Skill implements IChanceSkillTrigger {
      * @return the magic.
      */
     public final boolean isMagic() {
-        return _isMagic;
+        return _skillCategory == SkillCategory.MAGIC;
+    }
+
+    public final boolean isAbility() {
+        return _skillCategory == SkillCategory.ABILITY;
     }
 
     /**

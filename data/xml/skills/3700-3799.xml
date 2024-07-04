@@ -3,7 +3,7 @@
 	<skill id="3700" levels="1" name="Faith Cure">
 		<set name="target" val="SELF"/>
 		<set name="skillType" val="CONT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<for>
 			<effect name="HealOverTime" time="1" count="5" val="3">

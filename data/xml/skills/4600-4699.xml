@@ -36,7 +36,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -61,7 +61,7 @@
 		<set name="reuseDelay" val="8000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
@@ -86,7 +86,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
@@ -111,7 +111,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1100" />
@@ -205,7 +205,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="berserker">
@@ -232,7 +232,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="vampiric_attack">
@@ -253,7 +253,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="critical_prob_up">
@@ -274,7 +274,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="critical_dmg_up">
@@ -311,7 +311,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 	</skill>
 	<skill id="4614" levels="12" name="NPC Death Bomb">
@@ -345,7 +345,7 @@
 		<set name="reuseDelay" val="6000" />
 		<set name="lvlDepend" val="1" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="500" />
 		<set name="effectRange" val="1000" />
@@ -362,7 +362,7 @@
 		<set name="target" val="SELF" />
 		<set name="skillType" val="PARALYZE" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Petrification" time="360" val="0" stackOrder="2" stackType="turn_stone" />
@@ -376,7 +376,7 @@
 		<set name="skillType" val="NEGATE" />
 		<set name="negateId" val="4616" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 	</skill>
 	<skill id="4618" levels="1" name="NPC Cancel PC Target">
@@ -387,7 +387,7 @@
 		<set name="hitTime" val="1500" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
 		<for>
@@ -401,7 +401,7 @@
 		<set name="skillType" val="NEGATE" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="negateStats" val="SLEEP" />
@@ -419,7 +419,7 @@
 		<set name="reuseDelay" val="8000" />
 		<set name="lvlDepend" val="1" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -440,7 +440,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="500" />
 		<set name="effectRange" val="1000" />
 		<set name="absorbPart" val="0.8" />
@@ -458,7 +458,7 @@
 		<set name="skillRadius" val="200" />
 		<set name="hitTime" val="4000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="500" />
 		<set name="effectRange" val="1000" />
 		<set name="absorbPart" val="0.8" />
@@ -475,7 +475,7 @@
 		<set name="skillType" val="DRAIN" />
 		<set name="hitTime" val="2000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1500" />
 		<set name="absorbPart" val="0.8" />
@@ -487,7 +487,7 @@
 		<set name="target" val="ONE" />
 		<set name="skillType" val="DEBUFF" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<for>
 			<effect name="Debuff" time="5" val="0" stackOrder="1" stackType="heal_effect_down">
@@ -505,7 +505,7 @@
 		<set name="skillType" val="DEBUFF" />
 		<set name="lvlDepend" val="1" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<for>
 			<effect name="Debuff" time="5" val="0" stackOrder="#stackOrder" stackType="speed_down">
@@ -525,7 +525,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="5" val="0" stackOrder="#stackOrder" stackType="pd_up">
@@ -545,7 +545,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="5" val="0" stackOrder="#stackOrder" stackType="md_up">
@@ -572,7 +572,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
 		<set name="absorbPart" val="0.2" />
@@ -591,7 +591,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
 	</skill>
@@ -609,7 +609,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -633,7 +633,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -661,7 +661,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -689,7 +689,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -718,7 +718,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -752,7 +752,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -781,7 +781,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -805,7 +805,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -834,7 +834,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="#stackOrder" stackType="multi_buff">
@@ -861,7 +861,7 @@
 		<set name="reuseDelay" val="8000" />
 		<set name="lvlDepend" val="1" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="500" />
 		<set name="effectRange" val="1000" />
@@ -1008,7 +1008,7 @@
 		<set name="skillRadius" val="200" />
 		<set name="lvlDepend" val="1" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<for>
             <effect count="0x7fffffff" name="Poison" time="3" val="#dot" stackOrder="#abnormalLvl" stackType="poison"
@@ -1023,7 +1023,7 @@
 		<set name="skillType" val="NEGATE" />
 		<set name="skillRadius" val="200" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="negateStats" val="ROOT" />
 	</skill>
 	<skill id="4651" levels="3" name="NPC AE - Dispel Slow">
@@ -1037,7 +1037,7 @@
 		<set name="skillType" val="NEGATE" />
 		<set name="skillRadius" val="200" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="negateStats" val="DEBUFF" />
 	</skill>
 	<skill id="4652" levels="1" name="NPC AE Dispel Silence">
@@ -1048,7 +1048,7 @@
 		<set name="skillType" val="NEGATE" />
 		<set name="skillRadius" val="200" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="negateStats" val="MUTE" />
 	</skill>
 	<skill id="4653" levels="12" name="NPC Corpse Life Drain">
@@ -1063,7 +1063,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="20000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
 		<set name="absorbPart" val="0" />
@@ -1082,7 +1082,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="reuseDelay" val="6000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="900" />
 		<set name="effectRange" val="1400" />
 	</skill>
@@ -1098,7 +1098,7 @@
 		<set name="skillType" val="DEATHLINK" />
 		<set name="hitTime" val="4000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="900" />
 		<set name="effectRange" val="1400" />
 	</skill>
@@ -1114,7 +1114,7 @@
 		<set name="skillType" val="DEATHLINK" />
 		<set name="hitTime" val="2000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1500" />
 	</skill>
@@ -1131,7 +1131,7 @@
 		<set name="reuseDelay" val="8000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
@@ -1152,7 +1152,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
@@ -1173,7 +1173,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1500" />
@@ -1195,7 +1195,7 @@
 		<set name="reuseDelay" val="8000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
@@ -1215,7 +1215,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
@@ -1236,7 +1236,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="lvlDepend" val="2" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1500" />
@@ -1271,7 +1271,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="absorbPart" val="1" />
@@ -1288,7 +1288,7 @@
 		<set name="skillType" val="DRAIN" />
 		<set name="hitTime" val="2000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="absorbPart" val="1" />
@@ -1305,7 +1305,7 @@
 		<set name="skillType" val="DRAIN" />
 		<set name="hitTime" val="1000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1500" />
 		<set name="absorbPart" val="1" />
@@ -1323,7 +1323,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="absorbPart" val="1" />
@@ -1340,7 +1340,7 @@
 		<set name="skillType" val="DRAIN" />
 		<set name="hitTime" val="2000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="absorbPart" val="1" />
@@ -1357,7 +1357,7 @@
 		<set name="skillType" val="DRAIN" />
 		<set name="hitTime" val="1000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1500" />
 		<set name="absorbPart" val="1" />
@@ -1409,7 +1409,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="maxNegated" val="-1" />
@@ -1426,7 +1426,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="maxNegated" val="-1" />
@@ -1443,7 +1443,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="maxNegated" val="-1" />
@@ -1460,7 +1460,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="maxNegated" val="-1" />
@@ -1477,7 +1477,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="maxNegated" val="-1" />
@@ -1494,7 +1494,7 @@
 		<set name="hitTime" val="2000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="maxNegated" val="-1" />
@@ -1650,7 +1650,7 @@
 		<set name="hitTime" val="#hitTime" />
 		<set name="coolTime" val="#coolTime" />
 		<set name="lvlDepend" val="#lvlDepend" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE" />
 		<for>
@@ -1686,7 +1686,7 @@
 		<set name="target" val="SELF" />
 		<set name="skillType" val="BUFF" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="100" />
 		<for>
 			<effect name="Grow" time="300" val="0" stackOrder="1" stackType="big_body" />
@@ -1697,7 +1697,7 @@
 		<set name="target" val="SELF" />
 		<set name="skillType" val="NEGATE" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="negateId" val="4692" />
 		<set name="aggroPoints" val="100" />
 	</skill>
@@ -1761,7 +1761,7 @@
 		<set name="target" val="SELF" />
 		<set name="skillType" val="PASSIVE" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 	</skill>
 	<skill id="4698" levels="12" name="Area Buff - HP Regeneration">
 		<table name="#magicLvl"> 10 20 30 40 50 60 70 75 80 85 90 95 </table>
@@ -1771,7 +1771,7 @@
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<for>
 			<effect name="Buff" time="5" val="0" stackOrder="#stackOrder" stackType="hp_regen_up">
 				<mul stat="regHp" val="#regHp" />
@@ -1793,7 +1793,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="#power" />
 		<for>
 			<effect name="Buff" time="#time" val="0" stackOrder="#stackOrder" stackType="buff_queen_of_cat">

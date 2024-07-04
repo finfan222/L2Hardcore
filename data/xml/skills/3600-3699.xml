@@ -60,7 +60,7 @@
 		<set name="target" val="SELF"/>
 		<set name="skillType" val="BUFF"/>
 		<set name="operateType" val="PASSIVE"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<for>
 			<mul stat="maxCp" val="#maxCp"/>
 			<mul stat="pAtk" val="#pAtk"/>
@@ -369,7 +369,7 @@
 		<set name="target" val="SELF"/>
 		<set name="skillType" val="BUFF"/>
 		<set name="operateType" val="PASSIVE"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<for>
 			<mul stat="maxCp" val="#maxCp"/>
 			<mul stat="pAtk" val="#pAtk"/>

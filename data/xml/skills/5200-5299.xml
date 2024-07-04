@@ -13,7 +13,7 @@
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
 		<set name="hitTime" val="6000" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="#power" />
 		<set name="reuseDelay" val="12000" />
@@ -34,7 +34,7 @@
 		<set name="reuseDelay" val="6000" />
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -105,7 +105,7 @@
 		<set name="reuseDelay" val="8000" />
 		<set name="power" val="80" />
 		<set name="skillType" val="DEBUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="lvlDepend" val="2" />
 		<set name="castRange" val="600" />
@@ -124,7 +124,7 @@
 		<set name="lvlDepend" val="1" />
 		<set name="power" val="80" />
 		<set name="target" val="ONE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="reuseDelay" val="8000" />
 		<set name="skillType" val="DEBUFF" />
 		<set name="operateType" val="ACTIVE" />
@@ -142,7 +142,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -156,7 +156,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -170,7 +170,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -184,7 +184,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -198,7 +198,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -212,7 +212,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -226,7 +226,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -240,7 +240,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -254,7 +254,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -268,7 +268,7 @@
 		<set name="magicLvl" val="60" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />

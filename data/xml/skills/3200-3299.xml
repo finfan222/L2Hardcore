@@ -89,7 +89,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="staticReuse" val="true" />
 		<set name="skillType" val="REFLECT" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<for>
 			<effect name="Buff" time="120" val="0" stackOrder="1" stackType="abnormal_item">
@@ -747,7 +747,7 @@
 		<set name="hitTime" val="3000" />
 		<set name="skillType" val="RESURRECT" />
 		<set name="equipDelay" val="30000" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -759,7 +759,7 @@
 		<set name="reuseDelay" val="1800000" />
 		<set name="skillType" val="RECALL" />
 		<set name="equipDelay" val="30000" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="hitTime" val="200" />
 	</skill>

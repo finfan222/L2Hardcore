@@ -844,7 +844,7 @@
 		<set name="castRange" val="1000" />
 		<set name="effectRange" val="1500" />
 		<set name="power" val="100" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="lvlDepend" val="2" />
 		<for>

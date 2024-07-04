@@ -110,9 +110,9 @@ public class CreatureCast<T extends Creature> {
         }
 
         int reuseDelay = skill.getReuseDelay();
-        if (!skill.isStaticReuse()) {
-            reuseDelay *= _caster.getStatus().calcStat(skill.isMagic() ? Stats.MAGIC_REUSE_RATE : Stats.P_REUSE, 1, null, null);
-            reuseDelay *= 333.0 / (skill.isMagic() ? _caster.getStatus().getMAtkSpd() : _caster.getStatus().getPAtkSpd());
+        if (!skill.isAbility() && !skill.isStaticReuse()) {
+            reuseDelay = (int) _caster.getStatus().calcStat(skill.isMagic() ? Stats.MAGIC_REUSE_RATE : Stats.P_REUSE, reuseDelay, null, null);
+            reuseDelay = (int) (reuseDelay * (333.0 / (skill.isMagic() ? _caster.getStatus().getMAtkSpd() : _caster.getStatus().getPAtkSpd())));
         }
 
         final boolean skillMastery = Formulas.calcSkillMastery(_caster, skill);

@@ -449,7 +449,7 @@
 	<skill id="2139" levels="1" name="Special Tree Recovery Bonus">
 		<set name="target" val="ONE" />
 		<set name="skillType" val="BUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<for>
 			<effect name="Buff" time="10" val="0" stackOrder="99" stackType="hp_regen_up">

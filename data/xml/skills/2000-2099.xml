@@ -376,7 +376,7 @@
 		<set name="hitTime" val="5000" />
 		<set name="staticHitTime" val="true" />
 		<set name="skillType" val="SUMMON_CREATURE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 	</skill>
 	<skill id="2047" levels="1" name="Spiritshot: No Grade">

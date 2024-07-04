@@ -57,7 +57,7 @@
 	<skill id="5004" levels="1" name="Dimensional Shock">
 		<set name="element" val="DARK" />
 		<set name="flyRadius" val="300" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="flyType" val="THROW_UP" />
 		<set name="hitTime" val="5800" />
 		<set name="ignoreResists" val="true" />
@@ -78,7 +78,7 @@
 		<set name="castRange" val="900" />
 		<set name="effectRange" val="1400" />
 		<set name="ignoreResists" val="true" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="100" />
@@ -161,7 +161,7 @@
 		<set name="effectRange" val="1000" />
 		<set name="element" val="DARK" />
 		<set name="hitTime" val="2500" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="106" />
@@ -200,7 +200,7 @@
 		<set name="castRange" val="40" />
 		<set name="effectRange" val="400" />
 		<set name="element" val="DARK" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="magicLvl" val="85" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="power" val="61" />
@@ -312,7 +312,7 @@
 		<set name="magicLvl" val="#magicLvl" />
 		<set name="mpInitialConsume" val="#mpInitialConsume" />
 		<set name="mpConsume" val="#mpConsume" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="power" val="40" />
 		<set name="target" val="ONE" />
 		<set name="skillType" val="DEBUFF" />
@@ -341,7 +341,7 @@
         <set name="target" val="ONE" />
 		<set name="reuseDelay" val="120000" />
         <set name="skillType" val="DEBUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE" />
         <set name="castRange" val="40" />
@@ -364,7 +364,7 @@
 		<set name="target" val="ONE" />
 		<set name="reuseDelay" val="120000" />
         <set name="skillType" val="DEBUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE" />
         <set name="castRange" val="40" />
@@ -386,7 +386,7 @@
         <set name="target" val="ONE" />
         <set name="reuseDelay" val="120000" />
         <set name="skillType" val="DEBUFF" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="40" />
@@ -471,7 +471,7 @@
         <set name="reuseDelay" val="120000" />
         <set name="hitTime" val="1500" />
         <set name="skillType" val="DEBUFF" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="40" />
@@ -502,7 +502,7 @@
 		<set name="reuseDelay" val="12000"/>
 		<set name="hitTime" val="2000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
@@ -520,7 +520,7 @@
 		<set name="skillRadius" val="1000" />
 		<set name="reuseDelay" val="8000" />
 		<set name="skillType" val="HOT" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="600" />
 		<set name="effectRange" val="1100" />
 		<set name="operateType" val="ACTIVE" />
@@ -694,7 +694,7 @@
         <set name="hitTime" val="4000"/>
         <set name="target" val="ONE"/>
         <set name="skillType" val="MDAM"/>
-        <set name="isMagic" val="true"/>
+        <set name="category" val="MAGIC"/>
         <set name="operateType" val="ACTIVE"/>
         <set name="castRange" val="1500"/>
         <set name="effectRange" val="2000"/>
@@ -713,7 +713,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="MDAM" />
 		<set name="element" val="FIRE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="aggroPoints" val="100" />
 	</skill>
@@ -732,7 +732,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="MDAM" />
 		<set name="element" val="FIRE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="1500" />
 		<set name="effectRange" val="2000" />
@@ -749,7 +749,7 @@
 		<set name="target" val="ONE" />
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="MDAM" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="1500" />
 		<set name="effectRange" val="2100" />
@@ -768,7 +768,7 @@
         <set name="hitTime" val="4000"/>
         <set name="target" val="AURA"/>
         <set name="skillType" val="MDAM"/>
-        <set name="isMagic" val="true"/>
+        <set name="category" val="MAGIC"/>
         <set name="operateType" val="ACTIVE"/>
         <set name="effectRange" val="400"/>
 	</skill>
@@ -786,7 +786,7 @@
         <set name="hitTime" val="4000"/>
         <set name="target" val="ONE"/>
         <set name="skillType" val="MDAM"/>
-        <set name="isMagic" val="true"/>
+        <set name="category" val="MAGIC"/>
         <set name="operateType" val="ACTIVE"/>
         <set name="castRange" val="1500"/>
         <set name="effectRange" val="2000"/>
@@ -805,7 +805,7 @@
 		<set name="target" val="ONE" />
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="MDAM" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="1500" />
 		<set name="effectRange" val="2000" />
@@ -825,7 +825,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="AURA" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="effectRange" val="400" />
 	</skill>
@@ -844,7 +844,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="1500" />
         <set name="effectRange" val="2000" />
@@ -863,7 +863,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="1500" />
         <set name="effectRange" val="2000" />
@@ -882,7 +882,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="AURA" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="effectRange" val="400" />
 	</skill>
@@ -900,7 +900,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="1500" />
         <set name="effectRange" val="2000" />
@@ -919,7 +919,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="1500" />
         <set name="effectRange" val="2000" />
@@ -938,7 +938,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="AURA" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="effectRange" val="400" />
 	</skill>
@@ -956,7 +956,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="1500" />
         <set name="effectRange" val="2000" />
@@ -975,7 +975,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="1500" />
         <set name="effectRange" val="2000" />
@@ -994,7 +994,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="AURA" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="effectRange" val="400" />
 	</skill>
@@ -1012,7 +1012,7 @@
         <set name="hitTime" val="4000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="1500" />
         <set name="effectRange" val="2000" />
@@ -1031,7 +1031,7 @@
         <set name="hitTime" val="3000" />
         <set name="target" val="ONE" />
         <set name="skillType" val="MDAM" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
         <set name="castRange" val="600" />
         <set name="effectRange" val="1100" />
@@ -1318,7 +1318,7 @@
         <set name="target" val="AURA" />
         <set name="skillType" val="MDAM" />
         <set name="skillRadius" val="400" />
-        <set name="isMagic" val="true" />
+        <set name="category" val="MAGIC" />
         <set name="operateType" val="ACTIVE" />
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -1340,7 +1340,7 @@
 		<set name="lvlDepend" val="1"/>
 		<set name="skillType" val="POISON"/>
 		<set name="operateType" val="ACTIVE"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="killByDOT" val="true" />
 		<set name="castRange" val="400"/>
@@ -1480,7 +1480,7 @@
 	<skill id="5099" levels="1" name="Cancel Capture A">
 		<set name="target" val="NONE" />
 		<set name="skillType" val="NOTDONE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="PASSIVE" />
 		<set name="hitTime" val="4000" />
 	</skill>

@@ -39,7 +39,7 @@
 		<set name="power" val="80" />
 		<set name="lvlDepend" val="1" />
 		<set name="target" val="ONE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="reuseDelay" val="0" />
 		<set name="hitTime" val="0" />
 		<set name="skillType" val="DEBUFF" />

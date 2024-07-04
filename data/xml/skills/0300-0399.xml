@@ -641,7 +641,7 @@
 		<set name="hitTime" val="3000"/>
 		<set name="skillType" val="EXTRACTABLE" />
 		<set name="operateType" val="ACTIVE"/>
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="itemConsumeId" val="1461"/>
 		<set name="itemConsumeCount" val="1"/>
 		<set name="reuseDelay" val="600000" />
@@ -656,7 +656,7 @@
 		<set name="hitTime" val="3000"/>
 		<set name="skillType" val="EXTRACTABLE" />
 		<set name="operateType" val="ACTIVE"/>
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="itemConsumeId" val="1462"/>
 		<set name="itemConsumeCount" val="1"/>
 		<set name="reuseDelay" val="1800000" />

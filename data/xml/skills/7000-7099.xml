@@ -42,7 +42,7 @@
 		<set name="negateStats" val="PARALYZE" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="reuseDelay" val="10000" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="aggroPoints" val="566" />
 	</skill>
 	<skill id="7005" levels="4" name="Greater Chant of Vampire">
@@ -54,7 +54,7 @@
 		<set name="hitTime" val="2500" />
 		<set name="reuseDelay" val="20000" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
 		<set name="aggroPoints" val="655" />
@@ -72,7 +72,7 @@
 		<set name="reuseDelay" val="20000" />
 		<set name="hitTime" val="2500" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
 		<set name="aggroPoints" val="655" />
@@ -91,7 +91,7 @@
 		<set name="hitTime" val="4000" />
 		<set name="lvlDepend" val="1" />
 		<set name="operateType" val="ACTIVE" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="castRange" val="400" />
 		<set name="effectRange" val="900" />
@@ -132,7 +132,7 @@
 		<set name="reuseDelay" val="4500" />
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="SUMMON" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="npcId" val="20150" />
 	</skill>
@@ -148,7 +148,7 @@
 		<set name="reuseDelay" val="4500" />
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="SUMMON" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="npcId" val="20169" />
 	</skill>
@@ -164,7 +164,7 @@
 		<set name="reuseDelay" val="4500" />
 		<set name="hitTime" val="4000" />
 		<set name="skillType" val="SUMMON" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="operateType" val="ACTIVE" />
 		<set name="npcId" val="20241" />
 	</skill>

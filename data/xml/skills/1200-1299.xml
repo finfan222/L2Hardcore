@@ -18,7 +18,7 @@
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="ROOT"/>
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
@@ -47,7 +47,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -86,7 +86,7 @@
 		<set name="reuseDelay" val="8000"/>
 		<set name="hitTime" val="1500"/>
 		<set name="skillType" val="DEBUFF" />
-		<set name="isMagic" val="true" />
+		<set name="category" val="MAGIC" />
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
@@ -120,7 +120,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="ROOT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<enchant1 name="power" val="#ench1Power"/>
@@ -150,7 +150,7 @@
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="POISON"/>
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<for>
             <effect count="0x7fffffff" name="Poison" time="3" val="#dmg" abnormal="poison"/>
@@ -172,7 +172,7 @@
 		<set name="skillRadius" val="200"/>
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="4000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="skillType" val="MANADAM" />		
 		<set name="operateType" val="ACTIVE"/>
@@ -195,7 +195,7 @@
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="CONFUSION"/>
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<for>
 			<effect count="5" name="Confusion" time="6" val="0"/>
@@ -209,7 +209,7 @@
 		<set name="reuseDelay" val="10000"/>
 		<set name="hitTime" val="5000"/>
 		<set name="skillType" val="HEAL"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="10"/>
 	</skill>
@@ -231,7 +231,7 @@
 		<set name="reuseDelay" val="10000"/>
 		<set name="hitTime" val="5000"/>
 		<set name="skillType" val="HEAL"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
@@ -261,7 +261,7 @@
 		<set name="reuseDelay" val="3000"/>
 		<set name="hitTime" val="2000"/>
 		<set name="skillType" val="HEAL"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
@@ -291,7 +291,7 @@
 		<set name="reuseDelay" val="25000"/>
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="HEAL"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="power" val="#ench1Power"/>
@@ -317,7 +317,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="750"/>
@@ -342,7 +342,7 @@
 		<set name="reuseDelay" val="8000"/>
 		<set name="hitTime" val="1500"/>
 		<set name="skillType" val="DEBUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
@@ -377,7 +377,7 @@
 		<set name="reuseDelay" val="8000"/>
 		<set name="hitTime" val="1500"/>
 		<set name="skillType" val="WEAKNESS"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="#castRange"/>
@@ -414,7 +414,7 @@
 		<set name="reuseDelay" val="8000"/>
 		<set name="hitTime" val="1500"/>
 		<set name="skillType" val="WEAKNESS"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="#castRange"/>
@@ -448,7 +448,7 @@
 		<set name="reuseDelay" val="#reuseDelay"/>
 		<set name="hitTime" val="15000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="npcId" val="#npcIds" />
 		<set name="expPenalty" val="0.9" />
@@ -476,7 +476,7 @@
 		<set name="reuseDelay" val="#reuseDelay"/>
 		<set name="hitTime" val="15000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="npcId" val="#npcIds" />
 		<set name="expPenalty" val="0.3" />
@@ -500,7 +500,7 @@
 		<set name="reuseDelay" val="#reuseDelay"/>
 		<set name="hitTime" val="15000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="npcId" val="#npcIds" />
 		<set name="expPenalty" val="0.9" />
@@ -524,7 +524,7 @@
 		<set name="reuseDelay" val="#reuseDelay"/>
 		<set name="hitTime" val="15000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="npcId" val="#npcIds" />
 		<set name="expPenalty" val="0.9" />
@@ -550,7 +550,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="HOT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -583,7 +583,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -611,7 +611,7 @@
 		<set name="reuseDelay" val="2500"/>
 		<set name="hitTime" val="1500"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="150"/>
 		<set name="effectRange" val="650"/>
@@ -642,7 +642,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="REFLECT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -679,7 +679,7 @@
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="DOT" />
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
@@ -705,7 +705,7 @@
 		<set name="reuseDelay" val="12000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="DRAIN"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -736,7 +736,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -766,7 +766,7 @@
 		<set name="hitTime" val="3100"/>
 		<set name="coolTime" val="200" />
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -804,7 +804,7 @@
 		<set name="reuseDelay" val="8000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="MDAM"/>		
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -836,7 +836,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="REFLECT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -874,7 +874,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -901,7 +901,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -937,7 +937,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -973,7 +973,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -1010,7 +1010,7 @@
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="DOT"/>
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -1036,7 +1036,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="DRAIN"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -1065,7 +1065,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="MUTE"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<enchant1 name="power" val="#ench1Power"/>
@@ -1095,7 +1095,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="DEBUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<enchant1 name="power" val="#ench1Power"/>
@@ -1127,7 +1127,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="DEBUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<enchant1 name="power" val="#ench1Power"/>
@@ -1159,7 +1159,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1194,7 +1194,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1229,7 +1229,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1264,7 +1264,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1299,7 +1299,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1331,7 +1331,7 @@
         <set name="isStaticReuse" val="true"/>
 		<set name="hitTime" val="10000"/>
 		<set name="skillType" val="RESURRECT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 	</skill>
@@ -1346,7 +1346,7 @@
 		<set name="reuseDelay" val="600000"/>
 		<set name="hitTime" val="#hitTime"/>
 		<set name="skillType" val="RECALL"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 	</skill>
 	<skill id="1256" levels="13" name="The Heart of Pa'agrio" enchantLevels1="30" enchantLevels2="30" >
@@ -1369,7 +1369,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="HEAL"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1398,7 +1398,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -1428,7 +1428,7 @@
 		<set name="reuseDelay" val="120000"/>
 		<set name="hitTime" val="8000"/>
 		<set name="skillType" val="HEAL_PERCENT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
@@ -1449,7 +1449,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -1484,7 +1484,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1526,7 +1526,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -1590,7 +1590,7 @@
 		<set name="reuseDelay" val="8000"/>
 		<set name="hitTime" val="1500"/>
 		<set name="skillType" val="DEBUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -1621,7 +1621,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="overHit" val="true"/>
 		<set name="reuseDelay" val="30000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="750"/>
 		<set name="effectRange" val="1250"/>
@@ -1644,7 +1644,7 @@
 		<set name="hitTime" val="5000"/>
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="30000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="overHit" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -1670,7 +1670,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="30000"/>
 		<set name="overHit" val="true"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="isProjectile" val="true"/>
 		<set name="castRange" val="750"/>
@@ -1695,7 +1695,7 @@
 		<set name="reuseDelay" val="30000"/>
 		<set name="skillType" val="MDAM"/>
 		<set name="overHit" val="true"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -1722,7 +1722,7 @@
 		<set name="reuseDelay" val="6000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -1760,7 +1760,7 @@
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="DEBUFF" />
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
 		<set name="effectRange" val="1100"/>
@@ -1784,7 +1784,7 @@
 		<set name="reuseDelay" val="3600000"/>
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="HEAL_PERCENT"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="560"/>
 		<cond msgId="113" addName="1">
@@ -1806,7 +1806,7 @@
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="FEAR"/>
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<for>
 			<effect count="10" name="Fear" time="2" val="0" stackOrder="1" stackType="turn_flee"/>
@@ -1825,7 +1825,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="AGGREMOVE"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 	</skill>
 	<skill id="1274" levels="4" name="Energy Bolt">
@@ -1841,7 +1841,7 @@
 		<set name="reuseDelay" val="3000"/>
 		<set name="hitTime" val="2000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -1863,7 +1863,7 @@
 		<set name="reuseDelay" val="3000"/>
 		<set name="hitTime" val="2000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
@@ -1894,7 +1894,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="15000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="npcId" val="#npcIds" />
 		<set name="expPenalty" val="0.1" />
@@ -1921,7 +1921,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="15000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="npcId" val="#npcIds" />
 		<set name="expPenalty" val="0.1" />
@@ -1948,7 +1948,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="15000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="npcId" val="#npcIds"/>
 		<set name="expPenalty" val="0.1"/>
@@ -1969,7 +1969,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="6000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="activationchance" val="12" />
 		<set name="activationtime" val="30" />
@@ -1993,7 +1993,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="6000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="activationchance" val="30" />
 		<set name="activationtime" val="30" />
@@ -2017,7 +2017,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="6000"/>
 		<set name="skillType" val="SUMMON"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="activationchance" val="12" />
 		<set name="activationtime" val="30" />
@@ -2043,7 +2043,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -2092,7 +2092,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="hitTime" val="2500"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="aggroPoints" val="#aggro"/>
 		<enchant1 name="magicLvl" val="#enchantMagicLvl"/>
@@ -2116,7 +2116,7 @@
 		<set name="target" val="ONE"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="SEED"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="reuseDelay" val="3600000"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
@@ -2132,7 +2132,7 @@
 		<set name="target" val="ONE"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="SEED"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="reuseDelay" val="3600000"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
@@ -2148,7 +2148,7 @@
 		<set name="target" val="ONE"/>
 		<set name="hitTime" val="4000"/>
 		<set name="skillType" val="SEED"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="reuseDelay" val="3600000"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="600"/>
@@ -2166,7 +2166,7 @@
 		<set name="target" val="ONE"/>
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="reuseDelay" val="3600000"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -2186,7 +2186,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="3600000"/>
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
 		<set name="effectRange" val="1400"/>
@@ -2207,7 +2207,7 @@
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="3600000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -2231,7 +2231,7 @@
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="3600000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="isDebuff" val="true" />
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -2253,7 +2253,7 @@
 		<set name="target" val="ONE"/>
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="MDAM"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="overHit" val="true"/>
 		<set name="reuseDelay" val="3600000"/>
 		<set name="operateType" val="ACTIVE"/>
@@ -2272,7 +2272,7 @@
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="3600000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="overHit" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -2290,7 +2290,7 @@
 		<set name="hitTime" val="7000"/>
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="3600000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="overHit" val="true"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="900"/>
@@ -2318,7 +2318,7 @@
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="20000"/>
 		<set name="element" val="WATER"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="500"/>
 		<set name="effectRange" val="1000"/>
@@ -2347,7 +2347,7 @@
 		<set name="hitTime" val="5000"/>
 		<set name="skillType" val="MDAM"/>
 		<set name="reuseDelay" val="20000"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="500"/>
 		<set name="effectRange" val="1000"/>
@@ -2393,7 +2393,7 @@
 		<set name="reuseDelay" val="20000"/>
 		<set name="skillType" val="DEBUFF"/>
 		<set name="isDebuff" val="true" />
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="500"/>
 		<set name="effectRange" val="1000"/>
@@ -2426,7 +2426,7 @@
 		<set name="reuseDelay" val="1800000"/>
 		<set name="hitTime" val="1000"/>
 		<set name="skillType" val="BUFF"/>
-		<set name="isMagic" val="true"/>
+		<set name="category" val="MAGIC"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="castRange" val="400"/>
 		<set name="effectRange" val="900"/>
