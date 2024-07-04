@@ -1285,13 +1285,13 @@
 		<set name="operateType" val="PASSIVE"/>
 		<for>
 			<add stat="weightLimit" val="#weightLimit"/>
-			<add stat="pAtk" val="#weightLimit"/>
-			<add stat="pDef" val="#weightLimit"/>
-			<add stat="mAtk" val="#weightLimit"/>
-			<add stat="mDef" val="#weightLimit"/>
+			<add stat="pAtk" val="#pAtk"/>
+			<add stat="pDef" val="#pDef"/>
+			<add stat="mAtk" val="#mAtk"/>
+			<add stat="mDef" val="#mDef"/>
 			<mul stat="rShld" val="#blockRate"/>
 			<mul stat="sDef" val="#shldDef"/>
-			<add stat="pBlock" val="3"/>
+			<add stat="pBlock" val="5"/>
 		</for>
 	</skill>
 	<skill id="464" levels="1" name="Barricade">

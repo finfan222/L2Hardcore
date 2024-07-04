@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import static net.sf.l2j.gameserver.data.xml.MultisellData.PAGE_SIZE;
-
 import net.sf.l2j.gameserver.model.multisell.Entry;
 import net.sf.l2j.gameserver.model.multisell.Ingredient;
 import net.sf.l2j.gameserver.model.multisell.ListContainer;
+
+import static net.sf.l2j.gameserver.data.xml.MultisellData.PAGE_SIZE;
 
 public class MultiSellList extends L2GameServerPacket {
     private final ListContainer _list;

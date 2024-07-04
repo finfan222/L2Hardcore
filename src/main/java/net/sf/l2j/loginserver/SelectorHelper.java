@@ -1,20 +1,19 @@
 package net.sf.l2j.loginserver;
 
-import java.net.Socket;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import net.sf.l2j.commons.mmocore.IAcceptFilter;
 import net.sf.l2j.commons.mmocore.IClientFactory;
 import net.sf.l2j.commons.mmocore.IMMOExecutor;
 import net.sf.l2j.commons.mmocore.MMOConnection;
 import net.sf.l2j.commons.mmocore.ReceivablePacket;
-
 import net.sf.l2j.loginserver.data.manager.IpBanManager;
 import net.sf.l2j.loginserver.network.LoginClient;
 import net.sf.l2j.loginserver.network.serverpackets.Init;
 import net.sf.l2j.util.IPv4Filter;
+
+import java.net.Socket;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class SelectorHelper implements IMMOExecutor<LoginClient>, IClientFactory<LoginClient>, IAcceptFilter {
     private final ThreadPoolExecutor _generalPacketsThreadPool;

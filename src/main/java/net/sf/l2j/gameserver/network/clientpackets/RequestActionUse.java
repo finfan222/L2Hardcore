@@ -450,7 +450,7 @@ public final class RequestActionUse extends L2GameClientPacket {
                 break;
 
             case 1042:
-                MasteryManager.getInstance().showMasteryList(player);
+                MasteryManager.getInstance().showHtmlTree(player);
                 break;
 
             case 1043: // Mortal combat duel

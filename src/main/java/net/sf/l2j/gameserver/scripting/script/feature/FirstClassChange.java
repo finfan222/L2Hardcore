@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.scripting.script.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirstClassChange extends Quest {
     // Quest Items Dark Elf

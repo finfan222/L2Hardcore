@@ -1,14 +1,13 @@
 package net.sf.l2j.accountmanager;
 
+import net.sf.l2j.Config;
+import net.sf.l2j.commons.crypt.BCrypt;
+import net.sf.l2j.commons.pool.ConnectionPool;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Scanner;
-
-import net.sf.l2j.commons.crypt.BCrypt;
-import net.sf.l2j.commons.pool.ConnectionPool;
-
-import net.sf.l2j.Config;
 
 public class SQLAccountManager {
     private static final String INSERT_OR_UPDATE_ACCOUNT = "INSERT INTO accounts(login, password, access_level) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE password = VALUES(password), access_level = VALUES(access_level)";

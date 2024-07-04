@@ -1,12 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
@@ -25,6 +21,9 @@ import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.network.serverpackets.SpecialCamera;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Antharas is one of the great dragons in the history of Aden. This dragon is by far the most fearsome creature in the

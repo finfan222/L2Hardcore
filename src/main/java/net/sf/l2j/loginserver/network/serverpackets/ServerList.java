@@ -1,16 +1,15 @@
 package net.sf.l2j.loginserver.network.serverpackets;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.commons.network.ServerType;
-
 import net.sf.l2j.loginserver.data.manager.GameServerManager;
 import net.sf.l2j.loginserver.model.Account;
 import net.sf.l2j.loginserver.model.GameServerInfo;
 import net.sf.l2j.loginserver.model.ServerData;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ServerList extends L2LoginServerPacket {
     private final List<ServerData> _servers = new ArrayList<>();

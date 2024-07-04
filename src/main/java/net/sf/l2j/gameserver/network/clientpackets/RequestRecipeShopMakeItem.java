@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
 import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.gameserver.data.xml.RecipeData;
 import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.enums.actors.OperateType;

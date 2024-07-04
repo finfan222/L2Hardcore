@@ -1,11 +1,10 @@
 package net.sf.l2j.gameserver.network.gameserverpackets;
 
+import net.sf.l2j.commons.network.AttributeType;
+import net.sf.l2j.gameserver.model.holder.IntIntHolder;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.sf.l2j.commons.network.AttributeType;
-
-import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 
 public class ServerStatus extends GameServerBasePacket {
     private final List<IntIntHolder> _attributes;

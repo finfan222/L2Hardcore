@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.ai.area;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.actor.Attackable;
@@ -14,6 +10,9 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HotSprings extends AttackableAIScript {
     private static final Map<Integer, Integer> MONSTERS_DISEASES = new HashMap<>(6);

@@ -1,8 +1,7 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.util.ArraysUtil;
 import net.sf.l2j.gameserver.enums.actors.OperateType;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.trade.BuyProcessItem;

@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.model.actor.template.PlayerTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewCharacterSuccess extends L2GameServerPacket {
     private final List<PlayerTemplate> _templates = new ArrayList<>();

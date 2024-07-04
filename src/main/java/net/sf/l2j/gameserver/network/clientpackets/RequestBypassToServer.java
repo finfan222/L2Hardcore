@@ -12,9 +12,10 @@ import net.sf.l2j.gameserver.model.WorldObject;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.OlympiadManagerNpc;
+import net.sf.l2j.gameserver.model.mastery.MasteryData;
 import net.sf.l2j.gameserver.model.mastery.MasteryManager;
-import net.sf.l2j.gameserver.model.mastery.MasteryType;
 import net.sf.l2j.gameserver.model.olympiad.OlympiadManager;
+import net.sf.l2j.gameserver.network.SystemMessageColor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -177,8 +178,13 @@ public final class RequestBypassToServer extends L2GameClientPacket {
             player.enterOlympiadObserverMode(arenaId);
         } else if(_command.startsWith("mastery_learn")) {
             String[] split = _command.split(" ");
-            MasteryType masteryType = MasteryType.valueOf(split[1].toUpperCase());
-            MasteryManager.getInstance().requestLearn(player, masteryType);
+            int masteryId = Integer.parseInt(split[1]);
+            MasteryManager.getInstance().requestLearn(player, masteryId);
+        } else if(_command.startsWith("mastery_descr")) {
+            String[] split = _command.split(" ");
+            int masteryId = Integer.parseInt(split[1]);
+            MasteryData data = player.getMastery().getMasteryData(masteryId);
+            player.sendMessage(data.getName() + ": " + data.getFullDescr(), SystemMessageColor.GREEN_LIGHT);
         }
     }
 }

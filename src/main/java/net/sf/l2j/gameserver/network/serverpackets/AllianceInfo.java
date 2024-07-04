@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Collection;
-
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.model.pledge.ClanInfo;
+
+import java.util.Collection;
 
 public class AllianceInfo extends L2GameServerPacket {
     private final String _name;

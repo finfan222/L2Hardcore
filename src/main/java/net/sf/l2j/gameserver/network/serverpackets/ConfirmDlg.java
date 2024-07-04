@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import lombok.Getter;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.holder.IntIntHolder;
@@ -12,6 +9,9 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConfirmDlg extends L2GameServerPacket {
 
@@ -133,9 +133,7 @@ public class ConfirmDlg extends L2GameServerPacket {
                         break;
                 }
             }
-            if (time != 0) {
-                writeD(time);
-            }
+            writeD(time);
             if (requesterId != 0) {
                 writeD(requesterId);
             }

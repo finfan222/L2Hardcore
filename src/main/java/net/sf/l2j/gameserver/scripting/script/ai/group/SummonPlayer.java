@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.ai.group;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.model.actor.Attackable;
 import net.sf.l2j.gameserver.model.actor.Creature;

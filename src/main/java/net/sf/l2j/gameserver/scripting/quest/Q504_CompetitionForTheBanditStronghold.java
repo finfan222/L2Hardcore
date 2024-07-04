@@ -1,9 +1,5 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -13,6 +9,10 @@ import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Q504_CompetitionForTheBanditStronghold extends Quest {
     private static final String QUEST_NAME = "Q504_CompetitionForTheBanditStronghold";

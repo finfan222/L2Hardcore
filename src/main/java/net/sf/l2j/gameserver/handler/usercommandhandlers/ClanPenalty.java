@@ -1,15 +1,14 @@
 package net.sf.l2j.gameserver.handler.usercommandhandlers;
 
-import java.text.SimpleDateFormat;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.handler.IUserCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+
+import java.text.SimpleDateFormat;
 
 public class ClanPenalty implements IUserCommandHandler {
     private static final String NO_PENALTY = "<tr><td width=170>No penalty is imposed.</td><td width=100 align=center></td></tr>";

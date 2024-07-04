@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.awt.Color;
+import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.location.Location;
+
+import java.awt.*;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.location.Location;
 
 /**
  * A packet used to draw points and lines on client.<br>

@@ -1,7 +1,6 @@
 package net.sf.l2j.loginserver.model;
 
 import net.sf.l2j.commons.network.ServerType;
-
 import net.sf.l2j.loginserver.GameServerThread;
 
 public class GameServerInfo {

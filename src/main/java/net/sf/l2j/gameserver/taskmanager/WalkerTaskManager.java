@@ -1,11 +1,10 @@
 package net.sf.l2j.gameserver.taskmanager;
 
+import net.sf.l2j.commons.pool.ThreadPool;
+import net.sf.l2j.gameserver.model.actor.instance.Walker;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import net.sf.l2j.commons.pool.ThreadPool;
-
-import net.sf.l2j.gameserver.model.actor.instance.Walker;
 
 /**
  * Handles {@link Walker} waiting state case, when they got a delay option on their WalkNode.

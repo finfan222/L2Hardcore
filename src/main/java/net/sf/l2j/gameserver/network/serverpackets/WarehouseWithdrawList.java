@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Set;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
+
+import java.util.Set;
 
 public class WarehouseWithdrawList extends L2GameServerPacket {
     public static final int PRIVATE = 1;

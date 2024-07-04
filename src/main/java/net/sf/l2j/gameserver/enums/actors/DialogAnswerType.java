@@ -10,7 +10,7 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Door;
 import net.sf.l2j.gameserver.model.actor.instance.WeddingManagerNpc;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.mastery.MasteryType;
+import net.sf.l2j.gameserver.model.mastery.MasteryData;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
@@ -290,15 +290,14 @@ public enum DialogAnswerType {
         public void onAnswer(Player player, int answer) {
             if (answer == 1) {
                 Dialog dialog = player.getDialog();
-                MasteryType masteryType = dialog.findAndGet("masteryType");
-                if (masteryType == null) {
+                MasteryData data = dialog.findAndGet("masteryData");
+                if (data == null) {
                     player.sendPacket(ActionFailed.STATIC_PACKET);
                     return;
                 }
 
-                player.getMastery().add(masteryType, true);
-                player.sendMessage(String.format("Вы изучили мастерство '%s'!", masteryType.getCapitalizedName()));
-                player.sendMessage(String.format("%s", masteryType.getDescription()));
+                player.getMastery().learnMastery(data);
+                player.sendMessage(String.format("Вы изучили мастерство '%s'!", data.getName()));
             } else {
                 player.sendPacket(ActionFailed.STATIC_PACKET);
             }

@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.manager.RaidBossManager;
 import net.sf.l2j.gameserver.enums.BossStatus;
 import net.sf.l2j.gameserver.enums.QuestStatus;

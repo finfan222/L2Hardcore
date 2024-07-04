@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.manager.CastleManorManager;
 import net.sf.l2j.gameserver.model.manor.SeedProduction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BuyListSeed extends L2GameServerPacket {
     private final int _manorId;

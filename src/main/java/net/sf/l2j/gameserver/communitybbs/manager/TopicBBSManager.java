@@ -1,17 +1,16 @@
 package net.sf.l2j.gameserver.communitybbs.manager;
 
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.communitybbs.CommunityBoard;
 import net.sf.l2j.gameserver.communitybbs.model.Forum;
 import net.sf.l2j.gameserver.communitybbs.model.Topic;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.enums.bbs.ForumType;
 import net.sf.l2j.gameserver.model.actor.Player;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.StringTokenizer;
 
 public class TopicBBSManager extends BaseBBSManager {
     protected TopicBBSManager() {

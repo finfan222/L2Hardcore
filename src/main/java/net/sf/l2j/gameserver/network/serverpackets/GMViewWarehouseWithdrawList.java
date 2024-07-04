@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Set;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+
+import java.util.Set;
 
 public class GMViewWarehouseWithdrawList extends L2GameServerPacket {
     private final Set<ItemInstance> _items;

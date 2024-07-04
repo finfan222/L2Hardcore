@@ -141,6 +141,7 @@ import net.sf.l2j.gameserver.model.pledge.ClanMember;
 import net.sf.l2j.gameserver.model.trade.TradeList;
 import net.sf.l2j.gameserver.model.zone.type.BossZone;
 import net.sf.l2j.gameserver.network.GameClient;
+import net.sf.l2j.gameserver.network.SystemMessageColor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.AbstractNpcInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
@@ -480,6 +481,7 @@ public final class Player extends Playable {
         cards = new Cards(this);
         spoilState = new SpoilState();
         mastery = new Mastery(this);
+        mastery.restore();
 
         // Retrieve from the database all items of this Player and add them to _inventory
         getInventory().restore();
@@ -4563,7 +4565,12 @@ public final class Player extends Playable {
 
     @Override
     public void sendMessage(String message) {
-        sendPacket(SystemMessage.sendString(message));
+        sendMessage(message, SystemMessageColor.DEFAULT);
+    }
+
+    @Override
+    public void sendMessage(String message, SystemMessageColor color) {
+        sendPacket(SystemMessage.sendString(message, color));
     }
 
     @Override

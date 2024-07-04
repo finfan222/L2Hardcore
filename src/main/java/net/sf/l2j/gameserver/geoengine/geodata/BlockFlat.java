@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.geoengine.geodata;
 
-import java.nio.ByteBuffer;
-
 import net.sf.l2j.gameserver.enums.GeoType;
+
+import java.nio.ByteBuffer;
 
 public class BlockFlat extends ABlock {
     protected final short _height;

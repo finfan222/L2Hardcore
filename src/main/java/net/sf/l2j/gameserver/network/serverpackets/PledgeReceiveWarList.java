@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Set;
-
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+
+import java.util.Set;
 
 public class PledgeReceiveWarList extends L2GameServerPacket {
     private final Set<Integer> _clanList;

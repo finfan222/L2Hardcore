@@ -5,6 +5,7 @@ import net.sf.l2j.gameserver.model.holder.IntIntHolder;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.location.Location;
+import net.sf.l2j.gameserver.network.SystemMessageColor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
@@ -33,15 +34,19 @@ public final class SystemMessage extends L2GameServerPacket {
         _params = paramCount != 0 ? new SMParam[paramCount] : EMPTY_PARAM_ARRAY;
     }
 
-    public static final SystemMessage sendString(final String text) {
+    public static SystemMessage sendString(final String text, SystemMessageColor color) {
         if (text == null) {
             throw new NullPointerException();
         }
 
-        return SystemMessage.getSystemMessage(SystemMessageId.S1).addString(text);
+        return SystemMessage.getSystemMessage(color.getId()).addString(text);
     }
 
-    public static final SystemMessage getSystemMessage(final SystemMessageId smId) {
+    public static SystemMessage sendString(final String text) {
+        return sendString(text, SystemMessageColor.DEFAULT);
+    }
+
+    public static SystemMessage getSystemMessage(final SystemMessageId smId) {
         SystemMessage sm = smId.getStaticSystemMessage();
         if (sm != null) {
             return sm;

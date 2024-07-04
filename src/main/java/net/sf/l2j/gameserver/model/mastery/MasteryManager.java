@@ -1,23 +1,28 @@
 package net.sf.l2j.gameserver.model.mastery;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.l2j.commons.pool.ConnectionPool;
+import net.sf.l2j.commons.util.ArraysUtil;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.mastery.repository.MasteryRepository;
+import net.sf.l2j.gameserver.model.mastery.serialization.MasteryHandlerDeserializer;
+import net.sf.l2j.gameserver.network.SystemMessageColor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ConfirmDlg;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+import net.sf.l2j.util.ResourceUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * @author finfan
@@ -25,99 +30,139 @@ import java.util.Map;
 @Slf4j
 public class MasteryManager {
 
-    private static final String LOCKED_ABILITY_BUTTON = "<button value=\"\" action=\"\" width=32 height=32 back=\"Icon.skill_locked\" fore=\"Icon.skill_locked\">";
+    public static final int MIN_CLASS_LEVEL = 1;
+    public static final int MIN_LEARN_LEVEL = 20;
+    public static final int MAX_MASTERY_LEARN = 7;
+    public static final int MAX_MASTERY_TREE = MAX_MASTERY_LEARN * 3;
 
     @Getter(lazy = true)
     private static final MasteryManager instance = new MasteryManager();
 
-    private static final List<String> htmlFiles = new ArrayList<>();
+    private static final String buttonLocked = "<button value=\"\" action=\"\" width=40 height=40 back=\"L2HC_UI.m_blocked_i00\" fore=\"L2HC_UI.m_blocked_i00\">";
+    private static final String buttonUnlearned = "<button value=\"\" action=\"bypass -h mastery_learn $id\" width=40 height=40 back=\"L2HC_UI.$icon_unlearned_down\" fore=\"L2HC_UI.$icon_unlearned\">";
+    private static final String buttonLearned = "<button value=\"\" action=\"bypass -h mastery_descr $id\" width=40 height=40 back=\"L2HC_UI.$icon_learned_down\" fore=\"L2HC_UI.$icon_learned\">";
+
+    @Getter
+    private final List<MasteryData> masteries;
 
     private MasteryManager() {
-        try (Connection con = ConnectionPool.getConnection()) {
-            PreparedStatement st = con.prepareStatement("""
-                CREATE TABLE IF NOT EXISTS `character_mastery` (
-                  `object_id` int(10) UNSIGNED NOT NULL,
-                  `points` int(10) NULL DEFAULT NULL,
-                  PRIMARY KEY (`object_id`) USING BTREE,
-                  CONSTRAINT `fk_mastery_to_characters` FOREIGN KEY (`object_id`) REFERENCES `characters` (`obj_Id`) ON DELETE CASCADE ON UPDATE CASCADE
-                ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
-                """);
-            st.executeUpdate();
-
-            st = con.prepareStatement("""
-                CREATE TABLE IF NOT EXISTS `character_mastery_list` (
-                  `object_id` int(10) UNSIGNED NOT NULL,
-                  `mastery_type` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-                  PRIMARY KEY (`object_id`) USING BTREE,
-                  CONSTRAINT `fk_mastery_list_to_characters` FOREIGN KEY (`object_id`) REFERENCES `characters` (`obj_Id`) ON DELETE CASCADE ON UPDATE CASCADE
-                ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
-                """);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            log.error("Error on creating mastery tables.", e);
-        }
-
-        Arrays.stream(ClassId.values()).filter(e -> e.getLevel() == 3).forEach(e -> htmlFiles.add(generateFileName(e)));
-        log.info("Loaded HTML class mastery branches: {}", htmlFiles.size());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new SimpleModule().addDeserializer(MasteryHandler.class, new MasteryHandlerDeserializer()));
+        masteries = ResourceUtil.fromJson("./data/mastery_list.json", MasteryData[].class, mapper);
+        log.info("Mastery loaded: {}", masteries.size());
+        MasteryRepository.create();
     }
 
-    public void requestLearn(Player player, MasteryType type) {
-        if (!player.getMastery().isCanLearn(player, type)) {
+    public MasteryData getById(int id) {
+        return masteries.stream().filter(e -> e.getId() == id).findAny().orElseThrow(() -> new NullPointerException("Mastery with id " + id + " not found."));
+    }
+
+    public MasteryData getByName(String name) {
+        return masteries.stream().filter(e -> e.getName().equals(name)).findAny().orElseThrow(() -> new NullPointerException("Mastery with name " + name + " not found."));
+    }
+
+    public MasteryData[] getByBranchLevel(int branchLevel) {
+        return masteries.stream().filter(e -> e.getBranchLevel() == branchLevel).toArray(MasteryData[]::new);
+    }
+
+    public MasteryData[] getByClassId(ClassId classId) {
+        return masteries.stream().filter(e -> ArraysUtil.contains(e.getClassCond(), classId)).toArray(MasteryData[]::new);
+    }
+
+    public void requestLearn(Player player, int masteryId) {
+        MasteryData data = getById(masteryId);
+        if (!isCanLearn(player, data)) {
             return;
         }
+
+        // show description of chosen talent
+        player.sendMessage(data.getName() + " (не изучен): " + data.getShortDescr(), SystemMessageColor.GREY_LIGHT);
 
         ConfirmDlg packet = new ConfirmDlg(SystemMessageId.ARE_YOU_SURE_YOU_WANT_TO_LEARN_THE_S1_MASTERY);
-        packet.addString(type.getCapitalizedName());
+        packet.addString(data.getName());
         packet.addRequesterId(player.getObjectId());
-        player.setDialog(new Dialog(player, packet, Map.of("masteryType", type)).send());
+        player.setDialog(new Dialog(player, packet, Map.of("masteryData", data)).send());
     }
 
-    public void showMasteryList(Player player) {
-        if (player.getStatus().getLevel() < 20) {
-            player.sendMessage("Вы недостаточно опытны для осваивания мастерства профессий.");
+    public void showHtmlTree(Player player) {
+        if (player.getStatus().getLevel() < MIN_LEARN_LEVEL) {
+            player.sendMessage("Вы недостаточно опытны для осваивания мастерства профессий.", SystemMessageColor.RED_LIGHT);
             return;
         }
 
-        if (player.getClassId().getLevel() < 1) {
-            player.sendMessage("Вы должны получить профессию прежде чем обрести мастерство.");
+        if (player.getClassId().getLevel() < MIN_CLASS_LEVEL) {
+            player.sendMessage("Вы должны получить профессию прежде чем обрести мастерство.", SystemMessageColor.RED_LIGHT);
             return;
         }
 
-        NpcHtmlMessage npcHtmlMessage = new NpcHtmlMessage(0);
-        String file = htmlFiles.stream().filter(f -> f.contains(player.getClassId().name().toLowerCase())).findAny().orElse(null);
-        if (file == null) {
-            throw new RuntimeException("Mastery tree not found for classId " + player.getClassId());
-        }
-        npcHtmlMessage.setFile("data/html/mastery/" + file + ".htm");
-        int classLevel = player.getClassId().getLevel();
-        if (classLevel < 3) {
-            npcHtmlMessage.replace("%3rd.*", LOCKED_ABILITY_BUTTON + "</td>");
-            if (classLevel < 2) {
-                npcHtmlMessage.replace("%2nd.*", LOCKED_ABILITY_BUTTON + "</td>");
-            }
-        }
-        player.sendPacket(npcHtmlMessage);
-    }
+        NpcHtmlMessage html = new NpcHtmlMessage(0);
+        ClassId classId = player.getClassId();
+        Mastery mastery = player.getMastery();
 
-    private String generateFileName(ClassId classId) {
-        List<String> list = generateClassTree(classId, new ArrayList<>()).stream().map(ClassId::name).toList();
         StringBuilder sb = new StringBuilder();
-        list.forEach(className -> sb.append(className.toLowerCase().replace("_", "")).append("_"));
-        sb.deleteCharAt(sb.length() - 1);
-        return sb.toString();
-    }
+        sb.append("<html>");
+        sb.append("<title>").append(String.format("Древо Мастерства [Очки: %d]", player.getMastery().getPoints())).append("</title>");
 
-    private List<ClassId> generateClassTree(ClassId classId, List<ClassId> tree) {
-        if (classId.getLevel() == 0 || classId.getParent() == null) {
-            tree.sort(Comparator.comparing(ClassId::getLevel));
-            return tree;
+        sb.append("<body><br><center>");
+        sb.append("<table width=288 height=354>");
+
+        Map<Integer, List<MasteryData>> tree = Arrays.stream(getByClassId(classId)).collect(groupingBy(MasteryData::getBranchLevel, LinkedHashMap::new, Collectors.toList()));
+        for (List<MasteryData> list : tree.values()) {
+            sb.append("<tr>");
+            for (MasteryData next : list) {
+                String masteryId = String.valueOf(next.getId());
+                sb.append("<td>");
+                if (mastery.isHasMastery(next.getId())) {
+                    sb.append(buttonLearned.replace("$icon_learned", next.getIcon().getLearned())
+                        .replace("$icon_learned_down", next.getIcon().getLearned() + "_down")
+                        .replace("$id", masteryId));
+                } else if (!next.checkRequirements(player)) {
+                    sb.append(buttonLocked);
+                } else {
+                    sb.append(buttonUnlearned.replace("$icon_unlearned", next.getIcon().getUnlearned())
+                        .replace("$icon_unlearned_down", next.getIcon().getUnlearned() + "_down")
+                        .replace("$id", masteryId));
+                }
+                sb.append("</td>");
+            }
+            sb.append("</tr>");
         }
 
-        if (!tree.contains(classId)) {
-            tree.add(classId);
-        }
+        sb.append("</table>");
+        sb.append("</center></body>");
+        sb.append("</html>");
 
-        return generateClassTree(classId.getParent(), tree);
+        html.setHtml(sb.toString());
+        player.sendPacket(html);
     }
 
+    public static boolean isCanLearn(Player player, MasteryData data) {
+        Mastery mastery = player.getMastery();
+        if (mastery.isHasMastery(data.getId())) {
+            player.sendMessage(data.getName() + " (изучен): " + data.getFullDescr(), SystemMessageColor.GREEN_LIGHT);
+            return false;
+        }
+
+        if (player.getDialog() != null || player.isProcessingRequest() || player.isProcessingTransaction()) {
+            player.sendMessage("Операция отклонена. Разберитесь со своими делами и попробуйте позже.", SystemMessageColor.RED_LIGHT);
+            return false;
+        }
+
+        if (mastery.getPoints() < 1) {
+            player.sendMessage("У вас недостаточно очков мастерства. Наберитесь опыта и попробуйте снова.", SystemMessageColor.RED_LIGHT);
+            return false;
+        }
+
+        if (data.getLevelCond() > player.getStatus().getLevel()) {
+            player.sendMessage("Этот вид мастерства требует " + data.getLevelCond() + " (или выше) уровень.", SystemMessageColor.RED_LIGHT);
+            return false;
+        }
+
+        if (mastery.getNextIndex() + 1 == MAX_MASTERY_LEARN) {
+            player.sendMessage("Вы больше не можете изучать мастерство, вы исчерпали свой лимит. Для сброса древа мастерства, вам понадобиться предмет 'Thread of Time'.", SystemMessageColor.RED_LIGHT);
+            return false;
+        }
+
+        return true;
+    }
 }

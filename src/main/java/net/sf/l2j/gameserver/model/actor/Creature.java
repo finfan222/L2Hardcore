@@ -43,6 +43,7 @@ import net.sf.l2j.gameserver.model.itemcontainer.Inventory;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.mastery.Mastery;
 import net.sf.l2j.gameserver.model.zone.type.WaterZone;
+import net.sf.l2j.gameserver.network.SystemMessageColor;
 import net.sf.l2j.gameserver.network.serverpackets.AbstractNpcInfo.NpcInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ChangeMoveType;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
@@ -314,7 +315,10 @@ public abstract class Creature extends WorldObject {
      * @param text The string to send.
      */
     public void sendMessage(String text) {
-        // default implementation
+        sendMessage(text, null);
+    }
+
+    public void sendMessage(String text, SystemMessageColor color) {
     }
 
     /**

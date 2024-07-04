@@ -1,13 +1,13 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.instance.Pet;
 import net.sf.l2j.gameserver.model.actor.instance.Servitor;
 import net.sf.l2j.gameserver.model.holder.EffectHolder;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PartySpelled extends L2GameServerPacket {
     private final int _type;

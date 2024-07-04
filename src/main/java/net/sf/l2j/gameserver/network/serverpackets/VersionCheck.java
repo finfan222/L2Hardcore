@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Arrays;
-
 import net.sf.l2j.Config;
+
+import java.util.Arrays;
 
 public final class VersionCheck extends L2GameServerPacket {
     private final byte[] _key;

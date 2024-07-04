@@ -1,11 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Collection;
-
 import net.sf.l2j.commons.data.StatSet;
-
 import net.sf.l2j.gameserver.data.manager.HeroManager;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;
+
+import java.util.Collection;
 
 public class ExHeroList extends L2GameServerPacket {
     private final Collection<StatSet> _sets;

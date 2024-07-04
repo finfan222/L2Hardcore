@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;

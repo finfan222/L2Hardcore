@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.handler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminAdmin;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminAnnouncements;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminBookmark;
@@ -35,6 +32,9 @@ import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminTarget;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminTeleport;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminTest;
 import net.sf.l2j.gameserver.handler.admincommandhandlers.AdminZone;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminCommandHandler {
     private final Map<Integer, IAdminCommandHandler> _entries = new HashMap<>();

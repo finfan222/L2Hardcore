@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.manager.CastleManorManager;
 import net.sf.l2j.gameserver.model.manor.Seed;
+
+import java.util.List;
 
 public class ExShowManorDefaultInfo extends L2GameServerPacket {
     private final List<Seed> _crops;

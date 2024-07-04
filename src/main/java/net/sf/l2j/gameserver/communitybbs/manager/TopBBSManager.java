@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.communitybbs.manager;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.gameserver.model.actor.Player;
+
+import java.util.StringTokenizer;
 
 public class TopBBSManager extends BaseBBSManager {
     protected TopBBSManager() {

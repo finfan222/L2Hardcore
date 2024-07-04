@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.handler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.handler.usercommandhandlers.ChannelDelete;
 import net.sf.l2j.gameserver.handler.usercommandhandlers.ChannelLeave;
 import net.sf.l2j.gameserver.handler.usercommandhandlers.ChannelListUpdate;
@@ -16,6 +13,9 @@ import net.sf.l2j.gameserver.handler.usercommandhandlers.OlympiadStat;
 import net.sf.l2j.gameserver.handler.usercommandhandlers.PartyInfo;
 import net.sf.l2j.gameserver.handler.usercommandhandlers.SiegeStatus;
 import net.sf.l2j.gameserver.handler.usercommandhandlers.Time;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserCommandHandler {
     private final Map<Integer, IUserCommandHandler> _entries = new HashMap<>();

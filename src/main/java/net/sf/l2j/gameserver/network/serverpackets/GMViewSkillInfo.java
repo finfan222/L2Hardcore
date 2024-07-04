@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Collection;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Collection;
 
 public class GMViewSkillInfo extends L2GameServerPacket {
     private final Player _player;

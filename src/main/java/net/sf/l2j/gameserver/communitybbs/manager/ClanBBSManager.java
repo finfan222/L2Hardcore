@@ -1,15 +1,14 @@
 package net.sf.l2j.gameserver.communitybbs.manager;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.model.pledge.ClanMember;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.util.StringTokenizer;
 
 public class ClanBBSManager extends BaseBBSManager {
     protected ClanBBSManager() {

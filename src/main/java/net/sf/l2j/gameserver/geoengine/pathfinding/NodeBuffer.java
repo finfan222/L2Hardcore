@@ -1,19 +1,19 @@
 package net.sf.l2j.gameserver.geoengine.pathfinding;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.concurrent.locks.ReentrantLock;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
 import net.sf.l2j.gameserver.geoengine.geodata.ABlock;
 import net.sf.l2j.gameserver.geoengine.geodata.GeoStructure;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class NodeBuffer {
     // Locking NodeBuffer to ensure thread-safe operations.

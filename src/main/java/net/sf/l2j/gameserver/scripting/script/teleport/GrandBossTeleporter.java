@@ -1,11 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.teleport;
 
-import java.util.List;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.DoorData;
@@ -19,6 +16,8 @@ import net.sf.l2j.gameserver.scripting.script.ai.boss.Antharas;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Baium;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Sailren;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Valakas;
+
+import java.util.List;
 
 /**
  * This script leads behavior of multiple bosses teleporters.

@@ -1,11 +1,7 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.sf.l2j.commons.pool.ThreadPool;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.BuyListManager;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -20,6 +16,9 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.ShopPreviewInfo;
 import net.sf.l2j.gameserver.network.serverpackets.UserInfo;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public final class RequestPreviewItem extends L2GameClientPacket {
     @SuppressWarnings("unused")

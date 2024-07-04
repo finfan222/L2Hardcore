@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.actors.HennaType;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.container.player.HennaList;
 import net.sf.l2j.gameserver.model.item.Henna;
+
+import java.util.List;
 
 public final class HennaInfo extends L2GameServerPacket {
     private final HennaList _hennaList;

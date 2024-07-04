@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.teleport;
 
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.data.xml.TeleportData;
 import net.sf.l2j.gameserver.enums.CabalType;

@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.handler.targethandlers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.handler.ITargetHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TargetAlly implements ITargetHandler {
     @Override

@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.handler.targethandlers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.ZoneId;
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
@@ -12,6 +9,9 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TargetBehindAura implements ITargetHandler {
     @Override

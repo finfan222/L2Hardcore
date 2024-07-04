@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FriendList extends L2GameServerPacket {
     private final List<FriendInfo> _info;

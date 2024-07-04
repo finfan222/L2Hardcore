@@ -1,15 +1,14 @@
 package net.sf.l2j.gameserver.scripting.script.ai.group;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Summon minions the first time being hitten.<br> For Orcs case, send also a message.

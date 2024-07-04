@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class WarehouseDepositList extends L2GameServerPacket {
     public static final int PRIVATE = 1;

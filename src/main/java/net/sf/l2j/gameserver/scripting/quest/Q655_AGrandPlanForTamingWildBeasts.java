@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.enums.QuestStatus;
@@ -13,6 +10,9 @@ import net.sf.l2j.gameserver.model.entity.ClanHallSiege;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Q655_AGrandPlanForTamingWildBeasts extends Quest {
     public static final String QUEST_NAME = "Q655_AGrandPlanForTamingWildBeasts";

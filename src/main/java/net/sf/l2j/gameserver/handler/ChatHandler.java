@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.handler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.handler.chathandlers.ChatAll;
 import net.sf.l2j.gameserver.handler.chathandlers.ChatAlliance;
@@ -16,6 +13,9 @@ import net.sf.l2j.gameserver.handler.chathandlers.ChatPetition;
 import net.sf.l2j.gameserver.handler.chathandlers.ChatShout;
 import net.sf.l2j.gameserver.handler.chathandlers.ChatTell;
 import net.sf.l2j.gameserver.handler.chathandlers.ChatTrade;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChatHandler {
     private final Map<SayType, IChatHandler> _entries = new HashMap<>();

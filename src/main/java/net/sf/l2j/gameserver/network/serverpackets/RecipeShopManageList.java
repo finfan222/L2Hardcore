@@ -1,13 +1,13 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.craft.ManufactureItem;
 import net.sf.l2j.gameserver.model.craft.ManufactureList;
 import net.sf.l2j.gameserver.model.item.Recipe;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
 public class RecipeShopManageList extends L2GameServerPacket {
     private final Player _player;

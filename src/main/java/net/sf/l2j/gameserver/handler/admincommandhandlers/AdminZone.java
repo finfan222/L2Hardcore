@@ -1,9 +1,6 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.enums.ZoneId;
@@ -13,6 +10,8 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.zone.type.subtype.ZoneType;
 import net.sf.l2j.gameserver.network.serverpackets.ExServerPrimitive;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
+
+import java.util.StringTokenizer;
 
 public class AdminZone implements IAdminCommandHandler {
     private static final String[] ADMIN_COMMANDS =

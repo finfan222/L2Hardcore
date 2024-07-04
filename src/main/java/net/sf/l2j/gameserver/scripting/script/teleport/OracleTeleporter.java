@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.teleport;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -12,6 +8,9 @@ import net.sf.l2j.gameserver.model.itemcontainer.PcInventory;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.scripting.Quest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class OracleTeleporter extends Quest {
     private static final int[] TOWN_DAWN =

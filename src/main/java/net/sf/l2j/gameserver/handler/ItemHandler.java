@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.handler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.handler.itemhandlers.BeastSoulShots;
 import net.sf.l2j.gameserver.handler.itemhandlers.BeastSpices;
 import net.sf.l2j.gameserver.handler.itemhandlers.BeastSpiritShots;
@@ -30,6 +27,9 @@ import net.sf.l2j.gameserver.handler.itemhandlers.SpecialXMas;
 import net.sf.l2j.gameserver.handler.itemhandlers.SpiritShots;
 import net.sf.l2j.gameserver.handler.itemhandlers.SummonItems;
 import net.sf.l2j.gameserver.model.item.kind.EtcItem;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemHandler {
     private final Map<Integer, IItemHandler> _entries = new HashMap<>();

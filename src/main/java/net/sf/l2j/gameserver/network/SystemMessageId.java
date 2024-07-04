@@ -10120,6 +10120,31 @@ public final class SystemMessageId {
     public static final SystemMessageId ARE_YOU_SURE_YOU_WANT_TO_LEARN_THE_S1_MASTERY;
 
     /**
+     * ID: 2064<br> with orange color Message: $s1
+     */
+    public static final SystemMessageId S1_ORANGE_LIGHT;
+
+    /**
+     * ID: 2065<br> with green-light color Message: $s1
+     */
+    public static final SystemMessageId S1_GREEN_LIGHT;
+
+    /**
+     * ID: 2066<br> with blue-light color Message: $s1
+     */
+    public static final SystemMessageId S1_BLUE_LIGHT;
+
+    /**
+     * ID: 2067<br> with red-light color Message: $s1
+     */
+    public static final SystemMessageId S1_RED_LIGHT;
+
+    /**
+     * ID: 2068<br> with grey-light color Message: $s1
+     */
+    public static final SystemMessageId S1_GREY_LIGHT;
+
+    /**
      * Array containing all SystemMessageIds<br> Important: Always initialize with a length of the highest
      * SystemMessageId + 1!!!
      */
@@ -12118,6 +12143,11 @@ public final class SystemMessageId {
         S1_INVITES_YOU_TO_TAKE_ON_THE_QUEST_S2 = new SystemMessageId(2061);
         S1_CALLS_YOU_TO_A_MORTAL_COMBAT = new SystemMessageId(2062);
         ARE_YOU_SURE_YOU_WANT_TO_LEARN_THE_S1_MASTERY = new SystemMessageId(2063);
+        S1_ORANGE_LIGHT = new SystemMessageId(2064);
+        S1_GREEN_LIGHT = new SystemMessageId(2065);
+        S1_BLUE_LIGHT = new SystemMessageId(2066);
+        S1_RED_LIGHT = new SystemMessageId(2067);
+        S1_GREY_LIGHT = new SystemMessageId(2068);
 
         buildFastLookupTable();
     }

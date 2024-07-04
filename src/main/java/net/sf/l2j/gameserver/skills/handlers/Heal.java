@@ -11,7 +11,6 @@ import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.Summon;
-import net.sf.l2j.gameserver.model.mastery.MasteryUtil;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 
@@ -76,9 +75,6 @@ public class Heal extends Default {
 
             Context context = Context.builder().build();
             double amount = power * target.getStatus().calcStat(Stats.HEAL_EFFECTIVNESS, 100, null, null) / 100.;
-            if (MasteryUtil.HolyLight_invoke(caster, target, this)) {
-                amount *= 2;
-            }
 
             target.getStatus().addHp(amount);
 

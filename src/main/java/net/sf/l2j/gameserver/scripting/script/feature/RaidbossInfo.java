@@ -1,16 +1,15 @@
 package net.sf.l2j.gameserver.scripting.script.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.scripting.Quest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RaidbossInfo extends Quest {
     private static final String BOSS_CLASS_TYPE = "RaidBoss";

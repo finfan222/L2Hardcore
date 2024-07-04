@@ -1,7 +1,6 @@
 package net.sf.l2j.loginserver.model;
 
 import net.sf.l2j.commons.network.ServerType;
-
 import net.sf.l2j.loginserver.data.manager.GameServerManager;
 import net.sf.l2j.loginserver.data.sql.AccountTable;
 

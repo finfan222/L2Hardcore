@@ -1,9 +1,5 @@
 package net.sf.l2j.gameserver.scripting.script.siegablehall;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.enums.IntentionType;
 import net.sf.l2j.gameserver.enums.SayType;
@@ -13,6 +9,10 @@ import net.sf.l2j.gameserver.model.actor.Playable;
 import net.sf.l2j.gameserver.model.entity.ClanHallSiege;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The Devastated Castle is an occupied clan hall for which ownership can be acquired by siege battle with NPCs. The

@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Test Mastery",
+    "shortDescr": "Bla bla bla.",
+    "longDescr": "Full description of mastery.",
+    "handler": "TestHandler",
+    "classCond": ["PALADIN, KNIGHT, PHOENIX_KNIGHT"],
+    "branchLevel": 1,
+    "skills": [
+      {
+        "id": 1,
+        "level": 1
+      }
+    ]
+  }
+]

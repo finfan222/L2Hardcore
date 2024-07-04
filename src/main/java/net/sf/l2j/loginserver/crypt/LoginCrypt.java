@@ -1,8 +1,8 @@
 package net.sf.l2j.loginserver.crypt;
 
-import java.io.IOException;
-
 import net.sf.l2j.commons.random.Rnd;
+
+import java.io.IOException;
 
 public class LoginCrypt {
     private static final byte[] STATIC_BLOWFISH_KEY =

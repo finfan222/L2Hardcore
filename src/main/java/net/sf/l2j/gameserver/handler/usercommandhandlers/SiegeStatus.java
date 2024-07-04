@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.handler.usercommandhandlers;
 
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.handler.IUserCommandHandler;

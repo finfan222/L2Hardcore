@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.handler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetAlly;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetArea;
@@ -30,6 +27,9 @@ import net.sf.l2j.gameserver.handler.targethandlers.TargetSelf;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetSummon;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetUndead;
 import net.sf.l2j.gameserver.handler.targethandlers.TargetUnlockable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TargetHandler {
     private final Map<SkillTargetType, ITargetHandler> _entries = new HashMap<>();

@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
+import net.sf.l2j.gameserver.model.pledge.ClanMember;
+
 import java.util.Collection;
 import java.util.Set;
-
-import net.sf.l2j.gameserver.model.pledge.ClanMember;
 
 public class PledgePowerGradeList extends L2GameServerPacket {
     private final Set<Integer> _ranks;

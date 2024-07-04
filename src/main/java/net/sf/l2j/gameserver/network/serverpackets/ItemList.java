@@ -1,12 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Optional;
-import java.util.Set;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
-import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
 import net.sf.l2j.gameserver.model.item.kind.Item;
+
+import java.util.Set;
 
 public class ItemList extends L2GameServerPacket {
     private final Set<ItemInstance> _items;

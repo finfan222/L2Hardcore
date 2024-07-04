@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.handler.usercommandhandlers;
 
 import net.sf.l2j.commons.data.StatSet;
-
 import net.sf.l2j.gameserver.handler.IUserCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.olympiad.Olympiad;

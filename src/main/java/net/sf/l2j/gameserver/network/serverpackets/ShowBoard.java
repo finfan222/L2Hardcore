@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import net.sf.l2j.commons.lang.StringUtil;
+
+import java.util.List;
 
 public class ShowBoard extends L2GameServerPacket {
     public static final ShowBoard STATIC_SHOWBOARD_102 = new ShowBoard(null, "102");

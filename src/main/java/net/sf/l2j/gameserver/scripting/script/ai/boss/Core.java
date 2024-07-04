@@ -1,12 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -17,6 +13,9 @@ import net.sf.l2j.gameserver.model.actor.instance.Monster;
 import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Core extends AttackableAIScript {
     private static final int CORE = 29006;

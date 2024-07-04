@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Collection;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.model.buylist.NpcBuyList;
 import net.sf.l2j.gameserver.model.buylist.Product;
+
+import java.util.Collection;
 
 public final class BuyList extends L2GameServerPacket {
     private final int _money;

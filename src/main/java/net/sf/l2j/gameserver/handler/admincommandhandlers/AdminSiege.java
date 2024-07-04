@@ -1,9 +1,6 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -12,6 +9,8 @@ import net.sf.l2j.gameserver.model.location.TowerSpawnLocation;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SiegeInfo;
+
+import java.util.StringTokenizer;
 
 public class AdminSiege implements IAdminCommandHandler {
     private static final String[] ADMIN_COMMANDS =

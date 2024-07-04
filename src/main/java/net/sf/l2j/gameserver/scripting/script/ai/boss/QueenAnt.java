@@ -1,9 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;

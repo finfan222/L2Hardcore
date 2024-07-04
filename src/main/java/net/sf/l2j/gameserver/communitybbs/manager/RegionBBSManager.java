@@ -1,11 +1,6 @@
 package net.sf.l2j.gameserver.communitybbs.manager;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.ClanHallManager;
@@ -14,6 +9,10 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.clanhall.ClanHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class RegionBBSManager extends BaseBBSManager {
     protected RegionBBSManager() {

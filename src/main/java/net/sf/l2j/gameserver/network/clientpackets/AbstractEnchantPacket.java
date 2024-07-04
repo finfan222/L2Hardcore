@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.items.CrystalType;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
@@ -10,6 +7,9 @@ import net.sf.l2j.gameserver.enums.items.WeaponType;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractEnchantPacket extends L2GameClientPacket {
     public static final Map<Integer, EnchantScroll> _scrolls = new HashMap<>();

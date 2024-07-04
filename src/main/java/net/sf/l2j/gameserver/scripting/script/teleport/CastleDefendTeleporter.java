@@ -1,16 +1,15 @@
 package net.sf.l2j.gameserver.scripting.script.teleport;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.scripting.Quest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class CastleDefendTeleporter extends Quest {
     private static final int GLUDIO_DEFEND_TELEPORTER_1 = 35092;

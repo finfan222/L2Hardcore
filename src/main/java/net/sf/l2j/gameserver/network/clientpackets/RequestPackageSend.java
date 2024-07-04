@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -16,6 +13,9 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class RequestPackageSend extends L2GameClientPacket {
     private int _objectId;

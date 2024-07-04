@@ -2,7 +2,6 @@ package net.sf.l2j.gameserver.scripting.script.feature;
 
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.enums.CabalType;
 import net.sf.l2j.gameserver.enums.ScriptEventType;

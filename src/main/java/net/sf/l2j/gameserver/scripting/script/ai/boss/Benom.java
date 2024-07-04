@@ -1,10 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
@@ -21,6 +17,9 @@ import net.sf.l2j.gameserver.model.location.SpawnLocation;
 import net.sf.l2j.gameserver.network.serverpackets.NpcSay;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Benom is a specific Raid Boss, appearing in Rune Castle. He is aggressive towards anyone.<br>

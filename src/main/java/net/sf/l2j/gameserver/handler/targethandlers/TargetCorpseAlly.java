@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.handler.targethandlers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.skills.SkillTargetType;
 import net.sf.l2j.gameserver.handler.ITargetHandler;
 import net.sf.l2j.gameserver.model.actor.Creature;
@@ -12,6 +9,9 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.scripting.script.ai.boss.Baium;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TargetCorpseAlly implements ITargetHandler {
     @Override

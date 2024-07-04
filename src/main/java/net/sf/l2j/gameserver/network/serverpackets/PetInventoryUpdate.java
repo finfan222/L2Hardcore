@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.items.ItemState;
 import net.sf.l2j.gameserver.model.item.instance.ItemInfo;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PetInventoryUpdate extends L2GameServerPacket {
     private final List<ItemInfo> _items;

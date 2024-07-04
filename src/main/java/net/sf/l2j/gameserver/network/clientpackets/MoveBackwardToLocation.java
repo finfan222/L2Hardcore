@@ -1,10 +1,7 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.nio.BufferUnderflowException;
-
-import net.sf.l2j.commons.math.MathUtil;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.gameserver.enums.TeleportMode;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.location.Location;
@@ -12,6 +9,8 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
 import net.sf.l2j.gameserver.network.serverpackets.MoveToLocation;
+
+import java.nio.BufferUnderflowException;
 
 public class MoveBackwardToLocation extends L2GameClientPacket {
     private int _targetX;

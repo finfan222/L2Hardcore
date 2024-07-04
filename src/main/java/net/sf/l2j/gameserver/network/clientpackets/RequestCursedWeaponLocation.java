@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.manager.CursedWeaponManager;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.entity.CursedWeapon;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.network.serverpackets.ExCursedWeaponLocation;
 import net.sf.l2j.gameserver.network.serverpackets.ExCursedWeaponLocation.CursedWeaponInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class RequestCursedWeaponLocation extends L2GameClientPacket {
     @Override

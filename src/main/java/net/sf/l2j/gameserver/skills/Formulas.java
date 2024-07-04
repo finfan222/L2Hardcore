@@ -26,7 +26,6 @@ import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
-import net.sf.l2j.gameserver.model.mastery.MasteryUtil;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.effects.EffectTemplate;
@@ -346,11 +345,6 @@ public final class Formulas {
         }
 
         final boolean isPvP = attacker instanceof Playable && target instanceof Playable;
-
-
-        if (MasteryUtil.CitadelMastery_invoke(target, attacker)) {
-            attackPower /= Rnd.get(2, target.getStatus().getCON());
-        }
 
         double addCritPower = 0.;
 
@@ -1029,10 +1023,6 @@ public final class Formulas {
         int lvlDifference = target.getStatus().getLevel() - ((skill.getMagicLevel() > 0 ? skill.getMagicLevel() : attacker.getStatus().getLevel()) + skill.getLevelDepend());
         double rate = 100;
 
-        if (MasteryUtil.ResistanceMastery_invoke(target)) {
-            return false;
-        }
-
         if (lvlDifference > 0) {
             rate = (Math.pow(1.166, lvlDifference)) * 100;
         }
@@ -1058,10 +1048,6 @@ public final class Formulas {
     }
 
     public static double calculateSkillResurrectRestorePercent(double baseRestorePercent, Creature caster) {
-        if (MasteryUtil.HolyResurrectMastery_invoke(caster)) {
-            return 100.0;
-        }
-
         if (baseRestorePercent == 0 || baseRestorePercent == 100) {
             return baseRestorePercent;
         }

@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.util.StringTokenizer;
-
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.TeleportMode;
 import net.sf.l2j.gameserver.geoengine.GeoEngine;
@@ -11,6 +9,8 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.group.Party;
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.util.StringTokenizer;
 
 public class AdminTeleport implements IAdminCommandHandler {
     private static final String[] ADMIN_COMMANDS =

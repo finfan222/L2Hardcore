@@ -1,8 +1,5 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.actors.OperateType;
 import net.sf.l2j.gameserver.model.World;
@@ -11,6 +8,9 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.trade.ItemRequest;
 import net.sf.l2j.gameserver.model.trade.TradeList;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public final class RequestPrivateStoreBuy extends L2GameClientPacket {
     private static final int BATCH_LENGTH = 12; // length of one item

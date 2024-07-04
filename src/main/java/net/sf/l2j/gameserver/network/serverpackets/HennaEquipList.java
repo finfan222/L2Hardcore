@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import net.sf.l2j.gameserver.data.xml.HennaData;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.Henna;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class HennaEquipList extends L2GameServerPacket {
     private final int _adena;

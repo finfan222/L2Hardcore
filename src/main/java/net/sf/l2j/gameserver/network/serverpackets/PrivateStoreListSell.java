@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.trade.TradeItem;
+
+import java.util.List;
 
 public class PrivateStoreListSell extends L2GameServerPacket {
     private final int _playerAdena;

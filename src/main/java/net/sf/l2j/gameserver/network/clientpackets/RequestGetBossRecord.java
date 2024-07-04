@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.Map;
-
 import net.sf.l2j.gameserver.data.manager.RaidPointManager;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.serverpackets.ExGetBossRecord;
+
+import java.util.Map;
 
 public class RequestGetBossRecord extends L2GameClientPacket {
     @SuppressWarnings("unused")

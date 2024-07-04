@@ -1,11 +1,11 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import net.sf.l2j.gameserver.enums.SayType;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.network.SystemMessageId;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CreatureSay extends L2GameServerPacket {
     private final int _objectId;

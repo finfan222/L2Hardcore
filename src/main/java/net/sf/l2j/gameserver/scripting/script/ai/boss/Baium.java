@@ -1,14 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.ai.boss;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
@@ -30,6 +24,11 @@ import net.sf.l2j.gameserver.network.serverpackets.PlaySound;
 import net.sf.l2j.gameserver.network.serverpackets.SocialAction;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Baium is the last famous Emperor of Elmoreden, the creator of the Tower of Insolence, and the bringer of the Golden

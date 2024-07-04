@@ -2,7 +2,6 @@ package net.sf.l2j.loginserver.network.gameserverpackets;
 
 import net.sf.l2j.commons.network.AttributeType;
 import net.sf.l2j.commons.network.ServerType;
-
 import net.sf.l2j.loginserver.data.manager.GameServerManager;
 import net.sf.l2j.loginserver.model.GameServerInfo;
 import net.sf.l2j.loginserver.network.clientpackets.ClientBasePacket;

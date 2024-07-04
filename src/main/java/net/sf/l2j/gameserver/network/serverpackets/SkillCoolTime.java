@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.holder.Timestamp;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SkillCoolTime extends L2GameServerPacket {
     public List<Timestamp> _reuseTimeStamps;

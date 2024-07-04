@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.scripting.script.feature;
 
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
 import net.sf.l2j.gameserver.data.xml.TeleportData;
 import net.sf.l2j.gameserver.enums.TeleportType;

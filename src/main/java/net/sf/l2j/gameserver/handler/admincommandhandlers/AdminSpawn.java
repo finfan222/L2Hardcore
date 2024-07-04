@@ -1,13 +1,6 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.manager.DayNightManager;
 import net.sf.l2j.gameserver.data.manager.FenceManager;
 import net.sf.l2j.gameserver.data.manager.RaidBossManager;
@@ -26,6 +19,12 @@ import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AdminSpawn implements IAdminCommandHandler {
     private static final String[] ADMIN_COMMANDS =

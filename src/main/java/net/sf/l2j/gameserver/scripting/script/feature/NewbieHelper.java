@@ -1,12 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
 import net.sf.l2j.gameserver.data.SkillTable.FrequentSkill;
 import net.sf.l2j.gameserver.data.sql.SpawnTable;
 import net.sf.l2j.gameserver.data.xml.NewbieBuffData;
@@ -25,6 +21,9 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.scripting.QuestState;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NewbieHelper extends Quest {
     private static final String QUEST_NAME = "NewbieHelper";

@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.manager.PartyMatchRoomManager;
 import net.sf.l2j.gameserver.model.actor.Player;
+
+import java.util.List;
 
 public class ExListPartyMatchingWaitingRoom extends L2GameServerPacket {
     private final int _mode;

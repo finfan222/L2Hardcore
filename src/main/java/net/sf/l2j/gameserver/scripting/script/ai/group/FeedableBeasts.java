@@ -1,13 +1,8 @@
 package net.sf.l2j.gameserver.scripting.script.ai.group;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.sf.l2j.Config;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.commons.util.ArraysUtil;
-
-import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
@@ -23,6 +18,10 @@ import net.sf.l2j.gameserver.scripting.quest.Q020_BringUpWithLove;
 import net.sf.l2j.gameserver.scripting.quest.Q655_AGrandPlanForTamingWildBeasts;
 import net.sf.l2j.gameserver.scripting.script.ai.AttackableAIScript;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FeedableBeasts extends AttackableAIScript {
     private static final int GOLDEN_SPICE = 6643;

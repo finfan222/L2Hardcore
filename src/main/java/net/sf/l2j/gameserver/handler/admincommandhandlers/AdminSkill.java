@@ -1,17 +1,7 @@
 package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.StringTokenizer;
-import java.util.stream.Collectors;
-
 import net.sf.l2j.commons.data.Pagination;
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -20,6 +10,15 @@ import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 public class AdminSkill implements IAdminCommandHandler {
     private static final Comparator<L2Skill> COMPARE_SKILLS_BY_ID = Comparator.comparing(L2Skill::getId);

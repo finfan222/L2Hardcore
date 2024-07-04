@@ -1,10 +1,10 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+
+import java.util.List;
 
 public class SiegeDefenderList extends L2GameServerPacket {
     private final Castle _castle;

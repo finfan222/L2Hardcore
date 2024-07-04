@@ -1,14 +1,14 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.L2FriendSay;
+
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 public final class RequestSendL2FriendSay extends L2GameClientPacket {
     private static final Logger CHAT_LOG = Logger.getLogger("chat");

@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.handler.itemhandlers;
 
-import java.util.List;
-
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.data.xml.SummonItemData;
@@ -16,6 +14,8 @@ import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.spawn.Spawn;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import java.util.List;
 
 public class SummonItems implements IItemHandler {
     @Override

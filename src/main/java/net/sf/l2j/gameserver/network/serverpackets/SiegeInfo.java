@@ -1,12 +1,12 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Calendar;
-
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.clanhall.SiegableHall;
 import net.sf.l2j.gameserver.model.entity.Castle;
 import net.sf.l2j.gameserver.model.pledge.Clan;
+
+import java.util.Calendar;
 
 public class SiegeInfo extends L2GameServerPacket {
     private Castle _castle;

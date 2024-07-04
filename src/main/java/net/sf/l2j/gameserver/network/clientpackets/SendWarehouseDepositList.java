@@ -1,7 +1,5 @@
 package net.sf.l2j.gameserver.network.clientpackets;
 
-import static net.sf.l2j.gameserver.model.itemcontainer.PcInventory.ADENA_ID;
-
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -15,6 +13,8 @@ import net.sf.l2j.gameserver.network.serverpackets.EnchantResult;
 import net.sf.l2j.gameserver.network.serverpackets.InventoryUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.StatusUpdate;
 import net.sf.l2j.gameserver.network.serverpackets.SystemMessage;
+
+import static net.sf.l2j.gameserver.model.itemcontainer.PcInventory.ADENA_ID;
 
 public final class SendWarehouseDepositList extends L2GameClientPacket {
     private static final int BATCH_LENGTH = 8; // length of one item

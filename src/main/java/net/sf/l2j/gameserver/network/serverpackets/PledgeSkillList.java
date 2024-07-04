@@ -1,9 +1,9 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Collection;
-
 import net.sf.l2j.gameserver.model.pledge.Clan;
 import net.sf.l2j.gameserver.skills.L2Skill;
+
+import java.util.Collection;
 
 public class PledgeSkillList extends L2GameServerPacket {
     private final Collection<L2Skill> _skills;

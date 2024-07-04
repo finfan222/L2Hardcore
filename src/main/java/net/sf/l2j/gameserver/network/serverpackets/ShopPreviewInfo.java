@@ -1,8 +1,8 @@
 package net.sf.l2j.gameserver.network.serverpackets;
 
-import java.util.Map;
-
 import net.sf.l2j.gameserver.enums.Paperdoll;
+
+import java.util.Map;
 
 public class ShopPreviewInfo extends L2GameServerPacket {
     private final Map<Paperdoll, Integer> _items;

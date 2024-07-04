@@ -1,13 +1,12 @@
 package net.sf.l2j.gameserver.scripting.script.feature;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import net.sf.l2j.commons.lang.StringUtil;
-
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.scripting.Quest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class EchoCrystal extends Quest {
     private static final int ADENA = 57;

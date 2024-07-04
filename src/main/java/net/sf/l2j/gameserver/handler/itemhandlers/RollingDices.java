@@ -1,7 +1,6 @@
 package net.sf.l2j.gameserver.handler.itemhandlers;
 
 import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.handler.IItemHandler;
 import net.sf.l2j.gameserver.model.actor.Playable;

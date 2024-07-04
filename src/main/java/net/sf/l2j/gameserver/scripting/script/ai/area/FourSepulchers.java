@@ -1,8 +1,7 @@
 package net.sf.l2j.gameserver.scripting.script.ai.area;
 
-import net.sf.l2j.commons.random.Rnd;
-
 import net.sf.l2j.Config;
+import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.manager.FourSepulchersManager;
 import net.sf.l2j.gameserver.model.actor.Attackable;

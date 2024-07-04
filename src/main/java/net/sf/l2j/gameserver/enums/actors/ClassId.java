@@ -158,7 +158,7 @@ public enum ClassId {
     private final ClassId _parent;
     private EnumSet<ClassId> _subclasses;
 
-    private ClassId(ClassRace race, ClassType type, int level, String name, ClassId parent) {
+    ClassId(ClassRace race, ClassType type, int level, String name, ClassId parent) {
         _id = ordinal();
         _race = race;
         _type = type;
@@ -231,7 +231,7 @@ public enum ClassId {
         return this == classId || isChildOf(classId);
     }
 
-    private final void createSubclasses() {
+    private void createSubclasses() {
         // Only 2nd class level can have subclasses.
         if (_level != 2) {
             _subclasses = null;
@@ -314,7 +314,7 @@ public enum ClassId {
      * @param player : The {@link Player} to make checks on.
      * @return All available subclasses for given {@link Player} under a {@link EnumSet} of {@link ClassId}s.
      */
-    public static final EnumSet<ClassId> getAvailableSubclasses(Player player) {
+    public static EnumSet<ClassId> getAvailableSubclasses(Player player) {
         ClassId classId = VALUES[player.getBaseClass()];
         if (classId._level < 2) {
             return null;
