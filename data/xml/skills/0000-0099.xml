@@ -411,7 +411,11 @@
 		<enchant2 name="magicLvl" val="#enchantMagicLvl"/>
 		<enchant2 name="mpConsume" val="#ench2MpConsume"/>
 		<for>
-			<effect name="TargetMe" val="0"/>
+			<effect name="Hate" time="3" val="0">
+				<mul stat="pAtk" val="1.23"/>
+				<mul stat="pDef" val="0.77"/>
+				<mul stat="mDef" val="0.77"/>
+			</effect>
 		</for>
 	</skill>
 	<skill id="19" levels="37" name="Double Shot" enchantLevels1="30" enchantLevels2="30" >
@@ -580,7 +584,11 @@
 		<enchant2 name="magicLvl" val="#enchantMagicLvl"/>
 		<enchant2 name="mpConsume" val="#ench2MpConsume"/>
 		<for>
-			<effect name="TargetMe" val="0"/>
+			<effect name="Hate" time="3" val="0">
+				<mul stat="pAtk" val="1.23"/>
+				<mul stat="pDef" val="0.77"/>
+				<mul stat="mDef" val="0.77"/>
+			</effect>
 		</for>
 	</skill>
 	<skill id="29" levels="24" name="Iron Punch">

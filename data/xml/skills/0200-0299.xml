@@ -1459,6 +1459,13 @@
 		<set name="skillType" val="AGGDAMAGE"/>
 		<set name="operateType" val="ACTIVE"/>
 		<set name="category" val="ABILITY"/>
+		<for>
+			<effect name="Hate" time="3" val="0">
+				<mul stat="pAtk" val="1.23"/>
+				<mul stat="pDef" val="0.77"/>
+				<mul stat="mDef" val="0.77"/>
+			</effect>
+		</for>
 	</skill>
 	<skill id="287" levels="3" name="Lionheart">
 		<table name="#mpConsume"> 16 22 29 </table>

@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.mastery.handlers;
 
-import net.sf.l2j.gameserver.model.actor.Player;
+import net.sf.l2j.gameserver.model.mastery.Mastery;
 import net.sf.l2j.gameserver.model.mastery.MasteryData;
 import net.sf.l2j.gameserver.model.mastery.MasteryHandler;
 
@@ -10,12 +10,12 @@ import net.sf.l2j.gameserver.model.mastery.MasteryHandler;
 public class TestHandler implements MasteryHandler {
 
     @Override
-    public void onLearn(Player player, MasteryData masteryData) {
+    public void onLearn(Mastery mastery, MasteryData masteryData) {
 
     }
 
     @Override
-    public void onUnlearn(Player player, MasteryData masteryData) {
+    public void onUnlearn(Mastery mastery, MasteryData masteryData) {
 
     }
 }

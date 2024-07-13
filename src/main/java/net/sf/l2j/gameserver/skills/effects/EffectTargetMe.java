@@ -2,7 +2,6 @@ package net.sf.l2j.gameserver.skills.effects;
 
 import net.sf.l2j.gameserver.enums.skills.EffectType;
 import net.sf.l2j.gameserver.model.actor.Creature;
-import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.L2Skill;
 
@@ -18,21 +17,13 @@ public class EffectTargetMe extends AbstractEffect {
 
     @Override
     public boolean onStart() {
-        if (getEffected() instanceof Player) {
-            if (getEffected().getTarget() == getEffector()) {
-                getEffected().getAI().tryToAttack(getEffector());
-            } else {
-                getEffected().setTarget(getEffector());
-            }
-
-            return true;
+        if (getEffected().getTarget() == getEffector()) {
+            getEffected().getAI().tryToAttack(getEffector());
+        } else {
+            getEffected().setTarget(getEffector());
         }
-        return false;
-    }
 
-    @Override
-    public void onExit() {
-        getEffected().setUncontrollable(false);
+        return true;
     }
 
     @Override

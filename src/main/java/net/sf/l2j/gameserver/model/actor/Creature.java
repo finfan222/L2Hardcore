@@ -79,6 +79,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * An instance type extending {@link WorldObject} which represents the mother class of all character objects of the
@@ -107,7 +108,7 @@ public abstract class Creature extends WorldObject {
     private boolean _showSummonAnimation;
     @Getter
     @Setter
-    private boolean isUncontrollable;
+    private AtomicBoolean uncontrolled = new AtomicBoolean(false);
 
     private boolean _isInvul;
     private boolean _isMortal = true;
@@ -677,7 +678,7 @@ public abstract class Creature extends WorldObject {
      */
     public boolean isOutOfControl() {
         return isAffected(EffectFlag.STUNNED, EffectFlag.SLEEP, EffectFlag.PARALYZED, EffectFlag.CONFUSED, EffectFlag.FEAR)
-            || isImmobileUntilAttacked() || isTeleporting() || isDead() || isUncontrollable;
+            || isImmobileUntilAttacked() || isTeleporting() || isDead() || uncontrolled.get();
     }
 
     public final Calculator[] getCalculators() {

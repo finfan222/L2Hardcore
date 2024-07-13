@@ -8,7 +8,11 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.mastery.repository.MasteryRepository;
 import net.sf.l2j.gameserver.network.SystemMessageColor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author finfan
@@ -20,6 +24,7 @@ public class Mastery {
     private final Player player;
     private final MasteryData[] values;
     private final MasteryRepository repository;
+    private final Map<MasteryHandler, List<VariableData>> variables = new ConcurrentHashMap<>();
 
     private int nextIndex;
 
@@ -103,6 +108,20 @@ public class Mastery {
 
     public void restore() {
         repository.restore(this);
+    }
+
+    public <T> void add(MasteryHandler handler, VariableData var) {
+        variables.put(handler, new ArrayList<>());
+        variables.get(handler).add(var);
+    }
+
+    public void remove(MasteryHandler handler) {
+        variables.get(handler).clear();
+        variables.remove(handler);
+    }
+
+    public VariableData get(MasteryHandler handler, String key) {
+        return variables.get(handler).stream().filter(e -> e.key().equalsIgnoreCase(key)).findAny().orElse(null);
     }
 
 }

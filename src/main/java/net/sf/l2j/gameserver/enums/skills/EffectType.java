@@ -1,6 +1,8 @@
 package net.sf.l2j.gameserver.enums.skills;
 
 public enum EffectType {
+    HATE,
+
     BLOCK_BUFF,
     BLOCK_DEBUFF,
 

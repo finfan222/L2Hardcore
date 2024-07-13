@@ -633,6 +633,14 @@ public abstract class L2Skill implements IChanceSkillTrigger {
         return _skillCategory == SkillCategory.ABILITY;
     }
 
+    public final boolean isPhysic() {
+        return _skillCategory == SkillCategory.PHYSIC;
+    }
+
+    public final SkillCategory getCategory() {
+        return _skillCategory;
+    }
+
     /**
      * @return true to set static reuse.
      */
