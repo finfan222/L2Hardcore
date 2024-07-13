@@ -27,6 +27,7 @@ public enum Stats {
     SHIELD_DEFENCE_ANGLE("shieldDefAngle", false),
     SHIELD_RATE("rShld", false),
     PERFECT_BLOCK("pBlock", false),
+    PARRY_RATE("rParry", false),
 
     CRITICAL_DAMAGE("cAtk", false),
     CRITICAL_DAMAGE_POS("cAtkPos", false),

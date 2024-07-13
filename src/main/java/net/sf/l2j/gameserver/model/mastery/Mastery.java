@@ -84,14 +84,14 @@ public class Mastery {
         values[nextIndex] = masteryData;
         nextIndex++;
         if (masteryData.getHandler() != null) {
-            masteryData.getHandler().onLearn(player, masteryData);
+            masteryData.getHandler().onLearn(this, masteryData);
         }
     }
 
     public synchronized void resetMastery() {
         for (MasteryData next : values) {
             if (next.getHandler() != null) {
-                next.getHandler().onUnlearn(player, next);
+                next.getHandler().onUnlearn(this, next);
             }
         }
         Arrays.fill(values, null);
@@ -121,7 +121,7 @@ public class Mastery {
     }
 
     public VariableData get(MasteryHandler handler, String key) {
-        return variables.get(handler).stream().filter(e -> e.key().equalsIgnoreCase(key)).findAny().orElse(null);
+        return variables.get(handler).stream().filter(e -> e.getKey().equalsIgnoreCase(key)).findAny().orElse(null);
     }
 
 }

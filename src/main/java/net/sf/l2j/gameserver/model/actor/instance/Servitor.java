@@ -61,7 +61,7 @@ public class Servitor extends net.sf.l2j.gameserver.model.actor.Summon {
     }
 
     @Override
-    public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
+    public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss, boolean parried) {
         if (miss || getOwner() == null) {
             return;
         }

@@ -61,7 +61,7 @@ public class StriderSiegeAssault extends L2Skill {
         final boolean ss = caster.isChargedShot(ShotType.SOULSHOT);
         final ShieldDefense sDef = Formulas.calcShldUse(caster, door, this, isCrit);
 
-        final int damage = (int) Formulas.calcPhysicalSkillDamage(caster, door, this, sDef, isCrit, ss);
+        final int damage = (int) Formulas.calcPhysicalSkillDamage(caster, door, this, sDef, isCrit, ss, false);
         if (damage > 0) {
             caster.sendDamageMessage(door, damage, false, false, false);
             door.reduceCurrentHp(damage, caster, this);

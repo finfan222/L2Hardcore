@@ -372,17 +372,19 @@ public final class QuestState extends MemoSet {
     }
 
     public void addTask(String name, ScheduledFuture<?> future) {
-        _player.setUncontrollable(true);
-        tasks.put(name, future);
+        if (_player.getUncontrolled().compareAndSet(false, true)) {
+            tasks.put(name, future);
+        }
     }
 
     public void removeTask(String name, AbnormalEffect... effects) {
         tasks.get(name).cancel(false);
-        _player.setUncontrollable(false);
-        for (AbnormalEffect next : effects) {
-            _player.stopAbnormalEffect(next);
+        if (_player.getUncontrolled().compareAndSet(true, false)) {
+            for (AbnormalEffect next : effects) {
+                _player.stopAbnormalEffect(next);
+            }
+            tasks.remove(name);
         }
-        tasks.remove(name);
     }
 
     public boolean isHasTask(String name) {

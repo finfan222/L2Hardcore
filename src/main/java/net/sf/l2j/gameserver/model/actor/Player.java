@@ -5741,11 +5741,13 @@ public final class Player extends Playable {
     }
 
     @Override
-    public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
+    public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss, boolean parried) {
         // Check if hit is missed
         if (miss) {
             sendPacket(SystemMessageId.MISSED_TARGET);
             return;
+        } else if (parried) {
+            sendPacket(SystemMessageId.HIT_WAS_PARRIED);
         }
 
         // Check if hit is critical

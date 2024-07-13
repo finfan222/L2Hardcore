@@ -37,6 +37,7 @@ public class Default extends L2Skill {
         @Builder.Default
         boolean isSuccess = true;
         boolean isAvenged;
+        boolean isParried;
         @Builder.Default
         ShieldDefense block = ShieldDefense.FAILED;
 

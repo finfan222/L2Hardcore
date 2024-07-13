@@ -10145,6 +10145,11 @@ public final class SystemMessageId {
     public static final SystemMessageId S1_GREY_LIGHT;
 
     /**
+     * ID: 2069<br> your attack was parried!
+     */
+    public static final SystemMessageId HIT_WAS_PARRIED;
+
+    /**
      * Array containing all SystemMessageIds<br> Important: Always initialize with a length of the highest
      * SystemMessageId + 1!!!
      */
@@ -12148,6 +12153,7 @@ public final class SystemMessageId {
         S1_BLUE_LIGHT = new SystemMessageId(2066);
         S1_RED_LIGHT = new SystemMessageId(2067);
         S1_GREY_LIGHT = new SystemMessageId(2068);
+        HIT_WAS_PARRIED = new SystemMessageId(2069);
 
         buildFastLookupTable();
     }
@@ -12171,7 +12177,7 @@ public final class SystemMessageId {
 
                     smIds.add(smId);
                 } catch (Exception e) {
-                    log.error("Failed to access field for '{}'.", e, field.getName());
+                    log.error("Failed to access field for '{}'.", field.getName(), e);
                 }
             }
         }

@@ -459,13 +459,17 @@ public class CreatureAttack<T extends Creature> {
     private HitHolder getHitHolder(Attack attack, Creature target, boolean isSplit) {
         boolean crit = false;
         ShieldDefense shld = ShieldDefense.FAILED;
+        boolean parried = false;
         int damage = 0;
 
         final boolean miss = Formulas.calcHitMiss(attacker, target, null);
         if (!miss) {
             crit = Formulas.calcCrit(attacker, target, null);
             shld = Formulas.calcShldUse(attacker, target, null, crit);
-            damage = (int) Formulas.calcPhysicalAttackDamage(attacker, target, shld, crit, attack.soulshot);
+            if (!crit) {
+                parried = Formulas.calcParryRate(attacker, target, null);
+            }
+            damage = (int) Formulas.calcPhysicalAttackDamage(attacker, target, shld, crit, parried, attack.soulshot);
 
             if (isSplit) {
                 damage /= 2;

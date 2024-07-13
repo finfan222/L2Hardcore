@@ -1633,7 +1633,11 @@ public abstract class Creature extends WorldObject {
      * @param pcrit
      * @param miss
      */
+    public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss, boolean parried) {
+    }
+
     public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
+        sendDamageMessage(target, damage, mcrit, pcrit, miss, false);
     }
 
     public FusionSkill getFusionSkill() {

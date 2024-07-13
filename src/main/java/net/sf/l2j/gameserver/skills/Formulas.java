@@ -7,6 +7,7 @@ import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
 import net.sf.l2j.gameserver.enums.DayCycle;
+import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.actors.NpcRace;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
@@ -326,7 +327,7 @@ public final class Formulas {
      * @param ss : True if ss are activated, false otherwise.
      * @return The calculated damage of a physical attack.
      */
-    public static double calcPhysicalAttackDamage(Creature attacker, Creature target, ShieldDefense sDef, boolean crit, boolean ss) {
+    public static double calcPhysicalAttackDamage(Creature attacker, Creature target, ShieldDefense sDef, boolean crit, boolean parried, boolean ss) {
         // If the attacker can't attack, return.
         final Player attackerPlayer = attacker.getActingPlayer();
         if (attackerPlayer != null && !attackerPlayer.getAccessLevel().canGiveDamage()) {
@@ -400,11 +401,16 @@ public final class Formulas {
             damage *= 2.;
         }
 
+        // parry reduce all damage by 50%
+        if (parried) {
+            damage *= 0.5;
+        }
+
         if (Config.DEVELOPER) {
             StringUtil.printSection("Physical attack damage");
             log.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
             log.info("Basic powers: attack: {}, addCrit: {}", attackPower, addCritPower);
-            log.info("Multipliers: critDam: {}, critPos: {}, pos: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", critDamMul, critDamPosMul, posMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
+            log.info("Multipliers: critDam: {}, critPos: {}, pos: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}, parry: {}", critDamMul, critDamPosMul, posMul, rndMul, raceMul, pvpMul, elemMul, weaponMul, parried);
             log.info("Vulnerabilities: criticalVuln: {}", critVuln);
             log.info("Final damage: {}", damage);
         }
@@ -427,7 +433,7 @@ public final class Formulas {
      * @param ss : True if ss are activated, false otherwise.
      * @return The calculated damage of a physical {@link L2Skill} attack.
      */
-    public static double calcPhysicalSkillDamage(Creature attacker, Creature target, L2Skill skill, ShieldDefense sDef, boolean crit, boolean ss) {
+    public static double calcPhysicalSkillDamage(Creature attacker, Creature target, L2Skill skill, ShieldDefense sDef, boolean crit, boolean parried, boolean ss) {
         // If the attacker can't attack, return.
         final Player attackerPlayer = attacker.getActingPlayer();
         if (attackerPlayer != null && !attackerPlayer.getAccessLevel().canGiveDamage()) {
@@ -466,6 +472,10 @@ public final class Formulas {
             }
         }
 
+        if (parried) {
+            skillPower /= 2;
+        }
+
         // Weapon multiplier.
         final Weapon weapon = attacker.getActiveWeaponItem();
         if (weapon != null) {
@@ -498,7 +508,7 @@ public final class Formulas {
             StringUtil.printSection("Physical skill damage");
             log.info("crit:{}, ss:{}, shield:{}, isPvp:{}, defence:{}", crit, ss, sDef, isPvP, defence);
             log.info("Basic powers: attack: {}, skill: {}", attackPower, skillPower);
-            log.info("Multipliers: ss: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}", ssMul, rndMul, raceMul, pvpMul, elemMul, weaponMul);
+            log.info("Multipliers: ss: {}, rnd: {}, race: {}, pvp: {}, elem: {}, weapon: {}, parried: {}", ssMul, rndMul, raceMul, pvpMul, elemMul, weaponMul, parried);
             log.info("Final damage: {}", damage);
         }
 
@@ -832,6 +842,39 @@ public final class Formulas {
         }
 
         return sDef;
+    }
+
+    public static boolean calcParryRate(Creature attacker, Creature target, L2Skill skill) {
+        // paryy can be used only if has a skill of same type
+        // todo: add this skill to all monsters in world with isParryWeapon type
+        if (!target.hasSkill(462)) {
+            return false;
+        }
+
+        // only special attack type (weapon type) can have parry
+        WeaponType attackType = target.getAttackType();
+        if (!attackType.isParryWeapon()) {
+            return false;
+        }
+
+        // DEX increases parry rate chance as multiplier
+        double dexBonus = DEX_BONUS[target.getStatus().getDEX()];
+        double parryRate = target.getStatus().calcStat(Stats.PARRY_RATE, 0, target, skill) * dexBonus;
+
+        // night is reduce parry rate
+        if (DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
+            // but only if race is not dark_elf
+            if (!(target instanceof Player player) || player.getRace() != ClassRace.DARK_ELF) {
+                parryRate *= 0.5;
+            }
+        }
+
+        // with dual-weapon parry rate is increased by x2
+        if (attackType == WeaponType.DUAL || attackType == WeaponType.DUALFIST) {
+            parryRate *= 2;
+        }
+
+        return Rnd.calcChance(parryRate * 10, 1000);
     }
 
     public static boolean calcMagicAffected(Creature actor, Creature target, L2Skill skill) {

@@ -44,8 +44,11 @@ public class ChargeDmg extends Default {
             }
 
             context.isCritical = getBaseCritRate() > 0 && Formulas.calcCrit(getBaseCritRate() * 10 * Formulas.getSTRBonus(caster));
+            if (!context.isCritical) {
+                context.isParried = Formulas.calcParryRate(caster, target, this);
+            }
             context.block = Formulas.calcShldUse(caster, target, this, context.isCritical);
-            context.value = Formulas.calcPhysicalSkillDamage(caster, target, this, context.block, context.isCritical, ss);
+            context.value = Formulas.calcPhysicalSkillDamage(caster, target, this, context.block, context.isCritical, context.isParried, ss);
 
             if (context.value > 0) {
                 context.value *= modifier;
@@ -69,7 +72,7 @@ public class ChargeDmg extends Default {
                     }
                 }
 
-                caster.sendDamageMessage(target, (int) context.value, false, context.isCritical, false);
+                caster.sendDamageMessage(target, (int) context.value, false, context.isCritical, false, context.isParried);
             } else {
                 caster.sendDamageMessage(target, 0, false, false, true);
             }
