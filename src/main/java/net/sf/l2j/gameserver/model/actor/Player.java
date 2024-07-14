@@ -481,7 +481,6 @@ public final class Player extends Playable {
         cards = new Cards(this);
         spoilState = new SpoilState();
         mastery = new Mastery(this);
-        mastery.restore();
 
         // Retrieve from the database all items of this Player and add them to _inventory
         getInventory().restore();
@@ -533,7 +532,6 @@ public final class Player extends Playable {
         player.getStatus().setSp(Config.HARDCORE_START_SP);
 
         PlayerDao.create(player);
-
         return player;
     }
 
@@ -954,19 +952,6 @@ public final class Player extends Playable {
 
     public boolean canRecom(Player target) {
         return !_recomChars.contains(target.getObjectId());
-    }
-
-    /**
-     * Set the exp of the Player before a death
-     *
-     * @param exp
-     */
-    public void setExpBeforeDeath(long exp) {
-        _expBeforeDeath = exp;
-    }
-
-    public long getExpBeforeDeath() {
-        return _expBeforeDeath;
     }
 
     /**
@@ -2575,9 +2560,6 @@ public final class Player extends Playable {
         if (killer != null) {
             final Player pk = killer.getActingPlayer();
 
-            // Clear resurrect xp calculation
-            setExpBeforeDeath(0);
-
             if (isCursedWeaponEquipped()) {
                 CursedWeaponManager.getInstance().drop(_cursedWeaponEquippedId, killer);
             } else {
@@ -2601,11 +2583,11 @@ public final class Player extends Playable {
                             }
                         }
                     }
+                }
 
-                    // Reduce player's xp and karma.
-                    if (Config.ALLOW_DELEVEL && (!hasSkill(L2Skill.SKILL_LUCKY) || getStatus().getLevel() > 9)) {
-                        applyDeathPenalty(pk != null && getClan() != null && pk.getClan() != null && (getClan().isAtWarWith(pk.getClanId()) || pk.getClan().isAtWarWith(getClanId())), pk != null);
-                    }
+                // Reduce player's xp and karma.
+                if (!hasSkill(L2Skill.SKILL_LUCKY) || getStatus().getLevel() > 9) {
+                    applyDeathPenalty(pk != null && getClan() != null && pk.getClan() != null && (getClan().isAtWarWith(pk.getClanId()) || pk.getClan().isAtWarWith(getClanId())), pk != null);
                 }
             }
         }
@@ -2815,18 +2797,6 @@ public final class Player extends Playable {
     }
 
     /**
-     * Restore the experience this Player has lost and sends StatusUpdate packet.
-     *
-     * @param restorePercent The specified % of restored experience.
-     */
-    public void restoreExp(double restorePercent) {
-        if (getExpBeforeDeath() > 0) {
-            getStatus().addExp((int) Math.round((getExpBeforeDeath() - getStatus().getExp()) * restorePercent / 100));
-            setExpBeforeDeath(0);
-        }
-    }
-
-    /**
      * Calculate the xp loss and the karma decrease.
      *
      * @param atWar : If true, use clan war penalty system instead of regular system.
@@ -2862,23 +2832,16 @@ public final class Player extends Playable {
         }
 
         // Calculate the xp loss.
-        long lostExp = 0;
-
-        final int maxLevel = PlayerLevelData.getInstance().getMaxLevel();
+        int maxLevel = PlayerLevelData.getInstance().getMaxLevel();
+        long lostExp;
         if (lvl < maxLevel) {
             lostExp = Math.round((getStatus().getExpForLevel(lvl + 1) - getStatus().getExpForLevel(lvl)) * percentLost / 100);
         } else {
             lostExp = Math.round((getStatus().getExpForLevel(maxLevel) - getStatus().getExpForLevel(maxLevel - 1)) * percentLost / 100);
         }
 
-        // Get the xp before applying penalty.
-        setExpBeforeDeath(getStatus().getExp());
-
         // Set new karma.
         updateKarmaLoss(lostExp);
-
-        // Set the new xp value of the Player.
-        getStatus().addExp(-lostExp);
     }
 
     public int getPartyRoom() {
@@ -5092,9 +5055,6 @@ public final class Player extends Playable {
             refreshHennaList();
             broadcastUserInfo();
 
-            // Clear resurrect xp calculation
-            setExpBeforeDeath(0);
-
             // Remove shot automation
             disableAutoShotsAll();
 
@@ -5167,13 +5127,6 @@ public final class Player extends Playable {
         if (isMounted()) {
             startFeed(_mountNpcId);
         }
-    }
-
-    @Override
-    public void doRevive(double revivePower) {
-        // Restore the player's lost experience, depending on the % return of the skill used (based on its power).
-        restoreExp(revivePower);
-        doRevive();
     }
 
     public void reviveRequest(Player reviver, L2Skill skill, boolean isPet) {

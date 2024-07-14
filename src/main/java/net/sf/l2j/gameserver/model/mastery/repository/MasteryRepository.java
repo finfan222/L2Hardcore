@@ -88,30 +88,4 @@ public class MasteryRepository {
         }
     }
 
-    public static void create() {
-        try (Connection con = ConnectionPool.getConnection()) {
-            PreparedStatement st = con.prepareStatement("""
-                CREATE TABLE IF NOT EXISTS `character_mastery` (
-                  `object_id` int(10) UNSIGNED NOT NULL,
-                  `points` int(10) NULL DEFAULT NULL,
-                  PRIMARY KEY (`object_id`) USING BTREE,
-                  CONSTRAINT `fk_mastery_to_characters` FOREIGN KEY (`object_id`) REFERENCES `characters` (`obj_Id`) ON DELETE CASCADE ON UPDATE CASCADE
-                ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
-                """);
-            st.executeUpdate();
-
-            st = con.prepareStatement("""
-                CREATE TABLE IF NOT EXISTS `character_mastery_list` (
-                  `object_id` int(10) UNSIGNED NOT NULL,
-                  `mastery_id` int(10) UNSIGNED NOT NULL,
-                  PRIMARY KEY (`object_id`) USING BTREE,
-                  CONSTRAINT `fk_mastery_list_to_characters` FOREIGN KEY (`object_id`) REFERENCES `characters` (`obj_Id`) ON DELETE CASCADE ON UPDATE CASCADE
-                ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
-                """);
-            st.executeUpdate();
-        } catch (SQLException e) {
-            log.error("Error on creating mastery tables.", e);
-        }
-    }
-
 }

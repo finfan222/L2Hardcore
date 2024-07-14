@@ -143,15 +143,7 @@ public class AdminManage implements IAdminCommandHandler {
             return false;
         }
 
-        // If the target is a player, then restore the XP lost on death.
-        if (creature instanceof Player) {
-            ((Player) creature).restoreExp(100.0);
-        }
-        // If the target is an NPC, then abort it's auto decay and respawn.
-        else {
-            DecayTaskManager.getInstance().cancel(creature);
-        }
-
+        DecayTaskManager.getInstance().cancel(creature);
         creature.doRevive();
         return true;
     }

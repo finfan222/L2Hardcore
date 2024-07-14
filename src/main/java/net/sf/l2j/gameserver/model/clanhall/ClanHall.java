@@ -47,6 +47,7 @@ public class ClanHall {
     public static final int FUNC_ITEM_CREATE = 2;
     public static final int FUNC_RESTORE_HP = 3;
     public static final int FUNC_RESTORE_MP = 4;
+    @Deprecated(since = "Delevel функционал убран, в дальнейшем функция КХ будет заменена")
     public static final int FUNC_RESTORE_EXP = 5;
     public static final int FUNC_SUPPORT = 6;
     public static final int FUNC_DECO_FRONTPLATEFORM = 7;

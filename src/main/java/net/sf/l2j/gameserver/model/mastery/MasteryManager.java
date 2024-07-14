@@ -8,7 +8,6 @@ import net.sf.l2j.commons.util.ArraysUtil;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.mastery.repository.MasteryRepository;
 import net.sf.l2j.gameserver.model.mastery.serialization.MasteryHandlerDeserializer;
 import net.sf.l2j.gameserver.network.SystemMessageColor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
@@ -50,7 +49,6 @@ public class MasteryManager {
         mapper.registerModule(new SimpleModule().addDeserializer(MasteryHandler.class, new MasteryHandlerDeserializer()));
         masteries = ResourceUtil.fromJson("./data/mastery_list.json", MasteryData[].class, mapper);
         log.info("Mastery loaded: {}", masteries.size());
-        MasteryRepository.create();
     }
 
     public MasteryData getById(int id) {

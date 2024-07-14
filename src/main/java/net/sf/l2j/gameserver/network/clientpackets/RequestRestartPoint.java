@@ -3,13 +3,10 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
-import net.sf.l2j.gameserver.data.manager.ClanHallManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.enums.SiegeSide;
 import net.sf.l2j.gameserver.model.actor.Player;
-import net.sf.l2j.gameserver.model.clanhall.ClanHall;
-import net.sf.l2j.gameserver.model.clanhall.ClanHallFunction;
 import net.sf.l2j.gameserver.model.entity.Siege;
 import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.pledge.Clan;
@@ -77,14 +74,6 @@ public final class RequestRestartPoint extends L2GameClientPacket {
             }
 
             loc = MapRegionData.getInstance().getLocationToTeleport(player, TeleportType.CLAN_HALL);
-
-            final ClanHall ch = ClanHallManager.getInstance().getClanHallByOwner(clan);
-            if (ch != null) {
-                final ClanHallFunction function = ch.getFunction(ClanHall.FUNC_RESTORE_EXP);
-                if (function != null) {
-                    player.restoreExp(function.getLvl());
-                }
-            }
         }
         // To castle.
         else if (_requestType == 2) {

@@ -94,6 +94,7 @@ import net.sf.l2j.gameserver.taskmanager.RandomAnimationTaskManager;
 import net.sf.l2j.gameserver.taskmanager.WaterTaskManager;
 import net.sf.l2j.util.DeadLockDetector;
 import net.sf.l2j.util.IPv4Filter;
+import org.flywaydb.core.Flyway;
 import org.fusesource.jansi.AnsiConsole;
 
 import java.io.File;
@@ -135,6 +136,10 @@ public class GameServer {
         StringUtil.printSection("Poolers");
         ConnectionPool.init();
         ThreadPool.init();
+
+        StringUtil.printSection("Flyway");
+        Flyway flyway = Flyway.configure().dataSource(ConnectionPool.DATA_SOURCE).load();
+        flyway.migrate();
 
         StringUtil.printSection("IdFactory");
         IdFactory.getInstance();

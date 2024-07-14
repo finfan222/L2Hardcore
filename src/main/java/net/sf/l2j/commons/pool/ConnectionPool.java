@@ -10,16 +10,16 @@ import java.sql.SQLException;
 @Slf4j
 public final class ConnectionPool {
 
-    private static MariaDbPoolDataSource _source;
+    public static MariaDbPoolDataSource DATA_SOURCE;
 
     public static void init() {
         try {
-            _source = new MariaDbPoolDataSource();
-            _source.setMaxPoolSize(Config.DATABASE_MAX_CONNECTIONS);
-            _source.setUrl(Config.DATABASE_URL);
-            _source.setUser(Config.DATABASE_LOGIN);
-            _source.setPassword(Config.DATABASE_PASSWORD);
-            _source.setStaticGlobal(true);
+            DATA_SOURCE = new MariaDbPoolDataSource();
+            DATA_SOURCE.setMaxPoolSize(Config.DATABASE_MAX_CONNECTIONS);
+            DATA_SOURCE.setUrl(Config.DATABASE_URL);
+            DATA_SOURCE.setUser(Config.DATABASE_LOGIN);
+            DATA_SOURCE.setPassword(Config.DATABASE_PASSWORD);
+            DATA_SOURCE.setStaticGlobal(true);
         } catch (SQLException e) {
             log.error("Couldn't initialize connection pooler.", e);
         }
@@ -27,13 +27,13 @@ public final class ConnectionPool {
     }
 
     public static void shutdown() {
-        if (_source != null) {
-            _source.close();
-            _source = null;
+        if (DATA_SOURCE != null) {
+            DATA_SOURCE.close();
+            DATA_SOURCE = null;
         }
     }
 
     public static Connection getConnection() throws SQLException {
-        return _source.getConnection();
+        return DATA_SOURCE.getConnection();
     }
 }

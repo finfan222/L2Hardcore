@@ -46,7 +46,7 @@ public class PlayerDao {
 
     private static final String INSERT_CHARACTER = "INSERT INTO characters (account_name,obj_Id,char_name,level,maxHp,curHp,maxCp,curCp,maxMp,curMp,face,hairStyle,hairColor,sex,exp,sp,karma,pvpkills,pkkills,clanid,race,classid,deletetime,cancraft,title,accesslevel,online,isin7sdungeon,clan_privs,wantspeace,base_class,nobless,power_grade) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String RESTORE_CHARACTER = "SELECT * FROM characters WHERE obj_id=?";
-    private static final String UPDATE_CHARACTER = "UPDATE characters SET level=?,maxHp=?,curHp=?,maxCp=?,curCp=?,maxMp=?,curMp=?,face=?,hairStyle=?,hairColor=?,sex=?,heading=?,x=?,y=?,z=?,exp=?,expBeforeDeath=?,sp=?,karma=?,pvpkills=?,pkkills=?,clanid=?,race=?,classid=?,deletetime=?,title=?,accesslevel=?,online=?,isin7sdungeon=?,clan_privs=?,wantspeace=?,base_class=?,onlinetime=?,punish_level=?,punish_timer=?,nobless=?,power_grade=?,subpledge=?,lvl_joined_academy=?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=?,char_name=?,death_penalty_level=? WHERE obj_id=?";
+    private static final String UPDATE_CHARACTER = "UPDATE characters SET level=?,maxHp=?,curHp=?,maxCp=?,curCp=?,maxMp=?,curMp=?,face=?,hairStyle=?,hairColor=?,sex=?,heading=?,x=?,y=?,z=?,exp=?,sp=?,karma=?,pvpkills=?,pkkills=?,clanid=?,race=?,classid=?,deletetime=?,title=?,accesslevel=?,online=?,isin7sdungeon=?,clan_privs=?,wantspeace=?,base_class=?,onlinetime=?,punish_level=?,punish_timer=?,nobless=?,power_grade=?,subpledge=?,lvl_joined_academy=?,apprentice=?,sponsor=?,varka_ketra_ally=?,clan_join_expiry_time=?,clan_create_expiry_time=?,char_name=?,death_penalty_level=? WHERE obj_id=?";
     private static final String UPDATE_CHAR_SUBCLASS = "UPDATE character_subclasses SET exp=?,sp=?,level=?,class_id=? WHERE char_obj_id=? AND class_index =?";
     private static final String RESTORE_CHAR_SUBCLASSES = "SELECT class_id,exp,sp,level,class_index FROM character_subclasses WHERE char_obj_id=? ORDER BY class_index ASC";
     private static final String ADD_CHAR_SUBCLASS = "INSERT INTO character_subclasses (char_obj_id,class_id,exp,sp,level,class_index) VALUES (?,?,?,?,?,?)";
@@ -110,43 +110,42 @@ public class PlayerDao {
             }
 
             ps.setLong(16, exp);
-            ps.setLong(17, player.getExpBeforeDeath());
-            ps.setInt(18, sp);
-            ps.setInt(19, player.getKarma());
-            ps.setInt(20, player.getPvpKills());
-            ps.setInt(21, player.getPkKills());
-            ps.setInt(22, player.getClanId());
-            ps.setInt(23, player.getRace().ordinal());
-            ps.setInt(24, player.getClassId().getId());
-            ps.setLong(25, player.getDeleteTimer());
-            ps.setString(26, player.getTitle());
-            ps.setInt(27, player.getAccessLevel().getLevel());
-            ps.setInt(28, player.isOnlineInt());
-            ps.setInt(29, player.isIn7sDungeon() ? 1 : 0);
-            ps.setInt(30, player.getClanPrivileges());
-            ps.setInt(31, player.wantsPeace() ? 1 : 0);
-            ps.setInt(32, player.getBaseClass());
+            ps.setInt(17, sp);
+            ps.setInt(18, player.getKarma());
+            ps.setInt(19, player.getPvpKills());
+            ps.setInt(20, player.getPkKills());
+            ps.setInt(21, player.getClanId());
+            ps.setInt(22, player.getRace().ordinal());
+            ps.setInt(23, player.getClassId().getId());
+            ps.setLong(24, player.getDeleteTimer());
+            ps.setString(25, player.getTitle());
+            ps.setInt(26, player.getAccessLevel().getLevel());
+            ps.setInt(27, player.isOnlineInt());
+            ps.setInt(28, player.isIn7sDungeon() ? 1 : 0);
+            ps.setInt(29, player.getClanPrivileges());
+            ps.setInt(30, player.wantsPeace() ? 1 : 0);
+            ps.setInt(31, player.getBaseClass());
 
             long totalOnlineTime = player.onlineTime;
             if (player.onlineBeginTime > 0) {
                 totalOnlineTime += (System.currentTimeMillis() - player.onlineBeginTime) / 1000;
             }
 
-            ps.setLong(33, totalOnlineTime);
-            ps.setInt(34, player.getPunishment().getType().ordinal());
-            ps.setLong(35, player.getPunishment().getTimer());
-            ps.setInt(36, player.isNoble() ? 1 : 0);
-            ps.setLong(37, player.getPowerGrade());
-            ps.setInt(38, player.getPledgeType());
-            ps.setInt(39, player.getLvlJoinedAcademy());
-            ps.setLong(40, player.getApprentice());
-            ps.setLong(41, player.getSponsor());
-            ps.setInt(42, player.getAllianceWithVarkaKetra());
-            ps.setLong(43, player.getClanJoinExpiryTime());
-            ps.setLong(44, player.getClanCreateExpiryTime());
-            ps.setString(45, player.getName());
-            ps.setLong(46, player.getDeathPenaltyBuffLevel());
-            ps.setInt(47, player.getObjectId());
+            ps.setLong(32, totalOnlineTime);
+            ps.setInt(33, player.getPunishment().getType().ordinal());
+            ps.setLong(34, player.getPunishment().getTimer());
+            ps.setInt(35, player.isNoble() ? 1 : 0);
+            ps.setLong(36, player.getPowerGrade());
+            ps.setInt(37, player.getPledgeType());
+            ps.setInt(38, player.getLvlJoinedAcademy());
+            ps.setLong(39, player.getApprentice());
+            ps.setLong(40, player.getSponsor());
+            ps.setInt(41, player.getAllianceWithVarkaKetra());
+            ps.setLong(42, player.getClanJoinExpiryTime());
+            ps.setLong(43, player.getClanCreateExpiryTime());
+            ps.setString(44, player.getName());
+            ps.setLong(45, player.getDeathPenaltyBuffLevel());
+            ps.setInt(46, player.getObjectId());
 
             ps.execute();
         } catch (final Exception e) {
@@ -175,7 +174,6 @@ public class PlayerDao {
                     player.getStatus().setLevel(rs.getByte("level"));
                     player.getStatus().setSp(rs.getInt("sp"));
 
-                    player.setExpBeforeDeath(rs.getLong("expBeforeDeath"));
                     player.setWantsPeace(rs.getInt("wantspeace") == 1);
                     player.setKarma(rs.getInt("karma"));
                     player.setPvpKills(rs.getInt("pvpkills"));
@@ -317,6 +315,10 @@ public class PlayerDao {
             }
         } catch (final Exception e) {
             log.error("Couldn't restore player data.", e);
+        }
+
+        if (player != null) {
+            player.getMastery().restore();
         }
 
         return player;
