@@ -22,6 +22,7 @@ import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.container.creature.ChanceSkillList;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
+import net.sf.l2j.gameserver.network.SystemMessageColor;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 import net.sf.l2j.gameserver.network.serverpackets.Attack;
@@ -202,6 +203,10 @@ public class CreatureAttack<T extends Creature> {
         attacker.sendDamageMessage(target, hitHolder.damage, false, hitHolder.isCritical, hitHolder.isMissed);
 
         if (!hitHolder.isMissed && hitHolder.damage > 0) {
+            if (hitHolder.isParried) {
+                target.sendMessage("Парирование!", SystemMessageColor.ORANGE_LIGHT);
+            }
+
             attacker.getAI().startAttackStance();
 
             if (target.hasAI()) {
@@ -476,7 +481,7 @@ public class CreatureAttack<T extends Creature> {
             }
         }
 
-        return new HitHolder(target, damage, crit, miss, shld);
+        return new HitHolder(target, damage, crit, miss, shld, parried);
     }
 
     /**
@@ -527,16 +532,18 @@ public class CreatureAttack<T extends Creature> {
         public int damage;
         public boolean isCritical;
         public boolean isMissed;
+        public boolean isParried;
         public ShieldDefense block;
         public int flags;
 
-        public HitHolder(Creature target, int damage, boolean isCritical, boolean isMissed, ShieldDefense block) {
+        public HitHolder(Creature target, int damage, boolean isCritical, boolean isMissed, ShieldDefense block, boolean isParried) {
             this.target = target;
             this.targetId = target.getObjectId();
             this.damage = damage;
             this.isCritical = isCritical;
             this.isMissed = isMissed;
             this.block = block;
+            this.isParried = isParried;
         }
 
     }

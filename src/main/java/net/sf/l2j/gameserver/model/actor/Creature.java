@@ -44,6 +44,7 @@ import net.sf.l2j.gameserver.model.location.Location;
 import net.sf.l2j.gameserver.model.mastery.Mastery;
 import net.sf.l2j.gameserver.model.zone.type.WaterZone;
 import net.sf.l2j.gameserver.network.SystemMessageColor;
+import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.AbstractNpcInfo.NpcInfo;
 import net.sf.l2j.gameserver.network.serverpackets.ChangeMoveType;
 import net.sf.l2j.gameserver.network.serverpackets.L2GameServerPacket;
@@ -1638,6 +1639,10 @@ public abstract class Creature extends WorldObject {
 
     public void sendDamageMessage(Creature target, int damage, boolean mcrit, boolean pcrit, boolean miss) {
         sendDamageMessage(target, damage, mcrit, pcrit, miss, false);
+    }
+
+    public void sendPacket(SystemMessageId systemMessageId) {
+        // override
     }
 
     public FusionSkill getFusionSkill() {

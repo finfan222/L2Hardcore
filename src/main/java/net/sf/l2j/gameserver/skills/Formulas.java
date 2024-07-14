@@ -403,7 +403,7 @@ public final class Formulas {
 
         // parry reduce all damage by 50%
         if (parried) {
-            damage *= 0.5;
+            damage /= 2;
         }
 
         if (Config.DEVELOPER) {
@@ -857,6 +857,11 @@ public final class Formulas {
             return false;
         }
 
+        // we can parry only in front
+        if (!attacker.isInFrontOf(target)) {
+            return false;
+        }
+
         // DEX increases parry rate chance as multiplier
         double dexBonus = DEX_BONUS[target.getStatus().getDEX()];
         double parryRate = target.getStatus().calcStat(Stats.PARRY_RATE, 0, target, skill) * dexBonus;
@@ -865,12 +870,17 @@ public final class Formulas {
         if (DayNightTaskManager.getInstance().is(DayCycle.NIGHT)) {
             // but only if race is not dark_elf
             if (!(target instanceof Player player) || player.getRace() != ClassRace.DARK_ELF) {
-                parryRate *= 0.5;
+                parryRate /= 2;
             }
         }
 
         // with dual-weapon parry rate is increased by x2
         if (attackType == WeaponType.DUAL || attackType == WeaponType.DUALFIST) {
+            parryRate *= 2;
+        }
+
+        // parry of arrows is multiplied of x2
+        if (attacker.getAttackType() == WeaponType.BOW) {
             parryRate *= 2;
         }
 
