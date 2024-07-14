@@ -837,10 +837,13 @@ public final class Config {
      * Loads hex ID settings.
      */
     private static final void loadHexID() {
-        final ExProperties hexid = initProperties(HEXID_FILE);
-
-        SERVER_ID = Integer.parseInt(hexid.getProperty("ServerID"));
-        HEX_ID = new BigInteger(hexid.getProperty("HexID"), 16).toByteArray();
+        try {
+            final ExProperties hexid = initProperties(HEXID_FILE);
+            SERVER_ID = Integer.parseInt(hexid.getProperty("ServerID"));
+            HEX_ID = new BigInteger(hexid.getProperty("HexID"), 16).toByteArray();
+        } catch (Exception e) {
+            log.warn("Hexid not found. Current ACCEPT_NEW_GAMESERVER={}, registering new hexid.", ACCEPT_NEW_GAMESERVER);
+        }
     }
 
     /**
@@ -1248,7 +1251,7 @@ public final class Config {
         GAMESERVER_LOGIN_PORT = server.getProperty("LoginPort", 9014);
         LOGIN_TRY_BEFORE_BAN = server.getProperty("LoginTryBeforeBan", 3);
         LOGIN_BLOCK_AFTER_BAN = server.getProperty("LoginBlockAfterBan", 600);
-        ACCEPT_NEW_GAMESERVER = server.getProperty("AcceptNewGameServer", false);
+        ACCEPT_NEW_GAMESERVER = server.getProperty("AcceptNewGameServer", true);
         SHOW_LICENCE = server.getProperty("ShowLicence", true);
 
         DATABASE_URL = server.getProperty("URL", "jdbc:mariadb://localhost/acis");

@@ -896,7 +896,7 @@ public class PcInventory extends Inventory {
 
         Player player = getOwner();
 
-        // if reason is mortal combat or with 20% chance after death we drop items
+        // if reason is mortal combat or with HARDCORE_INVENTORY_DROP_RATE% chance after death we drop items
         if (isMortalCombat || Rnd.calcChance(HARDCORE_INVENTORY_DROP_RATE, 100)) {
             ItemInstance equippedItem = getRandomEquippedItem(1);
             if (equippedItem != null) {
