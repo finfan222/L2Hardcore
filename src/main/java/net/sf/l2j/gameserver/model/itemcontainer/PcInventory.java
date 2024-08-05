@@ -15,10 +15,7 @@ import net.sf.l2j.gameserver.model.item.instance.ItemFactory;
 import net.sf.l2j.gameserver.model.item.instance.ItemInstance;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
-import net.sf.l2j.gameserver.model.itemcontainer.listeners.ArmorSetListener;
-import net.sf.l2j.gameserver.model.itemcontainer.listeners.BowRodListener;
-import net.sf.l2j.gameserver.model.itemcontainer.listeners.ItemPassiveSkillsListener;
-import net.sf.l2j.gameserver.model.itemcontainer.listeners.OnEquipListener;
+import net.sf.l2j.gameserver.model.itemcontainer.listeners.*;
 import net.sf.l2j.gameserver.model.trade.BuyProcessItem;
 import net.sf.l2j.gameserver.model.trade.SellProcessItem;
 import net.sf.l2j.gameserver.model.trade.TradeItem;
@@ -876,6 +873,27 @@ public class PcInventory extends Inventory {
         }
 
         return Rnd.get(items);
+    }
+
+    public ItemInstance getPaperdollItem(Paperdoll slot) {
+        int slotId = slot.getId();
+        if (slotId < 0 || slotId >= _paperdoll.length) {
+            return null;
+        }
+        return _paperdoll[slotId];
+    }
+
+
+    public ItemInstance[] unEquipItemSlot(int itemSlot) {
+
+        final ChangeRecorderListener recorder = new ChangeRecorderListener(this);
+
+        try {
+            unequipItemInBodySlot(itemSlot);
+        } finally {
+            removePaperdollListener(recorder);
+        }
+        return recorder.getChangedItems();
     }
 
     public Set<ItemInstance> getAllBrokenItems() {

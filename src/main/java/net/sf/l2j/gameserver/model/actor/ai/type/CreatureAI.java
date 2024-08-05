@@ -227,6 +227,11 @@ public class CreatureAI extends AbstractAI {
     }
 
     @Override
+    protected void thinkWeaponGrip() {
+
+    }
+
+    @Override
     protected void onEvtSatDown(WorldObject target) {
         // Not all Creatures can SIT
     }

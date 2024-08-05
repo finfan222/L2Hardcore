@@ -27,5 +27,7 @@ public enum IntentionType {
     /** Stand Up. */
     STAND,
     /** Use an Item. */
-    USE_ITEM;
+    USE_ITEM,
+    /** Action with a one-handed weapon. */
+    WEAPON_GRIP
 }

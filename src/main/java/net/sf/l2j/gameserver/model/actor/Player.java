@@ -30,20 +30,7 @@ import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.data.xml.PlayerLevelData;
-import net.sf.l2j.gameserver.enums.AiEventType;
-import net.sf.l2j.gameserver.enums.CabalType;
-import net.sf.l2j.gameserver.enums.DayCycle;
-import net.sf.l2j.gameserver.enums.GaugeColor;
-import net.sf.l2j.gameserver.enums.LootRule;
-import net.sf.l2j.gameserver.enums.MessageType;
-import net.sf.l2j.gameserver.enums.Paperdoll;
-import net.sf.l2j.gameserver.enums.PunishmentType;
-import net.sf.l2j.gameserver.enums.ShortcutType;
-import net.sf.l2j.gameserver.enums.SpawnType;
-import net.sf.l2j.gameserver.enums.StatusType;
-import net.sf.l2j.gameserver.enums.TeamType;
-import net.sf.l2j.gameserver.enums.TeleportMode;
-import net.sf.l2j.gameserver.enums.ZoneId;
+import net.sf.l2j.gameserver.enums.*;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.actors.ClassType;
@@ -319,6 +306,8 @@ public final class Player extends Playable {
     private boolean _isStanding;
     private boolean _isSittingNow;
     private boolean _isStandingNow;
+
+    private boolean _isTwoHanded;
 
     private final Location _savedLocation = new Location(0, 0, 0);
 
@@ -1412,6 +1401,21 @@ public final class Player extends Playable {
 
         // Broadcast the packet.
         broadcastPacket(new ChangeWaitType(this, ChangeWaitType.WT_STANDING));
+    }
+
+    public void toggleWeaponGrip() {
+        ItemInstance weaponItem = getInventory().getPaperdollItem(Paperdoll.RHAND);
+        if (weaponItem != null && weaponItem.getItemType() == WeaponType.SWORD) {
+            ItemInstance offhandItem = getInventory().getPaperdollItem(Paperdoll.LHAND);
+            if (offhandItem == null) {
+                // Если в левой руке ничего нет, переключаем хват оружия
+                if (_isTwoHanded) {
+                    getInventory().unEquipItemSlot(8);
+                    sendPacket(new InventoryUpdate());
+                    sendPacket(new UserInfo(this));
+                }
+            }
+        }
     }
 
     /**

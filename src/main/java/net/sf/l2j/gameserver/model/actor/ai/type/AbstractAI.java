@@ -89,6 +89,8 @@ abstract class AbstractAI {
 
     protected abstract void thinkUseItem();
 
+    protected abstract void thinkWeaponGrip();
+
     @Override
     public String toString() {
         return "Actor: " + _actor;
@@ -244,6 +246,14 @@ abstract class AbstractAI {
         thinkUseItem();
     }
 
+    protected synchronized void doWeaponGripIntention(int itemObjectId) {
+        prepareIntention();
+
+        _currentIntention.updateAsWeaponGrip(itemObjectId);
+
+        thinkWeaponGrip();
+    }
+
     /**
      * Launch the onIntention method corresponding to an existing {@link Intention}.
      *
@@ -297,6 +307,10 @@ abstract class AbstractAI {
 
             case USE_ITEM:
                 doUseItemIntention(intention.getItemObjectId());
+                break;
+
+            case WEAPON_GRIP:
+                doWeaponGripIntention(intention.getItemObjectId());
                 break;
         }
     }
@@ -495,6 +509,10 @@ abstract class AbstractAI {
         doUseItemIntention(itemObjectId);
     }
 
+    public synchronized void tryToWeaponGrip(int itemObjectId) {
+        doWeaponGripIntention(itemObjectId);
+    }
+
     /**
      * Launch the onEvt method corresponding to the {@link AiEventType} set as parameter.<br>
      * <br>
@@ -626,6 +644,9 @@ abstract class AbstractAI {
 
             case USE_ITEM:
                 thinkUseItem();
+                break;
+            case WEAPON_GRIP:
+                thinkWeaponGrip();
                 break;
         }
     }

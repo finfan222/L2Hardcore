@@ -147,6 +147,10 @@ public class Intention {
         set(IntentionType.USE_ITEM, null, null, null, null, null, false, false, itemObjectId);
     }
 
+    public synchronized void updateAsWeaponGrip(int itemObjectId) {
+        set(IntentionType.WEAPON_GRIP, null, null, null, null, null, false, false, itemObjectId);
+    }
+
     /**
      * Update the current {@link Intention} with parameters taken from another {@link Intention}.
      *
