@@ -24,7 +24,7 @@ import net.sf.l2j.gameserver.data.manager.SevenSignsManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
 import net.sf.l2j.gameserver.data.sql.PlayerInfoTable;
 import net.sf.l2j.gameserver.data.xml.AdminData;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.MapRegionData.TeleportType;
 import net.sf.l2j.gameserver.data.xml.NpcData;
@@ -231,6 +231,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
@@ -454,6 +455,15 @@ public final class Player extends Playable {
 
     @Getter
     private final Mastery mastery;
+
+    @Setter
+    private WeaponType attackType;
+
+    @Getter
+    private final AtomicBoolean twoHandGrip = new AtomicBoolean(false);
+    @Getter
+    @Setter
+    private ItemInstance leftHand;
 
     /**
      * Constructor of Player (use Creature constructor).
@@ -1097,6 +1107,11 @@ public final class Player extends Playable {
      * @param abortAttack If true, the current attack will be aborted in order to equip the item.
      */
     public void useEquippableItem(ItemInstance item, boolean abortAttack) {
+        // trying to equip left hand weapon if twoHandGrip used need fix for dual picking
+        if (twoHandGrip.get() && item.getSlot() == Paperdoll.LHAND.getId()) {
+            return;
+        }
+
         ItemInstance[] items = null;
         final boolean isEquipped = item.isEquipped();
         final int oldInvLimit = getStatus().getInventoryLimit();
@@ -1678,7 +1693,7 @@ public final class Player extends Playable {
     public ItemInstance addItem(String process, int itemId, int count, WorldObject reference, boolean sendMessage) {
         if (count > 0) {
             // Retrieve the template of the item.
-            final Item item = ItemData.getInstance().getTemplate(itemId);
+            final Item item = ItemManager.getInstance().getTemplate(itemId);
             if (item == null) {
                 return null;
             }
@@ -2499,11 +2514,6 @@ public final class Player extends Playable {
     public Weapon getActiveWeaponItem() {
         final ItemInstance item = getActiveWeaponInstance();
         return (item == null) ? getTemplate().getFists() : (Weapon) item.getItem();
-    }
-
-    @Override
-    public WeaponType getAttackType() {
-        return getActiveWeaponItem().getItemType();
     }
 
     @Override
@@ -6314,5 +6324,68 @@ public final class Player extends Playable {
 
         // synchronize for all players current game time
         sendPacket(new ClientSetTime());
+    }
+
+    @Override
+    public WeaponType getAttackType() {
+        if (attackType != null) {
+            return attackType;
+        }
+
+        if (getActiveWeaponInstance() != null) {
+            return (WeaponType) getActiveWeaponInstance().getItemType();
+        }
+
+        return null;
+    }
+
+    public void acceptTwoHandGrip() {
+        ItemInstance itemFrom = getInventory().getItemFrom(Paperdoll.RHAND);
+        if (itemFrom == null) {
+            sendMessage("Вы должны экипировать одноручное оружие меч/топор/молот, чтобы взять его двуручным хватом.", SystemMessageColor.RED_LIGHT);
+            return;
+        }
+
+        ItemInstance itemByObjectId = getInventory().getItemByObjectId(itemFrom.getObjectId());
+        if (itemByObjectId == null) {
+            sendMessage("Вы должны экипировать одноручное оружие меч/топор/молот, чтобы взять его двуручным хватом.", SystemMessageColor.RED_LIGHT);
+            return;
+        }
+
+        ItemInstance leftHand = getInventory().getItemFrom(Paperdoll.LHAND);
+        if (leftHand != null) {
+            this.leftHand = getInventory().unequipItemInSlot(leftHand.getSlot());
+            InventoryUpdate update = new InventoryUpdate();
+            update.addModifiedItem(leftHand);
+            sendPacket(update);
+        }
+
+        getInventory().unequipItemInSlot(itemByObjectId.getSlot());
+        ThreadPool.schedule(() -> {
+            twoHandGrip.set(true);
+            getInventory().equipItem(itemByObjectId);
+            setAttackType(WeaponType.valueOf("BIG" + ((WeaponType) itemByObjectId.getItemType()).name()));
+            sendMessage("Вы плотно держите оружие двумя руками.", SystemMessageColor.GREEN_LIGHT);
+        }, 33);
+    }
+
+    public void cancelTwoHandGrip() {
+        ItemInstance itemInstance = getInventory().unequipItemInBodySlot(Item.SLOT_R_HAND);
+        if (itemInstance != null) {
+            ItemInstance itemByObjectId = getInventory().getItemByObjectId(itemInstance.getObjectId());
+            ThreadPool.schedule(() -> {
+                twoHandGrip.set(false);
+                getInventory().equipItem(itemByObjectId);
+                if (leftHand != null) {
+                    getInventory().equipItem(leftHand);
+                    InventoryUpdate update = new InventoryUpdate();
+                    update.addModifiedItem(leftHand);
+                    sendPacket(update);
+                    leftHand = null;
+                }
+                setAttackType(null);
+                sendMessage("Вы снова держите оружие одной рукой.", SystemMessageColor.GREEN_LIGHT);
+            }, 33);
+        }
     }
 }

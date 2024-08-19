@@ -2,7 +2,7 @@ package net.sf.l2j.gameserver.model.actor.template;
 
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.random.Rnd;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.enums.actors.ClassRace;
 import net.sf.l2j.gameserver.enums.actors.Sex;
@@ -77,7 +77,7 @@ public class PlayerTemplate extends CreatureTemplate {
         _items = set.getList("items");
         _skills = set.getList("skills");
 
-        _fists = (Weapon) ItemData.getInstance().getTemplate(set.getInteger("fists"));
+        _fists = (Weapon) ItemManager.getInstance().getTemplate(set.getInteger("fists"));
     }
 
     public final ClassId getClassId() {

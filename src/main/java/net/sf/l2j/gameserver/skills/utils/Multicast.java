@@ -1,8 +1,7 @@
 package net.sf.l2j.gameserver.skills.utils;
 
-import lombok.Data;
 import net.sf.l2j.commons.pool.ThreadPool;
-import net.sf.l2j.gameserver.data.SkillTable;
+import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.idfactory.IdFactory;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -18,57 +17,74 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author finfan
  */
-public class Multicast {
+public class Multicast implements Runnable {
 
-    private static final int NPC_ID = 0;
+    private static final int NPC_ID = 50010;
 
-    private final int counts;
     private final AtomicInteger counter = new AtomicInteger(0);
 
-    private ScheduledFuture<?> future;
+    private final Creature caster;
+    private final Creature target;
+    private final L2Skill skill;
+    private final int counts;
+    private final int chance;
+    private final int hitTime;
+    private final EffectPoint effectPoint;
 
-    private Multicast(int counts) {
+    private ScheduledFuture<?> task;
+
+    public Multicast(Creature caster, Creature target, L2Skill skill, int counts, int chance) {
+        this(caster, target, skill, counts, chance, 500);
+    }
+
+    public Multicast(Creature caster, Creature target, L2Skill skill, int counts, int chance, int hitTime) {
+        this.caster = caster;
+        this.target = target;
+        this.skill = skill;
         this.counts = counts;
+        this.chance = chance;
+        this.hitTime = hitTime;
+        this.effectPoint = spawn();
     }
 
-    private void create(Creature owner, Creature target, int id, int level) {
+    private EffectPoint spawn() {
         NpcTemplate template = NpcData.getInstance().getTemplate(NPC_ID);
-        EffectPoint npc = new EffectPoint(IdFactory.getInstance().getNextId(), template, owner);
+        EffectPoint npc = new EffectPoint(IdFactory.getInstance().getNextId(), template, caster);
         npc.setInvul(true);
-        npc.setXYZ(owner);
+        npc.setXYZ(target);
         npc.setTarget(target);
-        npc.spawnMe(owner.getX(), owner.getY(), owner.getZ());
-        npc.broadcastPacket(new MagicSkillUse(npc, target, id, level, 500, 0));
-        hitTask(npc, target, SkillTable.getInstance().getInfo(id, level));
+        npc.spawnMe();
+        return npc;
     }
 
-    private void hitTask(EffectPoint caster, Creature target, L2Skill skill) {
-        future = ThreadPool.scheduleAtFixedRate(new MulticastTask(caster, target, skill), 600, 600);
+    private void cast() {
+        task = ThreadPool.scheduleAtFixedRate(this, hitTime - 200, hitTime - 200);
+        effectPoint.broadcastPacket(new MagicSkillUse(effectPoint, target, skill.getId(), skill.getLevel(), hitTime, 0));
     }
 
-    @Data
-    public class MulticastTask implements Runnable {
+    public static void start(Creature caster, Creature target, L2Skill skill, int counts, int chance) {
+        if (Rnd.calcChance(chance, 100)) {
+            new Multicast(caster, target, skill, counts, chance).cast();
+        }
+    }
 
-        private final EffectPoint caster;
-        private final Creature target;
-        private final L2Skill skill;
+    public static void start(Creature caster, Creature target, L2Skill skill, int counts, int chance, int hitTime) {
+        if (Rnd.calcChance(chance, 100)) {
+            new Multicast(caster, target, skill, counts, chance, hitTime).cast();
+        }
+    }
 
-        @Override
-        public void run() {
-            if (target.isDead() || target.isInvul() || counter.get() == counts) {
-                caster.deleteMe();
-                future.cancel(false);
-                return;
-            }
-
-            skill.useSkill(caster, new WorldObject[]{target});
-            counter.incrementAndGet();
+    @Override
+    public void run() {
+        if (target.isDead() || target.isInvul() || counter.incrementAndGet() == counts) {
+            effectPoint.deleteMe();
+            task.cancel(false);
+            task = null;
+            return;
         }
 
-    }
-
-    public static void start(int counts, Creature owner, Creature target, int id, int level) {
-        new Multicast(counts).create(owner, target, id, level);
+        skill.useSkill(effectPoint, new WorldObject[]{target});
+        effectPoint.broadcastPacket(new MagicSkillUse(effectPoint, target, skill.getId(), skill.getLevel(), hitTime - 200, 0));
     }
 
 }

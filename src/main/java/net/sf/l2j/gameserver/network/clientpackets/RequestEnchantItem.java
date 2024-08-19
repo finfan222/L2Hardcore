@@ -3,7 +3,7 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.data.xml.ArmorSetData;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.model.Dialog;
@@ -61,7 +61,7 @@ public final class RequestEnchantItem extends AbstractEnchantPacket {
         ItemInstance tool = player.getActiveEnchantItem();
         ItemInstance targetItem = player.getInventory().getItemByObjectId(objectId);
 
-        if (tool == ItemData.DUMMY) {
+        if (tool == ItemManager.DUMMY) {
             if (targetItem.getItem().isRepairable()) {
                 // todo: client side > add itemid for Non repairable items for not show in item list
                 repair(player, targetItem);
@@ -319,7 +319,7 @@ public final class RequestEnchantItem extends AbstractEnchantPacket {
         player.setDialog(new Dialog(player, packet, Map.of("item", item, "price", repairPrice)).send());
 
         // resend packet
-        player.setActiveEnchantItem(ItemData.DUMMY);
+        player.setActiveEnchantItem(ItemManager.DUMMY);
         player.sendPacket(new ChooseInventoryItem(0));
     }
 

@@ -83,7 +83,7 @@ public class TeleportData implements IXmlReader {
                 if (!Config.FREE_TELEPORT) {
                     final int priceCount = teleport.getCalculatedPriceCount(player);
                     if (priceCount > 0) {
-                        StringUtil.append(sb, " - ", priceCount, " ", ItemData.getInstance().getTemplate(teleport.getPriceId()).getName());
+                        StringUtil.append(sb, " - ", priceCount, " ", ItemManager.getInstance().getTemplate(teleport.getPriceId()).getName());
                     }
                 }
 

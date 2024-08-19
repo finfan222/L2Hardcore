@@ -2,7 +2,7 @@ package net.sf.l2j.gameserver.model.actor.instance;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.data.xml.PlayerData;
 import net.sf.l2j.gameserver.enums.actors.ClassId;
 import net.sf.l2j.gameserver.model.actor.Player;
@@ -293,7 +293,7 @@ public final class ClassMaster extends Folk {
 
         final StringBuilder sb = new StringBuilder();
         for (IntIntHolder item : neededItems) {
-            StringUtil.append(sb, "<tr><td><font color=\"LEVEL\">", item.getValue(), "</font></td><td>", ItemData.getInstance().getTemplate(item.getId()).getName(), "</td></tr>");
+            StringUtil.append(sb, "<tr><td><font color=\"LEVEL\">", item.getValue(), "</font></td><td>", ItemManager.getInstance().getTemplate(item.getId()).getName(), "</td></tr>");
         }
 
         return sb.toString();

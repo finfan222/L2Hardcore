@@ -30,6 +30,8 @@ import net.sf.l2j.gameserver.scripting.Quest;
 import net.sf.l2j.gameserver.skills.AbstractEffect;
 import net.sf.l2j.gameserver.skills.Formulas;
 import net.sf.l2j.gameserver.skills.L2Skill;
+import net.sf.l2j.gameserver.skills.utils.Multicast;
+import net.sf.l2j.gameserver.skills.utils.Recoil;
 
 import java.util.concurrent.ScheduledFuture;
 
@@ -440,6 +442,12 @@ public class CreatureCast<T extends Creature> {
         }
 
         skill.useSkill(_caster, targets);
+
+        if (skill.isRecoiled()) {
+            Recoil.start(_caster, targets[0], skill, skill.getRecoilChance(), skill.getRecoilCount(), skill.isRecoilPlayerPriority(), skill.getRecoilRadius());
+        } else if(skill.isMulticasted()) {
+            Multicast.start(_caster, targets[0], skill, skill.getMulticastCount(), skill.getMulticastChance(), skill.getMulticastHitTime());
+        }
 
         final Player player = _caster.getActingPlayer();
         if (player != null) {

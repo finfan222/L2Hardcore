@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
 import net.sf.l2j.commons.random.Rnd;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -442,7 +442,7 @@ public class Q662_AGameOfCards extends Quest {
     }
 
     private static void giveReward(Player player, int item, int count) {
-        final Item template = ItemData.getInstance().getTemplate(item);
+        final Item template = ItemManager.getInstance().getTemplate(item);
 
         if (template.isStackable()) {
             giveItems(player, item, count);

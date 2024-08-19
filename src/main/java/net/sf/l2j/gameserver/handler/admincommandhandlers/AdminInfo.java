@@ -4,7 +4,7 @@ import net.sf.l2j.Config;
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.commons.math.MathUtil;
 import net.sf.l2j.gameserver.data.manager.BuyListManager;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.enums.skills.ElementType;
@@ -297,7 +297,7 @@ public class AdminInfo implements IAdminCommandHandler {
             sb.append(((row % 2) == 0 ? "<table width=\"280\" bgcolor=\"000000\"><tr>" : "<table width=\"280\"><tr>"));
 
             final double chance = Math.min(100, (((drop.getItemId() == 57) ? drop.getChance() * Config.RATE_DROP_ADENA : drop.getChance() * Config.RATE_DROP_ITEMS) / 10000));
-            final Item item = ItemData.getInstance().getTemplate(drop.getItemId());
+            final Item item = ItemManager.getInstance().getTemplate(drop.getItemId());
 
             String name = item.getName();
             if (name.startsWith("Recipe: ")) {

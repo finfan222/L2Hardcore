@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.pool.ConnectionPool;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.taskmanager.BuyListTaskManager;
 
@@ -28,7 +28,7 @@ public class Product {
 
     public Product(int buyListId, StatSet set) {
         this.buyListId = buyListId;
-        this.item = ItemData.getInstance().getTemplate(set.getInteger("id"));
+        this.item = ItemManager.getInstance().getTemplate(set.getInteger("id"));
         this.price = set.getInteger("price", 0);
         int stock = set.getInteger("limit", -1);
         if (item.getReferencePrice() > 0 && price > 0) {

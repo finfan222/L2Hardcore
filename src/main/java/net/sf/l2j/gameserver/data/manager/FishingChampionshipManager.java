@@ -7,7 +7,7 @@ import net.sf.l2j.commons.pool.ConnectionPool;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.sql.ServerMemoTable;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.network.SystemMessageId;
 import net.sf.l2j.gameserver.network.serverpackets.NpcHtmlMessage;
@@ -357,7 +357,7 @@ public class FishingChampionshipManager {
             StringUtil.append(sb, "<td width=80 align=center>", getCurrentFishLength(x), "</td></tr>");
         }
         html.replace("%TABLE%", sb.toString());
-        html.replace("%prizeItem%", ItemData.getInstance().getTemplate(Config.FISH_CHAMPIONSHIP_REWARD_ITEM).getName());
+        html.replace("%prizeItem%", ItemManager.getInstance().getTemplate(Config.FISH_CHAMPIONSHIP_REWARD_ITEM).getName());
         html.replace("%prizeFirst%", Config.FISH_CHAMPIONSHIP_REWARD_1);
         html.replace("%prizeTwo%", Config.FISH_CHAMPIONSHIP_REWARD_2);
         html.replace("%prizeThree%", Config.FISH_CHAMPIONSHIP_REWARD_3);
@@ -377,7 +377,7 @@ public class FishingChampionshipManager {
             StringUtil.append(sb, "<td width=80 align=center>", getFishLength(x), "</td></tr>");
         }
         html.replace("%TABLE%", sb.toString());
-        html.replace("%prizeItem%", ItemData.getInstance().getTemplate(Config.FISH_CHAMPIONSHIP_REWARD_ITEM).getName());
+        html.replace("%prizeItem%", ItemManager.getInstance().getTemplate(Config.FISH_CHAMPIONSHIP_REWARD_ITEM).getName());
         html.replace("%prizeFirst%", Config.FISH_CHAMPIONSHIP_REWARD_1);
         html.replace("%prizeTwo%", Config.FISH_CHAMPIONSHIP_REWARD_2);
         html.replace("%prizeThree%", Config.FISH_CHAMPIONSHIP_REWARD_3);

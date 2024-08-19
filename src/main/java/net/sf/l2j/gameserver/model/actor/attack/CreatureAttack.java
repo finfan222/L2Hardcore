@@ -1,6 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.attack;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ThreadPool;
 import net.sf.l2j.gameserver.enums.AiEventType;
@@ -50,6 +51,8 @@ public class CreatureAttack<T extends Creature> {
     private WeaponType type;
     private int coolTime;
     private ScheduledFuture<?> task;
+    @Setter
+    private boolean mustBeCritical;
 
     public CreatureAttack(T attacker) {
         this.attacker = attacker;
@@ -469,7 +472,7 @@ public class CreatureAttack<T extends Creature> {
 
         final boolean miss = Formulas.calcHitMiss(attacker, target, null);
         if (!miss) {
-            crit = Formulas.calcCrit(attacker, target, null);
+            crit = mustBeCritical || Formulas.calcCrit(attacker, target, null);
             shld = Formulas.calcShldUse(attacker, target, null, crit);
             if (!crit) {
                 parried = Formulas.calcParryRate(attacker, target, null);

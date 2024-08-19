@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.actor;
 
 import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.TeamType;
 import net.sf.l2j.gameserver.enums.actors.NpcSkillType;
 import net.sf.l2j.gameserver.enums.items.ActionType;
@@ -207,7 +207,7 @@ public abstract class Summon extends Playable {
 
         // Disable beastshots
         for (int itemId : getOwner().getAutoSoulShot()) {
-            switch (ItemData.getInstance().getTemplate(itemId).getDefaultAction()) {
+            switch (ItemManager.getInstance().getTemplate(itemId).getDefaultAction()) {
                 case summon_soulshot:
                 case summon_spiritshot:
                     getOwner().disableAutoShot(itemId);
@@ -264,7 +264,7 @@ public abstract class Summon extends Playable {
 
             // Disable beastshots
             for (int itemId : owner.getAutoSoulShot()) {
-                switch (ItemData.getInstance().getTemplate(itemId).getDefaultAction()) {
+                switch (ItemManager.getInstance().getTemplate(itemId).getDefaultAction()) {
                     case summon_soulshot:
                     case summon_spiritshot:
                         owner.disableAutoShot(itemId);

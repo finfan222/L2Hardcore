@@ -11,7 +11,7 @@ import net.sf.l2j.gameserver.data.xml.AdminData;
 import net.sf.l2j.gameserver.data.xml.AnnouncementData;
 import net.sf.l2j.gameserver.data.xml.DoorData;
 import net.sf.l2j.gameserver.data.xml.InstantTeleportData;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.data.xml.MultisellData;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
@@ -61,7 +61,7 @@ public class AdminReload implements IAdminCommandHandler {
                     HtmCache.getInstance().reload();
                     player.sendMessage("The HTM cache has been reloaded.");
                 } else if (type.startsWith("item")) {
-                    ItemData.getInstance().reload();
+                    ItemManager.getInstance().reload();
                     player.sendMessage("Items' templates have been reloaded.");
                 } else if (type.equals("multisell")) {
                     MultisellData.getInstance().reload();

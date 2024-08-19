@@ -1,23 +1,25 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
+import lombok.Getter;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
 import net.sf.l2j.gameserver.network.serverpackets.ActionFailed;
 
+@Getter
 public class EffectPoint extends Npc {
-    private final Player _owner;
+
+    private final Creature owner;
 
     public EffectPoint(int objectId, NpcTemplate template, Creature owner) {
         super(objectId, template);
-
-        _owner = (owner == null) ? null : owner.getActingPlayer();
+        this.owner = (owner == null) ? null : owner.getActingPlayer();
     }
 
     @Override
     public Player getActingPlayer() {
-        return _owner;
+        return owner instanceof Player ? (Player) owner : null;
     }
 
     @Override

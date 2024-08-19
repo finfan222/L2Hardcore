@@ -461,6 +461,15 @@ public final class RequestActionUse extends L2GameClientPacket {
                 }
                 break;
 
+            case 1044: {
+                if (!player.getTwoHandGrip().get()) {
+                    player.acceptTwoHandGrip();
+                } else {
+                    player.cancelTwoHandGrip();
+                }
+                break;
+            }
+
             default:
                 log.warn("Unhandled action type {} detected for {}.", _actionId, player.getName());
         }

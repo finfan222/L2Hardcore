@@ -2,7 +2,7 @@ package net.sf.l2j.gameserver.handler.admincommandhandlers;
 
 import net.sf.l2j.commons.lang.StringUtil;
 import net.sf.l2j.gameserver.data.xml.ArmorSetData;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.handler.IAdminCommandHandler;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.item.ArmorSet;
@@ -127,7 +127,7 @@ public class AdminItem implements IAdminCommandHandler {
     }
 
     private static void createItem(Player player, Player targetPlayer, int id, int num, int radius) {
-        final Item item = ItemData.getInstance().getTemplate(id);
+        final Item item = ItemManager.getInstance().getTemplate(id);
         if (item == null) {
             player.sendMessage("This item doesn't exist.");
             return;

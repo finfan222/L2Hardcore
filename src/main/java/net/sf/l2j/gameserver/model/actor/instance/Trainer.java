@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.actor.instance;
 
 import net.sf.l2j.commons.random.Rnd;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.model.Dialog;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.template.NpcTemplate;
@@ -64,7 +64,7 @@ public final class Trainer extends Folk {
                     return;
                 }
 
-                player.setActiveEnchantItem(ItemData.DUMMY);
+                player.setActiveEnchantItem(ItemManager.DUMMY);
                 player.sendPacket(new ChooseInventoryItem(0));
             } else if (command.endsWith("all")) {
                 payForRepair(player, items);

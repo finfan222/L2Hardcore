@@ -24,6 +24,7 @@ import net.sf.l2j.gameserver.skills.conditions.ConditionLogicOr;
 import net.sf.l2j.gameserver.skills.conditions.ConditionPlayerActiveEffectId;
 import net.sf.l2j.gameserver.skills.conditions.ConditionPlayerActiveSkillId;
 import net.sf.l2j.gameserver.skills.conditions.ConditionPlayerCharges;
+import net.sf.l2j.gameserver.skills.conditions.ConditionPlayerGrip;
 import net.sf.l2j.gameserver.skills.conditions.ConditionPlayerHasCastle;
 import net.sf.l2j.gameserver.skills.conditions.ConditionPlayerHasClanHall;
 import net.sf.l2j.gameserver.skills.conditions.ConditionPlayerHp;
@@ -545,6 +546,9 @@ abstract class DocumentBase {
                 ElementSeeds[3] = Integer.decode(getValue(a.getNodeValue(), null));
             } else if ("seed_any".equalsIgnoreCase(a.getNodeName())) {
                 ElementSeeds[4] = Integer.decode(getValue(a.getNodeValue(), null));
+            } else if ("using_two_handed_grip".equalsIgnoreCase(a.getNodeName())) {
+                boolean value = Boolean.parseBoolean(getValue(a.getNodeValue(), null));
+                cond = joinAnd(cond, new ConditionPlayerGrip(value));
             }
         }
 

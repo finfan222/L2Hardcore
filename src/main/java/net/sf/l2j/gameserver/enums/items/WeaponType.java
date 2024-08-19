@@ -1,53 +1,40 @@
 package net.sf.l2j.gameserver.enums.items;
 
+import lombok.Getter;
 import net.sf.l2j.gameserver.enums.skills.Stats;
 
+@Getter
 public enum WeaponType implements ItemType {
-    NONE(40, null, false),
-    SWORD(40, Stats.SWORD_WPN_VULN, true),
-    BLUNT(40, Stats.BLUNT_WPN_VULN, true),
-    DAGGER(40, Stats.DAGGER_WPN_VULN, true),
-    BOW(500, Stats.BOW_WPN_VULN, false),
-    POLE(66, Stats.POLE_WPN_VULN, false),
-    ETC(40, null, false),
-    FIST(40, null, false),
-    DUAL(40, Stats.DUAL_WPN_VULN, true),
-    DUALFIST(40, Stats.DUALFIST_WPN_VULN, true),
-    BIGSWORD(40, Stats.BIGSWORD_WPN_VULN, true),
-    FISHINGROD(40, null, false),
-    BIGBLUNT(40, Stats.BIGBLUNT_WPN_VULN, true),
-    PET(40, null, false);
+    NONE(40, null, false, false),
+    SWORD(40, Stats.SWORD_WPN_VULN, true, true),
+    BLUNT(40, Stats.BLUNT_WPN_VULN, true, true),
+    DAGGER(40, Stats.DAGGER_WPN_VULN, true, false),
+    BOW(500, Stats.BOW_WPN_VULN, false, false),
+    POLE(66, Stats.POLE_WPN_VULN, false, false),
+    ETC(40, null, false, false),
+    FIST(40, null, false, false),
+    DUAL(40, Stats.DUAL_WPN_VULN, true, false),
+    DUALFIST(40, Stats.DUALFIST_WPN_VULN, true, false),
+    BIGSWORD(40, Stats.BIGSWORD_WPN_VULN, true, false),
+    FISHINGROD(40, null, false, false),
+    BIGBLUNT(40, Stats.BIGBLUNT_WPN_VULN, true, false),
+    PET(40, null, false, false);
 
     public static final WeaponType[] VALUES = values();
 
-    private final int _mask;
+    private final int mask;
 
-    private final int _range;
-    private final Stats _vulnStat;
-    private final boolean _parryWeapon;
+    private final int range;
+    private final Stats resStat;
+    private final boolean isParryWeapon;
+    private final boolean isEmbraced;
 
-    WeaponType(int range, Stats stat, boolean parryWeapon) {
-        _mask = 1 << ordinal();
-
-        _range = range;
-        _vulnStat = stat;
-        _parryWeapon = parryWeapon;
+    WeaponType(int range, Stats resStat, boolean isParryWeapon, boolean isEmbraced) {
+        this.mask = 1 << ordinal();
+        this.range = range;
+        this.resStat = resStat;
+        this.isParryWeapon = isParryWeapon;
+        this.isEmbraced = isEmbraced;
     }
 
-    @Override
-    public int getMask() {
-        return _mask;
-    }
-
-    public int getRange() {
-        return _range;
-    }
-
-    public Stats getVulnStat() {
-        return _vulnStat;
-    }
-
-    public boolean isParryWeapon() {
-        return _parryWeapon;
-    }
 }

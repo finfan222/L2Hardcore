@@ -11,7 +11,7 @@ import net.sf.l2j.gameserver.data.manager.DimensionalRiftManager;
 import net.sf.l2j.gameserver.data.manager.LotteryManager;
 import net.sf.l2j.gameserver.data.sql.ClanTable;
 import net.sf.l2j.gameserver.data.xml.InstantTeleportData;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.data.xml.MultisellData;
 import net.sf.l2j.gameserver.data.xml.ScriptData;
 import net.sf.l2j.gameserver.data.xml.TeleportData;
@@ -276,7 +276,7 @@ public class Npc extends Creature {
             return null;
         }
 
-        final Item item = ItemData.getInstance().getTemplate(weaponId);
+        final Item item = ItemManager.getInstance().getTemplate(weaponId);
         if (!(item instanceof Weapon)) {
             return null;
         }
@@ -296,7 +296,7 @@ public class Npc extends Creature {
             return null;
         }
 
-        return ItemData.getInstance().getTemplate(itemId);
+        return ItemManager.getInstance().getTemplate(itemId);
     }
 
     @Override

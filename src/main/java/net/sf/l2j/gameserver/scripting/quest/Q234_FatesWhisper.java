@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.scripting.quest;
 
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.model.actor.Creature;
 import net.sf.l2j.gameserver.model.actor.Npc;
@@ -128,7 +128,7 @@ public class Q234_FatesWhisper extends Quest {
                 if (player.getInventory().hasItems(itemId)) {
                     int aGradeItemId = Integer.parseInt(event.replace("selectAGrade_", ""));
 
-                    htmltext = getHtmlText("31002-12.htm").replace("%weaponname%", ItemData.getInstance().getTemplate(aGradeItemId).getName());
+                    htmltext = getHtmlText("31002-12.htm").replace("%weaponname%", ItemManager.getInstance().getTemplate(aGradeItemId).getName());
                     takeItems(player, itemId, 1);
                     giveItems(player, aGradeItemId, 1);
                     giveItems(player, STAR_OF_DESTINY, 1);

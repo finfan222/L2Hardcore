@@ -34,6 +34,14 @@ public class Counter {
         this.chance = chance;
     }
 
+    public Counter(Creature owner, Type type, int chance) {
+        this.owner = owner;
+        this.type = type;
+        this.chance = chance;
+        this.id = 0;
+        this.level = 0;
+    }
+
     private void callAction(OnHit event) {
         Creature target = event.getTarget();
         if (target != owner || !Rnd.calcChance(chance, 100)) {
@@ -73,25 +81,52 @@ public class Counter {
                 break;
 
             case AFTER_PARRY:
-                //todo:
+                if (!event.getHit().isParried) {
+                    return;
+                }
                 break;
         }
 
-        if (target instanceof Player player) {
-            if (player.isAllSkillsDisabled()) {
+        if (isCounterSkill()) {
+            if (target instanceof Player player) {
+                if (player.isAllSkillsDisabled()) {
+                    return;
+                }
+
+                player.getAI().tryToCast(event.getAttacker(), skill);
+            } else {
+                target.getCast().doCast(skill, event.getAttacker(), null);
+            }
+        } else {
+            // can't attack the attacker
+            if (target.isAttackingDisabled()) {
                 return;
             }
 
-            player.getAI().tryToCast(event.getAttacker(), skill);
-        } else {
-            target.getCast().doCast(skill, event.getAttacker(), null);
+            // not enough distance
+            if (target.distance2D(event.getAttacker()) > target.getStatus().getPhysicalAttackRange()) {
+                return;
+            }
+
+            target.getAttack().interrupt();
+            target.getAttack().setMustBeCritical(true);
+            target.getAI().tryToAttack(event.getAttacker());
+            target.getAttack().setMustBeCritical(false);
         }
 
         owner.getEventListener().unsubscribe(this);
     }
 
+    private boolean isCounterSkill() {
+        return id > 0 && level > 0;
+    }
+
     public static void start(Creature owner, Type type, int id, int level, int chance, OnHit event) {
         new Counter(owner, type, id, level, chance).callAction(event);
+    }
+
+    public static void start(Creature owner, Type type, int chance, OnHit event) {
+        new Counter(owner, type, chance).callAction(event);
     }
 
 }

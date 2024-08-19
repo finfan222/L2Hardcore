@@ -2,7 +2,7 @@ package net.sf.l2j.gameserver.model.manor;
 
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 
 public final class Seed {
@@ -31,10 +31,10 @@ public final class Seed {
         _limitCrops = set.getInteger("cropsLimit");
         _limitSeeds = set.getInteger("seedsLimit");
 
-        Item item = ItemData.getInstance().getTemplate(_cropId);
+        Item item = ItemManager.getInstance().getTemplate(_cropId);
         _cropReferencePrice = (item != null) ? item.getReferencePrice() : 1;
 
-        item = ItemData.getInstance().getTemplate(_seedId);
+        item = ItemManager.getInstance().getTemplate(_seedId);
         _seedReferencePrice = (item != null) ? item.getReferencePrice() : 1;
     }
 

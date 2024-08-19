@@ -2,7 +2,7 @@ package net.sf.l2j.gameserver.model.item.instance;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.pool.ConnectionPool;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.model.Augmentation;
 import net.sf.l2j.gameserver.model.item.instance.modules.DurabilityModule;
@@ -152,7 +152,7 @@ public class ItemDao {
             final int durability = resultSet.getInt("durability");
             final long time = resultSet.getLong("time");
 
-            final Item template = ItemData.getInstance().getTemplate(itemId);
+            final Item template = ItemManager.getInstance().getTemplate(itemId);
             if (template == null) {
                 return null;
             }

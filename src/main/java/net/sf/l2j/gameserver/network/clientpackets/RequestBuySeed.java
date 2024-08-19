@@ -3,7 +3,7 @@ package net.sf.l2j.gameserver.network.clientpackets;
 import net.sf.l2j.Config;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.CastleManorManager;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.FloodProtector;
 import net.sf.l2j.gameserver.model.actor.Player;
 import net.sf.l2j.gameserver.model.actor.instance.Folk;
@@ -104,7 +104,7 @@ public class RequestBuySeed extends L2GameClientPacket {
                 return;
             }
 
-            final Item template = ItemData.getInstance().getTemplate(ih.getId());
+            final Item template = ItemManager.getInstance().getTemplate(ih.getId());
             totalWeight += ih.getValue() * template.getWeight();
 
             // Calculate slots

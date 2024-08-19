@@ -10,86 +10,87 @@ import net.sf.l2j.gameserver.model.actor.Summon;
 import net.sf.l2j.gameserver.model.actor.instance.Cubic;
 
 public class UserInfo extends L2GameServerPacket {
-    private final Player _player;
-    private int _relation;
+
+    private final Player player;
+    private int relation;
 
     public UserInfo(Player player) {
-        _player = player;
+        this.player = player;
+        this.relation = this.player.isClanLeader() ? 0x40 : 0;
 
-        _relation = _player.isClanLeader() ? 0x40 : 0;
-
-        if (_player.getSiegeState() == 1) {
-            _relation |= 0x180;
+        if (this.player.getSiegeState() == 1) {
+            relation |= 0x180;
         }
-        if (_player.getSiegeState() == 2) {
-            _relation |= 0x80;
+        if (this.player.getSiegeState() == 2) {
+            relation |= 0x80;
         }
     }
 
     @Override
     protected final void writeImpl() {
         writeC(0x04);
-        writeD(_player.getX());
-        writeD(_player.getY());
-        writeD(_player.getZ());
-        writeD(_player.getHeading());
-        writeD(_player.getObjectId());
-        writeS((_player.getPolymorphTemplate() != null) ? _player.getPolymorphTemplate().getName() : _player.getName());
-        writeD(_player.getRace().ordinal());
-        writeD(_player.getAppearance().getSex().ordinal());
-        writeD((_player.getClassIndex() == 0) ? _player.getClassId().getId() : _player.getBaseClass());
-        writeD(_player.getStatus().getLevel());
-        writeQ(_player.getStatus().getExp());
-        writeD(_player.getStatus().getSTR());
-        writeD(_player.getStatus().getDEX());
-        writeD(_player.getStatus().getCON());
-        writeD(_player.getStatus().getINT());
-        writeD(_player.getStatus().getWIT());
-        writeD(_player.getStatus().getMEN());
-        writeD(_player.getStatus().getMaxHp());
-        writeD((int) _player.getStatus().getHp());
-        writeD(_player.getStatus().getMaxMp());
-        writeD((int) _player.getStatus().getMp());
-        writeD(_player.getStatus().getSp());
-        writeD(_player.getCurrentWeight());
-        writeD(_player.getWeightLimit());
-        writeD(_player.getActiveWeaponItem() != null ? 40 : 20);
+        writeD(player.getX());
+        writeD(player.getY());
+        writeD(player.getZ());
+        writeD(player.getHeading());
+        writeD(player.getObjectId());
+        writeS((player.getPolymorphTemplate() != null) ? player.getPolymorphTemplate().getName() : player.getName());
+        writeD(player.getRace().ordinal());
+        writeD(player.getAppearance().getSex().ordinal());
+        writeD((player.getClassIndex() == 0) ? player.getClassId().getId() : player.getBaseClass());
+        writeD(player.getStatus().getLevel());
+        writeQ(player.getStatus().getExp());
+        writeD(player.getStatus().getSTR());
+        writeD(player.getStatus().getDEX());
+        writeD(player.getStatus().getCON());
+        writeD(player.getStatus().getINT());
+        writeD(player.getStatus().getWIT());
+        writeD(player.getStatus().getMEN());
+        writeD(player.getStatus().getMaxHp());
+        writeD((int) player.getStatus().getHp());
+        writeD(player.getStatus().getMaxMp());
+        writeD((int) player.getStatus().getMp());
+        writeD(player.getStatus().getSp());
+        writeD(player.getCurrentWeight());
+        writeD(player.getWeightLimit());
+        writeD(player.getActiveWeaponItem() != null ? 40 : 20);
 
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.HAIRALL));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.REAR));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.LEAR));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.NECK));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.RFINGER));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.LFINGER));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.HEAD));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.RHAND));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.LHAND));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.GLOVES));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.CHEST));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.LEGS));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.FEET));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.CLOAK));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.RHAND));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.HAIR));
-        writeD(_player.getInventory().getItemObjectIdFrom(Paperdoll.FACE));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.HAIRALL));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.REAR));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.LEAR));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.NECK));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.RFINGER));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.LFINGER));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.HEAD));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.RHAND));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.LHAND));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.GLOVES));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.CHEST));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.LEGS));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.FEET));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.CLOAK));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.RHAND));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.HAIR));
+        writeD(player.getInventory().getItemObjectIdFrom(Paperdoll.FACE));
 
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.HAIRALL));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.REAR));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.LEAR));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.NECK));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.RFINGER));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.LFINGER));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.HEAD));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.LHAND));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.GLOVES));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.CHEST));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.LEGS));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.FEET));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.CLOAK));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.RHAND));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.HAIR));
-        writeD(_player.getInventory().getItemIdFrom(Paperdoll.FACE));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.HAIRALL));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.REAR));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.LEAR));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.NECK));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.RFINGER));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.LFINGER));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.HEAD));
+        writeD(player.getTwoHandGrip().get() ? player.getActiveWeaponItem().getTwoHandId()
+            : player.getInventory().getItemIdFrom(Paperdoll.RHAND));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.LHAND));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.GLOVES));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.CHEST));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.LEGS));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.FEET));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.CLOAK));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.RHAND));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.HAIR));
+        writeD(player.getInventory().getItemIdFrom(Paperdoll.FACE));
 
         writeH(0x00);
         writeH(0x00);
@@ -105,7 +106,7 @@ public class UserInfo extends L2GameServerPacket {
         writeH(0x00);
         writeH(0x00);
         writeH(0x00);
-        writeD(_player.getInventory().getAugmentationIdFrom(Paperdoll.RHAND));
+        writeD(player.getInventory().getAugmentationIdFrom(Paperdoll.RHAND));
         writeH(0x00);
         writeH(0x00);
         writeH(0x00);
@@ -118,28 +119,28 @@ public class UserInfo extends L2GameServerPacket {
         writeH(0x00);
         writeH(0x00);
         writeH(0x00);
-        writeD(_player.getInventory().getAugmentationIdFrom(Paperdoll.LHAND));
+        writeD(player.getInventory().getAugmentationIdFrom(Paperdoll.LHAND));
         writeH(0x00);
         writeH(0x00);
         writeH(0x00);
         writeH(0x00);
 
-        writeD(_player.getStatus().getPAtk(null));
-        writeD(_player.getStatus().getPAtkSpd());
-        writeD(_player.getStatus().getPDef(null));
-        writeD(_player.getStatus().getEvasionRate(null));
-        writeD(_player.getStatus().getAccuracy());
-        writeD(_player.getStatus().getCriticalHit(null, null));
-        writeD(_player.getStatus().getMAtk(null, null));
-        writeD(_player.getStatus().getMAtkSpd());
-        writeD(_player.getStatus().getPAtkSpd());
-        writeD(_player.getStatus().getMDef(null, null));
-        writeD(_player.getPvpFlag());
-        writeD(_player.getKarma());
+        writeD(player.getStatus().getPAtk(null));
+        writeD(player.getStatus().getPAtkSpd());
+        writeD(player.getStatus().getPDef(null));
+        writeD(player.getStatus().getEvasionRate(null));
+        writeD(player.getStatus().getAccuracy());
+        writeD(player.getStatus().getCriticalHit(null, null));
+        writeD(player.getStatus().getMAtk(null, null));
+        writeD(player.getStatus().getMAtkSpd());
+        writeD(player.getStatus().getPAtkSpd());
+        writeD(player.getStatus().getMDef(null, null));
+        writeD(player.getPvpFlag());
+        writeD(player.getKarma());
 
-        final int runSpd = _player.getStatus().getBaseRunSpeed();
-        final int walkSpd = _player.getStatus().getBaseWalkSpeed();
-        final int swimSpd = _player.getStatus().getBaseSwimSpeed();
+        final int runSpd = player.getStatus().getBaseRunSpeed();
+        final int walkSpd = player.getStatus().getBaseWalkSpeed();
+        final int swimSpd = player.getStatus().getBaseSwimSpeed();
 
         writeD(runSpd);
         writeD(walkSpd);
@@ -147,68 +148,72 @@ public class UserInfo extends L2GameServerPacket {
         writeD(swimSpd);
         writeD(0);
         writeD(0);
-        writeD((_player.isFlying()) ? runSpd : 0);
-        writeD((_player.isFlying()) ? walkSpd : 0);
+        writeD((player.isFlying()) ? runSpd : 0);
+        writeD((player.isFlying()) ? walkSpd : 0);
 
-        writeF(_player.getStatus().getMovementSpeedMultiplier());
-        writeF(_player.getStatus().getAttackSpeedMultiplier());
+        writeF(player.getStatus().getMovementSpeedMultiplier());
+        writeF(player.getStatus().getAttackSpeedMultiplier());
 
-        final Summon summon = _player.getSummon();
-        if (_player.isMounted() && summon != null) {
+        final Summon summon = player.getSummon();
+        if (player.isMounted() && summon != null) {
             writeF(summon.getCollisionRadius());
             writeF(summon.getCollisionHeight());
         } else {
-            writeF(_player.getCollisionRadius());
-            writeF(_player.getCollisionHeight());
+            writeF(player.getCollisionRadius());
+            writeF(player.getCollisionHeight());
         }
 
-        writeD(_player.getAppearance().getHairStyle());
-        writeD(_player.getAppearance().getHairColor());
-        writeD(_player.getAppearance().getFace());
-        writeD((_player.isGM()) ? 1 : 0);
+        writeD(player.getAppearance().getHairStyle());
+        writeD(player.getAppearance().getHairColor());
+        writeD(player.getAppearance().getFace());
+        writeD((player.isGM()) ? 1 : 0);
 
-        writeS((_player.getPolymorphTemplate() != null) ? "Morphed" : _player.getTitle());
+        writeS((player.getPolymorphTemplate() != null) ? "Morphed" : player.getTitle());
 
-        writeD(_player.getClanId());
-        writeD(_player.getClanCrestId());
-        writeD(_player.getAllyId());
-        writeD(_player.getAllyCrestId());
-        writeD(_relation);
-        writeC(_player.getMountType());
-        writeC(_player.getOperateType().getId());
-        writeC((_player.hasDwarvenCraft()) ? 1 : 0);
-        writeD(_player.getPkKills());
-        writeD(_player.getPvpKills());
+        writeD(player.getClanId());
+        writeD(player.getClanCrestId());
+        writeD(player.getAllyId());
+        writeD(player.getAllyCrestId());
+        writeD(relation);
+        writeC(player.getMountType());
+        writeC(player.getOperateType().getId());
+        writeC((player.hasDwarvenCraft()) ? 1 : 0);
+        writeD(player.getPkKills());
+        writeD(player.getPvpKills());
 
-        writeH(_player.getCubicList().size());
-        for (final Cubic cubic : _player.getCubicList()) {
+        writeH(player.getCubicList().size());
+        for (final Cubic cubic : player.getCubicList()) {
             writeH(cubic.getId());
         }
 
-        writeC((_player.isInPartyMatchRoom()) ? 1 : 0);
-        writeD((!_player.getAppearance().isVisible() && _player.isGM()) ? (_player.getAbnormalEffect() | AbnormalEffect.STEALTH.getMask()) : _player.getAbnormalEffect());
+        writeC((player.isInPartyMatchRoom()) ? 1 : 0);
+        writeD((!player.getAppearance().isVisible() && player.isGM()) ? (player.getAbnormalEffect() | AbnormalEffect.STEALTH.getMask()) : player.getAbnormalEffect());
         writeC(0x00);
-        writeD(_player.getClanPrivileges());
-        writeH(_player.getRecomLeft());
-        writeH(_player.getRecomHave());
-        writeD((_player.getMountNpcId() > 0) ? _player.getMountNpcId() + 1000000 : 0);
-        writeH(_player.getStatus().getInventoryLimit());
-        writeD(_player.getClassId().getId());
+        writeD(player.getClanPrivileges());
+        writeH(player.getRecomLeft());
+        writeH(player.getRecomHave());
+        writeD((player.getMountNpcId() > 0) ? player.getMountNpcId() + 1000000 : 0);
+        writeH(player.getStatus().getInventoryLimit());
+        writeD(player.getClassId().getId());
         writeD(0x00);
-        writeD(_player.getStatus().getMaxCp());
-        writeD((int) _player.getStatus().getCp());
-        writeC((_player.isMounted()) ? 0 : _player.getEnchantEffect());
-        writeC((Config.PLAYER_SPAWN_PROTECTION > 0 && _player.isSpawnProtected()) ? TeamType.BLUE.getId() : _player.getTeam().getId());
-        writeD(_player.getClanCrestLargeId());
-        writeC((_player.isNoble()) ? 1 : 0);
-        writeC((_player.isHero() || (_player.isGM() && Config.GM_HERO_AURA)) ? 1 : 0);
-        writeC((_player.isFishing()) ? 1 : 0);
-        writeLoc(_player.getFishingStance().getLoc());
-        writeD(_player.getAppearance().getNameColor());
-        writeC((_player.isRunning()) ? 0x01 : 0x00);
-        writeD(_player.getPledgeClass());
-        writeD(_player.getPledgeType());
-        writeD(_player.getAppearance().getTitleColor());
-        writeD(CursedWeaponManager.getInstance().getCurrentStage(_player.getCursedWeaponEquippedId()));
+        writeD(player.getStatus().getMaxCp());
+        writeD((int) player.getStatus().getCp());
+        writeC((player.isMounted()) ? 0 : player.getEnchantEffect());
+        writeC((Config.PLAYER_SPAWN_PROTECTION > 0 && player.isSpawnProtected()) ? TeamType.BLUE.getId() : player.getTeam().getId());
+        writeD(player.getClanCrestLargeId());
+        writeC((player.isNoble()) ? 1 : 0);
+        writeC((player.isHero() || (player.isGM() && Config.GM_HERO_AURA)) ? 1 : 0);
+        writeC((player.isFishing()) ? 1 : 0);
+        writeLoc(player.getFishingStance().getLoc());
+        writeD(player.getAppearance().getNameColor());
+        writeC((player.isRunning()) ? 0x01 : 0x00);
+        writeD(player.getPledgeClass());
+        writeD(player.getPledgeType());
+        writeD(player.getAppearance().getTitleColor());
+        writeD(CursedWeaponManager.getInstance().getCurrentStage(player.getCursedWeaponEquippedId()));
+    }
+
+    private void sendRightHandeWriteD() {
+
     }
 }

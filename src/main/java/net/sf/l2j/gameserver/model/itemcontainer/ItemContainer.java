@@ -2,7 +2,7 @@ package net.sf.l2j.gameserver.model.itemcontainer;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.items.ItemLocation;
 import net.sf.l2j.gameserver.enums.items.ItemState;
 import net.sf.l2j.gameserver.model.World;
@@ -239,7 +239,7 @@ public abstract class ItemContainer {
         }
         // If item hasn't be found in inventory, create new one
         else {
-            final Item template = ItemData.getInstance().getTemplate(itemId);
+            final Item template = ItemManager.getInstance().getTemplate(itemId);
             if (template == null) {
                 return null;
             }

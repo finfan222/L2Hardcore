@@ -38,6 +38,7 @@ public final class Weapon extends Item {
     private final int _reuseDelay;
     private final int _reducedSoulshot;
     private final int _reducedSoulshotChance;
+    private final boolean _isCanBeGripped;
 
     public Weapon(StatSet set) {
         super(set);
@@ -82,6 +83,16 @@ public final class Weapon extends Item {
                 _skillOnCritCondition = new ConditionGameChance(set.getInteger("oncrit_chance"));
             }
         }
+
+        _isCanBeGripped = set.getBool("can_be_gripped", false);
+    }
+
+    public boolean isCanBeGripped() {
+        return _isCanBeGripped || _type.isEmbraced();
+    }
+
+    public int getTwoHandId() {
+        return getItemId() + 10000;
     }
 
     @Override
@@ -251,4 +262,5 @@ public final class Weapon extends Item {
             }
         }
     }
+
 }

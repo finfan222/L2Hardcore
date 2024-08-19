@@ -90,7 +90,7 @@ public class NpcData implements IXmlReader {
                         final NamedNodeMap dropAttrs = dropNode.getAttributes();
                         final DropData data = new DropData(parseInteger(dropAttrs, "itemid"), parseInteger(dropAttrs, "min"), parseInteger(dropAttrs, "max"), parseInteger(dropAttrs, "chance"));
 
-                        if (ItemData.getInstance().getTemplate(data.getItemId()) == null) {
+                        if (ItemManager.getInstance().getTemplate(data.getItemId()) == null) {
                             log.warn("Droplist data for undefined itemId: {}.", data.getItemId());
                             return;
                         }

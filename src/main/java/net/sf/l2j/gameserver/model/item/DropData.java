@@ -3,7 +3,7 @@ package net.sf.l2j.gameserver.model.item;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.sf.l2j.commons.random.Rnd;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 
 /**
@@ -31,7 +31,7 @@ public class DropData {
     }
 
     private int calculate(int itemId, int baseChance) {
-        Item template = ItemData.getInstance().getTemplate(itemId);
+        Item template = ItemManager.getInstance().getTemplate(itemId);
         if (template == null) {
             throw new NullPointerException(String.format("Item %d is null.", itemId));
         }

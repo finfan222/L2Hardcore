@@ -1,6 +1,6 @@
 package net.sf.l2j.gameserver.model.trade;
 
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.StatusType;
 import net.sf.l2j.gameserver.model.World;
 import net.sf.l2j.gameserver.model.WorldObject;
@@ -173,7 +173,7 @@ public class TradeList extends CopyOnWriteArrayList<TradeItem> {
             return null;
         }
 
-        final Item item = ItemData.getInstance().getTemplate(itemId);
+        final Item item = ItemManager.getInstance().getTemplate(itemId);
         if (item == null) {
             return null;
         }
@@ -542,7 +542,7 @@ public class TradeList extends CopyOnWriteArrayList<TradeItem> {
                 return false;
             }
 
-            final Item template = ItemData.getInstance().getTemplate(item.getItemId());
+            final Item template = ItemManager.getInstance().getTemplate(item.getItemId());
             if (template == null) {
                 continue;
             }

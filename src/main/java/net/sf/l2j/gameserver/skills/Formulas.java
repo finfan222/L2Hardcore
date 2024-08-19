@@ -374,7 +374,7 @@ public final class Formulas {
         // Weapon multiplier.
         final Weapon weapon = attacker.getActiveWeaponItem();
         if (weapon != null) {
-            final Stats stat = weapon.getItemType().getVulnStat();
+            final Stats stat = weapon.getItemType().getResStat();
             if (stat != null) {
                 weaponMul = target.getStatus().calcStat(stat, 1, target, null);
             }
@@ -479,7 +479,7 @@ public final class Formulas {
         // Weapon multiplier.
         final Weapon weapon = attacker.getActiveWeaponItem();
         if (weapon != null) {
-            final Stats stat = weapon.getItemType().getVulnStat();
+            final Stats stat = weapon.getItemType().getResStat();
             if (stat != null) {
                 weaponMul = target.getStatus().calcStat(stat, 1, target, null);
             }

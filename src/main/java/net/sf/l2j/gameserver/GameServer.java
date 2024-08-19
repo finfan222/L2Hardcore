@@ -48,7 +48,7 @@ import net.sf.l2j.gameserver.data.xml.DoorData;
 import net.sf.l2j.gameserver.data.xml.FishData;
 import net.sf.l2j.gameserver.data.xml.HennaData;
 import net.sf.l2j.gameserver.data.xml.InstantTeleportData;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.data.xml.MapRegionData;
 import net.sf.l2j.gameserver.data.xml.MultisellData;
 import net.sf.l2j.gameserver.data.xml.NewbieBuffData;
@@ -162,7 +162,7 @@ public class GameServer {
         SkillTreeData.getInstance();
 
         StringUtil.printSection("Items");
-        ItemData.getInstance();
+        ItemManager.getInstance();
         SummonItemData.getInstance();
         HennaData.getInstance();
         BuyListManager.getInstance();

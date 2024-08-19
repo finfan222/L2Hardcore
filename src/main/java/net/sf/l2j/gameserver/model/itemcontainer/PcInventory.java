@@ -2,7 +2,7 @@ package net.sf.l2j.gameserver.model.itemcontainer;
 
 import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.manager.HeroManager;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.enums.Paperdoll;
 import net.sf.l2j.gameserver.enums.ShortcutType;
 import net.sf.l2j.gameserver.enums.StatusType;
@@ -17,6 +17,7 @@ import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.ArmorSetListener;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.BowRodListener;
+import net.sf.l2j.gameserver.model.itemcontainer.listeners.EquipListener;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.ItemPassiveSkillsListener;
 import net.sf.l2j.gameserver.model.itemcontainer.listeners.OnEquipListener;
 import net.sf.l2j.gameserver.model.trade.BuyProcessItem;
@@ -49,6 +50,7 @@ public class PcInventory extends Inventory {
         addPaperdollListener(ArmorSetListener.getInstance());
         addPaperdollListener(BowRodListener.getInstance());
         addPaperdollListener(ItemPassiveSkillsListener.getInstance());
+        addPaperdollListener(EquipListener.getInstance());
     }
 
     @Override
@@ -752,7 +754,7 @@ public class PcInventory extends Inventory {
             return (item.isStackable()) ? 0 : itemCount;
         }
 
-        final Item template = ItemData.getInstance().getTemplate(itemId);
+        final Item template = ItemManager.getInstance().getTemplate(itemId);
         return (template.isStackable()) ? 1 : itemCount;
     }
 

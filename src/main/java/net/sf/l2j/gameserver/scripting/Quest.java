@@ -15,7 +15,7 @@ import net.sf.l2j.gameserver.data.cache.HtmCache;
 import net.sf.l2j.gameserver.data.manager.CastleManager;
 import net.sf.l2j.gameserver.data.manager.GrandBossManager;
 import net.sf.l2j.gameserver.data.manager.ZoneManager;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.data.xml.NpcData;
 import net.sf.l2j.gameserver.enums.QuestStatus;
 import net.sf.l2j.gameserver.enums.ScriptEventType;
@@ -1140,7 +1140,7 @@ public class Quest {
      */
     public static void takeItems(Player player, int itemId, int itemCount) {
         // Get item template.
-        final Item template = ItemData.getInstance().getTemplate(itemId);
+        final Item template = ItemManager.getInstance().getTemplate(itemId);
         if (template == null) {
             return;
         }
@@ -2095,7 +2095,7 @@ public class Quest {
      */
     public final void addItemUse(int... itemIds) {
         for (int itemId : itemIds) {
-            Item t = ItemData.getInstance().getTemplate(itemId);
+            Item t = ItemManager.getInstance().getTemplate(itemId);
             if (t != null) {
                 t.addQuestEvent(this);
             }

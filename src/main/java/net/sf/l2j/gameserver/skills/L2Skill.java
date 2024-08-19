@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.commons.data.StatSet;
 import net.sf.l2j.commons.math.MathUtil;
+import net.sf.l2j.commons.random.Rnd;
 import net.sf.l2j.gameserver.data.SkillTable;
 import net.sf.l2j.gameserver.enums.items.ArmorType;
 import net.sf.l2j.gameserver.enums.items.WeaponType;
@@ -183,6 +184,17 @@ public abstract class L2Skill implements IChanceSkillTrigger {
     private ExtractableSkill _extractableItems = null;
 
     @Getter private final boolean isProjectile;
+
+    @Getter private final int multicastHitTime;
+    @Getter private final int multicastCountMin;
+    @Getter private final int multicastCountMax;
+    @Getter private final int multicastChance;
+
+    @Getter private final int recoilCountMin;
+    @Getter private final int recoilCountMax;
+    @Getter private final int recoilChance;
+    @Getter private final boolean recoilPlayerPriority;
+    @Getter private final int recoilRadius;
 
     @Setter
     private L2Skill extender;
@@ -382,9 +394,36 @@ public abstract class L2Skill implements IChanceSkillTrigger {
         }
 
         isProjectile = set.getBool("isProjectile", false);
+
+        multicastHitTime = set.getInteger("multicastHitTime", 0);
+        multicastCountMin = set.getInteger("multicastCountMin", 0);
+        multicastCountMax = set.getInteger("multicastCountMax", 0);
+        multicastChance = set.getInteger("multicastChance", 0);
+
+        recoilCountMin = set.getInteger("recoilCountMin", 0);
+        recoilCountMax = set.getInteger("recoilCountMax", 0);
+        recoilChance = set.getInteger("recoilChance", 0);
+        recoilPlayerPriority = set.getBool("recoilPlayerPriority", false);
+        recoilRadius = set.getInteger("recoilRadius", 500);
     }
 
     public abstract void useSkill(Creature caster, WorldObject[] targets);
+
+    public boolean isMulticasted() {
+        return multicastCountMin > 0 && multicastCountMax > 0;
+    }
+
+    public boolean isRecoiled() {
+        return recoilCountMin > 0 && recoilCountMax > 0;
+    }
+
+    public int getRecoilCount() {
+        return Rnd.get(recoilCountMin, recoilCountMax);
+    }
+
+    public int getMulticastCount() {
+        return Rnd.get(multicastCountMin, multicastCountMax);
+    }
 
     public final boolean isPotion() {
         return _isPotion;

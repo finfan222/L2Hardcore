@@ -1,7 +1,7 @@
 package net.sf.l2j.gameserver.model.multisell;
 
 import net.sf.l2j.commons.data.StatSet;
-import net.sf.l2j.gameserver.data.xml.ItemData;
+import net.sf.l2j.gameserver.data.xml.ItemManager;
 import net.sf.l2j.gameserver.model.item.kind.Armor;
 import net.sf.l2j.gameserver.model.item.kind.Item;
 import net.sf.l2j.gameserver.model.item.kind.Weapon;
@@ -31,7 +31,7 @@ public class Ingredient {
         _maintainIngredient = maintainIngredient;
 
         if (_itemId > 0) {
-            _template = ItemData.getInstance().getTemplate(_itemId);
+            _template = ItemManager.getInstance().getTemplate(_itemId);
         }
     }
 
