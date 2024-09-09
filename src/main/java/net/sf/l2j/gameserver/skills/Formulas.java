@@ -959,7 +959,8 @@ public final class Formulas {
 
     public static boolean calcEffectSuccess(Creature attacker, Creature target, EffectTemplate effect, L2Skill skill, boolean bss) {
         SkillType type = effect.getEffectType();
-        double chance = effect.getEffectPower();
+        attacker.increasePseudo(effect, effect.getEffectPower());
+        double chance = attacker.getPseudoChance(effect);
 
         if (type == null || skill.ignoreResists()) {
             return Rnd.calcChance(chance, 100);
@@ -987,7 +988,16 @@ public final class Formulas {
             attacker.sendMessage(report);
         }
 
-        return Rnd.calcChance(chance, 100);
+        boolean success = Rnd.calcChance(chance, 100);
+        if (success) {
+            attacker.increasePseudo(effect, 100. / 10);
+            log.info("Effect {} next chance: {}%", skill.getName(), attacker.getPseudoChance(effect));
+        } else {
+            attacker.clearPseudo(skill);
+            log.info("Pseudo cleared for {}", effect);
+        }
+
+        return success;
     }
 
     public static boolean calcSkillSuccess(Creature attacker, Creature target, L2Skill skill, ShieldDefense sDef, boolean bss) {
@@ -996,7 +1006,8 @@ public final class Formulas {
         }
 
         SkillType type = skill.getSkillType();
-        double chance = skill.getEffectPower();
+        attacker.increasePseudo(skill, skill.getEffectPower());
+        double chance = attacker.getPseudoChance(skill);
 
         if (skill.ignoreResists()) {
             return Rnd.calcChance(chance, 100);
@@ -1020,7 +1031,16 @@ public final class Formulas {
             attacker.sendMessage(report);
         }
 
-        return Rnd.calcChance(chance, 100);
+        boolean success = Rnd.calcChance(chance, 100);
+        if (!success) {
+            attacker.increasePseudo(skill, 100. / 10);
+            log.info("Skill {} next chance: {}%", skill.getName(), attacker.getPseudoChance(skill));
+        } else {
+            attacker.clearPseudo(skill);
+            log.info("Pseudo cleared for {}", skill);
+        }
+
+        return success;
     }
 
     public static boolean calcCubicSkillSuccess(Cubic attacker, Creature target, L2Skill skill, ShieldDefense sDef, boolean bss) {

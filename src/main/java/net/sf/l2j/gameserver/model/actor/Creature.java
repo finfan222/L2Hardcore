@@ -2,6 +2,7 @@ package net.sf.l2j.gameserver.model.actor;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.l2j.Config;
 import net.sf.l2j.commons.eventbus.EventBus;
 import net.sf.l2j.commons.lang.StringUtil;
@@ -77,6 +78,7 @@ import net.sf.l2j.gameserver.taskmanager.AttackStanceTaskManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -86,6 +88,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * An instance type extending {@link WorldObject} which represents the mother class of all character objects of the
  * world such as players, NPCs and monsters.
  */
+@Slf4j
 public abstract class Creature extends WorldObject {
     protected String _title;
 
@@ -130,6 +133,23 @@ public abstract class Creature extends WorldObject {
 
     @Getter
     protected final EventBus eventListener = new EventBus();
+
+    private final Map<Object, Double> pseudo = new HashMap<>();
+
+    public void increasePseudo(Object owner, double bonus) {
+        pseudo.putIfAbsent(owner, bonus);
+        pseudo.compute(owner, (k, v) -> v != null ? v + bonus : bonus);
+        log.info("Pseudo for {} was increased to {}%.", owner, pseudo.get(owner));
+    }
+
+    public void clearPseudo(Object owner) {
+        pseudo.remove(owner);
+        log.info("Pseudo for {} was cleared.", owner);
+    }
+
+    public double getPseudoChance(Object owner) {
+        return pseudo.get(owner);
+    }
 
     public Creature(int objectId, CreatureTemplate template) {
         super(objectId);
